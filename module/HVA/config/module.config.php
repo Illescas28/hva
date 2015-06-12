@@ -407,6 +407,18 @@ return array(
                     ),
                 ),
             ),
+            //Compras
+            'compras' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/compras[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Compras\Controller\Compras',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -470,6 +482,9 @@ return array(
             'Pacientes\Consultorio\Controller\Consultorio'              => 'Pacientes\Consultorio\Controller\ConsultorioController',
             'Pacientes\Servicio\Controller\Servicio'                    => 'Pacientes\Servicio\Controller\ServicioController',
             'Pacientes\Cargoconsulta\Controller\Cargoconsulta'          => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
+            
+            //Modulo Compras
+            'Compras\Controller\Compras'                                => 'Compras\Controller\ComprasController',
         ),
     ),
     'view_manager' => array(
