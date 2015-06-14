@@ -36,7 +36,7 @@ class PropiedadTableMap extends TableMap
         $this->setPhpName('Propiedad');
         $this->setClassname('Propiedad');
         $this->setPackage('hva');
-        $this->setUseIdGenerator(true);
+        $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('idpropiedad', 'Idpropiedad', 'INTEGER', true, null, null);
         $this->addForeignKey('idarticulo', 'Idarticulo', 'INTEGER', 'articulo', 'idarticulo', true, null, null);

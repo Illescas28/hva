@@ -24,13 +24,13 @@ abstract class BaseProveedorPeer
     const TM_CLASS = 'ProveedorTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 15;
+    const NUM_COLUMNS = 14;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 15;
+    const NUM_HYDRATE_COLUMNS = 14;
 
     /** the column name for the idproveedor field */
     const IDPROVEEDOR = 'proveedor.idproveedor';
@@ -74,9 +74,6 @@ abstract class BaseProveedorPeer
     /** the column name for the proveedor_fax field */
     const PROVEEDOR_FAX = 'proveedor.proveedor_fax';
 
-    /** the column name for the proveedor_rfc field */
-    const PROVEEDOR_RFC = 'proveedor.proveedor_rfc';
-
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
@@ -96,12 +93,12 @@ abstract class BaseProveedorPeer
      * e.g. ProveedorPeer::$fieldNames[ProveedorPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idproveedor', 'ProveedorNombre', 'ProveedorContacto', 'ProveedorDireccion', 'ProveedorDireccion2', 'ProveedorColonia', 'ProveedorCodigopostal', 'ProveedorCiudad', 'ProveedorEstado', 'ProveedorPais', 'ProveedorEmail', 'ProveedorTelefono', 'ProveedorTelefonocelular', 'ProveedorFax', 'ProveedorRfc', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idproveedor', 'proveedorNombre', 'proveedorContacto', 'proveedorDireccion', 'proveedorDireccion2', 'proveedorColonia', 'proveedorCodigopostal', 'proveedorCiudad', 'proveedorEstado', 'proveedorPais', 'proveedorEmail', 'proveedorTelefono', 'proveedorTelefonocelular', 'proveedorFax', 'proveedorRfc', ),
-        BasePeer::TYPE_COLNAME => array (ProveedorPeer::IDPROVEEDOR, ProveedorPeer::PROVEEDOR_NOMBRE, ProveedorPeer::PROVEEDOR_CONTACTO, ProveedorPeer::PROVEEDOR_DIRECCION, ProveedorPeer::PROVEEDOR_DIRECCION2, ProveedorPeer::PROVEEDOR_COLONIA, ProveedorPeer::PROVEEDOR_CODIGOPOSTAL, ProveedorPeer::PROVEEDOR_CIUDAD, ProveedorPeer::PROVEEDOR_ESTADO, ProveedorPeer::PROVEEDOR_PAIS, ProveedorPeer::PROVEEDOR_EMAIL, ProveedorPeer::PROVEEDOR_TELEFONO, ProveedorPeer::PROVEEDOR_TELEFONOCELULAR, ProveedorPeer::PROVEEDOR_FAX, ProveedorPeer::PROVEEDOR_RFC, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDPROVEEDOR', 'PROVEEDOR_NOMBRE', 'PROVEEDOR_CONTACTO', 'PROVEEDOR_DIRECCION', 'PROVEEDOR_DIRECCION2', 'PROVEEDOR_COLONIA', 'PROVEEDOR_CODIGOPOSTAL', 'PROVEEDOR_CIUDAD', 'PROVEEDOR_ESTADO', 'PROVEEDOR_PAIS', 'PROVEEDOR_EMAIL', 'PROVEEDOR_TELEFONO', 'PROVEEDOR_TELEFONOCELULAR', 'PROVEEDOR_FAX', 'PROVEEDOR_RFC', ),
-        BasePeer::TYPE_FIELDNAME => array ('idproveedor', 'proveedor_nombre', 'proveedor_contacto', 'proveedor_direccion', 'proveedor_direccion2', 'proveedor_colonia', 'proveedor_codigopostal', 'proveedor_ciudad', 'proveedor_estado', 'proveedor_pais', 'proveedor_email', 'proveedor_telefono', 'proveedor_telefonocelular', 'proveedor_fax', 'proveedor_rfc', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        BasePeer::TYPE_PHPNAME => array ('Idproveedor', 'ProveedorNombre', 'ProveedorContacto', 'ProveedorDireccion', 'ProveedorDireccion2', 'ProveedorColonia', 'ProveedorCodigopostal', 'ProveedorCiudad', 'ProveedorEstado', 'ProveedorPais', 'ProveedorEmail', 'ProveedorTelefono', 'ProveedorTelefonocelular', 'ProveedorFax', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idproveedor', 'proveedorNombre', 'proveedorContacto', 'proveedorDireccion', 'proveedorDireccion2', 'proveedorColonia', 'proveedorCodigopostal', 'proveedorCiudad', 'proveedorEstado', 'proveedorPais', 'proveedorEmail', 'proveedorTelefono', 'proveedorTelefonocelular', 'proveedorFax', ),
+        BasePeer::TYPE_COLNAME => array (ProveedorPeer::IDPROVEEDOR, ProveedorPeer::PROVEEDOR_NOMBRE, ProveedorPeer::PROVEEDOR_CONTACTO, ProveedorPeer::PROVEEDOR_DIRECCION, ProveedorPeer::PROVEEDOR_DIRECCION2, ProveedorPeer::PROVEEDOR_COLONIA, ProveedorPeer::PROVEEDOR_CODIGOPOSTAL, ProveedorPeer::PROVEEDOR_CIUDAD, ProveedorPeer::PROVEEDOR_ESTADO, ProveedorPeer::PROVEEDOR_PAIS, ProveedorPeer::PROVEEDOR_EMAIL, ProveedorPeer::PROVEEDOR_TELEFONO, ProveedorPeer::PROVEEDOR_TELEFONOCELULAR, ProveedorPeer::PROVEEDOR_FAX, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDPROVEEDOR', 'PROVEEDOR_NOMBRE', 'PROVEEDOR_CONTACTO', 'PROVEEDOR_DIRECCION', 'PROVEEDOR_DIRECCION2', 'PROVEEDOR_COLONIA', 'PROVEEDOR_CODIGOPOSTAL', 'PROVEEDOR_CIUDAD', 'PROVEEDOR_ESTADO', 'PROVEEDOR_PAIS', 'PROVEEDOR_EMAIL', 'PROVEEDOR_TELEFONO', 'PROVEEDOR_TELEFONOCELULAR', 'PROVEEDOR_FAX', ),
+        BasePeer::TYPE_FIELDNAME => array ('idproveedor', 'proveedor_nombre', 'proveedor_contacto', 'proveedor_direccion', 'proveedor_direccion2', 'proveedor_colonia', 'proveedor_codigopostal', 'proveedor_ciudad', 'proveedor_estado', 'proveedor_pais', 'proveedor_email', 'proveedor_telefono', 'proveedor_telefonocelular', 'proveedor_fax', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -111,12 +108,12 @@ abstract class BaseProveedorPeer
      * e.g. ProveedorPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idproveedor' => 0, 'ProveedorNombre' => 1, 'ProveedorContacto' => 2, 'ProveedorDireccion' => 3, 'ProveedorDireccion2' => 4, 'ProveedorColonia' => 5, 'ProveedorCodigopostal' => 6, 'ProveedorCiudad' => 7, 'ProveedorEstado' => 8, 'ProveedorPais' => 9, 'ProveedorEmail' => 10, 'ProveedorTelefono' => 11, 'ProveedorTelefonocelular' => 12, 'ProveedorFax' => 13, 'ProveedorRfc' => 14, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idproveedor' => 0, 'proveedorNombre' => 1, 'proveedorContacto' => 2, 'proveedorDireccion' => 3, 'proveedorDireccion2' => 4, 'proveedorColonia' => 5, 'proveedorCodigopostal' => 6, 'proveedorCiudad' => 7, 'proveedorEstado' => 8, 'proveedorPais' => 9, 'proveedorEmail' => 10, 'proveedorTelefono' => 11, 'proveedorTelefonocelular' => 12, 'proveedorFax' => 13, 'proveedorRfc' => 14, ),
-        BasePeer::TYPE_COLNAME => array (ProveedorPeer::IDPROVEEDOR => 0, ProveedorPeer::PROVEEDOR_NOMBRE => 1, ProveedorPeer::PROVEEDOR_CONTACTO => 2, ProveedorPeer::PROVEEDOR_DIRECCION => 3, ProveedorPeer::PROVEEDOR_DIRECCION2 => 4, ProveedorPeer::PROVEEDOR_COLONIA => 5, ProveedorPeer::PROVEEDOR_CODIGOPOSTAL => 6, ProveedorPeer::PROVEEDOR_CIUDAD => 7, ProveedorPeer::PROVEEDOR_ESTADO => 8, ProveedorPeer::PROVEEDOR_PAIS => 9, ProveedorPeer::PROVEEDOR_EMAIL => 10, ProveedorPeer::PROVEEDOR_TELEFONO => 11, ProveedorPeer::PROVEEDOR_TELEFONOCELULAR => 12, ProveedorPeer::PROVEEDOR_FAX => 13, ProveedorPeer::PROVEEDOR_RFC => 14, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDPROVEEDOR' => 0, 'PROVEEDOR_NOMBRE' => 1, 'PROVEEDOR_CONTACTO' => 2, 'PROVEEDOR_DIRECCION' => 3, 'PROVEEDOR_DIRECCION2' => 4, 'PROVEEDOR_COLONIA' => 5, 'PROVEEDOR_CODIGOPOSTAL' => 6, 'PROVEEDOR_CIUDAD' => 7, 'PROVEEDOR_ESTADO' => 8, 'PROVEEDOR_PAIS' => 9, 'PROVEEDOR_EMAIL' => 10, 'PROVEEDOR_TELEFONO' => 11, 'PROVEEDOR_TELEFONOCELULAR' => 12, 'PROVEEDOR_FAX' => 13, 'PROVEEDOR_RFC' => 14, ),
-        BasePeer::TYPE_FIELDNAME => array ('idproveedor' => 0, 'proveedor_nombre' => 1, 'proveedor_contacto' => 2, 'proveedor_direccion' => 3, 'proveedor_direccion2' => 4, 'proveedor_colonia' => 5, 'proveedor_codigopostal' => 6, 'proveedor_ciudad' => 7, 'proveedor_estado' => 8, 'proveedor_pais' => 9, 'proveedor_email' => 10, 'proveedor_telefono' => 11, 'proveedor_telefonocelular' => 12, 'proveedor_fax' => 13, 'proveedor_rfc' => 14, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        BasePeer::TYPE_PHPNAME => array ('Idproveedor' => 0, 'ProveedorNombre' => 1, 'ProveedorContacto' => 2, 'ProveedorDireccion' => 3, 'ProveedorDireccion2' => 4, 'ProveedorColonia' => 5, 'ProveedorCodigopostal' => 6, 'ProveedorCiudad' => 7, 'ProveedorEstado' => 8, 'ProveedorPais' => 9, 'ProveedorEmail' => 10, 'ProveedorTelefono' => 11, 'ProveedorTelefonocelular' => 12, 'ProveedorFax' => 13, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idproveedor' => 0, 'proveedorNombre' => 1, 'proveedorContacto' => 2, 'proveedorDireccion' => 3, 'proveedorDireccion2' => 4, 'proveedorColonia' => 5, 'proveedorCodigopostal' => 6, 'proveedorCiudad' => 7, 'proveedorEstado' => 8, 'proveedorPais' => 9, 'proveedorEmail' => 10, 'proveedorTelefono' => 11, 'proveedorTelefonocelular' => 12, 'proveedorFax' => 13, ),
+        BasePeer::TYPE_COLNAME => array (ProveedorPeer::IDPROVEEDOR => 0, ProveedorPeer::PROVEEDOR_NOMBRE => 1, ProveedorPeer::PROVEEDOR_CONTACTO => 2, ProveedorPeer::PROVEEDOR_DIRECCION => 3, ProveedorPeer::PROVEEDOR_DIRECCION2 => 4, ProveedorPeer::PROVEEDOR_COLONIA => 5, ProveedorPeer::PROVEEDOR_CODIGOPOSTAL => 6, ProveedorPeer::PROVEEDOR_CIUDAD => 7, ProveedorPeer::PROVEEDOR_ESTADO => 8, ProveedorPeer::PROVEEDOR_PAIS => 9, ProveedorPeer::PROVEEDOR_EMAIL => 10, ProveedorPeer::PROVEEDOR_TELEFONO => 11, ProveedorPeer::PROVEEDOR_TELEFONOCELULAR => 12, ProveedorPeer::PROVEEDOR_FAX => 13, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDPROVEEDOR' => 0, 'PROVEEDOR_NOMBRE' => 1, 'PROVEEDOR_CONTACTO' => 2, 'PROVEEDOR_DIRECCION' => 3, 'PROVEEDOR_DIRECCION2' => 4, 'PROVEEDOR_COLONIA' => 5, 'PROVEEDOR_CODIGOPOSTAL' => 6, 'PROVEEDOR_CIUDAD' => 7, 'PROVEEDOR_ESTADO' => 8, 'PROVEEDOR_PAIS' => 9, 'PROVEEDOR_EMAIL' => 10, 'PROVEEDOR_TELEFONO' => 11, 'PROVEEDOR_TELEFONOCELULAR' => 12, 'PROVEEDOR_FAX' => 13, ),
+        BasePeer::TYPE_FIELDNAME => array ('idproveedor' => 0, 'proveedor_nombre' => 1, 'proveedor_contacto' => 2, 'proveedor_direccion' => 3, 'proveedor_direccion2' => 4, 'proveedor_colonia' => 5, 'proveedor_codigopostal' => 6, 'proveedor_ciudad' => 7, 'proveedor_estado' => 8, 'proveedor_pais' => 9, 'proveedor_email' => 10, 'proveedor_telefono' => 11, 'proveedor_telefonocelular' => 12, 'proveedor_fax' => 13, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -204,7 +201,6 @@ abstract class BaseProveedorPeer
             $criteria->addSelectColumn(ProveedorPeer::PROVEEDOR_TELEFONO);
             $criteria->addSelectColumn(ProveedorPeer::PROVEEDOR_TELEFONOCELULAR);
             $criteria->addSelectColumn(ProveedorPeer::PROVEEDOR_FAX);
-            $criteria->addSelectColumn(ProveedorPeer::PROVEEDOR_RFC);
         } else {
             $criteria->addSelectColumn($alias . '.idproveedor');
             $criteria->addSelectColumn($alias . '.proveedor_nombre');
@@ -220,7 +216,6 @@ abstract class BaseProveedorPeer
             $criteria->addSelectColumn($alias . '.proveedor_telefono');
             $criteria->addSelectColumn($alias . '.proveedor_telefonocelular');
             $criteria->addSelectColumn($alias . '.proveedor_fax');
-            $criteria->addSelectColumn($alias . '.proveedor_rfc');
         }
     }
 

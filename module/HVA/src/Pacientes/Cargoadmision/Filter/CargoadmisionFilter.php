@@ -33,7 +33,7 @@ class CargoadmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'cargodmisionservicio_by',
+                'name'     => 'cargoadmisionservicio_by',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -45,6 +45,13 @@ class CargoadmisionFilter implements InputFilterAwareInterface
             $inputFilter->add(array(
                 'name'     => 'idadmision',
                 'required' => true,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'idlugarinventario',
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'Int'),
                 ),

@@ -107,7 +107,7 @@ class CargoconsultaForm extends Form
             'name' => 'idlugarinventario',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Consulta',
+                'label' => 'Lugar Inventario',
             ),
             'attributes' => array(
                 'id' => 'idlugarinventario'

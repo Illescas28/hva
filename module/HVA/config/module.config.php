@@ -54,9 +54,9 @@ return array(
             'pacientes' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/paciente[/:action][/:id][/]',
+                    'route'    => '/pacientes[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|ver|actuales|editar|eliminar',
+                        'action' => 'nuevo|asignar|editar|eliminar|actuales|detalles',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(

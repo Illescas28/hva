@@ -1164,10 +1164,6 @@ abstract class BaseLugarinventarioPeer
             $criteria = $values->buildCriteria(); // build Criteria from Lugarinventario object
         }
 
-        if ($criteria->containsKey(LugarinventarioPeer::IDLUGARINVENTARIO) && $criteria->keyContainsValue(LugarinventarioPeer::IDLUGARINVENTARIO) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.LugarinventarioPeer::IDLUGARINVENTARIO.')');
-        }
-
 
         // Set the correct dbName
         $criteria->setDbName(LugarinventarioPeer::DATABASE_NAME);

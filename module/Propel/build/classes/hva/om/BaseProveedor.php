@@ -114,12 +114,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
     protected $proveedor_fax;
 
     /**
-     * The value for the proveedor_rfc field.
-     * @var        string
-     */
-    protected $proveedor_rfc;
-
-    /**
      * @var        PropelObjectCollection|Ordencompra[] Collection to store aggregation of Ordencompra objects.
      */
     protected $collOrdencompras;
@@ -303,17 +297,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
     {
 
         return $this->proveedor_fax;
-    }
-
-    /**
-     * Get the [proveedor_rfc] column value.
-     *
-     * @return string
-     */
-    public function getProveedorRfc()
-    {
-
-        return $this->proveedor_rfc;
     }
 
     /**
@@ -611,27 +594,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
     } // setProveedorFax()
 
     /**
-     * Set the value of [proveedor_rfc] column.
-     *
-     * @param  string $v new value
-     * @return Proveedor The current object (for fluent API support)
-     */
-    public function setProveedorRfc($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->proveedor_rfc !== $v) {
-            $this->proveedor_rfc = $v;
-            $this->modifiedColumns[] = ProveedorPeer::PROVEEDOR_RFC;
-        }
-
-
-        return $this;
-    } // setProveedorRfc()
-
-    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -677,7 +639,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
             $this->proveedor_telefono = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
             $this->proveedor_telefonocelular = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
             $this->proveedor_fax = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
-            $this->proveedor_rfc = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -687,7 +648,7 @@ abstract class BaseProveedor extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 15; // 15 = ProveedorPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 14; // 14 = ProveedorPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Proveedor object", $e);
@@ -960,9 +921,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
         if ($this->isColumnModified(ProveedorPeer::PROVEEDOR_FAX)) {
             $modifiedColumns[':p' . $index++]  = '`proveedor_fax`';
         }
-        if ($this->isColumnModified(ProveedorPeer::PROVEEDOR_RFC)) {
-            $modifiedColumns[':p' . $index++]  = '`proveedor_rfc`';
-        }
 
         $sql = sprintf(
             'INSERT INTO `proveedor` (%s) VALUES (%s)',
@@ -1015,9 +973,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
                         break;
                     case '`proveedor_fax`':
                         $stmt->bindValue($identifier, $this->proveedor_fax, PDO::PARAM_STR);
-                        break;
-                    case '`proveedor_rfc`':
-                        $stmt->bindValue($identifier, $this->proveedor_rfc, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1203,9 +1158,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
             case 13:
                 return $this->getProveedorFax();
                 break;
-            case 14:
-                return $this->getProveedorRfc();
-                break;
             default:
                 return null;
                 break;
@@ -1249,7 +1201,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
             $keys[11] => $this->getProveedorTelefono(),
             $keys[12] => $this->getProveedorTelefonocelular(),
             $keys[13] => $this->getProveedorFax(),
-            $keys[14] => $this->getProveedorRfc(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1336,9 +1287,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
             case 13:
                 $this->setProveedorFax($value);
                 break;
-            case 14:
-                $this->setProveedorRfc($value);
-                break;
         } // switch()
     }
 
@@ -1377,7 +1325,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
         if (array_key_exists($keys[11], $arr)) $this->setProveedorTelefono($arr[$keys[11]]);
         if (array_key_exists($keys[12], $arr)) $this->setProveedorTelefonocelular($arr[$keys[12]]);
         if (array_key_exists($keys[13], $arr)) $this->setProveedorFax($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setProveedorRfc($arr[$keys[14]]);
     }
 
     /**
@@ -1403,7 +1350,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
         if ($this->isColumnModified(ProveedorPeer::PROVEEDOR_TELEFONO)) $criteria->add(ProveedorPeer::PROVEEDOR_TELEFONO, $this->proveedor_telefono);
         if ($this->isColumnModified(ProveedorPeer::PROVEEDOR_TELEFONOCELULAR)) $criteria->add(ProveedorPeer::PROVEEDOR_TELEFONOCELULAR, $this->proveedor_telefonocelular);
         if ($this->isColumnModified(ProveedorPeer::PROVEEDOR_FAX)) $criteria->add(ProveedorPeer::PROVEEDOR_FAX, $this->proveedor_fax);
-        if ($this->isColumnModified(ProveedorPeer::PROVEEDOR_RFC)) $criteria->add(ProveedorPeer::PROVEEDOR_RFC, $this->proveedor_rfc);
 
         return $criteria;
     }
@@ -1480,7 +1426,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
         $copyObj->setProveedorTelefono($this->getProveedorTelefono());
         $copyObj->setProveedorTelefonocelular($this->getProveedorTelefonocelular());
         $copyObj->setProveedorFax($this->getProveedorFax());
-        $copyObj->setProveedorRfc($this->getProveedorRfc());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1805,7 +1750,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
         $this->proveedor_telefono = null;
         $this->proveedor_telefonocelular = null;
         $this->proveedor_fax = null;
-        $this->proveedor_rfc = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

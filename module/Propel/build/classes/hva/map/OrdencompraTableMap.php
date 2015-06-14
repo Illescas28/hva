@@ -48,9 +48,7 @@ class OrdencompraTableMap extends TableMap
         $this->getColumn('ordencompra_status', false)->setValueSet(array (
   0 => 'pagada',
   1 => 'no pagada',
-  2 => 'inventario',
 ));
-        $this->addColumn('ordencompra_fechaapagar', 'OrdencompraFechaapagar', 'DATE', true, null, null);
         // validators
     } // initialize()
 

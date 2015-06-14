@@ -36,7 +36,7 @@ class LugarinventarioTableMap extends TableMap
         $this->setPhpName('Lugarinventario');
         $this->setClassname('Lugarinventario');
         $this->setPackage('hva');
-        $this->setUseIdGenerator(true);
+        $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('idlugarinventario', 'Idlugarinventario', 'INTEGER', true, null, null);
         $this->addForeignKey('idlugar', 'Idlugar', 'INTEGER', 'lugar', 'idlugar', true, null, null);

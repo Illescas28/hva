@@ -5,22 +5,33 @@ use Zend\Form\Form;
 
 class CargoadmisionForm extends Form
 {
-    public function __construct(array $servicio = null)
+    public function __construct()
     {
         // we want to ignore the name passed
         parent::__construct('CargoadmisionForm');
         $this->setAttribute('method', 'post');
 
         // Inicio columnas adicionales
-        // busqueda
+        // busquedaArticulo
         $this->add(array(
-            'name' => 'busqueda',
+            'name' => 'busquedaArticulo',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Busqueda',
+                'label' => 'busqueda Articulo',
             ),
             'attributes' => array(
-                'id' => 'busqueda'
+                'id' => 'busquedaArticulo'
+            )
+        ));
+        // busquedaServicio
+        $this->add(array(
+            'name' => 'busquedaServicio',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'busqueda Servicio',
+            ),
+            'attributes' => array(
+                'id' => 'busquedaServicio'
             )
         ));
         $this->add(array(
@@ -36,7 +47,7 @@ class CargoadmisionForm extends Form
             )
         ));
         $this->add(array(
-            'name' => 'cargoconsultaservicio_by',
+            'name' => 'cargoadmisionservicio_by',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
                 'label' => 'Tipo',
@@ -44,36 +55,30 @@ class CargoadmisionForm extends Form
                 'value_options' => array('nombre' => 'nombre'),
             ),
             'attributes' => array(
-                'id' => 'cargoconsultaservicio_by'
+                'id' => 'cargoadmisionservicio_by'
             )
         ));
         // Fin columnas adicionales
-
-        // admision
         $this->add(array(
-            'type' => 'Hidden',
             'name' => 'idadmision',
+            'type' => 'Text',
             'options' => array(
-                'label' => 'idamision',
-            ),
-        ));
-
-        /*
-        // servicio
-        $this->add(array(
-            'name' => 'idservicio',
-            'type' => 'Zend\Form\Element\Select',
-            'options' => array(
-                'label' => 'Servicios',
-                'empty_option' => 'Seleccione un servicio',
-                'value_options' => $servicio,
+                'label' => 'Admision',
             ),
             'attributes' => array(
-                'id' => 'idservicio'
+                'id' => 'idadmision'
             )
         ));
-        */
-
+        $this->add(array(
+            'name' => 'idlugarinventario',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Lugar Inventario',
+            ),
+            'attributes' => array(
+                'id' => 'idlugarinventario'
+            )
+        ));
         $this->add(array(
             'name' => 'idservicio',
             'type' => 'Text',
@@ -90,7 +95,7 @@ class CargoadmisionForm extends Form
             'options' => array(
                 'label' => 'Tipo',
                 'empty_option' => 'Seleccione el tipo de gasto',
-                'value_options' => array('articulo' => 'articulo','servicio' => 'servicio'),
+                'value_options' => array('articulo' => 'articulo', 'servicio' => 'servicio'),
             ),
             'attributes' => array(
                 'id' => 'cargoadmision_tipo'

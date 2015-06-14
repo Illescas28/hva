@@ -52,7 +52,6 @@ class ProveedorTableMap extends TableMap
         $this->addColumn('proveedor_telefono', 'ProveedorTelefono', 'VARCHAR', false, 45, null);
         $this->addColumn('proveedor_telefonocelular', 'ProveedorTelefonocelular', 'VARCHAR', false, 45, null);
         $this->addColumn('proveedor_fax', 'ProveedorFax', 'VARCHAR', false, 45, null);
-        $this->addColumn('proveedor_rfc', 'ProveedorRfc', 'VARCHAR', false, 45, null);
         // validators
     } // initialize()
 
