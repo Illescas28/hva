@@ -104,7 +104,7 @@ class ComprasController extends AbstractActionController {
             $articulovarianteCollection = $av->getArticulovariantes();
             //Comenzamos a itinerar sobre las variaciones
             foreach ($articulovarianteCollection as $kav => $vav){
-                $tmp['id'] = $vav->getIdarticulovariante();
+                $tmp['value'] = $vav->getIdarticulovariante();
      
 
                 
@@ -120,20 +120,23 @@ class ComprasController extends AbstractActionController {
                     if($propiedadCount<$articuloVarianteValorCollection->count()){
                         $tmp['descripcion'].=' - ';
                     }
+                    $tmp['label'] = $tmp['nombre'].' '.$tmp['descripcion'];
                 }
-                
+
                 array_push($productos, $tmp);
             }  
         }
         
-        $productos_array = array();
+        $producto_array = array();
         foreach ($productos as $producto){
-            array_push($productos_array, $producto['nombre'].' '.$producto['descripcion']);
+                unset( $producto['descripcion']);
+                unset( $producto['nombre']);
+                array_push($producto_array,$producto);
         }
         
-        return $this->getResponse()->setContent(\Zend\Json\Json::encode($productos_array));
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($producto_array));
 
 
-    }
+    }       
     
 }

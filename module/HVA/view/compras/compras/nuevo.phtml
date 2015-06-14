@@ -33,6 +33,7 @@
                         <div class="input-field">
                             <label>Proveedor</label>
                             <input type="text" id="proveedor_autocomplete">
+                            <input type="hidden" id="idproveedor">
                         </div>
                     </div>
                 </div>
@@ -53,11 +54,45 @@
                         <div class="input-field">
                             <label>Productos</label>
                             <input type="text" id="productos_autocomplete">
+                            <input type="hidden" id="idproduct">
                         </div>
+                    </div>
+                    <div class="col s1" style="padding-top: 21px; cursor: pointer; color: #00086E">
+                        <i id="addproduct" class="small mdi-content-add-box"></i>
                     </div>
                 </div>
             </fieldset>
         </div>
+    </div>
+    <div class="col s12">
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Producto</th>
+                    <th>Caducidad</th>    
+                    <th>Precio costo</th>
+                    <th>Precio venta</th>
+                    <th>Subtotal</th>
+                    <th>Opciones    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2</td>
+                    <td>Electrolit 500ml; sabro fresa;</td>
+                    <td>05/2015</td>
+                    <td>50.00</td>
+                    <td>60.00</td>
+                    <td>100.00</td>
+                    <td>
+                        <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
+                        &nbsp;&nbsp;
+                        <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-articulo-".$producto['id'] ?>'><i class="tiny mdi-action-delete"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -90,14 +125,32 @@
             }
         });
         
-        
-
         $('#proveedor_autocomplete').autocomplete({
             source:proveedores,
+            select: function( event, ui ) {
+                $(this).val(ui.item.label);
+                $('input#idproveedor').val(ui.item.value);
+                event.preventDefault();
+
+            }
         });
         
         $('#productos_autocomplete').autocomplete({
             source:productos,
+            select: function( event, ui ) {
+                $(this).val(ui.item.label);
+                $('input#idproduct').val(ui.item.value);
+                event.preventDefault();
+
+            }
+        });
+        
+        $('i#addproduct').on('click',function(){
+            if($('#productos_autocomplete').val() != ''){
+                
+            }else{
+                alert('No hay producto para agregar');
+            }
         });
         
     });
