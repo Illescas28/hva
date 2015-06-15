@@ -83,10 +83,12 @@ class ComprasController extends AbstractActionController {
     public function getproveedoresAction(){
         
         $proveedores = \ProveedorQuery::create()->find();
-        
+  
         $proveedor_array = array();
         foreach ($proveedores as $proveedor){
-            array_push($proveedor_array, $proveedor->getProveedorNombre());
+           $tmp['value'] = $proveedor->getIdproveedor();
+           $tmp['label'] = $proveedor->getProveedorNombre();
+           array_push($proveedor_array, $tmp);
         }
         return $this->getResponse()->setContent(\Zend\Json\Json::encode($proveedor_array));
 
@@ -128,7 +130,9 @@ class ComprasController extends AbstractActionController {
         
         $productos_array = array();
         foreach ($productos as $producto){
-            array_push($productos_array, $producto['nombre'].' '.$producto['descripcion']);
+            $tmp2['value'] = $producto['id'];
+            $tmp2['label'] = $producto['nombre'].' '.$producto['descripcion'];
+            array_push($productos_array, $tmp2);
         }
         
         return $this->getResponse()->setContent(\Zend\Json\Json::encode($productos_array));

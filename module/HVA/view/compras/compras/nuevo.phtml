@@ -7,7 +7,32 @@
     $fecha = $fecha->format('d/m/Y');
 ?>
 <style>
-
+    table.ui-datepicker-calendar {
+        display: none;
+    }
+    
+    .ui-datepicker .ui-datepicker-title select{
+        display: inline-block;
+    }
+    
+    div#ui-datepicker-div{
+        padding: 0;
+        border: 0;
+    }
+    
+    .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next{
+        display: none;
+    }
+    
+    .ui-widget-header{
+        background: #E1F5FE;
+        border: solid 1px #405C95;
+        color: #405C95;
+    }
+    
+    .ui-datepicker-title select{
+        height: 30px;
+    }
 </style>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div class="row">
@@ -33,6 +58,7 @@
                         <div class="input-field">
                             <label>Proveedor</label>
                             <input type="text" id="proveedor_autocomplete">
+                            <input type="hidden" id="idproveedor">
                         </div>
                     </div>
                 </div>
@@ -53,11 +79,53 @@
                         <div class="input-field">
                             <label>Productos</label>
                             <input type="text" id="productos_autocomplete">
+                            <input type="hidden" id="idproducto">
                         </div>
+                    </div>
+                    <div class="col s1" style="margin-top: 20px;">
+                        <i id="addproduct" style="color: #050661; cursor: pointer"class="small mdi-content-add-box"></i>
                     </div>
                 </div>
             </fieldset>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        <table class="table-inputs striped">
+            <thead>
+                <th>Cantidad</th>
+                <th style="width: 480px">Producto</th>
+                <th>Caducidad</th>
+                <th>Precio costo</th>
+                <th>Precio venta</th>
+                <th>Subtotal</th>
+                <th>Opciones</th>
+            </thead>
+            <tbody>
+<!--                <tr>
+                    <td><span style="visibility: hidden">2</span><input type="text" value="2"></td>
+                    <td style="padding-left: 12px;">Electrolit Presentacion:200ml - Sabor:Piña</td>
+                    <td  style="padding-left: 12px;"><span style="visibility: hidden">2</span><input type="text" value="50.00"></td>
+                    <td ><span style="visibility: hidden">2</span><input type="text" value="50.00"></td>
+                    <td><span style="visibility: hidden">2</span><input type="text" value="60.00"></td>
+                    <td style="padding-left: 12px;">100.00</td>
+                    <td>
+                        <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
+                        &nbsp;&nbsp;
+                        <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-articulo-".$producto['id'] ?>'><i class="tiny mdi-action-delete"></i></a>
+                    </td>
+                </tr>-->
+            </tbody>
+        </table>
+        <p style="font-size: 16px; float: right; padding-right: 24px;">Total: <span id="total">0.00</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col s2 offset-s10">
+        <button style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
     </div>
 </div>
 
@@ -66,7 +134,9 @@
     $(document).ready(function(){
         $('select').material_select();
         
-
+        
+        updateTotal();
+        
         var proveedores;
         var productos;
     
@@ -94,11 +164,124 @@
 
         $('#proveedor_autocomplete').autocomplete({
             source:proveedores,
+            select: function( event, ui ) {
+                $('#idproveedor').val(ui.item.value);
+                $(this).val(ui.item.label);
+                event.preventDefault();
+            }
         });
         
         $('#productos_autocomplete').autocomplete({
             source:productos,
+            select: function( event, ui ) {
+                $('#idproducto').val(ui.item.value);
+                $(this).val(ui.item.label);
+                event.preventDefault();
+            }
         });
+        
+        //evento add product
+        $('#addproduct').on('click',function(){
+            if($('#productos_autocomplete').val() != ''){
+                var idproduct = $('#idproducto').val();
+                var tr = $('<tr>').attr('id',idproduct);
+                var td_cantidad = $('<td id="cantidad"><span style="visibility:hidden">1</span><input type="number" min="1" value="1"></td>').appendTo(tr);
+                var td_producto = $('<td id="producto" style="padding-left: 12px;">'+$('#productos_autocomplete').val()+'</td>').appendTo(tr);
+                var td_caducidad = $('<td class="datepicker" id="caducidad" style="padding-left: 12px;"><span style="visibility: hidden"></span><input type="text"></td>').appendTo(tr);
+                var td_costo = $('<td id="costo" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
+                var td_precio = $('<td id="precio" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
+                var td_subtotal = $('<td id="subtotal" style="padding-left: 12px;">0.00</td>').appendTo(tr);
+                var td_opciones = $('<td><a id="show_item" class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="javascript:void(0)"><i class="tiny mdi-image-remove-red-eye"></i></a>&nbsp;&nbsp;<a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
+                
+                //Damos formato de dinero a a los input
+                
+                //EVento cantidad
+                td_cantidad.find('input').keypress(function (evt) {
+                    evt.preventDefault();
+                });
+                td_cantidad.find('input').on('change',function(){
+                   //modifcamos el subtotal
+                   var costo = tr.children('#costo').find('input').val();
+                   var new_subtotal = costo * $(this).val();
+                   
+                   td_subtotal.text(formatMoney(new_subtotal,'$'));
+                   updateTotal();
+ 
+                });
+                
+                //Evento costo
+                td_costo.find('input').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+                
+                td_costo.find('input').on('blur',function(){
+         
+                    var cantidad = td_cantidad.find('input').val();
+                    var new_subtotal = cantidad  * $(this).val();
+                   
+     
+                   td_subtotal.text(formatMoney(new_subtotal,'$'));
+                   updateTotal();
+                    
+                });
+                
+                //EVento precio
+                td_precio.find('input').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+                
+                //Evento caducidad
+                td_caducidad.find('input').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'mm/y',
+                    defaultDate: '01/01/20',
+                    monthNamesShort: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" ],
+                    onClose: function(dateText, inst) { 
+                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                        $(this).datepicker('setDate', new Date(year, month, 1));
+                    }
+                });
+                
+               //evento delete
+               td_opciones.find('#delete_item').on('click',function(){
+                   tr.remove();
+                   updateTotal();   
+               });
+               
+               //Evento show item
+               td_opciones.find('#show_item').on('click',function(){
+                   var idproduct = tr.attr('id');
+                   console.log(idproduct);
+               })
+ 
+                $('tbody').append(tr);
+                $('#productos_autocomplete').val('');
+            }else{
+                alert('No hay productos por agregar');
+            }
+        });
+        
+        function formatMoney(n, currency) {
+            return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+        }
+        
+       function updateTotal(){
+           var total = 0;
+           $.each($('td#subtotal'),function(index,element){
+               var subtotalText = $(element).text();
+               var split = subtotalText.split('$');
+               var subtotal = split[1];
+               total= (parseFloat(total) + parseFloat(subtotal));
+               
+           });
+           
+           $('#total').text(formatMoney(total,'$'));
+           
+           
+       
+       }
+       
+       
+            
+        
         
     });
 
