@@ -300,6 +300,21 @@ return array(
                     ),
                 ),
             ),
+            //Empleados
+            'empleados' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/empleado[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Empleado\Controller\Empleado',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             //Productos
             'productos-registro' => array(
                 'type'    => 'Segment',
@@ -411,7 +426,7 @@ return array(
             'compras' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/compras[/:action]',
+                    'route'    => '/compras[/:action][/:id][/]',
                     'defaults' => array(
                         'controller' => 'Compras\Controller\Compras',
                         'action'     => 'listar',
@@ -469,6 +484,7 @@ return array(
             'Catalogos\Especialidad\Controller\Especialidad'            => 'Catalogos\Especialidad\Controller\EspecialidadController',
             'Catalogos\Cuarto\Controller\Cuarto'                        => 'Catalogos\Cuarto\Controller\CuartoController',
             //'Catalogos\Servicio\Controller\Servicio'                    => 'Catalogos\Servicio\Controller\ServicioController',
+            'Catalogos\Empleado\Controller\Empleado'                    =>  'Catalogos\Empleado\Controller\EmpleadoController',
 
             //Modulo Productos
             'Productos\Registro\Controller\Registro'                   => 'Productos\Registro\Controller\RegistroController',

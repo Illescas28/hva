@@ -55,6 +55,7 @@
                 $orden_pagada = 'No';
  
         ?>
+        <?php $c = new Ordencompra(); $c?>
         <tr id="<?php echo  $compra->getIdOrdenCompra()?>">
             <td><?php  echo $orden_fecha?></td>
             <td><?php  echo $compra->getProveedor()->getProveedorNombre() ?></td>
@@ -68,22 +69,11 @@
                 &nbsp;&nbsp;
                 <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php //echo "/catalogos/banco/editar/".$banco->getIdbanco()?>'><i class="tiny mdi-action-assignment"></i></a>
                 &nbsp;&nbsp;    
-                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php //echo "#delete-modal-banco-".$banco->getIdbanco()?>'><i class="tiny mdi-action-delete"></i></a>
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-compra-".$compra->getIdOrdenCompra()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
         </tr>
-<!--        <tr>
-            <td><?php //echo $banco->getBancoNombre() ?></td>
-            <td><?php //echo $banco->getBancoCuenta() ?></td>
-            <td><?php //echo $banco->getBancoDescripcion() ?></td>
-            <td><?php //echo $banco->getBancoBalance() ?></td>
-            <td>
-                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php //echo "/catalogos/banco/editar/".$banco->getIdbanco()?>'><i class="tiny mdi-action-assignment"></i></a>
-                &nbsp;&nbsp;    
-                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php //echo "#delete-modal-banco-".$banco->getIdbanco()?>'><i class="tiny mdi-action-delete"></i></a>
-            </td>
-        </tr>
-         Delete Modal Structure 
-        <div id="delete-modal-banco-<?php //echo $banco->getIdBanco()?>" class="modal ">
+        <!-- Delete Modal Structure -->
+        <div id="delete-modal-compra-<?php echo $compra->getIdOrdenCompra()?>" class="modal ">
             <div class="modal-content" id="delete-modal-container">
                 <div class="row" id="delete-modal-header-container">
                     <div class="col s5 offset-s4">
@@ -92,23 +82,22 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <p><?php // echo "Esta seguro que desea eliminar el banco: ". $banco->getBancoNombre(). " de su catalogo?" ?></p>
+                        <p><?php echo "Esta seguro que desea eliminar la compra '". $compra->getOrdencompraNofactura(). "' de su proveedor ". $compra->getProveedor()->getProveedorNombre().'?'?></p>
                     </div>
                 </div>
-                
             </div>
             <div class="modal-footer">
                 <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                <a href="/catalogos/banco/eliminar/<?php //echo $banco->getIdBanco()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
-              
+                <a href="/compras/eliminar/<?php echo $compra->getIdOrdenCompra()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>       
             </div>
-        </div>-->
-        <!-- End Delete Modal Structure -->
+        </div>
+        <!-- End Delete Modal Structure -->   
     <?php endforeach; ?>
     </tbody>
 </table>
 <script>
 $(document).ready(function(){
+        $('.modal-trigger').leanModal();
         /*$("#tabla-bancos").tablesorter({headers:{4:{sorter:false},1:{sorter:false}}});
         $("#tabla-bancos").filterTable({inputSelector: '#search-container input',minRows:1});
         $('.modal-trigger').leanModal();*/
