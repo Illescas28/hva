@@ -84,37 +84,37 @@
                         <div class="input-field">
                             <label>Productos</label>
                             <input type="text" id="productos_autocomplete">
-                            <input type="hidden" id="idproduct">
+                            <input type="hidden" id="idproducto">
                         </div>
                     </div>
-                    <div class="col s1" style="padding-top: 21px; cursor: pointer; color: #00086E">
-                        <i id="addproduct" class="small mdi-content-add-box"></i>
+                    <div class="col s1" style="margin-top: 20px;">
+                        <i id="addproduct" style="color: #050661; cursor: pointer"class="small mdi-content-add-box"></i>
                     </div>
                 </div>
             </fieldset>
         </div>
     </div>
-    <p style="color: rgb(158, 158, 158); margin-top: 0px; padding-left: 24px;">(*) Campos obligatorios</p>
+</div>
+<p style="color: rgb(158, 158, 158); margin-top: 0px; padding-left: 24px;">(*) Campos obligatorios</p>
+<div class="row">
     <div class="col s12">
-        <table class="striped">
+        <table class="table-inputs striped">
             <thead>
-                <tr>
-                    <th>Cantidad</th>
-                    <th>Producto</th>
-                    <th>Caducidad</th>    
-                    <th>Precio costo</th>
-                    <th>Precio venta</th>
-                    <th>Subtotal</th>
-                    <th>Opciones    </th>
-                </tr>
+                <th>Cantidad</th>
+                <th style="width: 480px">Producto</th>
+                <th>Caducidad</th>
+                <th>Precio costo</th>
+                <th>Precio venta</th>
+                <th>Subtotal</th>
+                <th>Opciones</th>
             </thead>
             <tbody>
             </tbody>
         </table>
+        
+        <p style="font-size: 16px; float: right; padding-right: 24px;">Total: <span id="total">0.00</span>
     </div>
 </div>
-
-
 <div class="row">
     <div class="col s2 offset-s10">
         <button id="save_order" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
@@ -154,33 +154,23 @@
             }
         });
         
+        
+
         $('#proveedor_autocomplete').autocomplete({
             source:proveedores,
             select: function( event, ui ) {
-
+                $('#idproveedor').val(ui.item.value);
                 $(this).val(ui.item.label);
-                $('input#idproveedor').val(ui.item.value);
                 event.preventDefault();
-
             }
         });
         
         $('#productos_autocomplete').autocomplete({
             source:productos,
             select: function( event, ui ) {
+                $('#idproducto').val(ui.item.value);
                 $(this).val(ui.item.label);
-                $('input#idproduct').val(ui.item.value);
                 event.preventDefault();
-
-            }
-        });
-        
-        $('i#addproduct').on('click',function(){
-            if($('#productos_autocomplete').val() != ''){
-                
-            }else{
-                alert('No hay producto para agregar');
-
             }
         });
         
