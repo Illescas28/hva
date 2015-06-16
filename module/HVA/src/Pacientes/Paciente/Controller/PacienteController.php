@@ -156,11 +156,6 @@ class PacienteController extends AbstractActionController
             }
             $admisionQuery = \AdmisionQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->findOne();
             if($admisionQuery){
-                /*
-                // Aqui almacenar a los pacientes que si tienen consulta y mandarlos a la vista
-                $pacienteQuery = \PacienteQuery::create()->filterByIdpaciente($admisionQuery->getIdpaciente())->findOne();
-                array_push($pacienteArray, $pacienteQuery);
-                */
                 array_push($admisionArray, $admisionQuery);
             }
         }
@@ -192,17 +187,6 @@ class PacienteController extends AbstractActionController
 
     public function asignarAction(){
 
-        /*
-         *
-            // Si el paciente ya cuenta con una consulta "no pagada" o "pendiente" mostramos en la vista la informacion de la misma
-            if(\ConsultaQuery::create()->filterByIdpaciente($id)->exists()){
-                $consultaArray = \ConsultaQuery::create()->filterByIdpaciente($id)->findOne()->toArray(BasePeer::TYPE_FIELDNAME);
-                return new JsonModel(array(
-                    'consultaArray' => $consultaArray,
-                ));
-            }
-
-         */
         $request = $this->getRequest();
 
         $id = (int) $this->params()->fromRoute('id', 0);
