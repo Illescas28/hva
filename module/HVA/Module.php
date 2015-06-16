@@ -41,6 +41,7 @@ class Module
                     'Pacientes' => __DIR__ . '/src/' . 'Pacientes/',
                     'Catalogos' => __DIR__ . '/src/' . 'Catalogos/',
                     'Auth' => __DIR__ . '/src/' . 'Auth/',
+                    'Compras' => __DIR__ . '/src/' . 'Compras/',
                     'Shared' => __DIR__ . '/src/' . 'Shared/',
                 ),
             ),

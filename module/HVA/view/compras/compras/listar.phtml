@@ -1,0 +1,131 @@
+<?php
+    $title = 'Compras';
+    $this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row" id="table-header">
+    <form class="col s12">
+        <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+        <?php endif;?>    
+        <div class="row" style="position: relative">
+            <div class="col s6" id="new-container">
+                <a href="/compras/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nueva compra</a>
+            </div>
+              <div class="input-field col s4 offset-s2" id="search-container">
+              <i class="mdi-action-search prefix"></i>
+              <input id="icon_prefix" type="text">
+              <label for="icon_prefix">Buscar</label>
+            </div>     
+        </div>
+    </form>
+</div>
+<table id="tabla-bancos" class="striped">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Proveedor</th>
+            <th >Monto</th>
+            <th >Factura</th>
+            <th>Pagada</th>
+            <th>Fecha de pago</th>
+            <th>Folio</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody> 
+    <?php foreach($compras as $compra) : ?>
+        <?php 
+            $orden_fecha = new DateTime($compra->getOrdencompraFecha());
+            $orden_fecha = $orden_fecha->format('d/m/Y');
+            
+            $orden_fechapago = new DateTime($compra->getOrdencompraFechaapagar());
+            $orden_fechapago = $orden_fechapago->format('d/m/Y');
+            
+            $orden_factura = $compra->getOrdencompraFacturapdf();
+            if(is_null($orden_factura)){
+                $orden_factura = 'N/D';
+            }
+            $orden_pagada = $compra->getOrdencompraStatus();
+            if($orden_pagada == 'pagada')
+                $orden_pagada = 'Si';
+            elseif ($orden_pagada == 'no pagada') 
+                $orden_pagada = 'No';
+ 
+        ?>
+        <tr id="<?php echo  $compra->getIdOrdenCompra()?>">
+            <td><?php  echo $orden_fecha?></td>
+            <td><?php  echo $compra->getProveedor()->getProveedorNombre() ?></td>
+            <td><?php  echo '$ '.$compra->getOrdencompraImporte() ?></td>
+            <td><?php  echo $orden_factura ?></td>
+            <td><?php  echo $orden_pagada ?></td>
+            <td><?php  echo $orden_fechapago ?></td>
+            <td><?php  echo $compra->getOrdenCompraNofactura() ?></td>
+            <td>
+                <a id="order_detalles"class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='javascript:void(0)'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                &nbsp;&nbsp;
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php //echo "/catalogos/banco/editar/".$banco->getIdbanco()?>'><i class="tiny mdi-action-assignment"></i></a>
+                &nbsp;&nbsp;    
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php //echo "#delete-modal-banco-".$banco->getIdbanco()?>'><i class="tiny mdi-action-delete"></i></a>
+            </td>
+        </tr>
+<!--        <tr>
+            <td><?php //echo $banco->getBancoNombre() ?></td>
+            <td><?php //echo $banco->getBancoCuenta() ?></td>
+            <td><?php //echo $banco->getBancoDescripcion() ?></td>
+            <td><?php //echo $banco->getBancoBalance() ?></td>
+            <td>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php //echo "/catalogos/banco/editar/".$banco->getIdbanco()?>'><i class="tiny mdi-action-assignment"></i></a>
+                &nbsp;&nbsp;    
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php //echo "#delete-modal-banco-".$banco->getIdbanco()?>'><i class="tiny mdi-action-delete"></i></a>
+            </td>
+        </tr>
+         Delete Modal Structure 
+        <div id="delete-modal-banco-<?php //echo $banco->getIdBanco()?>" class="modal ">
+            <div class="modal-content" id="delete-modal-container">
+                <div class="row" id="delete-modal-header-container">
+                    <div class="col s5 offset-s4">
+                        <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <p><?php // echo "Esta seguro que desea eliminar el banco: ". $banco->getBancoNombre(). " de su catalogo?" ?></p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                <a href="/catalogos/banco/eliminar/<?php //echo $banco->getIdBanco()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+              
+            </div>
+        </div>-->
+        <!-- End Delete Modal Structure -->
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<script>
+$(document).ready(function(){
+        /*$("#tabla-bancos").tablesorter({headers:{4:{sorter:false},1:{sorter:false}}});
+        $("#tabla-bancos").filterTable({inputSelector: '#search-container input',minRows:1});
+        $('.modal-trigger').leanModal();*/
+    
+    $("a#order_detalles").on('click',function(e){
+        
+        var idOrden = $(this).closest('tr').attr('id');
+        var modalName = '#modal-order-'+idOrden+'-detalles';
+        $.get(window.location.pathname+'/compradetalle',
+            {idorden:idOrden},
+            function(modal){
+                $('table').after(modal);
+                $(modalName).openModal();
+            }
+        );  
+        
+        
+    });
+}); 
+</script>
