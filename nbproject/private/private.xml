@@ -3,15 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Tipo/Form/TipoForm.php</file>
-            <file>file:/Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Propiedad/Filter/PropiedadFilter.php</file>
-            <file>file:/Applications/AMPPS/www/Project/HVA/module/HVA/view/catalogos/articulo/nuevo.phtml</file>
-            <file>file:/Applications/AMPPS/www/Project/HVA/public/css/style.css</file>
-            <file>file:/Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Proveedor/Form/ProveedorForm.php</file>
-            <file>file:/Applications/AMPPS/www/Project/HVA/module/HVA/view/catalogos/articulo/listar.phtml</file>
-            <file>file:/Applications/AMPPS/www/Project/HVA/module/HVA/view/catalogos/articulovariante/listar.phtml</file>
-            <file>file:/Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Propiedad/Form/PropiedadForm.php</file>
-            <file>file:/Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Tipo/Filter/TipoFilter.php</file>
+            <file>file:/Applications/AMPPS/www/hva/module/HVA/view/productos/producto/index.phtml</file>
+            <file>file:/Applications/AMPPS/www/hva/module/HVA/view/compras/compras/nuevo.phtml</file>
         </group>
     </open-files>
 </project-private>
