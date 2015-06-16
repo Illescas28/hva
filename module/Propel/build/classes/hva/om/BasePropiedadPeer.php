@@ -760,6 +760,10 @@ abstract class BasePropiedadPeer
             $criteria = $values->buildCriteria(); // build Criteria from Propiedad object
         }
 
+        if ($criteria->containsKey(PropiedadPeer::IDPROPIEDAD) && $criteria->keyContainsValue(PropiedadPeer::IDPROPIEDAD) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.PropiedadPeer::IDPROPIEDAD.')');
+        }
+
 
         // Set the correct dbName
         $criteria->setDbName(PropiedadPeer::DATABASE_NAME);

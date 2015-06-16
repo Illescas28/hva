@@ -14,7 +14,6 @@
  * @method OrdencompradetalleQuery orderByOrdencompradetallePrecio($order = Criteria::ASC) Order by the ordencompradetalle_precio column
  * @method OrdencompradetalleQuery orderByOrdencompradetalleImporte($order = Criteria::ASC) Order by the ordencompradetalle_importe column
  * @method OrdencompradetalleQuery orderByOrdencompradetalleCaducidad($order = Criteria::ASC) Order by the ordencompradetalle_caducidad column
- * @method OrdencompradetalleQuery orderByOrdencompradetalleExistencia($order = Criteria::ASC) Order by the ordencompradetalle_existencia column
  *
  * @method OrdencompradetalleQuery groupByIdordencompradetalle() Group by the idordencompradetalle column
  * @method OrdencompradetalleQuery groupByIdordencompra() Group by the idordencompra column
@@ -24,7 +23,6 @@
  * @method OrdencompradetalleQuery groupByOrdencompradetallePrecio() Group by the ordencompradetalle_precio column
  * @method OrdencompradetalleQuery groupByOrdencompradetalleImporte() Group by the ordencompradetalle_importe column
  * @method OrdencompradetalleQuery groupByOrdencompradetalleCaducidad() Group by the ordencompradetalle_caducidad column
- * @method OrdencompradetalleQuery groupByOrdencompradetalleExistencia() Group by the ordencompradetalle_existencia column
  *
  * @method OrdencompradetalleQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method OrdencompradetalleQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -52,7 +50,6 @@
  * @method Ordencompradetalle findOneByOrdencompradetallePrecio(string $ordencompradetalle_precio) Return the first Ordencompradetalle filtered by the ordencompradetalle_precio column
  * @method Ordencompradetalle findOneByOrdencompradetalleImporte(string $ordencompradetalle_importe) Return the first Ordencompradetalle filtered by the ordencompradetalle_importe column
  * @method Ordencompradetalle findOneByOrdencompradetalleCaducidad(string $ordencompradetalle_caducidad) Return the first Ordencompradetalle filtered by the ordencompradetalle_caducidad column
- * @method Ordencompradetalle findOneByOrdencompradetalleExistencia(string $ordencompradetalle_existencia) Return the first Ordencompradetalle filtered by the ordencompradetalle_existencia column
  *
  * @method array findByIdordencompradetalle(int $idordencompradetalle) Return Ordencompradetalle objects filtered by the idordencompradetalle column
  * @method array findByIdordencompra(int $idordencompra) Return Ordencompradetalle objects filtered by the idordencompra column
@@ -62,7 +59,6 @@
  * @method array findByOrdencompradetallePrecio(string $ordencompradetalle_precio) Return Ordencompradetalle objects filtered by the ordencompradetalle_precio column
  * @method array findByOrdencompradetalleImporte(string $ordencompradetalle_importe) Return Ordencompradetalle objects filtered by the ordencompradetalle_importe column
  * @method array findByOrdencompradetalleCaducidad(string $ordencompradetalle_caducidad) Return Ordencompradetalle objects filtered by the ordencompradetalle_caducidad column
- * @method array findByOrdencompradetalleExistencia(string $ordencompradetalle_existencia) Return Ordencompradetalle objects filtered by the ordencompradetalle_existencia column
  *
  * @package    propel.generator.hva.om
  */
@@ -170,7 +166,7 @@ abstract class BaseOrdencompradetalleQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idordencompradetalle`, `idordencompra`, `idarticulovariante`, `ordencompradetalle_cantidad`, `ordencompradetalle_costo`, `ordencompradetalle_precio`, `ordencompradetalle_importe`, `ordencompradetalle_caducidad`, `ordencompradetalle_existencia` FROM `ordencompradetalle` WHERE `idordencompradetalle` = :p0';
+        $sql = 'SELECT `idordencompradetalle`, `idordencompra`, `idarticulovariante`, `ordencompradetalle_cantidad`, `ordencompradetalle_costo`, `ordencompradetalle_precio`, `ordencompradetalle_importe`, `ordencompradetalle_caducidad` FROM `ordencompradetalle` WHERE `idordencompradetalle` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -598,48 +594,6 @@ abstract class BaseOrdencompradetalleQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD, $ordencompradetalleCaducidad, $comparison);
-    }
-
-    /**
-     * Filter the query on the ordencompradetalle_existencia column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByOrdencompradetalleExistencia(1234); // WHERE ordencompradetalle_existencia = 1234
-     * $query->filterByOrdencompradetalleExistencia(array(12, 34)); // WHERE ordencompradetalle_existencia IN (12, 34)
-     * $query->filterByOrdencompradetalleExistencia(array('min' => 12)); // WHERE ordencompradetalle_existencia >= 12
-     * $query->filterByOrdencompradetalleExistencia(array('max' => 12)); // WHERE ordencompradetalle_existencia <= 12
-     * </code>
-     *
-     * @param     mixed $ordencompradetalleExistencia The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return OrdencompradetalleQuery The current query, for fluid interface
-     */
-    public function filterByOrdencompradetalleExistencia($ordencompradetalleExistencia = null, $comparison = null)
-    {
-        if (is_array($ordencompradetalleExistencia)) {
-            $useMinMax = false;
-            if (isset($ordencompradetalleExistencia['min'])) {
-                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_EXISTENCIA, $ordencompradetalleExistencia['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($ordencompradetalleExistencia['max'])) {
-                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_EXISTENCIA, $ordencompradetalleExistencia['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_EXISTENCIA, $ordencompradetalleExistencia, $comparison);
     }
 
     /**

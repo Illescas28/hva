@@ -13,6 +13,7 @@
  * @method OrdencompraQuery orderByOrdencompraFecha($order = Criteria::ASC) Order by the ordencompra_fecha column
  * @method OrdencompraQuery orderByOrdencompraImporte($order = Criteria::ASC) Order by the ordencompra_importe column
  * @method OrdencompraQuery orderByOrdencompraStatus($order = Criteria::ASC) Order by the ordencompra_status column
+ * @method OrdencompraQuery orderByOrdencompraFechaapagar($order = Criteria::ASC) Order by the ordencompra_fechaapagar column
  *
  * @method OrdencompraQuery groupByIdordencompra() Group by the idordencompra column
  * @method OrdencompraQuery groupByIdproveedor() Group by the idproveedor column
@@ -21,6 +22,7 @@
  * @method OrdencompraQuery groupByOrdencompraFecha() Group by the ordencompra_fecha column
  * @method OrdencompraQuery groupByOrdencompraImporte() Group by the ordencompra_importe column
  * @method OrdencompraQuery groupByOrdencompraStatus() Group by the ordencompra_status column
+ * @method OrdencompraQuery groupByOrdencompraFechaapagar() Group by the ordencompra_fechaapagar column
  *
  * @method OrdencompraQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method OrdencompraQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -43,6 +45,7 @@
  * @method Ordencompra findOneByOrdencompraFecha(string $ordencompra_fecha) Return the first Ordencompra filtered by the ordencompra_fecha column
  * @method Ordencompra findOneByOrdencompraImporte(string $ordencompra_importe) Return the first Ordencompra filtered by the ordencompra_importe column
  * @method Ordencompra findOneByOrdencompraStatus(string $ordencompra_status) Return the first Ordencompra filtered by the ordencompra_status column
+ * @method Ordencompra findOneByOrdencompraFechaapagar(string $ordencompra_fechaapagar) Return the first Ordencompra filtered by the ordencompra_fechaapagar column
  *
  * @method array findByIdordencompra(int $idordencompra) Return Ordencompra objects filtered by the idordencompra column
  * @method array findByIdproveedor(int $idproveedor) Return Ordencompra objects filtered by the idproveedor column
@@ -51,6 +54,7 @@
  * @method array findByOrdencompraFecha(string $ordencompra_fecha) Return Ordencompra objects filtered by the ordencompra_fecha column
  * @method array findByOrdencompraImporte(string $ordencompra_importe) Return Ordencompra objects filtered by the ordencompra_importe column
  * @method array findByOrdencompraStatus(string $ordencompra_status) Return Ordencompra objects filtered by the ordencompra_status column
+ * @method array findByOrdencompraFechaapagar(string $ordencompra_fechaapagar) Return Ordencompra objects filtered by the ordencompra_fechaapagar column
  *
  * @package    propel.generator.hva.om
  */
@@ -158,7 +162,7 @@ abstract class BaseOrdencompraQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idordencompra`, `idproveedor`, `ordencompra_nofactura`, `ordencompra_facturapdf`, `ordencompra_fecha`, `ordencompra_importe`, `ordencompra_status` FROM `ordencompra` WHERE `idordencompra` = :p0';
+        $sql = 'SELECT `idordencompra`, `idproveedor`, `ordencompra_nofactura`, `ordencompra_facturapdf`, `ordencompra_fecha`, `ordencompra_importe`, `ordencompra_status`, `ordencompra_fechaapagar` FROM `ordencompra` WHERE `idordencompra` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -503,6 +507,49 @@ abstract class BaseOrdencompraQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(OrdencompraPeer::ORDENCOMPRA_STATUS, $ordencompraStatus, $comparison);
+    }
+
+    /**
+     * Filter the query on the ordencompra_fechaapagar column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByOrdencompraFechaapagar('2011-03-14'); // WHERE ordencompra_fechaapagar = '2011-03-14'
+     * $query->filterByOrdencompraFechaapagar('now'); // WHERE ordencompra_fechaapagar = '2011-03-14'
+     * $query->filterByOrdencompraFechaapagar(array('max' => 'yesterday')); // WHERE ordencompra_fechaapagar < '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $ordencompraFechaapagar The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return OrdencompraQuery The current query, for fluid interface
+     */
+    public function filterByOrdencompraFechaapagar($ordencompraFechaapagar = null, $comparison = null)
+    {
+        if (is_array($ordencompraFechaapagar)) {
+            $useMinMax = false;
+            if (isset($ordencompraFechaapagar['min'])) {
+                $this->addUsingAlias(OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR, $ordencompraFechaapagar['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ordencompraFechaapagar['max'])) {
+                $this->addUsingAlias(OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR, $ordencompraFechaapagar['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR, $ordencompraFechaapagar, $comparison);
     }
 
     /**

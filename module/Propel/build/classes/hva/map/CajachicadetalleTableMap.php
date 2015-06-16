@@ -36,7 +36,7 @@ class CajachicadetalleTableMap extends TableMap
         $this->setPhpName('Cajachicadetalle');
         $this->setClassname('Cajachicadetalle');
         $this->setPackage('hva');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idcajachicadetalle', 'Idcajachicadetalle', 'INTEGER', true, null, null);
         $this->addForeignKey('idcajachica', 'Idcajachica', 'INTEGER', 'cajachica', 'idcajachica', true, null, null);

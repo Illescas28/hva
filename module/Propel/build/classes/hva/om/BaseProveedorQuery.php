@@ -20,6 +20,7 @@
  * @method ProveedorQuery orderByProveedorTelefono($order = Criteria::ASC) Order by the proveedor_telefono column
  * @method ProveedorQuery orderByProveedorTelefonocelular($order = Criteria::ASC) Order by the proveedor_telefonocelular column
  * @method ProveedorQuery orderByProveedorFax($order = Criteria::ASC) Order by the proveedor_fax column
+ * @method ProveedorQuery orderByProveedorRfc($order = Criteria::ASC) Order by the proveedor_rfc column
  *
  * @method ProveedorQuery groupByIdproveedor() Group by the idproveedor column
  * @method ProveedorQuery groupByProveedorNombre() Group by the proveedor_nombre column
@@ -35,6 +36,7 @@
  * @method ProveedorQuery groupByProveedorTelefono() Group by the proveedor_telefono column
  * @method ProveedorQuery groupByProveedorTelefonocelular() Group by the proveedor_telefonocelular column
  * @method ProveedorQuery groupByProveedorFax() Group by the proveedor_fax column
+ * @method ProveedorQuery groupByProveedorRfc() Group by the proveedor_rfc column
  *
  * @method ProveedorQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ProveedorQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -60,6 +62,7 @@
  * @method Proveedor findOneByProveedorTelefono(string $proveedor_telefono) Return the first Proveedor filtered by the proveedor_telefono column
  * @method Proveedor findOneByProveedorTelefonocelular(string $proveedor_telefonocelular) Return the first Proveedor filtered by the proveedor_telefonocelular column
  * @method Proveedor findOneByProveedorFax(string $proveedor_fax) Return the first Proveedor filtered by the proveedor_fax column
+ * @method Proveedor findOneByProveedorRfc(string $proveedor_rfc) Return the first Proveedor filtered by the proveedor_rfc column
  *
  * @method array findByIdproveedor(int $idproveedor) Return Proveedor objects filtered by the idproveedor column
  * @method array findByProveedorNombre(string $proveedor_nombre) Return Proveedor objects filtered by the proveedor_nombre column
@@ -75,6 +78,7 @@
  * @method array findByProveedorTelefono(string $proveedor_telefono) Return Proveedor objects filtered by the proveedor_telefono column
  * @method array findByProveedorTelefonocelular(string $proveedor_telefonocelular) Return Proveedor objects filtered by the proveedor_telefonocelular column
  * @method array findByProveedorFax(string $proveedor_fax) Return Proveedor objects filtered by the proveedor_fax column
+ * @method array findByProveedorRfc(string $proveedor_rfc) Return Proveedor objects filtered by the proveedor_rfc column
  *
  * @package    propel.generator.hva.om
  */
@@ -182,7 +186,7 @@ abstract class BaseProveedorQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idproveedor`, `proveedor_nombre`, `proveedor_contacto`, `proveedor_direccion`, `proveedor_direccion2`, `proveedor_colonia`, `proveedor_codigopostal`, `proveedor_ciudad`, `proveedor_estado`, `proveedor_pais`, `proveedor_email`, `proveedor_telefono`, `proveedor_telefonocelular`, `proveedor_fax` FROM `proveedor` WHERE `idproveedor` = :p0';
+        $sql = 'SELECT `idproveedor`, `proveedor_nombre`, `proveedor_contacto`, `proveedor_direccion`, `proveedor_direccion2`, `proveedor_colonia`, `proveedor_codigopostal`, `proveedor_ciudad`, `proveedor_estado`, `proveedor_pais`, `proveedor_email`, `proveedor_telefono`, `proveedor_telefonocelular`, `proveedor_fax`, `proveedor_rfc` FROM `proveedor` WHERE `idproveedor` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -688,6 +692,35 @@ abstract class BaseProveedorQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProveedorPeer::PROVEEDOR_FAX, $proveedorFax, $comparison);
+    }
+
+    /**
+     * Filter the query on the proveedor_rfc column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByProveedorRfc('fooValue');   // WHERE proveedor_rfc = 'fooValue'
+     * $query->filterByProveedorRfc('%fooValue%'); // WHERE proveedor_rfc LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $proveedorRfc The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProveedorQuery The current query, for fluid interface
+     */
+    public function filterByProveedorRfc($proveedorRfc = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($proveedorRfc)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $proveedorRfc)) {
+                $proveedorRfc = str_replace('*', '%', $proveedorRfc);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProveedorPeer::PROVEEDOR_RFC, $proveedorRfc, $comparison);
     }
 
     /**

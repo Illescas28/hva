@@ -182,7 +182,7 @@
     </vendor>
   </table>
   <table name="cajachicadetalle" phpName="Cajachicadetalle" idMethod="native">
-    <column name="idcajachicadetalle" phpName="Idcajachicadetalle" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idcajachicadetalle" phpName="Idcajachicadetalle" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idcajachica" phpName="Idcajachica" type="INTEGER" required="true"/>
     <column name="idgasto" phpName="Idgasto" type="INTEGER" required="true"/>
     <column name="cajachicadetalle_cantidad" phpName="CajachicadetalleCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
@@ -489,7 +489,7 @@
     </vendor>
   </table>
   <table name="lugarinventario" phpName="Lugarinventario" idMethod="native">
-    <column name="idlugarinventario" phpName="Idlugarinventario" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idlugarinventario" phpName="Idlugarinventario" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idlugar" phpName="Idlugar" type="INTEGER" required="true"/>
     <column name="idordencompradetalle" phpName="Idordencompradetalle" type="INTEGER" required="true"/>
     <column name="lugarinventario_cantidad" phpName="LugarinventarioCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
@@ -601,7 +601,8 @@
     <column name="ordencompra_facturapdf" phpName="OrdencompraFacturapdf" type="LONGVARCHAR" required="false"/>
     <column name="ordencompra_fecha" phpName="OrdencompraFecha" type="TIMESTAMP" required="true"/>
     <column name="ordencompra_importe" phpName="OrdencompraImporte" type="DECIMAL" size="10" scale="2" required="true"/>
-    <column name="ordencompra_status" phpName="OrdencompraStatus" type="CHAR" sqlType="enum('pagada','no pagada')" required="true"/>
+    <column name="ordencompra_status" phpName="OrdencompraStatus" type="CHAR" sqlType="enum('pagada','no pagada','inventario')" required="true"/>
+    <column name="ordencompra_fechaapagar" phpName="OrdencompraFechaapagar" type="DATE" required="true"/>
     <foreign-key foreignTable="proveedor" name="idproveedor_ordencompra" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idproveedor" foreign="idproveedor"/>
     </foreign-key>
@@ -621,7 +622,6 @@
     <column name="ordencompradetalle_precio" phpName="OrdencompradetallePrecio" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="ordencompradetalle_importe" phpName="OrdencompradetalleImporte" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="ordencompradetalle_caducidad" phpName="OrdencompradetalleCaducidad" type="DATE" required="false"/>
-    <column name="ordencompradetalle_existencia" phpName="OrdencompradetalleExistencia" type="DECIMAL" size="10" scale="2" required="true"/>
     <foreign-key foreignTable="articulovariante" name="idarticulovariante_ordencompradetalle" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idarticulovariante" foreign="idarticulovariante"/>
     </foreign-key>
@@ -692,7 +692,7 @@
     </vendor>
   </table>
   <table name="propiedad" phpName="Propiedad" idMethod="native">
-    <column name="idpropiedad" phpName="Idpropiedad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idpropiedad" phpName="Idpropiedad" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idarticulo" phpName="Idarticulo" type="INTEGER" required="true"/>
     <column name="propiedad_nombre" phpName="PropiedadNombre" type="VARCHAR" size="100" required="true"/>
     <foreign-key foreignTable="articulo" name="idarticulo_propiedad" onDelete="CASCADE" onUpdate="CASCADE">
@@ -741,6 +741,7 @@
     <column name="proveedor_telefono" phpName="ProveedorTelefono" type="VARCHAR" size="45" required="false"/>
     <column name="proveedor_telefonocelular" phpName="ProveedorTelefonocelular" type="VARCHAR" size="45" required="false"/>
     <column name="proveedor_fax" phpName="ProveedorFax" type="VARCHAR" size="45" required="false"/>
+    <column name="proveedor_rfc" phpName="ProveedorRfc" type="VARCHAR" size="45" required="false"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
