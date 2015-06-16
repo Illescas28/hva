@@ -106,7 +106,7 @@ class ComprasController extends AbstractActionController {
             $articulovarianteCollection = $av->getArticulovariantes();
             //Comenzamos a itinerar sobre las variaciones
             foreach ($articulovarianteCollection as $kav => $vav){
-                $tmp['id'] = $vav->getIdarticulovariante();
+                $tmp['value'] = $vav->getIdarticulovariante();
      
 
                 
@@ -122,23 +122,26 @@ class ComprasController extends AbstractActionController {
                     if($propiedadCount<$articuloVarianteValorCollection->count()){
                         $tmp['descripcion'].=' - ';
                     }
+                    $tmp['label'] = $tmp['nombre'].' '.$tmp['descripcion'];
                 }
-                
+
                 array_push($productos, $tmp);
             }  
         }
         
-        $productos_array = array();
+        $producto_array = array();
         foreach ($productos as $producto){
-            $tmp2['value'] = $producto['id'];
-            $tmp2['label'] = $producto['nombre'].' '.$producto['descripcion'];
-            array_push($productos_array, $tmp2);
+
+                unset( $producto['descripcion']);
+                unset( $producto['nombre']);
+                array_push($producto_array,$producto);
+
         }
         
-        return $this->getResponse()->setContent(\Zend\Json\Json::encode($productos_array));
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($producto_array));
 
 
-    }
+    }       
     
     function getarticulobyidAction(){
         
@@ -212,13 +215,47 @@ class ComprasController extends AbstractActionController {
                     $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);
                 }
                 
-              
                 $ordenCompraDetalle->save();
+                
+                //Los insertamos en nuestro almacen general
+                $lugarInventario = new \Lugarinventario();
+                $lugarInventario->setIdlugar(1) //Equivale al almacen general
+                                ->setIdordencompradetalle($ordenCompraDetalle->getIdordencompradetalle())
+                                ->setLugarinventarioCantidad($ordenCompraDetalle->getOrdencompradetalleCantidad())
+                                ->save();
+                
             }
             
             //Agregamos un mensaje
             $this->flashMessenger()->addMessage('Orden generada exitosamente!');
             return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true)));
+
+    }
+    
+    public function eliminarAction()
+    {
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        
+        //Verificamos que el Id compra que se quiere eliminar exista
+        if(!\OrdencompraQuery::create()->filterByIdordencompra($id)->exists()){
+            $id=0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
+        if (!$id) {
+            return $this->redirect()->toRoute('compras');
+        }
+        
+            //Instanciamos nuestro compra
+            $compra = \OrdencompraQuery::create()->findPk($id);
+            
+            $compra->delete();
+            
+            //Agregamos un mensaje
+            $this->flashMessenger()->addMessage('Compra eliminada exitosamente!');
+
+            //Redireccionamos a nuestro list
+            return $this->redirect()->toRoute('compras');
 
     }
     
