@@ -140,4 +140,86 @@ class ComprasController extends AbstractActionController {
 
     }
     
+    function getarticulobyidAction(){
+        
+        //Cachamos los datos de la url
+        $idarticulovariante = $this->params()->fromQuery('idarticulovariante');
+        $productname = $this->params()->fromQuery('product_name');
+
+        $articuloVarainte = \ArticulovarianteQuery::create()->findPk($idarticulovariante);
+        
+        $modal['id'] = $idarticulovariante;
+        $modal['product_name'] = $productname;
+        $modal['product_photo'] = $articuloVarainte->getArticulovarianteImagen();
+        $modal['product_codigo'] = $articuloVarainte->getArticulovarianteCodigobarras();
+        
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true);
+        $viewModel->setVariables(array(
+            'modalName' => $modalName,
+            'modal'     => $modal,
+        )); 
+        
+        return $viewModel;
+    }
+    
+    public function guardarordenAction(){
+        
+        //Recibimos la orden como parametro
+        $orden = $this->params()->fromQuery('orden');
+        
+        //Cre un nuevo objeto de ordencompra
+        $ordenCompra = new \Ordencompra();
+        //Seteo los datos
+        
+        $ordencompra_fecha = new \DateTime();
+        $ordencompra_fecha = $ordencompra_fecha->createFromFormat('d/m/Y', $orden['orden_fecha']);
+        
+        $ordencompra_importe = $orden['orden_importe'];
+        $ordencompra_importe_split = explode('$ ', $ordencompra_importe);
+        $ordencompra_importe = $ordencompra_importe_split[1];
+        $ordencompra_importe = str_replace(',', '',$ordencompra_importe);
+        
+        //Guardamos nuestra compra
+        $ordenCompra->setIdproveedor($orden['orden_proveedor'])
+                    ->setOrdencompraStatus($orden['orden_status'])
+                    ->setOrdencompraNofactura($orden['orden_folio'])
+                    ->setOrdencompraFecha($ordencompra_fecha->format('Y-m-d'))
+                    ->setOrdencompraFechaapagar($ordencompra_fecha->format('Y-m-d'))
+                    ->setOrdencompraImporte($ordencompra_importe)
+                    ->save();
+        
+        
+            //Itenaramos sobre los items
+            foreach ($orden['orden_items'] as $item){
+                
+                
+                $item_importe = $item['ordencompradetalle_importe'];
+                $item_importe_split = explode('$ ', $item_importe);
+                $item_importe = $item_importe_split[1];
+                $item_importe = str_replace(',', '',$item_importe);
+
+                
+                $ordenCompraDetalle = new \Ordencompradetalle();
+                $ordenCompraDetalle->setIdordencompra($ordenCompra->getIdordencompra())
+                                   ->setIdarticulovariante($item['idarticulovariante'])
+                                   ->setOrdencompradetalleCantidad($item['ordencompradetalle_cantidad'])
+                                   ->setOrdencompradetalleCosto($item['ordencompradetalle_costo'])
+                                   ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
+                                   ->setOrdencompradetalleImporte($item_importe);
+                
+                if(!empty($item['ordencompradetalle_caducidad'])){
+                    $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);
+                }
+                
+              
+                $ordenCompraDetalle->save();
+            }
+            
+            //Agregamos un mensaje
+            $this->flashMessenger()->addMessage('Orden generada exitosamente!');
+            return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true)));
+
+    }
+    
 }

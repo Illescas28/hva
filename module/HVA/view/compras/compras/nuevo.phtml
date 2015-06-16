@@ -35,31 +35,35 @@
     }
 </style>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
-<div class="row">
+<div class="row" style="margin-bottom: 0px;">
     <div class="col s6">
         <div class="row">
             <fieldset>
                 <div class="col s6">
                     <div class="input-field">
                         <label>Fecha</label>
-                        <input disabled type="text" value="<?php echo $fecha?>">
+                        <input id="orden_fecha" disabled type="text" value="<?php echo $fecha?>">
                     </div>
                 </div>
                 <div class="col s6">
+                    
                     <div class="input-field">
-                        <select>
+                        <label class="active">Pagada</label>
+                        <select id="orden_status">
                             <option value="pagada">Si</option>
                             <option value="no pagada">No</option>
                         </select>
+                         
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
                         <div class="input-field">
-                            <label>Proveedor</label>
+                            <label>Proveedor *</label>
                             <input type="text" id="proveedor_autocomplete">
                             <input type="hidden" id="idproveedor">
                         </div>
+                        <p id="orden_proveedor" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
                     </div>
                 </div>
             </fieldset>
@@ -70,9 +74,10 @@
             <fieldset>
                 <div class="col s6">
                     <div class="input-field">
-                        <label>Folio</label>
-                        <input type="text">
+                        <label>Folio *</label>
+                        <input id="orden_folio" type="text">
                     </div>
+                     <p id="orden_folio" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
                 </div>
                 <div class="row">
                     <div class="col s11">
@@ -90,6 +95,7 @@
         </div>
     </div>
 </div>
+<p style="color: rgb(158, 158, 158); margin-top: 0px; padding-left: 24px;">(*) Campos obligatorios</p>
 <div class="row">
     <div class="col s12">
         <table class="table-inputs striped">
@@ -103,27 +109,15 @@
                 <th>Opciones</th>
             </thead>
             <tbody>
-<!--                <tr>
-                    <td><span style="visibility: hidden">2</span><input type="text" value="2"></td>
-                    <td style="padding-left: 12px;">Electrolit Presentacion:200ml - Sabor:Piña</td>
-                    <td  style="padding-left: 12px;"><span style="visibility: hidden">2</span><input type="text" value="50.00"></td>
-                    <td ><span style="visibility: hidden">2</span><input type="text" value="50.00"></td>
-                    <td><span style="visibility: hidden">2</span><input type="text" value="60.00"></td>
-                    <td style="padding-left: 12px;">100.00</td>
-                    <td>
-                        <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
-                        &nbsp;&nbsp;
-                        <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-articulo-".$producto['id'] ?>'><i class="tiny mdi-action-delete"></i></a>
-                    </td>
-                </tr>-->
             </tbody>
         </table>
+        
         <p style="font-size: 16px; float: right; padding-right: 24px;">Total: <span id="total">0.00</span>
     </div>
 </div>
 <div class="row">
     <div class="col s2 offset-s10">
-        <button style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+        <button id="save_order" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
             <i class="mdi-content-save left"></i>
         </button>
     </div>
@@ -180,6 +174,8 @@
             }
         });
         
+        
+        
         //evento add product
         $('#addproduct').on('click',function(){
             if($('#productos_autocomplete').val() != ''){
@@ -190,15 +186,14 @@
                 var td_caducidad = $('<td class="datepicker" id="caducidad" style="padding-left: 12px;"><span style="visibility: hidden"></span><input type="text"></td>').appendTo(tr);
                 var td_costo = $('<td id="costo" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
                 var td_precio = $('<td id="precio" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
-                var td_subtotal = $('<td id="subtotal" style="padding-left: 12px;">0.00</td>').appendTo(tr);
-                var td_opciones = $('<td><a id="show_item" class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="javascript:void(0)"><i class="tiny mdi-image-remove-red-eye"></i></a>&nbsp;&nbsp;<a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
+                var td_subtotal = $('<td id="subtotal" style="padding-left: 12px;">'+formatMoney(0,'$')+'</td>').appendTo(tr);
+                var td_opciones = $('<td><a id="show_item" class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="#view-modal-articulo-'+$('#idproducto').val()+'"><i class="tiny mdi-image-remove-red-eye"></i></a>&nbsp;&nbsp;<a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
                 
                 //Damos formato de dinero a a los input
                 
                 //EVento cantidad
-                td_cantidad.find('input').keypress(function (evt) {
-                    evt.preventDefault();
-                });
+                td_cantidad.find('input').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+                    
                 td_cantidad.find('input').on('change',function(){
                    //modifcamos el subtotal
                    var costo = tr.children('#costo').find('input').val();
@@ -249,7 +244,17 @@
                //Evento show item
                td_opciones.find('#show_item').on('click',function(){
                    var idproduct = tr.attr('id');
-                   console.log(idproduct);
+                   var modalName = '#view-modal-articulo-'+idproduct;
+                   var productName = td_producto.text();
+                   $.get('/compras/getarticulobyid',
+                        {idarticulovariante:idproduct,product_name:productName},
+                        function(modal){
+                            $('table').after(modal);
+                            $(modalName).openModal();
+                        }
+                    ); 
+                   
+                   
                })
  
                 $('tbody').append(tr);
@@ -257,6 +262,73 @@
             }else{
                 alert('No hay productos por agregar');
             }
+        });
+        
+        //Evento Save
+        $('#save_order').on('click',function(e){
+            //Valida los campos requeridos
+            var isValid = true;
+            
+            if($('#proveedor_autocomplete').val() == ''){
+                isValid = false;
+                $('p#orden_proveedor').show();
+            }else{
+                $('p#orden_proveedor').hide();
+            }
+            
+            if($('input#orden_folio').val() == ''){
+                isValid = false;
+                $('p#orden_folio').show();
+            }else{
+                $('p#orden_folio').hide();
+            }
+            
+            if(isValid){
+              //Verificamos que almenos se tenga un item
+              var rowCount = $('tbody').children().length;
+              if(rowCount >= 1){
+                  //Guardamos la informacion de la orden en un objeto
+                  var orden = {
+                      orden_fecha:$('input#orden_fecha').val(),
+                      orden_folio: $('input#orden_folio').val(),
+                      orden_proveedor : $('input#idproveedor').val(),
+                      orden_status : $('select').val(),
+                      orden_items : new Array(),
+                      orden_importe: $('#total').text(),
+                  }
+                  
+                  //Hacemos un foreach a nuestros items de la orden
+                  $.each($('tbody').children(),function(index,element){
+                      console.log($());
+                      var item = {
+                          idarticulovariante: $(element).attr('id'),
+                          ordencompradetalle_caducidad : $(element).find('td#caducidad').find('input').val(),
+                          ordencompradetalle_cantidad  : $(element).find('td#cantidad').find('input').val(),
+                          ordencompradetalle_costo     : $(element).find('td#costo').find('input').val(),
+                          ordencompradetalle_precio    : $(element).find('td#precio').find('input').val(),
+                          ordencompradetalle_importe   : $(element).find('td#subtotal').text(),
+                      }
+                      orden.orden_items.push(item);
+                  });
+                  
+                $.getJSON('/compras/guardarorden',
+                    {orden:orden},
+                    function(response){
+                       if(response.response){
+                           window.location.replace("/compras");
+                       }
+                    }
+                );
+                  
+                  
+              }else{
+                  alert('Debe tener por lo menos un item en su factura para guardar');
+              }
+            }else{
+                e.preventDefault();
+            }
+            
+            
         });
         
         function formatMoney(n, currency) {
@@ -267,16 +339,17 @@
            var total = 0;
            $.each($('td#subtotal'),function(index,element){
                var subtotalText = $(element).text();
+
                var split = subtotalText.split('$');
-               var subtotal = split[1];
+               var subtotal =  split[1];
+
+               subtotal = subtotal.replace(',','');
                total= (parseFloat(total) + parseFloat(subtotal));
                
            });
            
            $('#total').text(formatMoney(total,'$'));
            
-           
-       
        }
        
        

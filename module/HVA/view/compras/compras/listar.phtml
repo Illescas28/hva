@@ -113,7 +113,7 @@ $(document).ready(function(){
         $("#tabla-bancos").filterTable({inputSelector: '#search-container input',minRows:1});
         $('.modal-trigger').leanModal();*/
     
-    $("#order_detalles").on('click',function(e){
+    $("a#order_detalles").on('click',function(e){
         
         var idOrden = $(this).closest('tr').attr('id');
         var modalName = '#modal-order-'+idOrden+'-detalles';
