@@ -116,6 +116,7 @@ class PreciosController extends AbstractActionController
         $idarticulovariante = $this->params()->fromQuery('idarticulovariante');
         $descripcion = $this->params()->fromQuery('descripcion');
         $modalName = 'modal-producto-'.$idarticulovariante.'-compras';
+        
         $producto = array();
         
         $articuloVariante = \ArticulovarianteQuery::create()->findPk($idarticulovariante);
