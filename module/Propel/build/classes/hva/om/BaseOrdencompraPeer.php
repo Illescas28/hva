@@ -24,13 +24,13 @@ abstract class BaseOrdencompraPeer
     const TM_CLASS = 'OrdencompraTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 8;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /** the column name for the idordencompra field */
     const IDORDENCOMPRA = 'ordencompra.idordencompra';
@@ -53,9 +53,13 @@ abstract class BaseOrdencompraPeer
     /** the column name for the ordencompra_status field */
     const ORDENCOMPRA_STATUS = 'ordencompra.ordencompra_status';
 
+    /** the column name for the ordencompra_fechaapagar field */
+    const ORDENCOMPRA_FECHAAPAGAR = 'ordencompra.ordencompra_fechaapagar';
+
     /** The enumerated values for the ordencompra_status field */
     const ORDENCOMPRA_STATUS_PAGADA = 'pagada';
     const ORDENCOMPRA_STATUS_NO_PAGADA = 'no pagada';
+    const ORDENCOMPRA_STATUS_INVENTARIO = 'inventario';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -76,12 +80,12 @@ abstract class BaseOrdencompraPeer
      * e.g. OrdencompraPeer::$fieldNames[OrdencompraPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idordencompra', 'Idproveedor', 'OrdencompraNofactura', 'OrdencompraFacturapdf', 'OrdencompraFecha', 'OrdencompraImporte', 'OrdencompraStatus', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idordencompra', 'idproveedor', 'ordencompraNofactura', 'ordencompraFacturapdf', 'ordencompraFecha', 'ordencompraImporte', 'ordencompraStatus', ),
-        BasePeer::TYPE_COLNAME => array (OrdencompraPeer::IDORDENCOMPRA, OrdencompraPeer::IDPROVEEDOR, OrdencompraPeer::ORDENCOMPRA_NOFACTURA, OrdencompraPeer::ORDENCOMPRA_FACTURAPDF, OrdencompraPeer::ORDENCOMPRA_FECHA, OrdencompraPeer::ORDENCOMPRA_IMPORTE, OrdencompraPeer::ORDENCOMPRA_STATUS, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDORDENCOMPRA', 'IDPROVEEDOR', 'ORDENCOMPRA_NOFACTURA', 'ORDENCOMPRA_FACTURAPDF', 'ORDENCOMPRA_FECHA', 'ORDENCOMPRA_IMPORTE', 'ORDENCOMPRA_STATUS', ),
-        BasePeer::TYPE_FIELDNAME => array ('idordencompra', 'idproveedor', 'ordencompra_nofactura', 'ordencompra_facturapdf', 'ordencompra_fecha', 'ordencompra_importe', 'ordencompra_status', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idordencompra', 'Idproveedor', 'OrdencompraNofactura', 'OrdencompraFacturapdf', 'OrdencompraFecha', 'OrdencompraImporte', 'OrdencompraStatus', 'OrdencompraFechaapagar', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idordencompra', 'idproveedor', 'ordencompraNofactura', 'ordencompraFacturapdf', 'ordencompraFecha', 'ordencompraImporte', 'ordencompraStatus', 'ordencompraFechaapagar', ),
+        BasePeer::TYPE_COLNAME => array (OrdencompraPeer::IDORDENCOMPRA, OrdencompraPeer::IDPROVEEDOR, OrdencompraPeer::ORDENCOMPRA_NOFACTURA, OrdencompraPeer::ORDENCOMPRA_FACTURAPDF, OrdencompraPeer::ORDENCOMPRA_FECHA, OrdencompraPeer::ORDENCOMPRA_IMPORTE, OrdencompraPeer::ORDENCOMPRA_STATUS, OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDORDENCOMPRA', 'IDPROVEEDOR', 'ORDENCOMPRA_NOFACTURA', 'ORDENCOMPRA_FACTURAPDF', 'ORDENCOMPRA_FECHA', 'ORDENCOMPRA_IMPORTE', 'ORDENCOMPRA_STATUS', 'ORDENCOMPRA_FECHAAPAGAR', ),
+        BasePeer::TYPE_FIELDNAME => array ('idordencompra', 'idproveedor', 'ordencompra_nofactura', 'ordencompra_facturapdf', 'ordencompra_fecha', 'ordencompra_importe', 'ordencompra_status', 'ordencompra_fechaapagar', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -91,12 +95,12 @@ abstract class BaseOrdencompraPeer
      * e.g. OrdencompraPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idordencompra' => 0, 'Idproveedor' => 1, 'OrdencompraNofactura' => 2, 'OrdencompraFacturapdf' => 3, 'OrdencompraFecha' => 4, 'OrdencompraImporte' => 5, 'OrdencompraStatus' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idordencompra' => 0, 'idproveedor' => 1, 'ordencompraNofactura' => 2, 'ordencompraFacturapdf' => 3, 'ordencompraFecha' => 4, 'ordencompraImporte' => 5, 'ordencompraStatus' => 6, ),
-        BasePeer::TYPE_COLNAME => array (OrdencompraPeer::IDORDENCOMPRA => 0, OrdencompraPeer::IDPROVEEDOR => 1, OrdencompraPeer::ORDENCOMPRA_NOFACTURA => 2, OrdencompraPeer::ORDENCOMPRA_FACTURAPDF => 3, OrdencompraPeer::ORDENCOMPRA_FECHA => 4, OrdencompraPeer::ORDENCOMPRA_IMPORTE => 5, OrdencompraPeer::ORDENCOMPRA_STATUS => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDORDENCOMPRA' => 0, 'IDPROVEEDOR' => 1, 'ORDENCOMPRA_NOFACTURA' => 2, 'ORDENCOMPRA_FACTURAPDF' => 3, 'ORDENCOMPRA_FECHA' => 4, 'ORDENCOMPRA_IMPORTE' => 5, 'ORDENCOMPRA_STATUS' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('idordencompra' => 0, 'idproveedor' => 1, 'ordencompra_nofactura' => 2, 'ordencompra_facturapdf' => 3, 'ordencompra_fecha' => 4, 'ordencompra_importe' => 5, 'ordencompra_status' => 6, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idordencompra' => 0, 'Idproveedor' => 1, 'OrdencompraNofactura' => 2, 'OrdencompraFacturapdf' => 3, 'OrdencompraFecha' => 4, 'OrdencompraImporte' => 5, 'OrdencompraStatus' => 6, 'OrdencompraFechaapagar' => 7, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idordencompra' => 0, 'idproveedor' => 1, 'ordencompraNofactura' => 2, 'ordencompraFacturapdf' => 3, 'ordencompraFecha' => 4, 'ordencompraImporte' => 5, 'ordencompraStatus' => 6, 'ordencompraFechaapagar' => 7, ),
+        BasePeer::TYPE_COLNAME => array (OrdencompraPeer::IDORDENCOMPRA => 0, OrdencompraPeer::IDPROVEEDOR => 1, OrdencompraPeer::ORDENCOMPRA_NOFACTURA => 2, OrdencompraPeer::ORDENCOMPRA_FACTURAPDF => 3, OrdencompraPeer::ORDENCOMPRA_FECHA => 4, OrdencompraPeer::ORDENCOMPRA_IMPORTE => 5, OrdencompraPeer::ORDENCOMPRA_STATUS => 6, OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR => 7, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDORDENCOMPRA' => 0, 'IDPROVEEDOR' => 1, 'ORDENCOMPRA_NOFACTURA' => 2, 'ORDENCOMPRA_FACTURAPDF' => 3, 'ORDENCOMPRA_FECHA' => 4, 'ORDENCOMPRA_IMPORTE' => 5, 'ORDENCOMPRA_STATUS' => 6, 'ORDENCOMPRA_FECHAAPAGAR' => 7, ),
+        BasePeer::TYPE_FIELDNAME => array ('idordencompra' => 0, 'idproveedor' => 1, 'ordencompra_nofactura' => 2, 'ordencompra_facturapdf' => 3, 'ordencompra_fecha' => 4, 'ordencompra_importe' => 5, 'ordencompra_status' => 6, 'ordencompra_fechaapagar' => 7, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /** The enumerated values for this table */
@@ -104,6 +108,7 @@ abstract class BaseOrdencompraPeer
         OrdencompraPeer::ORDENCOMPRA_STATUS => array(
             OrdencompraPeer::ORDENCOMPRA_STATUS_PAGADA,
             OrdencompraPeer::ORDENCOMPRA_STATUS_NO_PAGADA,
+            OrdencompraPeer::ORDENCOMPRA_STATUS_INVENTARIO,
         ),
     );
 
@@ -230,6 +235,7 @@ abstract class BaseOrdencompraPeer
             $criteria->addSelectColumn(OrdencompraPeer::ORDENCOMPRA_FECHA);
             $criteria->addSelectColumn(OrdencompraPeer::ORDENCOMPRA_IMPORTE);
             $criteria->addSelectColumn(OrdencompraPeer::ORDENCOMPRA_STATUS);
+            $criteria->addSelectColumn(OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR);
         } else {
             $criteria->addSelectColumn($alias . '.idordencompra');
             $criteria->addSelectColumn($alias . '.idproveedor');
@@ -238,6 +244,7 @@ abstract class BaseOrdencompraPeer
             $criteria->addSelectColumn($alias . '.ordencompra_fecha');
             $criteria->addSelectColumn($alias . '.ordencompra_importe');
             $criteria->addSelectColumn($alias . '.ordencompra_status');
+            $criteria->addSelectColumn($alias . '.ordencompra_fechaapagar');
         }
     }
 

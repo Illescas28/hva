@@ -1157,6 +1157,10 @@ abstract class BaseCajachicadetallePeer
             $criteria = $values->buildCriteria(); // build Criteria from Cajachicadetalle object
         }
 
+        if ($criteria->containsKey(CajachicadetallePeer::IDCAJACHICADETALLE) && $criteria->keyContainsValue(CajachicadetallePeer::IDCAJACHICADETALLE) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.CajachicadetallePeer::IDCAJACHICADETALLE.')');
+        }
+
 
         // Set the correct dbName
         $criteria->setDbName(CajachicadetallePeer::DATABASE_NAME);

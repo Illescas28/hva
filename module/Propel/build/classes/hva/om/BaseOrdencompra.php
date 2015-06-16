@@ -72,6 +72,12 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
     protected $ordencompra_status;
 
     /**
+     * The value for the ordencompra_fechaapagar field.
+     * @var        string
+     */
+    protected $ordencompra_fechaapagar;
+
+    /**
      * @var        Proveedor
      */
     protected $aProveedor;
@@ -212,6 +218,46 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
     {
 
         return $this->ordencompra_status;
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [ordencompra_fechaapagar] column value.
+     *
+     *
+     * @param string $format The date/time format string (either date()-style or strftime()-style).
+     *				 If format is null, then the raw DateTime object will be returned.
+     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getOrdencompraFechaapagar($format = '%x')
+    {
+        if ($this->ordencompra_fechaapagar === null) {
+            return null;
+        }
+
+        if ($this->ordencompra_fechaapagar === '0000-00-00') {
+            // while technically this is not a default value of null,
+            // this seems to be closest in meaning.
+            return null;
+        }
+
+        try {
+            $dt = new DateTime($this->ordencompra_fechaapagar);
+        } catch (Exception $x) {
+            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->ordencompra_fechaapagar, true), $x);
+        }
+
+        if ($format === null) {
+            // Because propel.useDateTimeClass is true, we return a DateTime object.
+            return $dt;
+        }
+
+        if (strpos($format, '%') !== false) {
+            return strftime($format, $dt->format('U'));
+        }
+
+        return $dt->format($format);
+
     }
 
     /**
@@ -368,6 +414,29 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
     } // setOrdencompraStatus()
 
     /**
+     * Sets the value of [ordencompra_fechaapagar] column to a normalized version of the date/time value specified.
+     *
+     * @param mixed $v string, integer (timestamp), or DateTime value.
+     *               Empty strings are treated as null.
+     * @return Ordencompra The current object (for fluent API support)
+     */
+    public function setOrdencompraFechaapagar($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->ordencompra_fechaapagar !== null || $dt !== null) {
+            $currentDateAsString = ($this->ordencompra_fechaapagar !== null && $tmpDt = new DateTime($this->ordencompra_fechaapagar)) ? $tmpDt->format('Y-m-d') : null;
+            $newDateAsString = $dt ? $dt->format('Y-m-d') : null;
+            if ($currentDateAsString !== $newDateAsString) {
+                $this->ordencompra_fechaapagar = $newDateAsString;
+                $this->modifiedColumns[] = OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR;
+            }
+        } // if either are not null
+
+
+        return $this;
+    } // setOrdencompraFechaapagar()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -406,6 +475,7 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
             $this->ordencompra_fecha = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->ordencompra_importe = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->ordencompra_status = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->ordencompra_fechaapagar = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -415,7 +485,7 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 7; // 7 = OrdencompraPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = OrdencompraPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Ordencompra object", $e);
@@ -683,6 +753,9 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
         if ($this->isColumnModified(OrdencompraPeer::ORDENCOMPRA_STATUS)) {
             $modifiedColumns[':p' . $index++]  = '`ordencompra_status`';
         }
+        if ($this->isColumnModified(OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR)) {
+            $modifiedColumns[':p' . $index++]  = '`ordencompra_fechaapagar`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `ordencompra` (%s) VALUES (%s)',
@@ -714,6 +787,9 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
                         break;
                     case '`ordencompra_status`':
                         $stmt->bindValue($identifier, $this->ordencompra_status, PDO::PARAM_STR);
+                        break;
+                    case '`ordencompra_fechaapagar`':
+                        $stmt->bindValue($identifier, $this->ordencompra_fechaapagar, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -890,6 +966,9 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
             case 6:
                 return $this->getOrdencompraStatus();
                 break;
+            case 7:
+                return $this->getOrdencompraFechaapagar();
+                break;
             default:
                 return null;
                 break;
@@ -926,6 +1005,7 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
             $keys[4] => $this->getOrdencompraFecha(),
             $keys[5] => $this->getOrdencompraImporte(),
             $keys[6] => $this->getOrdencompraStatus(),
+            $keys[7] => $this->getOrdencompraFechaapagar(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -994,6 +1074,9 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
             case 6:
                 $this->setOrdencompraStatus($value);
                 break;
+            case 7:
+                $this->setOrdencompraFechaapagar($value);
+                break;
         } // switch()
     }
 
@@ -1025,6 +1108,7 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
         if (array_key_exists($keys[4], $arr)) $this->setOrdencompraFecha($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setOrdencompraImporte($arr[$keys[5]]);
         if (array_key_exists($keys[6], $arr)) $this->setOrdencompraStatus($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setOrdencompraFechaapagar($arr[$keys[7]]);
     }
 
     /**
@@ -1043,6 +1127,7 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
         if ($this->isColumnModified(OrdencompraPeer::ORDENCOMPRA_FECHA)) $criteria->add(OrdencompraPeer::ORDENCOMPRA_FECHA, $this->ordencompra_fecha);
         if ($this->isColumnModified(OrdencompraPeer::ORDENCOMPRA_IMPORTE)) $criteria->add(OrdencompraPeer::ORDENCOMPRA_IMPORTE, $this->ordencompra_importe);
         if ($this->isColumnModified(OrdencompraPeer::ORDENCOMPRA_STATUS)) $criteria->add(OrdencompraPeer::ORDENCOMPRA_STATUS, $this->ordencompra_status);
+        if ($this->isColumnModified(OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR)) $criteria->add(OrdencompraPeer::ORDENCOMPRA_FECHAAPAGAR, $this->ordencompra_fechaapagar);
 
         return $criteria;
     }
@@ -1112,6 +1197,7 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
         $copyObj->setOrdencompraFecha($this->getOrdencompraFecha());
         $copyObj->setOrdencompraImporte($this->getOrdencompraImporte());
         $copyObj->setOrdencompraStatus($this->getOrdencompraStatus());
+        $copyObj->setOrdencompraFechaapagar($this->getOrdencompraFechaapagar());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1506,6 +1592,7 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
         $this->ordencompra_fecha = null;
         $this->ordencompra_importe = null;
         $this->ordencompra_status = null;
+        $this->ordencompra_fechaapagar = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

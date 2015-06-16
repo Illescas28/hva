@@ -245,7 +245,7 @@ DROP TABLE IF EXISTS `cajachicadetalle`;
 
 CREATE TABLE `cajachicadetalle`
 (
-    `idcajachicadetalle` INTEGER NOT NULL,
+    `idcajachicadetalle` INTEGER NOT NULL AUTO_INCREMENT,
     `idcajachica` INTEGER NOT NULL,
     `idgasto` INTEGER NOT NULL,
     `cajachicadetalle_cantidad` DECIMAL(10,2) NOT NULL,
@@ -642,7 +642,7 @@ DROP TABLE IF EXISTS `lugarinventario`;
 
 CREATE TABLE `lugarinventario`
 (
-    `idlugarinventario` INTEGER NOT NULL,
+    `idlugarinventario` INTEGER NOT NULL AUTO_INCREMENT,
     `idlugar` INTEGER NOT NULL,
     `idordencompradetalle` INTEGER NOT NULL,
     `lugarinventario_cantidad` DECIMAL(10,2) NOT NULL,
@@ -784,7 +784,8 @@ CREATE TABLE `ordencompra`
     `ordencompra_facturapdf` TEXT,
     `ordencompra_fecha` DATETIME NOT NULL,
     `ordencompra_importe` DECIMAL(10,2) NOT NULL,
-    `ordencompra_status` enum('pagada','no pagada') NOT NULL,
+    `ordencompra_status` enum('pagada','no pagada','inventario') NOT NULL,
+    `ordencompra_fechaapagar` DATE NOT NULL,
     PRIMARY KEY (`idordencompra`),
     INDEX `idproveedor` (`idproveedor`),
     CONSTRAINT `idproveedor_ordencompra`
@@ -810,7 +811,6 @@ CREATE TABLE `ordencompradetalle`
     `ordencompradetalle_precio` DECIMAL(10,2) NOT NULL,
     `ordencompradetalle_importe` DECIMAL(10,2) NOT NULL,
     `ordencompradetalle_caducidad` DATE,
-    `ordencompradetalle_existencia` DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (`idordencompradetalle`),
     INDEX `irordencompra` (`idordencompra`),
     INDEX `idarticulovariante` (`idarticulovariante`),
@@ -899,7 +899,7 @@ DROP TABLE IF EXISTS `propiedad`;
 
 CREATE TABLE `propiedad`
 (
-    `idpropiedad` INTEGER NOT NULL,
+    `idpropiedad` INTEGER NOT NULL AUTO_INCREMENT,
     `idarticulo` INTEGER NOT NULL,
     `propiedad_nombre` VARCHAR(100) NOT NULL,
     PRIMARY KEY (`idpropiedad`),
@@ -960,6 +960,7 @@ CREATE TABLE `proveedor`
     `proveedor_telefono` VARCHAR(45),
     `proveedor_telefonocelular` VARCHAR(45),
     `proveedor_fax` VARCHAR(45),
+    `proveedor_rfc` VARCHAR(45),
     PRIMARY KEY (`idproveedor`)
 ) ENGINE=InnoDB;
 
