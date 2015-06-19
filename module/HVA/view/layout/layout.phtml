@@ -24,6 +24,7 @@
 
     <!-- Scripts -->
     <?php echo $this->headScript()
+        
         ->prependFile($this->basePath('js/jquery.tokeninput.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery-ui-1-10-1.js'), 'text/javascript')
         ->prependFile($this->basePath('js/formcache.min.js'), 'text/javascript')
@@ -31,6 +32,8 @@
         ->prependFile($this->basePath('js/tablesorter.js'), 'text/javascript')
         ->prependFile($this->basePath('js/materialize.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery.min.js'), 'text/javascript');
+    
+    
     ?>
 
 </head>

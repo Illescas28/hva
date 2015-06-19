@@ -6,5 +6,6 @@
             <file>file:/Applications/AMPPS/www/hva/module/HVA/view/productos/producto/index.phtml</file>
             <file>file:/Applications/AMPPS/www/hva/module/HVA/view/compras/compras/nuevo.phtml</file>
         </group>
+        <group name="ScaleUp"/>
     </open-files>
 </project-private>
