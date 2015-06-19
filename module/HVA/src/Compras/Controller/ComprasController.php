@@ -10,6 +10,7 @@ class ComprasController extends AbstractActionController {
     
     public function listarAction(){
         
+        
         $orden_compra_query = new \OrdencompraQuery();
         
         $data_collection = $orden_compra_query->filterByOrdencompraStatus('inventario',\Criteria::NOT_EQUAL)->find();
@@ -257,6 +258,32 @@ class ComprasController extends AbstractActionController {
             //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('compras');
 
+    }
+    
+    public function editarAction()
+    {
+        
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        
+        //Verificamos que el Id compra que se quiere editar
+        if(!\OrdencompraQuery::create()->filterByIdordencompra($id)->exists()){
+            $id=0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
+        if (!$id) {
+            return $this->redirect()->toRoute('compras');
+        }
+        
+        $orden = array();
+        
+        //Instanciamos nuestro compra
+        $compra = \OrdencompraQuery::create()->findPk($id);
+        
+        
+        
+        echo '<pre>';var_dump($compra); echo '</pre>';exit();
+        
     }
     
 }
