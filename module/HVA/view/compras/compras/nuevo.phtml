@@ -8,7 +8,7 @@
 ?>
 <style>
     table.ui-datepicker-calendar {
-        display: none;
+        //display: none;
     }
     
     .ui-datepicker .ui-datepicker-title select{
@@ -21,17 +21,17 @@
     }
     
     .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next{
-        display: none;
+        //display: none;
     }
     
     .ui-widget-header{
-        background: #E1F5FE;
+/*        background: #E1F5FE;
         border: solid 1px #405C95;
-        color: #405C95;
+        color: #405C95;*/
     }
     
     .ui-datepicker-title select{
-        height: 30px;
+        //height: 30px;
     }
 </style>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
@@ -41,27 +41,22 @@
             <fieldset>
                 <div class="col s6">
                     <div class="input-field">
-                        <label>Fecha</label>
-                        <input id="orden_fecha" disabled type="text" value="<?php echo $fecha?>">
+                        <input id="orden_fecha" name="orden_fecha" disabled type="text" value="<?php echo $fecha?>">
+                        <label for="orden_fecha">Fecha</label>
                     </div>
                 </div>
                 <div class="col s6">
-                    
                     <div class="input-field">
-                        <label class="active">Pagada</label>
-                        <select id="orden_status">
-                            <option value="pagada">Si</option>
-                            <option value="no pagada">No</option>
-                        </select>
-                         
+                        <input id="orden_fechaapagar" name="orden_fechaapagar" type="text">
+                        <label for="orden_fechaapagar">Fecha a pagar</label>                
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
                         <div class="input-field">
-                            <label>Proveedor *</label>
-                            <input type="text" id="proveedor_autocomplete">
-                            <input type="hidden" id="idproveedor">
+                            <input name="proveedor" type="text" id="proveedor_autocomplete">
+                            <label for="proveedor">Proveedor *</label>
+                            <input type="hidden" id="idproveedor" >
                         </div>
                         <p id="orden_proveedor" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
                     </div>
@@ -74,20 +69,29 @@
             <fieldset>
                 <div class="col s6">
                     <div class="input-field">
-                        <label>Folio *</label>
                         <input id="orden_folio" type="text">
+                        <label>Folio *</label>
                     </div>
-                     <p id="orden_folio" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+                     <p id="orden_folio" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>  
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <select name="orden_status" id="orden_status">
+                            <option value="pagada">Si</option>
+                            <option value="no pagada">No</option>
+                        </select>
+                        <label for="orden_status" class="active">Pagada</label>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col s11">
                         <div class="input-field">
-                            <label>Productos</label>
-                            <input type="text" id="productos_autocomplete">
+                            <input name="producto" type="text" id="productos_autocomplete">
+                             <label for="productos">Productos</label>
                             <input type="hidden" id="idproducto">
                         </div>
                     </div>
-                    <div class="col s1" style="margin-top: 20px;">
+                    <div class="col s1" style="margin-top: 31px; padding-right: 21px; margin-right: 0px; margin-left: -21px;">
                         <i id="addproduct" style="color: #050661; cursor: pointer"class="small mdi-content-add-box"></i>
                     </div>
                 </div>
@@ -98,7 +102,7 @@
 <p style="color: rgb(158, 158, 158); margin-top: 0px; padding-left: 24px;">(*) Campos obligatorios</p>
 <div class="row">
     <div class="col s12">
-        <table class="table-inputs striped">
+        <table id="order-items" class="table-inputs bordered ordertable">
             <thead>
                 <th>Cantidad</th>
                 <th style="width: 480px">Producto</th>
@@ -111,23 +115,38 @@
             <tbody>
             </tbody>
         </table>
-        
-        <p style="font-size: 16px; float: right; padding-right: 24px;">Total: <span id="total">0.00</span>
+        <div class="row">
+            <div class="col s12 ordertotal-container">
+                <p style="font-size: 16px; float: right; padding-right: 24px;">Total: <span id="total">0.00</span>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">
-    <div class="col s2 offset-s10">
+    <div class="col s4 offset-s4">
         <button id="save_order" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
             <i class="mdi-content-save left"></i>
         </button>
     </div>
 </div>
 
+
 <script>
 
     $(document).ready(function(){
+
         $('select').material_select();
         
+        //Inicializamos el autocomplete de fecha a pagar
+        $('input#orden_fechaapagar').datepicker({
+            minDate: 0,
+            changeDay: true,
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd/mm/yy',
+            monthNamesShort: [ "Ene ", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ],
+            
+        });
         
         updateTotal();
         
@@ -179,11 +198,12 @@
         //evento add product
         $('#addproduct').on('click',function(){
             if($('#productos_autocomplete').val() != ''){
+                
                 var idproduct = $('#idproducto').val();
                 var tr = $('<tr>').attr('id',idproduct);
                 var td_cantidad = $('<td id="cantidad"><span style="visibility:hidden">1</span><input type="number" min="1" value="1"></td>').appendTo(tr);
                 var td_producto = $('<td id="producto" style="padding-left: 12px;">'+$('#productos_autocomplete').val()+'</td>').appendTo(tr);
-                var td_caducidad = $('<td class="datepicker" id="caducidad" style="padding-left: 12px;"><span style="visibility: hidden"></span><input type="text"></td>').appendTo(tr);
+                var td_caducidad = $('<td class="datepicker" id="caducidad" style="padding-left: 12px;"><span style="visibility: hidden"></span><input class="input-datepicker" type="text"></td>').appendTo(tr);
                 var td_costo = $('<td id="costo" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
                 var td_precio = $('<td id="precio" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
                 var td_subtotal = $('<td id="subtotal" style="padding-left: 12px;">'+formatMoney(0,'$')+'</td>').appendTo(tr);
@@ -196,10 +216,10 @@
                     
                 td_cantidad.find('input').on('change',function(){
                    //modifcamos el subtotal
-                   var costo = tr.children('#costo').find('input').val();
+                   var costo = parseInt($(this).closest('tr').find('#costo input').val());
                    var new_subtotal = costo * $(this).val();
-                   
-                   td_subtotal.text(formatMoney(new_subtotal,'$'));
+                  
+                   $(this).closest('tr').find('#subtotal').text(formatMoney(new_subtotal,'$'));
                    updateTotal();
  
                 });
@@ -208,36 +228,30 @@
                 td_costo.find('input').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
                 
                 td_costo.find('input').on('blur',function(){
-         
-                    var cantidad = td_cantidad.find('input').val();
+                    
+                    
+                    
+                    var cantidad = $(this).closest('tr').find('#cantidad input').val();
                     var new_subtotal = cantidad  * $(this).val();
-                   
-     
-                   td_subtotal.text(formatMoney(new_subtotal,'$'));
+                    
+                     console.log($(this));
+                   console.log(cantidad);
+                   console.log(new_subtotal);
+                   console.log( $(this).closest('tr').find('#subtotal'));
+                    
+                   $(this).closest('tr').find('#subtotal').text(formatMoney(new_subtotal,'$'));
                    updateTotal();
                     
                 });
                 
                 //EVento precio
                 td_precio.find('input').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
-                
-                //Evento caducidad
-                td_caducidad.find('input').datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    dateFormat: 'mm/y',
-                    defaultDate: '01/01/20',
-                    monthNamesShort: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" ],
-                    onClose: function(dateText, inst) { 
-                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                        $(this).datepicker('setDate', new Date(year, month, 1));
-                    }
-                });
-                
+                        
                //evento delete
                td_opciones.find('#delete_item').on('click',function(){
-                   tr.remove();
+                   //Eliminamos el datepicker
+                   td_caducidad.find('input').datepicker( "destroy" );
+                   $(this).closest('tr').remove();
                    updateTotal();   
                });
                
@@ -254,11 +268,40 @@
                         }
                     ); 
                    
-                   
                })
  
                 $('tbody').append(tr);
+                
+                //Evento caducidad
+               $('input.input-datepicker').on('focus',function(){
+                   //Cambiamos los estilos;
+                   $('table.ui-datepicker-calendar').css('display','none');
+                    var $this = $(this);
+                     if(!$this.data('datepicker')) {
+                        $this.removeClass("hasDatepicker");
+                        $(this).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: 'mm/y',
+                            defaultDate: '01/01/20',
+                            monthNamesShort: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" ],
+                            onClose: function(dateText, inst) { 
+                                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                                $(this).datepicker('setDate', new Date(year, month, 1));
+                                //mantenemos los estilos;
+                                $('table.ui-datepicker-calendar').css('display','none');
+                            },
+                        });
+                        $this.datepicker("show");
+                     }
+                   
+                });
+                
+                
+               
                 $('#productos_autocomplete').val('');
+             
             }else{
                 alert('No hay productos por agregar');
             }
@@ -286,6 +329,7 @@
             if(isValid){
               //Verificamos que almenos se tenga un item
               var rowCount = $('tbody').children().length;
+              
               if(rowCount >= 1){
                   //Guardamos la informacion de la orden en un objeto
                   var orden = {
@@ -293,23 +337,28 @@
                       orden_folio: $('input#orden_folio').val(),
                       orden_proveedor : $('input#idproveedor').val(),
                       orden_status : $('select').val(),
-                      orden_items : new Array(),
                       orden_importe: $('#total').text(),
+                      orden_fechaapagar:$('input#orden_fechaapagar').val(),
+                      orden_items : new Array(),
                   }
                   
                   //Hacemos un foreach a nuestros items de la orden
-                  $.each($('tbody').children(),function(index,element){
-                      console.log($());
-                      var item = {
-                          idarticulovariante: $(element).attr('id'),
-                          ordencompradetalle_caducidad : $(element).find('td#caducidad').find('input').val(),
-                          ordencompradetalle_cantidad  : $(element).find('td#cantidad').find('input').val(),
-                          ordencompradetalle_costo     : $(element).find('td#costo').find('input').val(),
-                          ordencompradetalle_precio    : $(element).find('td#precio').find('input').val(),
-                          ordencompradetalle_importe   : $(element).find('td#subtotal').text(),
-                      }
-                      orden.orden_items.push(item);
+                  $.each($('table.ordertable tbody').children(),function(index,element){
+
+                    if($(element).attr('id') !== 'undefined'){
+                        var item = {
+                            idarticulovariante: $(element).attr('id'),
+                            ordencompradetalle_caducidad : $(element).find('td#caducidad').find('input').val(),
+                            ordencompradetalle_cantidad  : $(element).find('td#cantidad').find('input').val(),
+                            ordencompradetalle_costo     : $(element).find('td#costo').find('input').val(),
+                            ordencompradetalle_precio    : $(element).find('td#precio').find('input').val(),
+                            ordencompradetalle_importe   : $(element).find('td#subtotal').text(),
+                        }
+                        orden.orden_items.push(item);
+                    }
                   });
+                  
+
                   
                 $.getJSON('/compras/guardarorden',
                     {orden:orden},
@@ -322,7 +371,7 @@
                   
                   
               }else{
-                  alert('Debe tener por lo menos un item en su factura para guardar');
+                  alert('Debe tener por lo menos un item en su factura para guardarla');
               }
             }else{
                 e.preventDefault();

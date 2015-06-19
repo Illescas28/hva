@@ -1,6 +1,8 @@
 <?php
     $title = 'Compras';
     $this->headTitle($title);
+    setlocale(LC_MONETARY, 'en_US');
+      
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div class="row" id="table-header">
@@ -22,7 +24,7 @@
         </div>
     </form>
 </div>
-<table id="tabla-bancos" class="striped">
+<table id="tabla-ordenes" class="striped">
     <thead>
         <tr>
             <th>Fecha</th>
@@ -59,15 +61,16 @@
         <tr id="<?php echo  $compra->getIdOrdenCompra()?>">
             <td><?php  echo $orden_fecha?></td>
             <td><?php  echo $compra->getProveedor()->getProveedorNombre() ?></td>
-            <td><?php  echo '$ '.$compra->getOrdencompraImporte() ?></td>
+            <td><?php  echo '$ ' .$compra->getOrdencompraImporte()?></td>
             <td><?php  echo $orden_factura ?></td>
             <td><?php  echo $orden_pagada ?></td>
             <td><?php  echo $orden_fechapago ?></td>
             <td><?php  echo $compra->getOrdenCompraNofactura() ?></td>
             <td>
+            
                 <a id="order_detalles"class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='javascript:void(0)'><i class="tiny mdi-image-remove-red-eye"></i></a>
                 &nbsp;&nbsp;
-                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php //echo "/catalogos/banco/editar/".$banco->getIdbanco()?>'><i class="tiny mdi-action-assignment"></i></a>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/compras/editar/".$compra->getIdOrdenCompra()?>'><i class="tiny mdi-action-assignment"></i></a>
                 &nbsp;&nbsp;    
                 <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-compra-".$compra->getIdOrdenCompra()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
@@ -98,10 +101,9 @@
 <script>
 $(document).ready(function(){
         $('.modal-trigger').leanModal();
-        /*$("#tabla-bancos").tablesorter({headers:{4:{sorter:false},1:{sorter:false}}});
-        $("#tabla-bancos").filterTable({inputSelector: '#search-container input',minRows:1});
-        $('.modal-trigger').leanModal();*/
-    
+        $("#tabla-ordenes").tablesorter({headers:{3:{sorter:false},6:{sorter:false},7:{sorter:false}}});
+        $("#tabla-ordenes").filterTable({inputSelector: '#search-container input',minRows:1});
+
     $("a#order_detalles").on('click',function(e){
         
         var idOrden = $(this).closest('tr').attr('id');

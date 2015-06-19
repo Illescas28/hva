@@ -152,21 +152,21 @@ table.striped tr{
     line-height: 5px;
 }
 
-table.striped td a i.mdi-action-delete{
+table td a i.mdi-action-delete{
     color: #b71c1c;
 }
 
 
 
-table.striped td a i.mdi-image-remove-red-eye{
+table td a i.mdi-image-remove-red-eye{
     color: #1b5e20;
 }
 
-table.striped td a i.mdi-action-assignment{
+table td a i.mdi-action-assignment{
     color: #039be5;
 }
 
-table.striped tbody tr:nth-child(2n+1){
+table.striped   tbody tr:nth-child(2n+1){
     background: #e1f5fe;
 }
 
@@ -263,21 +263,21 @@ table.striped tbody tr:nth-child(2n+1){
 
 /* Forms */
 
-form.hva-form i.cerrar{
+i.cerrar{
     color: #b71c1c;
     font-size:24px;
 }
 
-form.hva-form .input-field label {
+.input-field label {
     font-size: 12px;
     top: 1.5rem;
 }
 
-form.hva-form input{
+input{
     margin-bottom: 0 !important;
 }
 
-form.hva-form input.select-dropdown{
+input.select-dropdown{
     margin-top: 30px !important;
 }
 
@@ -290,26 +290,26 @@ p.input-error {
     display: none;
 }
 
-form.hva-form input[type="text"]{
+input[type="text"]{
     margin: 15px 0 15px 0;
 }
 
-form.hva-form .input-field input[type="text"]:focus, form.hva-form .input-field input[type="password"]:focus, form.hva-form .input-field input[type="email"]:focus, form.hva-form .input-field input[type="url"]:focus, form.hva-form .input-field input[type="date"]:focus, form.hva-form .input-field input[type="tel"]:focus, form.hva-form .input-field input[type="number"]:focus, form.hva-form .input-field input[type="search"]:focus, form.hva-form .input-field textarea.materialize-textarea:focus{
+.input-field input[type="text"]:focus, .input-field input[type="password"]:focus, .input-field input[type="email"]:focus, .input-field input[type="url"]:focus, .input-field input[type="date"]:focus, .input-field input[type="tel"]:focus, .input-field input[type="number"]:focus, .input-field input[type="search"]:focus, .input-field textarea.materialize-textarea:focus{
     border-bottom: 1px solid #039be5;
     box-shadow: 0 1px 0 0 #000;
 }
 
 
-form.hva-form .input-field input[type="text"]:focus + label, form.hva-form .input-field input[type="password"]:focus + label, form.hva-form .input-field input[type="email"]:focus + label, form.hva-form .input-field input[type="url"]:focus + label, form.hva-form .input-field input[type="date"]:focus + label, form.hva-form .input-field input[type="tel"]:focus + label, form.hva-form .input-field input[type="number"]:focus + label, form.hva-form .input-field input[type="search"]:focus + label, form.hva-form .input-field textarea.materialize-textarea:focus + label{
+.input-field input[type="text"]:focus + label, .input-field input[type="password"]:focus + label, .input-field input[type="email"]:focus + label, .input-field input[type="url"]:focus + label, .input-field input[type="date"]:focus + label, .input-field input[type="tel"]:focus + label, .input-field input[type="number"]:focus + label, .input-field input[type="search"]:focus + label, .input-field textarea.materialize-textarea:focus + label{
     color: #039be5;
 }
 
-form.hva-form fieldset{
+fieldset{
 
     border: solid 1px #90a4ae;
 }
 
-form.hva-form legend{
+legend{
     color: #039be5;
 }
 
@@ -489,4 +489,13 @@ div.modal-content div.input-field.number{
     margin-top: 30px;
     width: 60%;
     float: right;
+}
+
+/*Order tables styles*/
+.ordertable tbody{
+    min-height: 100px;
+} 
+    
+.ordertotal-container{
+    background: #e1f5fe;
 }
