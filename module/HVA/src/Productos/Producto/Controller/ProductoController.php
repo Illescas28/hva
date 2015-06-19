@@ -25,7 +25,7 @@ class ProductoController extends AbstractActionController
 
         //De cada articulo obtenemos sus variaciones (articulovariante)
         $productos = array();
-        foreach ($articuloCollection as $ka => $av){
+        foreach ($articuloCollection as $ka => $av){    
             $tmp['nombre'] = $av->getArticuloNombre();
             $articulovarianteCollection = $av->getArticulovariantes();
             //Comenzamos a itinerar sobre las variaciones

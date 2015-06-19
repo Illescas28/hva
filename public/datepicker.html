@@ -1,0 +1,71 @@
+<html>
+<head>
+<script type="text/javascript" src="http://jquery-ui.googlecode.com/
+svn/trunk/jquery-1.2.6.js" ></script>
+<script type="text/javascript" src="http://jquery-ui.googlecode.com/
+svn/trunk/ui/ui.core.js" ></script>
+<script type="text/javascript" src="http://jquery-ui.googlecode.com/
+svn/trunk/ui/ui.datepicker.js" ></script>
+<link rel="stylesheet" href="http://jquery-ui.googlecode.com/svn/trunk/
+themes/base/ui.all.css" />
+<script>
+
+function addHandlers(root) {
+  if (root == null)  root = $(document);
+
+  root.find(".datepicker").datepicker({
+    showOn: 'focus',
+    showButtonPanel: true
+  });
+}
+
+
+function addMyrowItem() {
+  var row = $("#myrow");
+  var parent = row.parent();
+  var index = $(parent).children('tr').size();
+  var newRow = row.clone(true)
+  newRow.find("[id^=myrow]").attr("id", function() {
+      return $(this).attr("id").replace('0', index);
+  });
+  newRow.find("[name^=myrow]").attr("value","").attr("name", function
+() {
+      return $(this).attr("name").replace('0', index);
+  });
+  newRow.appendTo(parent);
+  addHandlers(newRow);
+}
+
+
+$(document).ready(function() {
+  $("#add").click(addMyrowItem);
+  addHandlers($(document));
+});
+
+
+</script>
+</head>
+<body>
+  <h1>Clone test</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="myrow">
+        <td><input id="myrow0.date" name="myrow0.date"
+class="datepicker"/></td>
+        <td><input id="myrow0.description" name="myrow0.description" /></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2"><button id="add">Add</button></td>
+      </tr>
+    </tfoot>
+  </table>
+</body>
+</html> 
