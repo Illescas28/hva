@@ -457,7 +457,6 @@ $this->headTitle($title);
                                         <th>Servicio</th>
                                         <th>Fecha/hora</th>
                                         <th>Precio</th>
-                                        <th>Servicio</th>
                                         <th>Subtotal</th>
                                         <th>Opciones</th>
                                     </tr>
@@ -564,11 +563,40 @@ $this->headTitle($title);
                                     <br>
                                 </div>
                                 <div id="tablaCargoadmisionArticulo" class="col s12">
-                                    <!-- Aquí agregamos los elementos con javascript -->
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Existencias</th>
+                                            <th>Articulo</th>
+                                            <th>Descripción</th>
+                                            <th>Precio</th>
+                                            <th>Salida</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Aquí agregamos los elementos con javascript -->
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div id="tablaCargoadmisionArticuloAgregado" class="col s7">
-                                <!-- Aquí agregamos los elementos con javascript -->
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Articulo</th>
+                                        <th>Descripción</th>
+                                        <th>Salida</th>
+                                        <th>Fecha/hora</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Aquí agregamos los elementos con javascript -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <?php echo $this->form()->closeTag(); ?>
@@ -576,8 +604,23 @@ $this->headTitle($title);
                 </div>
             </div>
             <!-- End Create Modal Structure -->
-            <div id="cargoadmisionArticuloResult" class="">
-                <!-- Aquí agregamos los elementos con javascript -->
+            <div id="cargoadmisionArticuloResult" class="col s12">
+                <table class="hoverable striped">
+                    <thead>
+                    <tr>
+                        <th>Cantidad</th>
+                        <th>Articulo</th>
+                        <th>Descripción</th>
+                        <th>Fecha/hora</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Aquí agregamos los elementos con javascript -->
+                    </tbody>
+                </table>
             </div>
             <br>
             <br>
@@ -624,10 +667,36 @@ $this->headTitle($title);
                                     <br>
                                 </div>
                                 <div id="tablaCargoadmisionServicio" class="col s12">
-                                    <!-- Aquí agregamos los elementos con javascript -->
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Servicio</th>
+                                            <th>Descripción</th>
+                                            <th>Precio</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Aquí agregamos los elementos con javascript -->
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div id="tablaCargoadmisionServicioAgregado" class="col s6">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Servicio</th>
+                                        <th>Fecha/hora</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Aquí agregamos los elementos con javascript -->
+                                    </tbody>
+                                </table>
                                 <!-- Aquí agregamos los elementos con javascript -->
                             </div>
                         </div>
@@ -636,8 +705,23 @@ $this->headTitle($title);
                 </div>
             </div>
             <!-- End Create Modal Structure -->
-            <div id="cargoadmisionServicioResult" class="">
-                <!-- Aquí agregamos los elementos con javascript -->
+            <div id="cargoadmisionServicioResult" class="col s12">
+                <table class="hoverable striped">
+                    <thead>
+                    <tr>
+                        <th>Cantidad</th>
+                        <th>Servicio</th>
+                        <th>Descripción</th>
+                        <th>Fecha/hora</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Aquí agregamos los elementos con javascript -->
+                    </tbody>
+                </table>
             </div>
             <div class="col s12">
                 <div id="botonPagarAnticipoAdmision" class="col s2">
