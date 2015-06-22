@@ -123,14 +123,26 @@
     </div>
 </div>
 <div class="row">
+    <div class="col s6">
+        <fieldset>
+            <legend>Factura PDF</legend>
+            <div class="file-field input-field">
+                <input class="file-path validate" type="text"/>
+                <div class="btn">
+                  <span>PDF</span>
+                  <input name="pdf" type="file" />
+                </div>
+            </div>
+        </fieldset>       
+    </div>
+</div>
+<div class="row">
     <div class="col s4 offset-s4">
         <button id="save_order" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
             <i class="mdi-content-save left"></i>
         </button>
     </div>
 </div>
-
-
 <script>
 
     $(document).ready(function(){
@@ -145,7 +157,7 @@
             changeYear: true,
             dateFormat: 'dd/mm/yy',
             monthNamesShort: [ "Ene ", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ],
-            
+   
         });
         
         updateTotal();
@@ -233,11 +245,7 @@
                     
                     var cantidad = $(this).closest('tr').find('#cantidad input').val();
                     var new_subtotal = cantidad  * $(this).val();
-                    
-                     console.log($(this));
-                   console.log(cantidad);
-                   console.log(new_subtotal);
-                   console.log( $(this).closest('tr').find('#subtotal'));
+
                     
                    $(this).closest('tr').find('#subtotal').text(formatMoney(new_subtotal,'$'));
                    updateTotal();
@@ -332,7 +340,7 @@
               
               if(rowCount >= 1){
                   //Guardamos la informacion de la orden en un objeto
-                  var orden = {
+                  var orden = { 
                       orden_fecha:$('input#orden_fecha').val(),
                       orden_folio: $('input#orden_folio').val(),
                       orden_proveedor : $('input#idproveedor').val(),
@@ -358,18 +366,23 @@
                     }
                   });
                   
-
                   
-                $.getJSON('/compras/guardarorden',
-                    {orden:orden},
-                    function(response){
-                       if(response.response){
-                           window.location.replace("/compras");
+                  $.ajax({
+                    url:'/compras/guardarorden',
+                    type:'POST',
+                    data:orden,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    success: function (response) {
+                        if(response){
+                           //window.location.replace("/compras");
                        }
                     }
-                );
-                  
-                  
+                  });
+           
               }else{
                   alert('Debe tener por lo menos un item en su factura para guardarla');
               }

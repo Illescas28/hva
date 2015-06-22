@@ -43,14 +43,19 @@
             $orden_fecha = new DateTime($compra->getOrdencompraFecha());
             $orden_fecha = $orden_fecha->format('d/m/Y');
             
-            $orden_fechapago = new DateTime($compra->getOrdencompraFechaapagar());
-            $orden_fechapago = $orden_fechapago->format('d/m/Y');
+            $orden_fechapago = $compra->getOrdencompraFechaapagar();
+            if(!is_null($orden_fechapago)){
+                 $orden_fechapago = new DateTime($compra->getOrdencompraFecha());
+                $orden_fechapago = $orden_fechapago->format('d/m/Y');
+            }
+            
             
             $orden_factura = $compra->getOrdencompraFacturapdf();
             if(is_null($orden_factura)){
                 $orden_factura = 'N/D';
             }
             $orden_pagada = $compra->getOrdencompraStatus();
+            
             if($orden_pagada == 'pagada')
                 $orden_pagada = 'Si';
             elseif ($orden_pagada == 'no pagada') 
