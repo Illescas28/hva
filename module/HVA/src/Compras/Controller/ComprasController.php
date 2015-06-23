@@ -8,9 +8,7 @@ use Zend\View\Model\ViewModel;
 
 class ComprasController extends AbstractActionController {
     
-    public function listarAction(){
-        
-        
+    public function listarAction(){        
         $orden_compra_query = new \OrdencompraQuery();
         
         $data_collection = $orden_compra_query->filterByOrdencompraStatus('inventario',\Criteria::NOT_EQUAL)->find();
@@ -173,7 +171,7 @@ class ComprasController extends AbstractActionController {
         $request = $this->request;
         
         $orden = $request->getPost('orden');
-        echo '<pre>';var_dump($_FILES); echo '<pre>';exit();
+        
         //Cre un nuevo objeto de ordencompra
         $ordenCompra = new \Ordencompra();
         //Seteo los datos
@@ -202,6 +200,10 @@ class ComprasController extends AbstractActionController {
         
         if(isset($ordencompra_fechapagar)){
             $ordenCompra->setOrdencompraFechaapagar($ordencompra_fechapagar->format('Y-m-d'));
+        }
+        
+        if(!is_null($orden['orden_facturapdf'])){
+            $ordenCompra->setOrdencompraFacturapdf($orden['orden_facturapdf']);
         }
 
         //echo '<pre>';var_dump($ordenCompra->toArray()); echo '<pre>';exit();
@@ -283,7 +285,7 @@ class ComprasController extends AbstractActionController {
                         
             //Guaradamos nuestra variable de orden
             $orden = $request->getPost('orden');
-            
+  
             $idorden = $orden['idorden'];
             $orden_compra = \OrdencompraQuery::create()->findPk($idorden);
             
@@ -302,9 +304,9 @@ class ComprasController extends AbstractActionController {
             $ordencompra_importe = $ordencompra_importe_split[1];
             $ordencompra_importe = str_replace(',', '',$ordencompra_importe);
             
-            
+          
             //Guardamos nuestra compra
-            $orden_compra->setIdproveedor($orden['orden_proveedor'])
+            $orden_compra->setIdproveedor($orden["orden_proveedor"])
                         ->setOrdencompraStatus($orden['orden_status'])
                         ->setOrdencompraNofactura($orden['orden_folio'])
                         ->setOrdencompraFecha($ordencompra_fecha->format('Y-m-d'))
@@ -313,7 +315,11 @@ class ComprasController extends AbstractActionController {
             if(isset($ordencompra_fechapagar)){
                 $orden_compra->setOrdencompraFechaapagar($ordencompra_fechapagar->format('Y-m-d'));
             }
-
+            
+            if(!is_null($orden['orden_facturapdf'])){
+                $orden_compra->setOrdencompraFacturapdf($orden['orden_facturapdf']);
+            }
+            //echo '<pre>';var_dump($orden_compra->toArray()); echo '<pre>';exit();
              $orden_compra->save();
             
             //Itenaramos sobre los items
@@ -410,6 +416,7 @@ class ComprasController extends AbstractActionController {
         
         //Almacenamos los valores que nos importan en nuestro arreglo orden
         $orden['id']         = $id;
+        $orden['facturapdf']  = $compra->getOrdencompraFacturapdf();
         $orden['idproveedor']  = $compra->getIdproveedor();
         $orden['proveedor']  = $compra->getProveedor()->getProveedorNombre();
         $orden['nofactura']  = $compra->getOrdencompraNofactura();
@@ -514,6 +521,60 @@ class ComprasController extends AbstractActionController {
             
         }
 
+    }
+    
+    public function uploadcomprapdfAction(){
+        $date = new \DateTime();
+        $upload_folder ='/img/compras/';
+        $nombre_archivo = 'compra-'.$date->getTimestamp().'.pdf';
+        $tipo_archivo = $_FILES['archivo']['type'];
+        $tamano_archivo = $_FILES['archivo']['size'];
+        $tmp_archivo = $_FILES['archivo']['tmp_name'];
+        $archivador = $upload_folder.$nombre_archivo;
+        if(!move_uploaded_file($tmp_archivo, $_SERVER["DOCUMENT_ROOT"].$archivador)) {
+            return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false, 'msg' => 'Ocurrio un error al subir el archivo. No pudo guardarse.', 'status' => 'error')));
+        }    
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true,'compra_facturapdf' => $archivador)));
+
+    }
+    
+    public function removefacturapdfAction(){
+        
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromQuery('idorden');
+        $html = $this->params()->fromQuery('html');
+        
+        if($html){
+            $viewModel = new ViewModel();
+            $viewModel->setTerminal(true);
+            $viewModel->setVariable('id', $id);
+            return $viewModel;
+        }
+        
+        $request = $this->request;
+        if($request->isPost()){
+            
+            $idorden = $request->getPost('id');
+            
+            //Elimnamos de la base de datos
+            $orden = \OrdencompraQuery::create()->findPk($idorden);
+            $facturapdf = $orden->getOrdencompraFacturapdf();
+            $orden->setOrdencompraFacturapdf(NULL);
+            $orden->save();
+            
+            //Eliminamos del servidor;
+            if(file_exists($_SERVER["DOCUMENT_ROOT"].$facturapdf)){
+                unlink($_SERVER["DOCUMENT_ROOT"].$facturapdf);
+                return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true)));
+            }
+             
+            
+        }
+        
+        
+        
+       
+        
     }
     
 }

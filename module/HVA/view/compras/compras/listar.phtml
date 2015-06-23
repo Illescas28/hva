@@ -53,9 +53,11 @@
             $orden_factura = $compra->getOrdencompraFacturapdf();
             if(is_null($orden_factura)){
                 $orden_factura = 'N/D';
+            }else{
+                $orden_factura = '<a target="_blank" href="'.$orden_factura.'"><img id="orden_facturapdf" src="/img/compras/pdf_default.png"><a>';
             }
-            $orden_pagada = $compra->getOrdencompraStatus();
             
+            $orden_pagada = $compra->getOrdencompraStatus();
             if($orden_pagada == 'pagada')
                 $orden_pagada = 'Si';
             elseif ($orden_pagada == 'no pagada') 
