@@ -5,7 +5,7 @@
             <url>module/HVA/src/Compras/Controller/ComprasController.php</url>
             <bookmark id="1">
                 <name/>
-                <line>16</line>
+                <line>14</line>
                 <key/>
             </bookmark>
         </file>
@@ -15,10 +15,8 @@
         <group>
             <file>file:/Applications/AMPPS/www/hva/module/HVA/view/compras/compras/nuevo.phtml</file>
             <file>file:/Applications/AMPPS/www/hva/module/HVA/view/compras/compras/deleteitem.phtml</file>
-            <file>file:/Applications/AMPPS/www/hva/module/HVA/view/layout/layout.phtml</file>
+            <file>file:/Applications/AMPPS/www/hva/module/HVA/view/compras/compras/removefacturapdf.phtml</file>
             <file>file:/Applications/AMPPS/www/hva/module/HVA/view/compras/compras/listar.phtml</file>
-            <file>file:/Applications/AMPPS/www/hva/module/HVA/src/Pacientes/Paciente/Controller/PacienteController.php</file>
-            <file>file:/Applications/AMPPS/www/hva/module/HVA/view/catalogos/medico/listar.phtml</file>
             <file>file:/Applications/AMPPS/www/hva/module/HVA/src/Compras/Controller/ComprasController.php</file>
             <file>file:/Applications/AMPPS/www/hva/module/HVA/view/compras/compras/editar.phtml</file>
         </group>
