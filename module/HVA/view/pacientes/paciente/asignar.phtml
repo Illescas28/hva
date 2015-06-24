@@ -727,6 +727,38 @@ $this->headTitle($title);
                 <div id="botonPagarAnticipoAdmision" class="col s2">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
+                <!-- Create Modal Structure -->
+                <div id="create-modal-pagar-admision" class="modal bottom-sheet">
+                    <div class="modal-content">
+                        <div class="row">
+                            <fieldset>
+                                <legend>Registro de Anticipo/Pago</legend>
+                                <div class="col s12">
+                                    <div id="radioAnticipoAdmision" class="col s4">
+                                        <p onclick="javascript:anticipoAdmision();" >
+                                            <input class="with-gap" name="grupo2" type="radio" id="radio1"  />
+                                            <label for="radio1">Anticipo</label>
+                                        </p>
+                                    </div>
+                                    <div id="radioPagoAdmision" class="col s4">
+                                        <p onclick="javascript:pagoAdmision();" >
+                                            <input class="with-gap" name="grupo2" type="radio" id="radio2"  />
+                                            <label for="radio2">Pago</label>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="anticipoAdmision" class="hiddendiv">
+                                    <!-- Agregamos elementos con Javascript -->
+                                </div>
+                                <div id="pagoAdmision" class="hiddendiv">
+                                    <!-- Agregamos elementos con Javascript -->
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
                 <div id="botonGenerarFacturaAdmision" class="col s3">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
@@ -4521,18 +4553,158 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         h4.appendChild(textoServicioTotal)
         divTotalInferior.appendChild(h4)
 
+        // Creamos los elementos de Anticipo admision
+        var anticipoAdmision = document.getElementById("anticipoAdmision");
+        var spanAnticipo = document.createElement('span')
+        var cantidadRestanteAnticipo = document.createTextNode("Cantidad restante: "+subTotal);
+        spanAnticipo.appendChild(cantidadRestanteAnticipo);
+        anticipoAdmision.appendChild(spanAnticipo);
+        var brAnticipo1 = document.createElement('br')
+        anticipoAdmision.appendChild(brAnticipo1);
+
+        var spanMetodoDeAnticipo = document.createElement('span')
+        var metodoDeAnticipo = document.createTextNode("Método de pago: ");
+        spanMetodoDeAnticipo.appendChild(metodoDeAnticipo);
+        anticipoAdmision.appendChild(spanMetodoDeAnticipo);
+
+        var selectAnticipo = document.createElement('select');
+        selectAnticipo.style.display = "inline";
+        selectAnticipo.style.width = "auto";
+        selectAnticipo.style.height = "auto";
+        selectAnticipo.setAttribute ( 'id', 'select_metodo_de_pago_anticipo' );
+        var metodosAnticipoArray = ["Tarjeta de crédito", "Tarjeta de débito", "Cheque", "No identificado"];
+        // agregamos los valores <option> a seleccionar
+        for($i=0; $i<=metodosAnticipoArray.length; $i++){
+            var selectAnticipoOption = new Option(metodosAnticipoArray[$i],metodosAnticipoArray[$i]);
+            selectAnticipo.appendChild(selectAnticipoOption);
+        }
+        anticipoAdmision.appendChild(selectAnticipo);
+        var spanAnticipo2 = document.createElement('span')
+        var espacioAnticipo = document.createTextNode("   ");
+        spanAnticipo2.appendChild(espacioAnticipo);
+        anticipoAdmision.appendChild(spanAnticipo2);
+
+        var inputMetodoDePagoAnticipo = document.createElement('input')
+        inputMetodoDePagoAnticipo.style.width = "auto";
+        inputMetodoDePagoAnticipo.setAttribute ( 'id', 'input_anticipo' );
+        inputMetodoDePagoAnticipo.type = 'number';
+        inputMetodoDePagoAnticipo.min ="1";
+        inputMetodoDePagoAnticipo.max = subTotal;
+        inputMetodoDePagoAnticipo.setAttribute ( 'name', 'anticipo' );
+        inputMetodoDePagoAnticipo.setAttribute ( 'value', subTotal );
+        anticipoAdmision.appendChild(inputMetodoDePagoAnticipo);
+
+        var divInputNotaAnticipo = document.createElement('div')
+        divInputNotaAnticipo.className = "input-field col s12";
+        var inputNotaAnticipo = document.createElement('input')
+        inputNotaAnticipo.setAttribute ( 'id', 'input_nota_anticipo' );
+        inputNotaAnticipo.setAttribute ( 'type', 'text' );
+        inputNotaAnticipo.setAttribute ( 'name', 'nota_anticipo' );
+        divInputNotaAnticipo.appendChild(inputNotaAnticipo);
+        var labelNotaAnticipo = document.createElement('label')
+        var notaAnticipo = document.createTextNode("Nota")
+        labelNotaAnticipo.appendChild(notaAnticipo);
+        labelNotaAnticipo.setAttribute ( 'for', 'input_nota_anticipo' );
+        divInputNotaAnticipo.appendChild(labelNotaAnticipo);
+        anticipoAdmision.appendChild(divInputNotaAnticipo);
+
+        var divBotonPagarAnticipo = document.createElement('div')
+        divBotonPagarAnticipo.className = "right col s4";
+        divBotonPagarAnticipo.setAttribute ( 'id', 'divBotonPagar' );
+        var botonPagarAnticipo = document.createElement('button')
+        botonPagarAnticipo.className = "btn waves-effect waves-light";
+        botonPagarAnticipo.style.width = "auto";
+        botonPagarAnticipo.style.height = "45px";
+        botonPagarAnticipo.style.marginTop = "20px";
+        var textBotonPagarAnticipo = document.createTextNode("Pagar");
+        botonPagarAnticipo.appendChild(textBotonPagarAnticipo);
+        divBotonPagarAnticipo.appendChild(botonPagarAnticipo);
+        anticipoAdmision.appendChild(divBotonPagarAnticipo);
+        // Creamos los elementos de Anticipo admision
+
+
+        // Creamos los elementos de Pago admision
+        var pagoAdmision = document.getElementById("pagoAdmision");
+        var spanPago = document.createElement('span')
+        var cantidadRestantePago = document.createTextNode("Cantidad restante: "+subTotal);
+        spanPago.appendChild(cantidadRestantePago);
+        pagoAdmision.appendChild(spanPago);
+        var br1 = document.createElement('br')
+        pagoAdmision.appendChild(br1);
+
+        var spanMetodoDePago = document.createElement('span')
+        var metodoDePago = document.createTextNode("Método de pago: ");
+        spanMetodoDePago.appendChild(metodoDePago);
+        pagoAdmision.appendChild(spanMetodoDePago);
+
+        var select = document.createElement('select');
+        select.style.display = "inline";
+        select.style.width = "auto";
+        select.style.height = "auto";
+        select.setAttribute ( 'id', 'select_metodo_de_pago' );
+        var metodosArray = ["Tarjeta de crédito", "Tarjeta de débito", "Cheque", "No identificado"];
+        // agregamos los valores <option> a seleccionar
+        for($i=0; $i<=metodosArray.length; $i++){
+            var selectOption = new Option(metodosArray[$i],metodosArray[$i]);
+            select.appendChild(selectOption);
+        }
+        pagoAdmision.appendChild(select);
+        var span2 = document.createElement('span')
+        var espacio = document.createTextNode("   ");
+        span2.appendChild(espacio);
+        pagoAdmision.appendChild(span2);
+
+        var inputMetodoDePago = document.createElement('input')
+        inputMetodoDePago.style.width = "auto";
+        inputMetodoDePago.setAttribute ( 'id', 'input_pago' );
+        inputMetodoDePago.setAttribute ( 'type', 'text' );
+        inputMetodoDePago.setAttribute ( 'name', 'pago' );
+        inputMetodoDePago.setAttribute ( 'value', subTotal );
+        inputMetodoDePago.setAttribute ( 'readonly', 'readonly');
+        pagoAdmision.appendChild(inputMetodoDePago);
+
+        var divInputNotaPago = document.createElement('div')
+        divInputNotaPago.className = "input-field col s12";
+        var inputNotaPago = document.createElement('input')
+        inputNotaPago.setAttribute ( 'id', 'input_nota_pago' );
+        inputNotaPago.setAttribute ( 'type', 'text' );
+        inputNotaPago.setAttribute ( 'name', 'nota_pago' );
+        divInputNotaPago.appendChild(inputNotaPago);
+        var labelNotaPago = document.createElement('label')
+        var notaPago = document.createTextNode("Nota")
+        labelNotaPago.appendChild(notaPago);
+        labelNotaPago.setAttribute ( 'for', 'input_nota_pago' );
+        divInputNotaPago.appendChild(labelNotaPago);
+        pagoAdmision.appendChild(divInputNotaPago);
+
+        var divBotonPagar = document.createElement('div')
+        divBotonPagar.className = "right col s4";
+        divBotonPagar.setAttribute ( 'id', 'divBotonPagar' );
+        var botonPagar = document.createElement('button')
+        botonPagar.className = "btn waves-effect waves-light";
+        botonPagar.style.width = "auto";
+        botonPagar.style.height = "45px";
+        botonPagar.style.marginTop = "20px";
+        var textBotonPagar = document.createTextNode("Pagar");
+        botonPagar.appendChild(textBotonPagar);
+        divBotonPagar.appendChild(botonPagar);
+        pagoAdmision.appendChild(divBotonPagar);
+        // Creamos los elementos de Pago admision
+
+
         var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipoAdmision");
         divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo;
         var buttonPagarAnticipo = document.createElement('button')
-        buttonPagarAnticipo.setAttribute ( 'id', 'buttonPagarAnticipoAdmision' );
+        buttonPagarAnticipo.setAttribute ( 'href', '#create-modal-pagar-admision' );
+        buttonPagarAnticipo.className = "modal-trigger btn waves-effect waves-light";
         buttonPagarAnticipo.style.width = "100%";
         buttonPagarAnticipo.style.height = "45px";
-        buttonPagarAnticipo.style.marginTop = "20px";
-        buttonPagarAnticipo.className = "btn waves-effect waves-light";
-        buttonPagarAnticipo.setAttribute ( 'type', 'submit' );
+        buttonPagarAnticipo.style.marginTop = "53px";
         var textoButtonPagarAnticipo = document.createTextNode("Pagar/Anticipo");
         buttonPagarAnticipo.appendChild(textoButtonPagarAnticipo)
         divbotonPagarAnticipo.appendChild(buttonPagarAnticipo)
+        //botonPagarAnticipo
+        $('.modal-trigger').leanModal();
 
         var divbotonGenerarFactura = document.getElementById("botonGenerarFacturaAdmision");
         divbotonGenerarFactura.innerHTML = divbotonGenerarFactura;
@@ -4575,6 +4747,18 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
 }
 
+function anticipoAdmision() {
+    if ($('#anticipoAdmision').hasClass('hiddendiv')){
+        $('#anticipoAdmision').removeClass('hiddendiv')
+        $('#pagoAdmision').addClass('hiddendiv')
+    }
+}
+function pagoAdmision() {
+    if ($('#pagoAdmision').hasClass('hiddendiv')){
+        $('#pagoAdmision').removeClass('hiddendiv')
+        $('#anticipoAdmision').addClass('hiddendiv')
+    }
+}
 
 // Esta función no está en uso
 function anticipoTotalStatus(cargoconsultaArray){
