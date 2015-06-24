@@ -438,7 +438,7 @@ return array(
             'empleados' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/empleados[/:action]',
+                    'route'    => '/empleados[/:action][/:id]',
                     'defaults' => array(
                         'controller' => 'Empleados\Controller\Empleados',
                         'action'     => 'listar',
