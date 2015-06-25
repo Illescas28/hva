@@ -1,5 +1,5 @@
 <?php
-$title = 'Pacientes Actuales';
+$title = 'Pacientes actuales';
 $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
@@ -8,7 +8,7 @@ $this->headTitle($title);
         <form class="col s12">
             <div class="row" style="position: relative">
                 <div class="col s6" id="new-container">
-                    <a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Admisión de nuevo paciente</a>
+                    <a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo paciente</a>
                 </div>
                 <div class="input-field col s4 offset-s2" id="search-container">
                     <i class="mdi-action-search prefix"></i>
@@ -18,80 +18,82 @@ $this->headTitle($title);
             </div>
         </form>
     </div>
-    <table id="tabla-paciente" class="striped hoverable">
+    <table id="tabla-paciente-consulta" class="striped hoverable">
         <thead>
         <tr>
             <th>Nombre</th>
             <th>Apellido paterno</th>
             <th>Apellido materno</th>
             <th>Fecha de admisión</th>
-            <th>Cuarto</th>
-            <th>Medico a cargo</th>
+            <th>Consultorio/Cuarto</th>
+            <th>Médico a cargo</th>
             <th>Opciones</th>
         </tr>
         </thead>
         <tbody>
         <?php $direction = 'right'?>
-        <?php foreach ($pacientes as $pacienteEntity) : ?>
+        <?php foreach ($pacientesConsulta as $pacienteEntity) : ?>
             <tr>
-                <td><?php echo $pacienteEntity->getPacienteNombre() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteAp() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteAm() ?></td>
-                <td><?php echo $admisionEntity->getAdmisionFechaadmision() ?></td>
-                <td><?php echo $cuartoEntity->getCuartoNombre()." ".$pacienteEntity->getCuarto()." ".$pacienteEntity->getPacienteNointerior()." ".$pacienteEntity->getPacienteColonia() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteAm() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteFechanacimiento() ?></td>
+                <td><?php echo $pacienteEntity->getPaciente()->getPacienteNombre() ?></td>
+                <td><?php echo $pacienteEntity->getPaciente()->getPacienteAp() ?></td>
+                <td><?php echo $pacienteEntity->getPaciente()->getPacienteAm() ?></td>
+                <td><?php echo $pacienteEntity->getConsultaFechaadmision() ?></td>
+                <td><?php echo $pacienteEntity->getConsultorio()->getConsultorioNombre()?></td>
+                <td><?php echo $pacienteEntity->getMedico()->getMedicoNombre() ." ". $pacienteEntity->getMedico()->getMedicoApellidopaterno() ." ". $pacienteEntity->getMedico()->getMedicoApellidomaterno();?></td>
                 <td>
-                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$pacienteEntity->getPaciente()->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                     &nbsp;&nbsp;
-                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/paciente/editar/".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/pacientes/editar/".$pacienteEntity->getPaciente()->getIdpaciente()?>'><i class="tiny mdi-editor-border-color"></i></a>
                     &nbsp;&nbsp;
+                    <a href='<?php echo $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getPaciente()->getIdpaciente()));?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <?php /*
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-action-delete"></i></a>
+                    */ ?>
                 </td>
             </tr>
             <!-- View Modal Structure -->
-            <div id="view-modal-paciente-<?php echo $pacienteEntity->getIdPaciente()?>" class="modal">
+            <div id="view-modal-paciente-<?php echo $pacienteEntity->getPaciente()->getIdPaciente()?>" class="modal">
                 <div class="modal-content">
-                    <h4><?php echo "Paciente: ". $pacienteEntity->getPacienteNombre(). " ". $pacienteEntity->getPacienteAp(). " ". $pacienteEntity->getPacienteAm() ?></h4>
+                    <h4><?php echo "Paciente: ". $pacienteEntity->getPaciente()->getPacienteNombre(). " ". $pacienteEntity->getPaciente()->getPacienteAp(). " ". $pacienteEntity->getPaciente()->getPacienteAm() ?></h4>
                     <div class="row">
                         <fieldset>
                             <legend>Datos Generales</legend>
                             <div class="col s4">
                                 <div class="label-container">
                                     <label>Calle:</label>
-                                    <p><?php echo $pacienteEntity->getPacienteCalle()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteCalle()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Colonia:</label>
-                                    <p><?php echo $pacienteEntity->getPacienteColonia()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteColonia()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Estado:</label>
-                                    <p><?php echo $pacienteEntity->getPacienteEstado()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteEstado()?></p>
                                 </div>
                             </div>
                             <div class="col s4">
                                 <div class="label-container">
                                     <label>No. Exterior:</label>
-                                    <p><?php echo $pacienteEntity->getPacienteNoexterior()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteNoexterior()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Codigo Postal:</label>
-                                    <p><?php echo $pacienteEntity->getPacienteCodigopostal()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteCodigopostal()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Pais:</label>
-                                    <p><?php echo $pacienteEntity->getPacientePais()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacientePais()?></p>
                                 </div>
                             </div>
                             <div class="col s4">
                                 <div class="label-container">
                                     <label>No. Interior:</label>
-                                    <p><?php echo $pacienteEntity->getPacienteNoInterior()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteNoInterior()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Ciudad:</label>
-                                    <p><?php echo $pacienteEntity->getPacienteCiudad()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteCiudad()?></p>
                                 </div>
                             </div>
                         </fieldset>
@@ -102,24 +104,24 @@ $this->headTitle($title);
                             <div class="col s4">
                                 <div class="label-container">
                                     <label>Casa:</label>
-                                    <p><?php echo $pacienteEntity->getPacienteTelefono()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteTelefono()?></p>
                                 </div>
                             </div>
                             <div class="label-container">
                                 <label>Celular:</label>
-                                <p><?php echo $pacienteEntity->getPacienteTelefonocelular()?></p>
+                                <p><?php echo $pacienteEntity->getPaciente()->getPacienteTelefonocelular()?></p>
                             </div>
                         </fieldset>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href='<?php echo $this->url('pacientes', array('action'=>'editar', 'id'  => $pacienteEntity->getIdpaciente()));?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                    <a href='<?php echo $this->url('pacientes', array('action'=>'editar', 'id'  => $pacienteEntity->getPaciente()->getIdpaciente()));?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
                 </div>
             </div>
             <!-- End View Modal Structure -->
             <!-- Delete Modal Structure -->
-            <div id="delete-modal-paciente-<?php echo $pacienteEntity->getIdpaciente()?>" class="modal">
+            <div id="delete-modal-paciente-<?php echo $pacienteEntity->getPaciente()->getIdpaciente()?>" class="modal">
                 <div class="modal-content" id="delete-modal-container">
                     <div class="row" id="delete-modal-header-container">
                         <div class="col s4 offset-s4">
@@ -128,126 +130,82 @@ $this->headTitle($title);
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <p><?php echo "Esta seguro que desea eliminar al Paciete: ". $pacienteEntity->getPacienteNombre(). " ". $pacienteEntity->getPacienteAp(). " ". $pacienteEntity->getPAcienteAm(). "?" ?></p>
+                            <p><?php echo "Esta seguro que desea eliminar al Paciete: ". $pacienteEntity->getPaciente()->getPacienteNombre(). " ". $pacienteEntity->getPaciente()->getPacienteAp(). " ". $pacienteEntity->getPaciente()->getPAcienteAm(). "?" ?></p>
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href="/paciente/eliminar/<?php echo $pacienteEntity->getIdpaciente()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+                    <a href="/pacientes/eliminar/<?php echo $pacienteEntity->getPaciente()->getIdpaciente()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
 
                 </div>
             </div>
             <!-- End Delete Modal Structure -->
         <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.modal-trigger').leanModal();
-        $("#tabla-paciente").tablesorter({headers:{5:{sorter:false}}});
-        $("#tabla-paciente").filterTable({inputSelector: '#search-container input',minRows:2});
-    });
-</script>
-
-<?php
-/*
-  *
-  <?php
-$title = 'Pacientes Actuales';
-$this->headTitle($title);
-?>
-<h3><?php echo $this->escapeHtml($title); ?></h3>
-<div>
-    <div class="row" id="table-header">
-        <form class="col s12">
-            <div class="row" style="position: relative">
-                <div class="col s6" id="new-container">
-                    <a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Admisión de nuevo paciente</a>
-                </div>
-                <div class="input-field col s4 offset-s2" id="search-container">
-                    <i class="mdi-action-search prefix"></i>
-                    <input id="icon_prefix" type="text">
-                    <label for="icon_prefix">Buscar</label>
-                </div>
-            </div>
-        </form>
-    </div>
-    <table id="tabla-paciente" class="striped hoverable">
-        <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Apellido paterno</th>
-            <th>Apellido materno</th>
-            <th>Fecha de admisión</th>
-            <th>Cuarto</th>
-            <th>Medico a cargo</th>
-            <th>Opciones</th>
-        </tr>
-        </thead>
-        <tbody>
         <?php $direction = 'right'?>
-        <?php foreach ($admisiones as $admisionEntity) : ?>
+        <?php foreach ($pacientesAdmision as $pacienteEntity) : ?>
             <tr>
-                <td><?php echo $admisionEntity->getPaciente()->getPacienteNombre() ?></td>
-                <td><?php echo $admisionEntity->getPaciente()->getPacienteAp() ?></td>
-                <td><?php echo $admisionEntity->getPaciente()->getPacienteAm() ?></td>
-                <td><?php echo $admisionEntity->getAdmisionFechaadmision() ?></td>
-                <td><?php echo $admisionEntity->getCuarto()->getCuartoNombre() ?></td>
-                <td><?php echo $admisionEntity->getMedico()->getMedicoNombre() ?></td>
+                <td><?php echo $pacienteEntity->getPaciente()->getPacienteNombre() ?></td>
+                <td><?php echo $pacienteEntity->getPaciente()->getPacienteAp() ?></td>
+                <td><?php echo $pacienteEntity->getPaciente()->getPacienteAm() ?></td>
+                <td><?php echo $pacienteEntity->getAdmisionFechaadmision() ?></td>
+                <td><?php echo $pacienteEntity->getCuarto()->getCuartoNombre()?></td>
+                <td><?php echo $pacienteEntity->getMedico()->getMedicoNombre() ." ". $pacienteEntity->getMedico()->getMedicoApellidopaterno() ." ". $pacienteEntity->getMedico()->getMedicoApellidomaterno();?></td>
                 <td>
-                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$pacienteEntity->getPaciente()->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                     &nbsp;&nbsp;
-                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/paciente/editar/".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/pacientes/editar/".$pacienteEntity->getPaciente()->getIdpaciente()?>'><i class="tiny mdi-editor-border-color"></i></a>
                     &nbsp;&nbsp;
+                    <a href='<?php echo $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getPaciente()->getIdpaciente()));?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <?php /*
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-action-delete"></i></a>
+                    */ ?>
                 </td>
             </tr>
             <!-- View Modal Structure -->
-            <div id="view-modal-paciente-<?php echo $admisionEntity->getPaciente()->getIdPaciente()?>" class="modal">
+            <div id="view-modal-paciente-<?php echo $pacienteEntity->getPaciente()->getIdPaciente()?>" class="modal">
                 <div class="modal-content">
-                    <h4><?php echo "Paciente: ". $admisionEntity->getPaciente()->getPacienteNombre(). " ". $admisionEntity->getPaciente()->getPacienteAp(). " ". $admisionEntity->getPaciente()->getPacienteAm() ?></h4>
+                    <h4><?php echo "Paciente: ". $pacienteEntity->getPaciente()->getPacienteNombre(). " ". $pacienteEntity->getPaciente()->getPacienteAp(). " ". $pacienteEntity->getPaciente()->getPacienteAm() ?></h4>
                     <div class="row">
                         <fieldset>
                             <legend>Datos Generales</legend>
                             <div class="col s4">
                                 <div class="label-container">
                                     <label>Calle:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacienteCalle()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteCalle()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Colonia:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacienteColonia()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteColonia()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Estado:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacienteEstado()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteEstado()?></p>
                                 </div>
                             </div>
                             <div class="col s4">
                                 <div class="label-container">
                                     <label>No. Exterior:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacienteNoexterior()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteNoexterior()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Codigo Postal:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacienteCodigopostal()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteCodigopostal()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Pais:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacientePais()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacientePais()?></p>
                                 </div>
                             </div>
                             <div class="col s4">
                                 <div class="label-container">
                                     <label>No. Interior:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacienteNoInterior()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteNoInterior()?></p>
                                 </div>
                                 <div class="label-container">
                                     <label>Ciudad:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacienteCiudad()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteCiudad()?></p>
                                 </div>
                             </div>
                         </fieldset>
@@ -258,24 +216,24 @@ $this->headTitle($title);
                             <div class="col s4">
                                 <div class="label-container">
                                     <label>Casa:</label>
-                                    <p><?php echo $admisionEntity->getPaciente()->getPacienteTelefono()?></p>
+                                    <p><?php echo $pacienteEntity->getPaciente()->getPacienteTelefono()?></p>
                                 </div>
                             </div>
                             <div class="label-container">
                                 <label>Celular:</label>
-                                <p><?php echo $admisionEntity->getPaciente()->getPacienteTelefonocelular()?></p>
+                                <p><?php echo $pacienteEntity->getPaciente()->getPacienteTelefonocelular()?></p>
                             </div>
                         </fieldset>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href='<?php echo $this->url('pacientes', array('action'=>'editar', 'id'  => $pacienteEntity->getIdpaciente()));?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                    <a href='<?php echo $this->url('pacientes', array('action'=>'editar', 'id'  => $pacienteEntity->getPaciente()->getIdpaciente()));?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
                 </div>
             </div>
             <!-- End View Modal Structure -->
             <!-- Delete Modal Structure -->
-            <div id="delete-modal-paciente-<?php echo $admisionEntity->getPaciente()->getIdpaciente()?>" class="modal">
+            <div id="delete-modal-paciente-<?php echo $pacienteEntity->getPaciente()->getIdpaciente()?>" class="modal">
                 <div class="modal-content" id="delete-modal-container">
                     <div class="row" id="delete-modal-header-container">
                         <div class="col s4 offset-s4">
@@ -284,18 +242,17 @@ $this->headTitle($title);
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <p><?php echo "Esta seguro que desea eliminar al Paciete: ". $admisionEntity->getPaciente()->getPacienteNombre(). " ". $admisionEntity->getPaciente()->getPacienteAp(). " ". $admisionEntity->getPaciente()->getPAcienteAm(). "?" ?></p>
+                            <p><?php echo "Esta seguro que desea eliminar al Paciete: ". $pacienteEntity->getPaciente()->getPacienteNombre(). " ". $pacienteEntity->getPaciente()->getPacienteAp(). " ". $pacienteEntity->getPaciente()->getPAcienteAm(). "?" ?></p>
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href="/paciente/eliminar/<?php echo $admisionEntity->getPaciente()->getIdpaciente()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+                    <a href="/pacientes/eliminar/<?php echo $pacienteEntity->getPaciente()->getIdpaciente()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
 
                 </div>
             </div>
-            <!-- End Delete Modal Structure -->
         <?php endforeach; ?>
         </tbody>
     </table>
@@ -303,7 +260,7 @@ $this->headTitle($title);
 <script type="text/javascript">
     $(document).ready(function(){
         $('.modal-trigger').leanModal();
-        $("#tabla-paciente").tablesorter({headers:{5:{sorter:false}}});
-        $("#tabla-paciente").filterTable({inputSelector: '#search-container input',minRows:2});
+        $("#tabla-paciente-consulta").tablesorter({headers:{6:{sorter:false}}});
+        $("#tabla-paciente-consulta").filterTable({inputSelector: '#search-container input',minRows:2});
     });
 </script>

@@ -31,7 +31,7 @@ $this->headTitle($title);
         </thead>
         <tbody>
         <?php $direction = 'right'?>
-        <?php foreach ($pacientes as $pacienteEntity) : ?>
+        <?php foreach ($pacientes as $pacienteEntity) :?>
             <tr>
                 <td><?php echo $pacienteEntity->getPacienteNombre() ?></td>
                 <td><?php echo $pacienteEntity->getPacienteAp() ?></td>
@@ -41,9 +41,9 @@ $this->headTitle($title);
                 <td>
                     <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                     &nbsp;&nbsp;
-                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/paciente/editar/".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-editor-border-color"></i></a>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/pacientes/editar/".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-editor-border-color"></i></a>
                     &nbsp;&nbsp;
-                    <a href='<?php echo $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <a href='<?php echo $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>'><i class="tiny mdi-action-assignment"></i></a>
                     <?php /*
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-action-delete"></i></a>
                     */ ?>
@@ -135,7 +135,7 @@ $this->headTitle($title);
                 </div>
                 <div class="modal-footer">
                     <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href="/paciente/eliminar/<?php echo $pacienteEntity->getIdpaciente()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+                    <a href="/pacientes/eliminar/<?php echo $pacienteEntity->getIdpaciente()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
 
                 </div>
             </div>

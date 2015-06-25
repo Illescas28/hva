@@ -3,7 +3,7 @@ $title = 'Paciente: '. $pacienteForm->get('paciente_nombre')->getValue();
 $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
-<?php $pacienteForm->setAttribute('action', '/paciente/editar/'.$id);?>
+<?php $pacienteForm->setAttribute('action', '/pacientes/editar/'.$id);?>
 <?php $pacienteForm->setAttribute('class', 'hva-form');?>
 <?php $pacienteForm->prepare();?>
 <?php echo $this->form()->openTag($pacienteForm); ?>
@@ -362,7 +362,7 @@ $this->headTitle($title);
     <?php echo $this->form()->closeTag(); ?>
     <?php if($pacienteQuery):?>
         <div class="col s4">
-            <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>ver/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
+            <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>asignar/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
         </div>
     <?php endif;?>
 </div>

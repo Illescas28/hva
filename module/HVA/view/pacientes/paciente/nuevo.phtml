@@ -9,7 +9,7 @@ $this->headTitle($title);
     <?php endforeach;?>
 <?php endif;?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
-<?php $pacienteForm->setAttribute('action', '/paciente/nuevo');?>
+<?php $pacienteForm->setAttribute('action', '/pacientes/nuevo');?>
 <?php $pacienteForm->setAttribute('class', 'hva-form');?>
 <?php $pacienteForm->prepare();?>
 <?php echo $this->form()->openTag($pacienteForm); ?>
@@ -370,17 +370,18 @@ $this->headTitle($title);
 </fieldset>
 </div>
 <div class="row">
+<?php echo $this->form()->closeTag(); ?>
+<?php if($pacienteQuery){?>
     <div class="col s4">
+        <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>asignar/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
+    </div>
+<?php }else{?>
+    <div id="guardar" class="col s4">
         <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
             <i class="mdi-content-save left"></i>
         </button>
     </div>
-<?php echo $this->form()->closeTag(); ?>
-<?php if($pacienteQuery):?>
-    <div class="col s4">
-        <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>ver/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
-    </div>
-<?php endif;?>
+<?php };?>
 </div>
 
 <script type="text/javascript">
