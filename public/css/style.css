@@ -499,3 +499,12 @@ div.modal-content div.input-field.number{
 .ordertotal-container{
     background: #e1f5fe;
 }
+
+#tabla-ordenes tr{
+    height: 62px;
+}
+
+#tabla-ordenes #orden_facturapdf{
+    cursor: pointer;
+}
+

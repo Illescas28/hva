@@ -52,7 +52,7 @@
                 <li><a>almacen</a></li>
                 <li><a>Farmacia</a></li>
                 <li><a>Admisión</a></li>
-                <li><a>Compras</a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_compras'>Compras<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
                 <li><a>Inventario</a></li>
             </ul>
         </div>
@@ -148,6 +148,14 @@
     <li><a href="/productos/registro">Registro de productos</a></li>
     <li class="divider"></li>
     <li><a href="#!">Reporte de productos</a></li>
+</ul>
+<!-- Dropdown  Compras -->
+<ul id='dropdown_compras' class='dropdown-content'>
+    <li><a href="/compras">Mis compras</a></li>
+    <li class="divider"></li>
+    <li><a href="/compras/nuevo">Nueva compra</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Reporte de compras</a></li>
 </ul>
 
 <ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
