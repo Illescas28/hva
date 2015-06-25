@@ -507,6 +507,8 @@ return array(
             'Catalogos\Cuarto\Controller\Cuarto'                        => 'Catalogos\Cuarto\Controller\CuartoController',
             //'Catalogos\Servicio\Controller\Servicio'                    => 'Catalogos\Servicio\Controller\ServicioController',
             'Catalogos\Empleado\Controller\Empleado'                    =>  'Catalogos\Empleado\Controller\EmpleadoController',
+            'Catalogos\Lugar\Controller\Lugar'                          =>  'Catalogos\Lugar\Controller\LugarController',
+            'Catalogos\Banco\Controller\Banco'                          =>  'Catalogos\Banco\Controller\BancoController',
 
             //Modulo Productos
             'Productos\Registro\Controller\Registro'                   => 'Productos\Registro\Controller\RegistroController',
