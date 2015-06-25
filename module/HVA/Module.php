@@ -43,6 +43,7 @@ class Module
                     'Auth' => __DIR__ . '/src/' . 'Auth/',
                     'Compras' => __DIR__ . '/src/' . 'Compras/',
                     'Shared' => __DIR__ . '/src/' . 'Shared/',
+                    'Empleados' => __DIR__ . '/src/' . 'Empleados/',
                 ),
             ),
         );

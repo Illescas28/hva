@@ -1,0 +1,133 @@
+<?php
+    $title = 'Nuevo Empleado';
+    $this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<?php $form->setAttribute('action', '/empleados/editar/'.$id);?>
+<?php $form->setAttribute('class', 'hva-form');?>
+<?php $form->prepare();?>
+<?php echo $this->form()->openTag($form); ?>
+<div class="row">
+    <fieldset>
+        <legend>Datos Generales</legend>
+        <div class="row">
+            <div class="col s4">
+                <div class="input-field">
+                    <?php echo $this->formText($form->get('empleado_nombre')); ?>
+                    <?php echo $this->formLabel($form->get('empleado_nombre')); ?>
+                </div>
+                <p id="empleado_nombre" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s4">
+                <div class="input-field">
+                    <?php echo $this->formText($form->get('empleado_apellidopaterno')); ?>
+                    <?php echo $this->formLabel($form->get('empleado_apellidopaterno')); ?>
+                </div>
+                <p id="empleado_apellidopaterno" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s4">
+                <div class="input-field">
+                    <?php echo $this->formText($form->get('empleado_apellidomaterno')); ?>
+                    <?php echo $this->formLabel($form->get('empleado_apellidomaterno')); ?>
+                </div>
+                <p id="empleado_apellidomaterno" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s6">
+                <div class="input-field">
+                    <?php echo $this->formText($form->get('empleado_email')); ?>
+                    <?php echo $this->formLabel($form->get('empleado_email')); ?>
+                </div>
+                <p id="empleado_apellidomaterno" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<div class="row">
+    <fieldset>
+        <legend>Datos de Acceso</legend>
+        <div class="row">
+            <div class="col s4">
+                <div class="input-field">
+                    <?php echo $this->formText($form->get('empleado_nombreusuario')); ?>
+                    <?php echo $this->formLabel($form->get('empleado_nombreusuario')); ?>
+                </div>
+                <p id="empleado_nombreusuario" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s4">
+                <div class="input-field" style="margin-top: 30px;">
+                    <?php echo $this->formPassword($form->get('empleado_password')); ?>
+                    <?php echo $this->formLabel($form->get('empleado_password')); ?>
+                </div>
+                <p id="empleado_password" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s4">
+                <div class="input-field">
+                    <?php echo $this->formSelect($form->get('idrol')); ?>
+                </div>
+                <p id="idrol" class="input-error"> <i class="tiny mdi-alert-error"></i>Por favor seleccione un rol</p>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<p style="color: #9e9e9e">(*) Campos obligatorios</p>
+<div class="row">
+    <div class="col s4 offset-s4">
+        <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+<script>
+    
+    $(document).ready(function(){
+        
+        //Inicializamos el select de materialize
+        $('select').material_select();
+        
+        //Validacion de campos obligatorios 
+        $(document).on('click', 'form button[type=submit]', function(e) {
+
+            var isValid = true;
+            if(!$('input[name=empleado_nombre]').val().length){
+               isValid = false;
+               $('p#empleado_nombre').show();
+               
+            }
+            if(!$('input[name=empleado_apellidopaterno]').val().length){
+               isValid = false;
+               $('p#empleado_apellidopaterno').show();
+               
+            }
+            if(!$('input[name=empleado_apellidomaterno]').val().length){
+               isValid = false;
+               $('p#empleado_apellidomaterno').show();
+               
+            }
+            if(!$('input[name=empleado_email]').val().length){
+               isValid = false;
+               $('p#empleado_email').show();
+               
+            }
+
+            if(!$('input[name=empleado_nombreusuario]').val().length){
+               isValid = false;
+               $('p#empleado_nombreusuario').show();
+               
+            }
+            if($('select[name=idrol]').val() ===''){
+                isValid = false;
+                $('p#idrol').show();
+                e.preventDefault(); 
+            }
+            
+            if(!isValid){
+                e.preventDefault(); 
+            }
+
+        });
+        
+    });
+    
+        
+</script>
