@@ -514,6 +514,7 @@ CREATE TABLE `empleado`
     `empleado_nombreusuario` VARCHAR(45) NOT NULL,
     `empleado_password` VARCHAR(45) NOT NULL,
     `empleado_email` VARCHAR(100) NOT NULL,
+    `empleado_imagen` VARCHAR(255),
     PRIMARY KEY (`idempleado`),
     INDEX `idrol` (`idrol`),
     CONSTRAINT `idrol_empleado`
@@ -974,7 +975,7 @@ CREATE TABLE `rol`
 (
     `idrol` INTEGER NOT NULL AUTO_INCREMENT,
     `rol_nombre` VARCHAR(100) NOT NULL,
-    `rol_descripcion` TEXT NOT NULL,
+    `rol_descripcion` TEXT,
     PRIMARY KEY (`idrol`)
 ) ENGINE=InnoDB;
 

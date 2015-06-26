@@ -221,7 +221,6 @@ $this->headTitle($title);
             var idarticulovariante = $(this).closest('tr').attr('id');
             var modalName = '#modal-producto-'+idarticulovariante+'-compras';
             var descripcion = $(this).closest('td').siblings('#descripcion').text();
-            console.log(descripcion);
             $.get('/productos/precios/comprasbyarticulovariante',
                 {idarticulovariante:idarticulovariante,descripcion:descripcion},
                 function(modal){

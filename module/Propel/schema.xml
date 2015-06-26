@@ -397,6 +397,7 @@
     <column name="empleado_nombreusuario" phpName="EmpleadoNombreusuario" type="VARCHAR" size="45" required="true"/>
     <column name="empleado_password" phpName="EmpleadoPassword" type="VARCHAR" size="45" required="true"/>
     <column name="empleado_email" phpName="EmpleadoEmail" type="VARCHAR" size="100" required="true"/>
+    <column name="empleado_imagen" phpName="EmpleadoImagen" type="VARCHAR" size="255" required="false"/>
     <foreign-key foreignTable="rol" name="idrol_empleado" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idrol" foreign="idrol"/>
     </foreign-key>
@@ -749,7 +750,7 @@
   <table name="rol" phpName="Rol" idMethod="native">
     <column name="idrol" phpName="Idrol" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="rol_nombre" phpName="RolNombre" type="VARCHAR" size="100" required="true"/>
-    <column name="rol_descripcion" phpName="RolDescripcion" type="LONGVARCHAR" required="true"/>
+    <column name="rol_descripcion" phpName="RolDescripcion" type="LONGVARCHAR" required="false"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

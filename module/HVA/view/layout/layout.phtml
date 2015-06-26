@@ -60,8 +60,8 @@
             <a href="javascript:void(0)" id="navbar_profile" data-activates='dropdown_profile'>
                 <div class="row" style="margin-bottom: 9px;">
                     <div class="col s4" style="margin-top: 15px;">
-                        <?php if(file_exists($_SERVER["DOCUMENT_ROOT"]."/img/profile/img_profile_".$_SESSION["empleado_session"]["empleado_info"]["idempleado"].".png")) :?>
-                            <img style="height: 32px;" class="responsive-img circle" src="/img/profile/img_profile_<?php echo $_SESSION["empleado_session"]["empleado_info"]["idempleado"]?>.png">
+                        <?php if(!is_null($_SESSION["empleado_session"]["empleado_info"]["empleado_imagen"])) :?>
+                            <img style="height: 32px;" class="responsive-img circle" src="<?php echo $_SESSION["empleado_session"]["empleado_info"]["empleado_imagen"]?>">
                         <?php else :?>
                             <img class="responsive-img circle" src="/img/profile/default_user.jpg">
                         <?php endif;?>

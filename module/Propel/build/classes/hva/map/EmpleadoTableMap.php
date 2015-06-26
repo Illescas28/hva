@@ -46,6 +46,7 @@ class EmpleadoTableMap extends TableMap
         $this->addColumn('empleado_nombreusuario', 'EmpleadoNombreusuario', 'VARCHAR', true, 45, null);
         $this->addColumn('empleado_password', 'EmpleadoPassword', 'VARCHAR', true, 45, null);
         $this->addColumn('empleado_email', 'EmpleadoEmail', 'VARCHAR', true, 100, null);
+        $this->addColumn('empleado_imagen', 'EmpleadoImagen', 'VARCHAR', false, 255, null);
         // validators
     } // initialize()
 

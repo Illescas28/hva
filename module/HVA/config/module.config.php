@@ -459,7 +459,7 @@ return array(
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/auth',
+                    'route'    => '/auth[/:action]',
                     'defaults' => array(
                         'controller' => 'Auth\Controller\Auth',
                         'action'     => 'login',
