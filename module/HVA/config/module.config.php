@@ -462,6 +462,28 @@ return array(
                 ),
             ),
             
+            //Empleados
+            'empleados' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/empleados[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Empleados\Controller\Empleados',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'empleados-roles' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/empleados/roles[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Empleados\Controller\Roles',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -530,6 +552,10 @@ return array(
             
             //Modulo Compras
             'Compras\Controller\Compras'                                => 'Compras\Controller\ComprasController',
+            
+            //Modulo Empleado
+            'Empleados\Controller\Empleados'                            => 'Empleados\Controller\EmpleadosController',
+            'Empleados\Controller\Roles'                            => 'Empleados\Controller\RolesController'
         ),
     ),
     'view_manager' => array(

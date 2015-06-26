@@ -1,0 +1,65 @@
+<!-- Delete Modal Structure -->
+<span id="iditem" style="visibility: hidden"><?php echo $id ?></span>
+<div id="delete-modal-item-<?php echo $id?>" class="modal ">
+    <div class="modal-content" id="delete-modal-container">
+        <div class="row" id="delete-modal-header-container">
+            <div class="col s5 offset-s4">
+                <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <p><?php echo "Esta seguro que desea eliminar este registro de su orden?" ?></p>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+        <a id="delete_item" href="javascript:void(0)" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+    </div>
+</div>
+<script>
+    $('a#delete_item').on('click',function(){
+        
+        var id_item = <?php echo $id ?>;
+        var modalName = '#delete-modal-item-'+id_item;
+        
+        $.post(
+                 '/compras/deleteitem',
+                 {id: id_item, html:false},
+                 function (response){
+                    
+                    if(response){
+                        $('tr#'+id_item).remove();
+                        $(modalName).closeModal();
+                        $(this).closest('tr').remove();
+                        updateTotal();
+                    }
+                 }
+                 
+        );
+    });
+    
+    function formatMoney(n, currency) {
+            return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+        }
+    
+    function updateTotal(){
+           var total = 0;
+           $.each($('td#subtotal'),function(index,element){
+               var subtotalText = $(element).text();
+
+               var split = subtotalText.split('$');
+               var subtotal =  split[1];
+
+               subtotal = subtotal.replace(',','');
+               total= (parseFloat(total) + parseFloat(subtotal));
+               
+           });
+           
+           $('#total').text(formatMoney(total,'$'));
+           
+       }
+</script>
+<!-- End Delete Modal Structure -->

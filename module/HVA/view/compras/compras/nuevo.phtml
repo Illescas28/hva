@@ -123,14 +123,26 @@
     </div>
 </div>
 <div class="row">
+    <div class="col s6">
+        <fieldset>
+            <legend>Factura PDF</legend>
+            <div class="file-field input-field">
+                <input class="file-path validate" type="text"/>
+                <div class="btn">
+                  <span>PDF</span>
+                  <input id="orden_pdf" name="pdf" type="file" accept=".pdf"/>
+                </div>
+            </div>
+        </fieldset>       
+    </div>
+</div>
+<div class="row">
     <div class="col s4 offset-s4">
         <button id="save_order" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
             <i class="mdi-content-save left"></i>
         </button>
     </div>
 </div>
-
-
 <script>
 
     $(document).ready(function(){
@@ -145,7 +157,7 @@
             changeYear: true,
             dateFormat: 'dd/mm/yy',
             monthNamesShort: [ "Ene ", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ],
-            
+   
         });
         
         updateTotal();
@@ -233,11 +245,7 @@
                     
                     var cantidad = $(this).closest('tr').find('#cantidad input').val();
                     var new_subtotal = cantidad  * $(this).val();
-                    
-                     console.log($(this));
-                   console.log(cantidad);
-                   console.log(new_subtotal);
-                   console.log( $(this).closest('tr').find('#subtotal'));
+
                     
                    $(this).closest('tr').find('#subtotal').text(formatMoney(new_subtotal,'$'));
                    updateTotal();
@@ -331,8 +339,35 @@
               var rowCount = $('tbody').children().length;
               
               if(rowCount >= 1){
+                  
+                  //PDF
+                  var orden_facturapdf = null;
+
+                  if($('input[name=pdf]').val() != ''){
+                    
+                    var inputFile = document.getElementById('orden_pdf');
+                    var file = inputFile.files[0];
+                    var data = new FormData();
+                    data.append('archivo',file);
+                    $.ajax({
+                        url:'/compras/uploadcomprapdf',
+                        type:'POST',
+                        contentType:false,
+                        data:data,
+                        processData:false,
+                        cache:false,
+                        async: false,
+                        success: function (data) {
+                            var response = JSON.parse(data);
+                            orden_facturapdf = response.compra_facturapdf;
+                        }  
+                    });
+  
+                 }
+                  
                   //Guardamos la informacion de la orden en un objeto
-                  var orden = {
+                  var orden = { 
+                      orden_facturapdf:orden_facturapdf,
                       orden_fecha:$('input#orden_fecha').val(),
                       orden_folio: $('input#orden_folio').val(),
                       orden_proveedor : $('input#idproveedor').val(),
@@ -342,6 +377,7 @@
                       orden_items : new Array(),
                   }
                   
+                                  
                   //Hacemos un foreach a nuestros items de la orden
                   $.each($('table.ordertable tbody').children(),function(index,element){
 
@@ -358,18 +394,16 @@
                     }
                   });
                   
-
                   
-                $.getJSON('/compras/guardarorden',
+                $.post('/compras/guardarorden',
                     {orden:orden},
                     function(response){
-                       if(response.response){
+                       if(response){
                            window.location.replace("/compras");
                        }
                     }
                 );
-                  
-                  
+           
               }else{
                   alert('Debe tener por lo menos un item en su factura para guardarla');
               }
@@ -401,7 +435,40 @@
            
        }
        
-       
+       //PDF Handler
+//       $('input[name=pdf]').on('change',function(){
+//          var input = this;
+//          var inputFile =input.files;
+//          var formData = new FormData();
+//          
+//          // Loop through each of the selected files.
+//          for (var i = 0; i < inputFile.length; i++) {
+//              
+//              var file = inputFile[i];
+//              
+//              formData.append('facturas[]', file, file.name);
+//              
+//              
+//          }
+//          
+//          // Set up the request.
+//          var xhr = new XMLHttpRequest();
+//          xhr.open('POST', 'handler.php', true);    
+//          
+//          // Set up a handler for when the request finishes.
+//         xhr.onload = function () {
+//          if (xhr.status === 200) {
+//            // File(s) uploaded.
+//            console.log('subiendo');
+//          } else {
+//            alert('An error occurred!');
+//          }
+//        };
+//        
+//        xhr.send(formData);
+//          
+// 
+//       });
             
         
         
