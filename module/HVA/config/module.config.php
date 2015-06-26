@@ -107,6 +107,34 @@ return array(
                     ),
                 ),
             ),
+            'consultaanticipo' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/consultaanticipo[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Consultaanticipo\Controller\Consultaanticipo',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'admisionanticipo' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/admisionanticipo[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Admisionanticipo\Controller\Admisionanticipo',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             // Catalogos
             'upload' => array(
                 'type'    => 'literal',
@@ -474,30 +502,31 @@ return array(
             'Auth\Controller\Auth' => 'Auth\Controller\AuthController',
 
             // Módulo Catalogos
-            'Catalogos\Proveedor\Controller\Proveedor'                  => 'Catalogos\Proveedor\Controller\ProveedorController',
-            'Catalogos\Tipo\Controller\Tipo'                            => 'Catalogos\Tipo\Controller\TipoController',
-            'Catalogos\Articulo\Controller\Articulo'                    => 'Catalogos\Articulo\Controller\ArticuloController',
-            'Catalogos\Articulovariante\Controller\Articulovariante'    => 'Catalogos\Articulovariante\Controller\ArticulovarianteController',
-            'Catalogos\Propiedad\Controller\Propiedad'                  => 'Catalogos\Propiedad\Controller\PropiedadController',
-            'Catalogos\Producto\Controller\Producto'                    => 'Catalogos\Producto\Controller\ProductoController',
-            'Catalogos\Medico\Controller\Medico'                        => 'Catalogos\Medico\Controller\MedicoController',
-            'Catalogos\Especialidad\Controller\Especialidad'            => 'Catalogos\Especialidad\Controller\EspecialidadController',
-            'Catalogos\Cuarto\Controller\Cuarto'                        => 'Catalogos\Cuarto\Controller\CuartoController',
-            //'Catalogos\Servicio\Controller\Servicio'                    => 'Catalogos\Servicio\Controller\ServicioController',
-            'Catalogos\Empleado\Controller\Empleado'                    =>  'Catalogos\Empleado\Controller\EmpleadoController',
+            'Catalogos\Proveedor\Controller\Proveedor'                          => 'Catalogos\Proveedor\Controller\ProveedorController',
+            'Catalogos\Tipo\Controller\Tipo'                                    => 'Catalogos\Tipo\Controller\TipoController',
+            'Catalogos\Articulo\Controller\Articulo'                            => 'Catalogos\Articulo\Controller\ArticuloController',
+            'Catalogos\Articulovariante\Controller\Articulovariante'            => 'Catalogos\Articulovariante\Controller\ArticulovarianteController',
+            'Catalogos\Propiedad\Controller\Propiedad'                          => 'Catalogos\Propiedad\Controller\PropiedadController',
+            'Catalogos\Producto\Controller\Producto'                            => 'Catalogos\Producto\Controller\ProductoController',
+            'Catalogos\Medico\Controller\Medico'                                => 'Catalogos\Medico\Controller\MedicoController',
+            'Catalogos\Especialidad\Controller\Especialidad'                    => 'Catalogos\Especialidad\Controller\EspecialidadController',
+            'Catalogos\Cuarto\Controller\Cuarto'                                => 'Catalogos\Cuarto\Controller\CuartoController',
+            //'Catalogos\Servicio\Controller\Servicio'                            => 'Catalogos\Servicio\Controller\ServicioController',
+            'Catalogos\Empleado\Controller\Empleado'                            =>  'Catalogos\Empleado\Controller\EmpleadoController',
 
             //Modulo Productos
-            'Productos\Registro\Controller\Registro'                   => 'Productos\Registro\Controller\RegistroController',
-            'Productos\Existencias\Controller\Existencias'             => 'Productos\Existencias\Controller\ExistenciasController',
-            'Productos\Producto\Controller\Producto'                   =>   'Productos\Producto\Controller\ProductoController',
-            'Productos\Reorden\Controller\Reorden'                     =>   'Productos\Reorden\Controller\ReordenController',
-            'Productos\Precios\Controller\Precios'                     =>   'Productos\Precios\Controller\PreciosController',
-
+            'Productos\Registro\Controller\Registro'                            => 'Productos\Registro\Controller\RegistroController',
+            'Productos\Existencias\Controller\Existencias'                      => 'Productos\Existencias\Controller\ExistenciasController',
+            'Productos\Producto\Controller\Producto'                            =>   'Productos\Producto\Controller\ProductoController',
+            'Productos\Reorden\Controller\Reorden'                              =>   'Productos\Reorden\Controller\ReordenController',
+            'Productos\Precios\Controller\Precios'                              =>   'Productos\Precios\Controller\PreciosController',
+            'Pacientes\Consultaanticipo\Controller\Consultaanticipo'            => 'Pacientes\Consultaanticipo\Controller\ConsultaanticipoController',
+            'Pacientes\Admisionanticipo\Controller\Admisionanticipoanticipo'    => 'Pacientes\Admisionanticipo\Controller\AdmisionanticipoanticipoController',
             // Módulo Pacientes
-            'Pacientes\Paciente\Controller\Paciente'                    => 'Pacientes\Paciente\Controller\PacienteController',
-            'Pacientes\Consultorio\Controller\Consultorio'              => 'Pacientes\Consultorio\Controller\ConsultorioController',
-            'Pacientes\Servicio\Controller\Servicio'                    => 'Pacientes\Servicio\Controller\ServicioController',
-            'Pacientes\Cargoconsulta\Controller\Cargoconsulta'          => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
+            'Pacientes\Paciente\Controller\Paciente'                            => 'Pacientes\Paciente\Controller\PacienteController',
+            'Pacientes\Consultorio\Controller\Consultorio'                      => 'Pacientes\Consultorio\Controller\ConsultorioController',
+            'Pacientes\Servicio\Controller\Servicio'                            => 'Pacientes\Servicio\Controller\ServicioController',
+            'Pacientes\Cargoconsulta\Controller\Cargoconsulta'                  => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
             
             //Modulo Compras
             'Compras\Controller\Compras'                                => 'Compras\Controller\ComprasController',

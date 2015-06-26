@@ -4555,44 +4555,30 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         // Creamos los elementos de Anticipo admision
         var anticipoAdmision = document.getElementById("anticipoAdmision");
+        anticipoAdmision.innerHTML = anticipoAdmision;
+
+        var divCantidadRestanteAnticipo = document.createElement('div')
+        divCantidadRestanteAnticipo.className = "col s12";
         var spanAnticipo = document.createElement('span')
         var cantidadRestanteAnticipo = document.createTextNode("Cantidad restante: "+subTotal);
         spanAnticipo.appendChild(cantidadRestanteAnticipo);
-        anticipoAdmision.appendChild(spanAnticipo);
+        divCantidadRestanteAnticipo.appendChild(spanAnticipo);
+        anticipoAdmision.appendChild(divCantidadRestanteAnticipo);
         var brAnticipo1 = document.createElement('br')
         anticipoAdmision.appendChild(brAnticipo1);
 
-        var spanMetodoDeAnticipo = document.createElement('span')
-        var metodoDeAnticipo = document.createTextNode("Método de pago: ");
-        spanMetodoDeAnticipo.appendChild(metodoDeAnticipo);
-        anticipoAdmision.appendChild(spanMetodoDeAnticipo);
-
-        var selectAnticipo = document.createElement('select');
-        selectAnticipo.style.display = "inline";
-        selectAnticipo.style.width = "auto";
-        selectAnticipo.style.height = "auto";
-        selectAnticipo.setAttribute ( 'id', 'select_metodo_de_pago_anticipo' );
-        var metodosAnticipoArray = ["Tarjeta de crédito", "Tarjeta de débito", "Cheque", "No identificado"];
-        // agregamos los valores <option> a seleccionar
-        for($i=0; $i<=metodosAnticipoArray.length; $i++){
-            var selectAnticipoOption = new Option(metodosAnticipoArray[$i],metodosAnticipoArray[$i]);
-            selectAnticipo.appendChild(selectAnticipoOption);
-        }
-        anticipoAdmision.appendChild(selectAnticipo);
-        var spanAnticipo2 = document.createElement('span')
-        var espacioAnticipo = document.createTextNode("   ");
-        spanAnticipo2.appendChild(espacioAnticipo);
-        anticipoAdmision.appendChild(spanAnticipo2);
-
-        var inputMetodoDePagoAnticipo = document.createElement('input')
-        inputMetodoDePagoAnticipo.style.width = "auto";
-        inputMetodoDePagoAnticipo.setAttribute ( 'id', 'input_anticipo' );
-        inputMetodoDePagoAnticipo.type = 'number';
-        inputMetodoDePagoAnticipo.min ="1";
-        inputMetodoDePagoAnticipo.max = subTotal;
-        inputMetodoDePagoAnticipo.setAttribute ( 'name', 'anticipo' );
-        inputMetodoDePagoAnticipo.setAttribute ( 'value', subTotal );
-        anticipoAdmision.appendChild(inputMetodoDePagoAnticipo);
+        var divInputAnticipo = document.createElement('div')
+        divInputAnticipo.className = "col s12";
+        var inputAnticipo = document.createElement('input')
+        inputAnticipo.style.width = "auto";
+        inputAnticipo.setAttribute ( 'id', 'input_anticipo_admision' );
+        inputAnticipo.type = 'number';
+        inputAnticipo.min ="1";
+        inputAnticipo.max = subTotal;
+        inputAnticipo.setAttribute ( 'name', 'anticipo' );
+        inputAnticipo.setAttribute ( 'value', subTotal );
+        divInputAnticipo.appendChild(inputAnticipo);
+        anticipoAdmision.appendChild(divInputAnticipo);
 
         var divInputNotaAnticipo = document.createElement('div')
         divInputNotaAnticipo.className = "input-field col s12";
@@ -4610,7 +4596,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         var divBotonPagarAnticipo = document.createElement('div')
         divBotonPagarAnticipo.className = "right col s4";
-        divBotonPagarAnticipo.setAttribute ( 'id', 'divBotonPagar' );
+        divBotonPagarAnticipo.setAttribute ( 'id', 'divBotonAdmisionPagarAnticipo' );
         var botonPagarAnticipo = document.createElement('button')
         botonPagarAnticipo.className = "btn waves-effect waves-light";
         botonPagarAnticipo.style.width = "auto";
@@ -4625,43 +4611,53 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         // Creamos los elementos de Pago admision
         var pagoAdmision = document.getElementById("pagoAdmision");
+        pagoAdmision.innerHTML = pagoAdmision;
+
+        var divCantidadRestantePago = document.createElement('div')
+        divCantidadRestantePago.className = "col s12";
         var spanPago = document.createElement('span')
         var cantidadRestantePago = document.createTextNode("Cantidad restante: "+subTotal);
         spanPago.appendChild(cantidadRestantePago);
-        pagoAdmision.appendChild(spanPago);
+        divCantidadRestantePago.appendChild(spanPago);
+        pagoAdmision.appendChild(divCantidadRestantePago);
         var br1 = document.createElement('br')
         pagoAdmision.appendChild(br1);
 
+        var divMetodoDePago = document.createElement('div')
+        divMetodoDePago.className = "col s12";
+        divMetodoDePago.setAttribute ( 'id', 'divMetodoDePago' );
         var spanMetodoDePago = document.createElement('span')
         var metodoDePago = document.createTextNode("Método de pago: ");
         spanMetodoDePago.appendChild(metodoDePago);
-        pagoAdmision.appendChild(spanMetodoDePago);
+        divMetodoDePago.appendChild(spanMetodoDePago);
 
         var select = document.createElement('select');
         select.style.display = "inline";
         select.style.width = "auto";
         select.style.height = "auto";
         select.setAttribute ( 'id', 'select_metodo_de_pago' );
-        var metodosArray = ["Tarjeta de crédito", "Tarjeta de débito", "Cheque", "No identificado"];
+        var metodosArray = ["Efectivo", "Tarjeta de crédito", "Tarjeta de débito", "Cheque", "No identificado"];
         // agregamos los valores <option> a seleccionar
         for($i=0; $i<=metodosArray.length; $i++){
             var selectOption = new Option(metodosArray[$i],metodosArray[$i]);
             select.appendChild(selectOption);
         }
-        pagoAdmision.appendChild(select);
+        divMetodoDePago.appendChild(select);
+
         var span2 = document.createElement('span')
         var espacio = document.createTextNode("   ");
         span2.appendChild(espacio);
-        pagoAdmision.appendChild(span2);
+        divMetodoDePago.appendChild(span2);
 
         var inputMetodoDePago = document.createElement('input')
         inputMetodoDePago.style.width = "auto";
-        inputMetodoDePago.setAttribute ( 'id', 'input_pago' );
+        inputMetodoDePago.setAttribute ( 'id', 'input_pago_admision' );
         inputMetodoDePago.setAttribute ( 'type', 'text' );
         inputMetodoDePago.setAttribute ( 'name', 'pago' );
         inputMetodoDePago.setAttribute ( 'value', subTotal );
         inputMetodoDePago.setAttribute ( 'readonly', 'readonly');
-        pagoAdmision.appendChild(inputMetodoDePago);
+        divMetodoDePago.appendChild(inputMetodoDePago);
+        pagoAdmision.appendChild(divMetodoDePago);
 
         var divInputNotaPago = document.createElement('div')
         divInputNotaPago.className = "input-field col s12";
@@ -4679,7 +4675,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         var divBotonPagar = document.createElement('div')
         divBotonPagar.className = "right col s4";
-        divBotonPagar.setAttribute ( 'id', 'divBotonPagar' );
+        divBotonPagar.setAttribute ( 'id', 'divBotonAdmisionPagarPago' );
         var botonPagar = document.createElement('button')
         botonPagar.className = "btn waves-effect waves-light";
         botonPagar.style.width = "auto";
@@ -4744,7 +4740,65 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         buttonVerFactura.appendChild(textoButtonVerFactura)
         divbotoVerFactura.appendChild(buttonVerFactura)
     }
+    $("#divBotonAdmisionPagarAnticipo").click(function() {
 
+        alert("subTotal: " + subTotal)
+        //Obtenemos el valor del input de divInputAnticipo
+        var anticipoAdmision = $("input#input_anticipo_admision").val();
+
+        if(anticipoAdmision > subTotal || anticipoAdmision < 0){
+            var divInputAnticipoElement = document.getElementById("divInputAnticipo");
+            divInputAnticipoElement.innerHTML = divInputAnticipoElement;
+            var span4 = document.createElement('span')
+            span4.className = "col 12";
+            var textoSpan4 = document.createTextNode("Generar Factura");
+            textoSpan4.className = "red-text";
+            span4.appendChild(textoSpan4)
+            divInputAnticipoElement.appendChild(span4)
+            return false;
+        }
+        var idadmision = $("input#idadmision").val();
+        var notaAnticipoAdmision = $("input#input_nota_anticipo").val();
+
+        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+        var dataString = 'idadmision=' + idadmision + '&admisionanticipo_cantidad=' + anticipoAdmision + '&input_nota_anticipo=' + notaAnticipoAdmision ;
+
+        alert(dataString);
+
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                admisionanticipoArray = []
+                var admisionanticipoEntity = data.admisionanticipo
+                $.each( admisionanticipoEntity, function( key, value ) {
+                    servicioArray.push({
+                        "idadmisionanticipo" : value.idadmisionanticipo,
+                        "admisionanticipo_fecha" : value.admisionanticipo_fecha,
+                        "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
+                        "admisionanticipo_nota" : value.admisionanticipo_nota,
+                    });
+                });
+            },
+            error: function(){
+                alert("Error al intentar guardar admision-anticipo")
+            }
+        });
+
+        return false;
+    });
+
+    $("#divBotonAdmisionPagarPago").click(function() {
+
+        alert("subTotal: " + subTotal)
+        var pagoAdmision = $("input#input_pago_admision").val();
+        if(pagoAdmision > subTotal || pagoAdmision < 0){
+            var pagoAdmision = $("input#divMetodoDePago").val();
+        }
+    });
 }
 
 function anticipoAdmision() {
