@@ -100,6 +100,38 @@ class AdmisionFilter implements InputFilterAwareInterface
                     array('name' => 'StringTrim'),
                 ),
             ));
+            $inputFilter->add(array(
+                'name'     => 'admision_tipodepago',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'admision_referenciapago',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'admision_facturada',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'admision_registrada',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
 
             $this->inputFilter = $inputFilter;
         }

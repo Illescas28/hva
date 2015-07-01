@@ -8,23 +8,27 @@
  *
  * @method VentaQuery orderByIdventa($order = Criteria::ASC) Order by the idventa column
  * @method VentaQuery orderByIdpaciente($order = Criteria::ASC) Order by the idpaciente column
- * @method VentaQuery orderByIdcajachica($order = Criteria::ASC) Order by the idcajachica column
  * @method VentaQuery orderByVentaFecha($order = Criteria::ASC) Order by the venta_fecha column
- * @method VentaQuery orderByVentaCantidad($order = Criteria::ASC) Order by the venta_cantidad column
+ * @method VentaQuery orderByVentaTipodepago($order = Criteria::ASC) Order by the venta_tipodepago column
+ * @method VentaQuery orderByVentaStatus($order = Criteria::ASC) Order by the venta_status column
+ * @method VentaQuery orderByVentaFacturada($order = Criteria::ASC) Order by the venta_facturada column
+ * @method VentaQuery orderByVentaRegistrada($order = Criteria::ASC) Order by the venta_registrada column
+ * @method VentaQuery orderByVentaTotal($order = Criteria::ASC) Order by the venta_total column
+ * @method VentaQuery orderByVentaReferenciapago($order = Criteria::ASC) Order by the venta_referenciapago column
  *
  * @method VentaQuery groupByIdventa() Group by the idventa column
  * @method VentaQuery groupByIdpaciente() Group by the idpaciente column
- * @method VentaQuery groupByIdcajachica() Group by the idcajachica column
  * @method VentaQuery groupByVentaFecha() Group by the venta_fecha column
- * @method VentaQuery groupByVentaCantidad() Group by the venta_cantidad column
+ * @method VentaQuery groupByVentaTipodepago() Group by the venta_tipodepago column
+ * @method VentaQuery groupByVentaStatus() Group by the venta_status column
+ * @method VentaQuery groupByVentaFacturada() Group by the venta_facturada column
+ * @method VentaQuery groupByVentaRegistrada() Group by the venta_registrada column
+ * @method VentaQuery groupByVentaTotal() Group by the venta_total column
+ * @method VentaQuery groupByVentaReferenciapago() Group by the venta_referenciapago column
  *
  * @method VentaQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method VentaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method VentaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
- *
- * @method VentaQuery leftJoinCajachica($relationAlias = null) Adds a LEFT JOIN clause to the query using the Cajachica relation
- * @method VentaQuery rightJoinCajachica($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cajachica relation
- * @method VentaQuery innerJoinCajachica($relationAlias = null) Adds a INNER JOIN clause to the query using the Cajachica relation
  *
  * @method VentaQuery leftJoinPaciente($relationAlias = null) Adds a LEFT JOIN clause to the query using the Paciente relation
  * @method VentaQuery rightJoinPaciente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Paciente relation
@@ -38,15 +42,23 @@
  * @method Venta findOneOrCreate(PropelPDO $con = null) Return the first Venta matching the query, or a new Venta object populated from the query conditions when no match is found
  *
  * @method Venta findOneByIdpaciente(int $idpaciente) Return the first Venta filtered by the idpaciente column
- * @method Venta findOneByIdcajachica(int $idcajachica) Return the first Venta filtered by the idcajachica column
  * @method Venta findOneByVentaFecha(string $venta_fecha) Return the first Venta filtered by the venta_fecha column
- * @method Venta findOneByVentaCantidad(string $venta_cantidad) Return the first Venta filtered by the venta_cantidad column
+ * @method Venta findOneByVentaTipodepago(string $venta_tipodepago) Return the first Venta filtered by the venta_tipodepago column
+ * @method Venta findOneByVentaStatus(string $venta_status) Return the first Venta filtered by the venta_status column
+ * @method Venta findOneByVentaFacturada(boolean $venta_facturada) Return the first Venta filtered by the venta_facturada column
+ * @method Venta findOneByVentaRegistrada(boolean $venta_registrada) Return the first Venta filtered by the venta_registrada column
+ * @method Venta findOneByVentaTotal(string $venta_total) Return the first Venta filtered by the venta_total column
+ * @method Venta findOneByVentaReferenciapago(string $venta_referenciapago) Return the first Venta filtered by the venta_referenciapago column
  *
  * @method array findByIdventa(int $idventa) Return Venta objects filtered by the idventa column
  * @method array findByIdpaciente(int $idpaciente) Return Venta objects filtered by the idpaciente column
- * @method array findByIdcajachica(int $idcajachica) Return Venta objects filtered by the idcajachica column
  * @method array findByVentaFecha(string $venta_fecha) Return Venta objects filtered by the venta_fecha column
- * @method array findByVentaCantidad(string $venta_cantidad) Return Venta objects filtered by the venta_cantidad column
+ * @method array findByVentaTipodepago(string $venta_tipodepago) Return Venta objects filtered by the venta_tipodepago column
+ * @method array findByVentaStatus(string $venta_status) Return Venta objects filtered by the venta_status column
+ * @method array findByVentaFacturada(boolean $venta_facturada) Return Venta objects filtered by the venta_facturada column
+ * @method array findByVentaRegistrada(boolean $venta_registrada) Return Venta objects filtered by the venta_registrada column
+ * @method array findByVentaTotal(string $venta_total) Return Venta objects filtered by the venta_total column
+ * @method array findByVentaReferenciapago(string $venta_referenciapago) Return Venta objects filtered by the venta_referenciapago column
  *
  * @package    propel.generator.hva.om
  */
@@ -154,7 +166,7 @@ abstract class BaseVentaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idventa`, `idpaciente`, `idcajachica`, `venta_fecha`, `venta_cantidad` FROM `venta` WHERE `idventa` = :p0';
+        $sql = 'SELECT `idventa`, `idpaciente`, `venta_fecha`, `venta_tipodepago`, `venta_status`, `venta_facturada`, `venta_registrada`, `venta_total`, `venta_referenciapago` FROM `venta` WHERE `idventa` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -330,50 +342,6 @@ abstract class BaseVentaQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the idcajachica column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByIdcajachica(1234); // WHERE idcajachica = 1234
-     * $query->filterByIdcajachica(array(12, 34)); // WHERE idcajachica IN (12, 34)
-     * $query->filterByIdcajachica(array('min' => 12)); // WHERE idcajachica >= 12
-     * $query->filterByIdcajachica(array('max' => 12)); // WHERE idcajachica <= 12
-     * </code>
-     *
-     * @see       filterByCajachica()
-     *
-     * @param     mixed $idcajachica The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return VentaQuery The current query, for fluid interface
-     */
-    public function filterByIdcajachica($idcajachica = null, $comparison = null)
-    {
-        if (is_array($idcajachica)) {
-            $useMinMax = false;
-            if (isset($idcajachica['min'])) {
-                $this->addUsingAlias(VentaPeer::IDCAJACHICA, $idcajachica['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idcajachica['max'])) {
-                $this->addUsingAlias(VentaPeer::IDCAJACHICA, $idcajachica['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(VentaPeer::IDCAJACHICA, $idcajachica, $comparison);
-    }
-
-    /**
      * Filter the query on the venta_fecha column
      *
      * Example usage:
@@ -417,17 +385,129 @@ abstract class BaseVentaQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the venta_cantidad column
+     * Filter the query on the venta_tipodepago column
      *
      * Example usage:
      * <code>
-     * $query->filterByVentaCantidad(1234); // WHERE venta_cantidad = 1234
-     * $query->filterByVentaCantidad(array(12, 34)); // WHERE venta_cantidad IN (12, 34)
-     * $query->filterByVentaCantidad(array('min' => 12)); // WHERE venta_cantidad >= 12
-     * $query->filterByVentaCantidad(array('max' => 12)); // WHERE venta_cantidad <= 12
+     * $query->filterByVentaTipodepago('fooValue');   // WHERE venta_tipodepago = 'fooValue'
+     * $query->filterByVentaTipodepago('%fooValue%'); // WHERE venta_tipodepago LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $ventaCantidad The value to use as filter.
+     * @param     string $ventaTipodepago The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return VentaQuery The current query, for fluid interface
+     */
+    public function filterByVentaTipodepago($ventaTipodepago = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($ventaTipodepago)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $ventaTipodepago)) {
+                $ventaTipodepago = str_replace('*', '%', $ventaTipodepago);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(VentaPeer::VENTA_TIPODEPAGO, $ventaTipodepago, $comparison);
+    }
+
+    /**
+     * Filter the query on the venta_status column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByVentaStatus('fooValue');   // WHERE venta_status = 'fooValue'
+     * $query->filterByVentaStatus('%fooValue%'); // WHERE venta_status LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $ventaStatus The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return VentaQuery The current query, for fluid interface
+     */
+    public function filterByVentaStatus($ventaStatus = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($ventaStatus)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $ventaStatus)) {
+                $ventaStatus = str_replace('*', '%', $ventaStatus);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(VentaPeer::VENTA_STATUS, $ventaStatus, $comparison);
+    }
+
+    /**
+     * Filter the query on the venta_facturada column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByVentaFacturada(true); // WHERE venta_facturada = true
+     * $query->filterByVentaFacturada('yes'); // WHERE venta_facturada = true
+     * </code>
+     *
+     * @param     boolean|string $ventaFacturada The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return VentaQuery The current query, for fluid interface
+     */
+    public function filterByVentaFacturada($ventaFacturada = null, $comparison = null)
+    {
+        if (is_string($ventaFacturada)) {
+            $ventaFacturada = in_array(strtolower($ventaFacturada), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(VentaPeer::VENTA_FACTURADA, $ventaFacturada, $comparison);
+    }
+
+    /**
+     * Filter the query on the venta_registrada column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByVentaRegistrada(true); // WHERE venta_registrada = true
+     * $query->filterByVentaRegistrada('yes'); // WHERE venta_registrada = true
+     * </code>
+     *
+     * @param     boolean|string $ventaRegistrada The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return VentaQuery The current query, for fluid interface
+     */
+    public function filterByVentaRegistrada($ventaRegistrada = null, $comparison = null)
+    {
+        if (is_string($ventaRegistrada)) {
+            $ventaRegistrada = in_array(strtolower($ventaRegistrada), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(VentaPeer::VENTA_REGISTRADA, $ventaRegistrada, $comparison);
+    }
+
+    /**
+     * Filter the query on the venta_total column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByVentaTotal(1234); // WHERE venta_total = 1234
+     * $query->filterByVentaTotal(array(12, 34)); // WHERE venta_total IN (12, 34)
+     * $query->filterByVentaTotal(array('min' => 12)); // WHERE venta_total >= 12
+     * $query->filterByVentaTotal(array('max' => 12)); // WHERE venta_total <= 12
+     * </code>
+     *
+     * @param     mixed $ventaTotal The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -435,16 +515,16 @@ abstract class BaseVentaQuery extends ModelCriteria
      *
      * @return VentaQuery The current query, for fluid interface
      */
-    public function filterByVentaCantidad($ventaCantidad = null, $comparison = null)
+    public function filterByVentaTotal($ventaTotal = null, $comparison = null)
     {
-        if (is_array($ventaCantidad)) {
+        if (is_array($ventaTotal)) {
             $useMinMax = false;
-            if (isset($ventaCantidad['min'])) {
-                $this->addUsingAlias(VentaPeer::VENTA_CANTIDAD, $ventaCantidad['min'], Criteria::GREATER_EQUAL);
+            if (isset($ventaTotal['min'])) {
+                $this->addUsingAlias(VentaPeer::VENTA_TOTAL, $ventaTotal['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($ventaCantidad['max'])) {
-                $this->addUsingAlias(VentaPeer::VENTA_CANTIDAD, $ventaCantidad['max'], Criteria::LESS_EQUAL);
+            if (isset($ventaTotal['max'])) {
+                $this->addUsingAlias(VentaPeer::VENTA_TOTAL, $ventaTotal['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -455,83 +535,36 @@ abstract class BaseVentaQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(VentaPeer::VENTA_CANTIDAD, $ventaCantidad, $comparison);
+        return $this->addUsingAlias(VentaPeer::VENTA_TOTAL, $ventaTotal, $comparison);
     }
 
     /**
-     * Filter the query by a related Cajachica object
+     * Filter the query on the venta_referenciapago column
      *
-     * @param   Cajachica|PropelObjectCollection $cajachica The related object(s) to use as filter
+     * Example usage:
+     * <code>
+     * $query->filterByVentaReferenciapago('fooValue');   // WHERE venta_referenciapago = 'fooValue'
+     * $query->filterByVentaReferenciapago('%fooValue%'); // WHERE venta_referenciapago LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $ventaReferenciapago The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return                 VentaQuery The current query, for fluid interface
-     * @throws PropelException - if the provided filter is invalid.
-     */
-    public function filterByCajachica($cajachica, $comparison = null)
-    {
-        if ($cajachica instanceof Cajachica) {
-            return $this
-                ->addUsingAlias(VentaPeer::IDCAJACHICA, $cajachica->getIdcajachica(), $comparison);
-        } elseif ($cajachica instanceof PropelObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
-            return $this
-                ->addUsingAlias(VentaPeer::IDCAJACHICA, $cajachica->toKeyValue('PrimaryKey', 'Idcajachica'), $comparison);
-        } else {
-            throw new PropelException('filterByCajachica() only accepts arguments of type Cajachica or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the Cajachica relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return VentaQuery The current query, for fluid interface
      */
-    public function joinCajachica($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function filterByVentaReferenciapago($ventaReferenciapago = null, $comparison = null)
     {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Cajachica');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
+        if (null === $comparison) {
+            if (is_array($ventaReferenciapago)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $ventaReferenciapago)) {
+                $ventaReferenciapago = str_replace('*', '%', $ventaReferenciapago);
+                $comparison = Criteria::LIKE;
+            }
         }
 
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'Cajachica');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the Cajachica relation Cajachica object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   CajachicaQuery A secondary query class using the current class as primary query
-     */
-    public function useCajachicaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinCajachica($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Cajachica', 'CajachicaQuery');
+        return $this->addUsingAlias(VentaPeer::VENTA_REFERENCIAPAGO, $ventaReferenciapago, $comparison);
     }
 
     /**
@@ -568,7 +601,7 @@ abstract class BaseVentaQuery extends ModelCriteria
      *
      * @return VentaQuery The current query, for fluid interface
      */
-    public function joinPaciente($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinPaciente($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Paciente');
@@ -603,7 +636,7 @@ abstract class BaseVentaQuery extends ModelCriteria
      *
      * @return   PacienteQuery A secondary query class using the current class as primary query
      */
-    public function usePacienteQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function usePacienteQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinPaciente($relationAlias, $joinType)

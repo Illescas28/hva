@@ -36,22 +36,28 @@ abstract class BaseBanco extends BaseObject implements Persistent
     protected $idbanco;
 
     /**
-     * The value for the banco_nombre field.
-     * @var        string
+     * The value for the idconceptobanco field.
+     * @var        int
      */
-    protected $banco_nombre;
+    protected $idconceptobanco;
 
     /**
-     * The value for the banco_cuenta field.
+     * The value for the banco_fecha field.
      * @var        string
      */
-    protected $banco_cuenta;
+    protected $banco_fecha;
 
     /**
-     * The value for the banco_descripcion field.
+     * The value for the banco_tipomovimiento field.
      * @var        string
      */
-    protected $banco_descripcion;
+    protected $banco_tipomovimiento;
+
+    /**
+     * The value for the banco_cantidad field.
+     * @var        string
+     */
+    protected $banco_cantidad;
 
     /**
      * The value for the banco_balance field.
@@ -61,10 +67,21 @@ abstract class BaseBanco extends BaseObject implements Persistent
     protected $banco_balance;
 
     /**
-     * @var        PropelObjectCollection|Bancotransaccion[] Collection to store aggregation of Bancotransaccion objects.
+     * The value for the banco_nota field.
+     * @var        string
      */
-    protected $collBancotransaccions;
-    protected $collBancotransaccionsPartial;
+    protected $banco_nota;
+
+    /**
+     * @var        Conceptobanco
+     */
+    protected $aConceptobanco;
+
+    /**
+     * @var        PropelObjectCollection|Referenciaabono[] Collection to store aggregation of Referenciaabono objects.
+     */
+    protected $collReferenciaabonos;
+    protected $collReferenciaabonosPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -90,7 +107,7 @@ abstract class BaseBanco extends BaseObject implements Persistent
      * An array of objects scheduled for deletion.
      * @var		PropelObjectCollection
      */
-    protected $bancotransaccionsScheduledForDeletion = null;
+    protected $referenciaabonosScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -125,36 +142,47 @@ abstract class BaseBanco extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [banco_nombre] column value.
+     * Get the [idconceptobanco] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getBancoNombre()
+    public function getIdconceptobanco()
     {
 
-        return $this->banco_nombre;
+        return $this->idconceptobanco;
     }
 
     /**
-     * Get the [banco_cuenta] column value.
+     * Get the [banco_fecha] column value.
      *
      * @return string
      */
-    public function getBancoCuenta()
+    public function getBancoFecha()
     {
 
-        return $this->banco_cuenta;
+        return $this->banco_fecha;
     }
 
     /**
-     * Get the [banco_descripcion] column value.
+     * Get the [banco_tipomovimiento] column value.
      *
      * @return string
      */
-    public function getBancoDescripcion()
+    public function getBancoTipomovimiento()
     {
 
-        return $this->banco_descripcion;
+        return $this->banco_tipomovimiento;
+    }
+
+    /**
+     * Get the [banco_cantidad] column value.
+     *
+     * @return string
+     */
+    public function getBancoCantidad()
+    {
+
+        return $this->banco_cantidad;
     }
 
     /**
@@ -166,6 +194,17 @@ abstract class BaseBanco extends BaseObject implements Persistent
     {
 
         return $this->banco_balance;
+    }
+
+    /**
+     * Get the [banco_nota] column value.
+     *
+     * @return string
+     */
+    public function getBancoNota()
+    {
+
+        return $this->banco_nota;
     }
 
     /**
@@ -190,67 +229,92 @@ abstract class BaseBanco extends BaseObject implements Persistent
     } // setIdbanco()
 
     /**
-     * Set the value of [banco_nombre] column.
+     * Set the value of [idconceptobanco] column.
      *
-     * @param  string $v new value
+     * @param  int $v new value
      * @return Banco The current object (for fluent API support)
      */
-    public function setBancoNombre($v)
+    public function setIdconceptobanco($v)
     {
-        if ($v !== null) {
-            $v = (string) $v;
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
         }
 
-        if ($this->banco_nombre !== $v) {
-            $this->banco_nombre = $v;
-            $this->modifiedColumns[] = BancoPeer::BANCO_NOMBRE;
+        if ($this->idconceptobanco !== $v) {
+            $this->idconceptobanco = $v;
+            $this->modifiedColumns[] = BancoPeer::IDCONCEPTOBANCO;
+        }
+
+        if ($this->aConceptobanco !== null && $this->aConceptobanco->getIdbancotransaccion() !== $v) {
+            $this->aConceptobanco = null;
         }
 
 
         return $this;
-    } // setBancoNombre()
+    } // setIdconceptobanco()
 
     /**
-     * Set the value of [banco_cuenta] column.
+     * Set the value of [banco_fecha] column.
      *
      * @param  string $v new value
      * @return Banco The current object (for fluent API support)
      */
-    public function setBancoCuenta($v)
+    public function setBancoFecha($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->banco_cuenta !== $v) {
-            $this->banco_cuenta = $v;
-            $this->modifiedColumns[] = BancoPeer::BANCO_CUENTA;
+        if ($this->banco_fecha !== $v) {
+            $this->banco_fecha = $v;
+            $this->modifiedColumns[] = BancoPeer::BANCO_FECHA;
         }
 
 
         return $this;
-    } // setBancoCuenta()
+    } // setBancoFecha()
 
     /**
-     * Set the value of [banco_descripcion] column.
+     * Set the value of [banco_tipomovimiento] column.
      *
      * @param  string $v new value
      * @return Banco The current object (for fluent API support)
      */
-    public function setBancoDescripcion($v)
+    public function setBancoTipomovimiento($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->banco_descripcion !== $v) {
-            $this->banco_descripcion = $v;
-            $this->modifiedColumns[] = BancoPeer::BANCO_DESCRIPCION;
+        if ($this->banco_tipomovimiento !== $v) {
+            $this->banco_tipomovimiento = $v;
+            $this->modifiedColumns[] = BancoPeer::BANCO_TIPOMOVIMIENTO;
         }
 
 
         return $this;
-    } // setBancoDescripcion()
+    } // setBancoTipomovimiento()
+
+    /**
+     * Set the value of [banco_cantidad] column.
+     *
+     * @param  string $v new value
+     * @return Banco The current object (for fluent API support)
+     */
+    public function setBancoCantidad($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->banco_cantidad !== $v) {
+            $this->banco_cantidad = $v;
+            $this->modifiedColumns[] = BancoPeer::BANCO_CANTIDAD;
+        }
+
+
+        return $this;
+    } // setBancoCantidad()
 
     /**
      * Set the value of [banco_balance] column.
@@ -272,6 +336,27 @@ abstract class BaseBanco extends BaseObject implements Persistent
 
         return $this;
     } // setBancoBalance()
+
+    /**
+     * Set the value of [banco_nota] column.
+     *
+     * @param  string $v new value
+     * @return Banco The current object (for fluent API support)
+     */
+    public function setBancoNota($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->banco_nota !== $v) {
+            $this->banco_nota = $v;
+            $this->modifiedColumns[] = BancoPeer::BANCO_NOTA;
+        }
+
+
+        return $this;
+    } // setBancoNota()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -310,10 +395,12 @@ abstract class BaseBanco extends BaseObject implements Persistent
         try {
 
             $this->idbanco = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->banco_nombre = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->banco_cuenta = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->banco_descripcion = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->banco_balance = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->idconceptobanco = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+            $this->banco_fecha = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->banco_tipomovimiento = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->banco_cantidad = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->banco_balance = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->banco_nota = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -323,7 +410,7 @@ abstract class BaseBanco extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = BancoPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = BancoPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Banco object", $e);
@@ -346,6 +433,9 @@ abstract class BaseBanco extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
+        if ($this->aConceptobanco !== null && $this->idconceptobanco !== $this->aConceptobanco->getIdbancotransaccion()) {
+            $this->aConceptobanco = null;
+        }
     } // ensureConsistency
 
     /**
@@ -385,7 +475,8 @@ abstract class BaseBanco extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collBancotransaccions = null;
+            $this->aConceptobanco = null;
+            $this->collReferenciaabonos = null;
 
         } // if (deep)
     }
@@ -500,6 +591,18 @@ abstract class BaseBanco extends BaseObject implements Persistent
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aConceptobanco !== null) {
+                if ($this->aConceptobanco->isModified() || $this->aConceptobanco->isNew()) {
+                    $affectedRows += $this->aConceptobanco->save($con);
+                }
+                $this->setConceptobanco($this->aConceptobanco);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -511,17 +614,17 @@ abstract class BaseBanco extends BaseObject implements Persistent
                 $this->resetModified();
             }
 
-            if ($this->bancotransaccionsScheduledForDeletion !== null) {
-                if (!$this->bancotransaccionsScheduledForDeletion->isEmpty()) {
-                    BancotransaccionQuery::create()
-                        ->filterByPrimaryKeys($this->bancotransaccionsScheduledForDeletion->getPrimaryKeys(false))
+            if ($this->referenciaabonosScheduledForDeletion !== null) {
+                if (!$this->referenciaabonosScheduledForDeletion->isEmpty()) {
+                    ReferenciaabonoQuery::create()
+                        ->filterByPrimaryKeys($this->referenciaabonosScheduledForDeletion->getPrimaryKeys(false))
                         ->delete($con);
-                    $this->bancotransaccionsScheduledForDeletion = null;
+                    $this->referenciaabonosScheduledForDeletion = null;
                 }
             }
 
-            if ($this->collBancotransaccions !== null) {
-                foreach ($this->collBancotransaccions as $referrerFK) {
+            if ($this->collReferenciaabonos !== null) {
+                foreach ($this->collReferenciaabonos as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -557,17 +660,23 @@ abstract class BaseBanco extends BaseObject implements Persistent
         if ($this->isColumnModified(BancoPeer::IDBANCO)) {
             $modifiedColumns[':p' . $index++]  = '`idbanco`';
         }
-        if ($this->isColumnModified(BancoPeer::BANCO_NOMBRE)) {
-            $modifiedColumns[':p' . $index++]  = '`banco_nombre`';
+        if ($this->isColumnModified(BancoPeer::IDCONCEPTOBANCO)) {
+            $modifiedColumns[':p' . $index++]  = '`idconceptobanco`';
         }
-        if ($this->isColumnModified(BancoPeer::BANCO_CUENTA)) {
-            $modifiedColumns[':p' . $index++]  = '`banco_cuenta`';
+        if ($this->isColumnModified(BancoPeer::BANCO_FECHA)) {
+            $modifiedColumns[':p' . $index++]  = '`banco_fecha`';
         }
-        if ($this->isColumnModified(BancoPeer::BANCO_DESCRIPCION)) {
-            $modifiedColumns[':p' . $index++]  = '`banco_descripcion`';
+        if ($this->isColumnModified(BancoPeer::BANCO_TIPOMOVIMIENTO)) {
+            $modifiedColumns[':p' . $index++]  = '`banco_tipomovimiento`';
+        }
+        if ($this->isColumnModified(BancoPeer::BANCO_CANTIDAD)) {
+            $modifiedColumns[':p' . $index++]  = '`banco_cantidad`';
         }
         if ($this->isColumnModified(BancoPeer::BANCO_BALANCE)) {
             $modifiedColumns[':p' . $index++]  = '`banco_balance`';
+        }
+        if ($this->isColumnModified(BancoPeer::BANCO_NOTA)) {
+            $modifiedColumns[':p' . $index++]  = '`banco_nota`';
         }
 
         $sql = sprintf(
@@ -583,17 +692,23 @@ abstract class BaseBanco extends BaseObject implements Persistent
                     case '`idbanco`':
                         $stmt->bindValue($identifier, $this->idbanco, PDO::PARAM_INT);
                         break;
-                    case '`banco_nombre`':
-                        $stmt->bindValue($identifier, $this->banco_nombre, PDO::PARAM_STR);
+                    case '`idconceptobanco`':
+                        $stmt->bindValue($identifier, $this->idconceptobanco, PDO::PARAM_INT);
                         break;
-                    case '`banco_cuenta`':
-                        $stmt->bindValue($identifier, $this->banco_cuenta, PDO::PARAM_STR);
+                    case '`banco_fecha`':
+                        $stmt->bindValue($identifier, $this->banco_fecha, PDO::PARAM_STR);
                         break;
-                    case '`banco_descripcion`':
-                        $stmt->bindValue($identifier, $this->banco_descripcion, PDO::PARAM_STR);
+                    case '`banco_tipomovimiento`':
+                        $stmt->bindValue($identifier, $this->banco_tipomovimiento, PDO::PARAM_STR);
+                        break;
+                    case '`banco_cantidad`':
+                        $stmt->bindValue($identifier, $this->banco_cantidad, PDO::PARAM_STR);
                         break;
                     case '`banco_balance`':
                         $stmt->bindValue($identifier, $this->banco_balance, PDO::PARAM_STR);
+                        break;
+                    case '`banco_nota`':
+                        $stmt->bindValue($identifier, $this->banco_nota, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -689,13 +804,25 @@ abstract class BaseBanco extends BaseObject implements Persistent
             $failureMap = array();
 
 
+            // We call the validate method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aConceptobanco !== null) {
+                if (!$this->aConceptobanco->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aConceptobanco->getValidationFailures());
+                }
+            }
+
+
             if (($retval = BancoPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
 
-                if ($this->collBancotransaccions !== null) {
-                    foreach ($this->collBancotransaccions as $referrerFK) {
+                if ($this->collReferenciaabonos !== null) {
+                    foreach ($this->collReferenciaabonos as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
                             $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
                         }
@@ -741,16 +868,22 @@ abstract class BaseBanco extends BaseObject implements Persistent
                 return $this->getIdbanco();
                 break;
             case 1:
-                return $this->getBancoNombre();
+                return $this->getIdconceptobanco();
                 break;
             case 2:
-                return $this->getBancoCuenta();
+                return $this->getBancoFecha();
                 break;
             case 3:
-                return $this->getBancoDescripcion();
+                return $this->getBancoTipomovimiento();
                 break;
             case 4:
+                return $this->getBancoCantidad();
+                break;
+            case 5:
                 return $this->getBancoBalance();
+                break;
+            case 6:
+                return $this->getBancoNota();
                 break;
             default:
                 return null;
@@ -782,10 +915,12 @@ abstract class BaseBanco extends BaseObject implements Persistent
         $keys = BancoPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getIdbanco(),
-            $keys[1] => $this->getBancoNombre(),
-            $keys[2] => $this->getBancoCuenta(),
-            $keys[3] => $this->getBancoDescripcion(),
-            $keys[4] => $this->getBancoBalance(),
+            $keys[1] => $this->getIdconceptobanco(),
+            $keys[2] => $this->getBancoFecha(),
+            $keys[3] => $this->getBancoTipomovimiento(),
+            $keys[4] => $this->getBancoCantidad(),
+            $keys[5] => $this->getBancoBalance(),
+            $keys[6] => $this->getBancoNota(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -793,8 +928,11 @@ abstract class BaseBanco extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collBancotransaccions) {
-                $result['Bancotransaccions'] = $this->collBancotransaccions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            if (null !== $this->aConceptobanco) {
+                $result['Conceptobanco'] = $this->aConceptobanco->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collReferenciaabonos) {
+                $result['Referenciaabonos'] = $this->collReferenciaabonos->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -834,16 +972,22 @@ abstract class BaseBanco extends BaseObject implements Persistent
                 $this->setIdbanco($value);
                 break;
             case 1:
-                $this->setBancoNombre($value);
+                $this->setIdconceptobanco($value);
                 break;
             case 2:
-                $this->setBancoCuenta($value);
+                $this->setBancoFecha($value);
                 break;
             case 3:
-                $this->setBancoDescripcion($value);
+                $this->setBancoTipomovimiento($value);
                 break;
             case 4:
+                $this->setBancoCantidad($value);
+                break;
+            case 5:
                 $this->setBancoBalance($value);
+                break;
+            case 6:
+                $this->setBancoNota($value);
                 break;
         } // switch()
     }
@@ -870,10 +1014,12 @@ abstract class BaseBanco extends BaseObject implements Persistent
         $keys = BancoPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setIdbanco($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setBancoNombre($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setBancoCuenta($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setBancoDescripcion($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setBancoBalance($arr[$keys[4]]);
+        if (array_key_exists($keys[1], $arr)) $this->setIdconceptobanco($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setBancoFecha($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setBancoTipomovimiento($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setBancoCantidad($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setBancoBalance($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setBancoNota($arr[$keys[6]]);
     }
 
     /**
@@ -886,10 +1032,12 @@ abstract class BaseBanco extends BaseObject implements Persistent
         $criteria = new Criteria(BancoPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(BancoPeer::IDBANCO)) $criteria->add(BancoPeer::IDBANCO, $this->idbanco);
-        if ($this->isColumnModified(BancoPeer::BANCO_NOMBRE)) $criteria->add(BancoPeer::BANCO_NOMBRE, $this->banco_nombre);
-        if ($this->isColumnModified(BancoPeer::BANCO_CUENTA)) $criteria->add(BancoPeer::BANCO_CUENTA, $this->banco_cuenta);
-        if ($this->isColumnModified(BancoPeer::BANCO_DESCRIPCION)) $criteria->add(BancoPeer::BANCO_DESCRIPCION, $this->banco_descripcion);
+        if ($this->isColumnModified(BancoPeer::IDCONCEPTOBANCO)) $criteria->add(BancoPeer::IDCONCEPTOBANCO, $this->idconceptobanco);
+        if ($this->isColumnModified(BancoPeer::BANCO_FECHA)) $criteria->add(BancoPeer::BANCO_FECHA, $this->banco_fecha);
+        if ($this->isColumnModified(BancoPeer::BANCO_TIPOMOVIMIENTO)) $criteria->add(BancoPeer::BANCO_TIPOMOVIMIENTO, $this->banco_tipomovimiento);
+        if ($this->isColumnModified(BancoPeer::BANCO_CANTIDAD)) $criteria->add(BancoPeer::BANCO_CANTIDAD, $this->banco_cantidad);
         if ($this->isColumnModified(BancoPeer::BANCO_BALANCE)) $criteria->add(BancoPeer::BANCO_BALANCE, $this->banco_balance);
+        if ($this->isColumnModified(BancoPeer::BANCO_NOTA)) $criteria->add(BancoPeer::BANCO_NOTA, $this->banco_nota);
 
         return $criteria;
     }
@@ -953,10 +1101,12 @@ abstract class BaseBanco extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setBancoNombre($this->getBancoNombre());
-        $copyObj->setBancoCuenta($this->getBancoCuenta());
-        $copyObj->setBancoDescripcion($this->getBancoDescripcion());
+        $copyObj->setIdconceptobanco($this->getIdconceptobanco());
+        $copyObj->setBancoFecha($this->getBancoFecha());
+        $copyObj->setBancoTipomovimiento($this->getBancoTipomovimiento());
+        $copyObj->setBancoCantidad($this->getBancoCantidad());
         $copyObj->setBancoBalance($this->getBancoBalance());
+        $copyObj->setBancoNota($this->getBancoNota());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -965,9 +1115,9 @@ abstract class BaseBanco extends BaseObject implements Persistent
             // store object hash to prevent cycle
             $this->startCopy = true;
 
-            foreach ($this->getBancotransaccions() as $relObj) {
+            foreach ($this->getReferenciaabonos() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addBancotransaccion($relObj->copy($deepCopy));
+                    $copyObj->addReferenciaabono($relObj->copy($deepCopy));
                 }
             }
 
@@ -1021,6 +1171,58 @@ abstract class BaseBanco extends BaseObject implements Persistent
         return self::$peer;
     }
 
+    /**
+     * Declares an association between this object and a Conceptobanco object.
+     *
+     * @param                  Conceptobanco $v
+     * @return Banco The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setConceptobanco(Conceptobanco $v = null)
+    {
+        if ($v === null) {
+            $this->setIdconceptobanco(NULL);
+        } else {
+            $this->setIdconceptobanco($v->getIdbancotransaccion());
+        }
+
+        $this->aConceptobanco = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the Conceptobanco object, it will not be re-added.
+        if ($v !== null) {
+            $v->addBanco($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated Conceptobanco object
+     *
+     * @param PropelPDO $con Optional Connection object.
+     * @param $doQuery Executes a query to get the object if required
+     * @return Conceptobanco The associated Conceptobanco object.
+     * @throws PropelException
+     */
+    public function getConceptobanco(PropelPDO $con = null, $doQuery = true)
+    {
+        if ($this->aConceptobanco === null && ($this->idconceptobanco !== null) && $doQuery) {
+            $this->aConceptobanco = ConceptobancoQuery::create()->findPk($this->idconceptobanco, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aConceptobanco->addBancos($this);
+             */
+        }
+
+        return $this->aConceptobanco;
+    }
+
 
     /**
      * Initializes a collection based on the name of a relation.
@@ -1032,42 +1234,42 @@ abstract class BaseBanco extends BaseObject implements Persistent
      */
     public function initRelation($relationName)
     {
-        if ('Bancotransaccion' == $relationName) {
-            $this->initBancotransaccions();
+        if ('Referenciaabono' == $relationName) {
+            $this->initReferenciaabonos();
         }
     }
 
     /**
-     * Clears out the collBancotransaccions collection
+     * Clears out the collReferenciaabonos collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return Banco The current object (for fluent API support)
-     * @see        addBancotransaccions()
+     * @see        addReferenciaabonos()
      */
-    public function clearBancotransaccions()
+    public function clearReferenciaabonos()
     {
-        $this->collBancotransaccions = null; // important to set this to null since that means it is uninitialized
-        $this->collBancotransaccionsPartial = null;
+        $this->collReferenciaabonos = null; // important to set this to null since that means it is uninitialized
+        $this->collReferenciaabonosPartial = null;
 
         return $this;
     }
 
     /**
-     * reset is the collBancotransaccions collection loaded partially
+     * reset is the collReferenciaabonos collection loaded partially
      *
      * @return void
      */
-    public function resetPartialBancotransaccions($v = true)
+    public function resetPartialReferenciaabonos($v = true)
     {
-        $this->collBancotransaccionsPartial = $v;
+        $this->collReferenciaabonosPartial = $v;
     }
 
     /**
-     * Initializes the collBancotransaccions collection.
+     * Initializes the collReferenciaabonos collection.
      *
-     * By default this just sets the collBancotransaccions collection to an empty array (like clearcollBancotransaccions());
+     * By default this just sets the collReferenciaabonos collection to an empty array (like clearcollReferenciaabonos());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1076,17 +1278,17 @@ abstract class BaseBanco extends BaseObject implements Persistent
      *
      * @return void
      */
-    public function initBancotransaccions($overrideExisting = true)
+    public function initReferenciaabonos($overrideExisting = true)
     {
-        if (null !== $this->collBancotransaccions && !$overrideExisting) {
+        if (null !== $this->collReferenciaabonos && !$overrideExisting) {
             return;
         }
-        $this->collBancotransaccions = new PropelObjectCollection();
-        $this->collBancotransaccions->setModel('Bancotransaccion');
+        $this->collReferenciaabonos = new PropelObjectCollection();
+        $this->collReferenciaabonos->setModel('Referenciaabono');
     }
 
     /**
-     * Gets an array of Bancotransaccion objects which contain a foreign key that references this object.
+     * Gets an array of Referenciaabono objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
@@ -1096,107 +1298,107 @@ abstract class BaseBanco extends BaseObject implements Persistent
      *
      * @param Criteria $criteria optional Criteria object to narrow the query
      * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|Bancotransaccion[] List of Bancotransaccion objects
+     * @return PropelObjectCollection|Referenciaabono[] List of Referenciaabono objects
      * @throws PropelException
      */
-    public function getBancotransaccions($criteria = null, PropelPDO $con = null)
+    public function getReferenciaabonos($criteria = null, PropelPDO $con = null)
     {
-        $partial = $this->collBancotransaccionsPartial && !$this->isNew();
-        if (null === $this->collBancotransaccions || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collBancotransaccions) {
+        $partial = $this->collReferenciaabonosPartial && !$this->isNew();
+        if (null === $this->collReferenciaabonos || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collReferenciaabonos) {
                 // return empty collection
-                $this->initBancotransaccions();
+                $this->initReferenciaabonos();
             } else {
-                $collBancotransaccions = BancotransaccionQuery::create(null, $criteria)
+                $collReferenciaabonos = ReferenciaabonoQuery::create(null, $criteria)
                     ->filterByBanco($this)
                     ->find($con);
                 if (null !== $criteria) {
-                    if (false !== $this->collBancotransaccionsPartial && count($collBancotransaccions)) {
-                      $this->initBancotransaccions(false);
+                    if (false !== $this->collReferenciaabonosPartial && count($collReferenciaabonos)) {
+                      $this->initReferenciaabonos(false);
 
-                      foreach ($collBancotransaccions as $obj) {
-                        if (false == $this->collBancotransaccions->contains($obj)) {
-                          $this->collBancotransaccions->append($obj);
+                      foreach ($collReferenciaabonos as $obj) {
+                        if (false == $this->collReferenciaabonos->contains($obj)) {
+                          $this->collReferenciaabonos->append($obj);
                         }
                       }
 
-                      $this->collBancotransaccionsPartial = true;
+                      $this->collReferenciaabonosPartial = true;
                     }
 
-                    $collBancotransaccions->getInternalIterator()->rewind();
+                    $collReferenciaabonos->getInternalIterator()->rewind();
 
-                    return $collBancotransaccions;
+                    return $collReferenciaabonos;
                 }
 
-                if ($partial && $this->collBancotransaccions) {
-                    foreach ($this->collBancotransaccions as $obj) {
+                if ($partial && $this->collReferenciaabonos) {
+                    foreach ($this->collReferenciaabonos as $obj) {
                         if ($obj->isNew()) {
-                            $collBancotransaccions[] = $obj;
+                            $collReferenciaabonos[] = $obj;
                         }
                     }
                 }
 
-                $this->collBancotransaccions = $collBancotransaccions;
-                $this->collBancotransaccionsPartial = false;
+                $this->collReferenciaabonos = $collReferenciaabonos;
+                $this->collReferenciaabonosPartial = false;
             }
         }
 
-        return $this->collBancotransaccions;
+        return $this->collReferenciaabonos;
     }
 
     /**
-     * Sets a collection of Bancotransaccion objects related by a one-to-many relationship
+     * Sets a collection of Referenciaabono objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param PropelCollection $bancotransaccions A Propel collection.
+     * @param PropelCollection $referenciaabonos A Propel collection.
      * @param PropelPDO $con Optional connection object
      * @return Banco The current object (for fluent API support)
      */
-    public function setBancotransaccions(PropelCollection $bancotransaccions, PropelPDO $con = null)
+    public function setReferenciaabonos(PropelCollection $referenciaabonos, PropelPDO $con = null)
     {
-        $bancotransaccionsToDelete = $this->getBancotransaccions(new Criteria(), $con)->diff($bancotransaccions);
+        $referenciaabonosToDelete = $this->getReferenciaabonos(new Criteria(), $con)->diff($referenciaabonos);
 
 
-        $this->bancotransaccionsScheduledForDeletion = $bancotransaccionsToDelete;
+        $this->referenciaabonosScheduledForDeletion = $referenciaabonosToDelete;
 
-        foreach ($bancotransaccionsToDelete as $bancotransaccionRemoved) {
-            $bancotransaccionRemoved->setBanco(null);
+        foreach ($referenciaabonosToDelete as $referenciaabonoRemoved) {
+            $referenciaabonoRemoved->setBanco(null);
         }
 
-        $this->collBancotransaccions = null;
-        foreach ($bancotransaccions as $bancotransaccion) {
-            $this->addBancotransaccion($bancotransaccion);
+        $this->collReferenciaabonos = null;
+        foreach ($referenciaabonos as $referenciaabono) {
+            $this->addReferenciaabono($referenciaabono);
         }
 
-        $this->collBancotransaccions = $bancotransaccions;
-        $this->collBancotransaccionsPartial = false;
+        $this->collReferenciaabonos = $referenciaabonos;
+        $this->collReferenciaabonosPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related Bancotransaccion objects.
+     * Returns the number of related Referenciaabono objects.
      *
      * @param Criteria $criteria
      * @param boolean $distinct
      * @param PropelPDO $con
-     * @return int             Count of related Bancotransaccion objects.
+     * @return int             Count of related Referenciaabono objects.
      * @throws PropelException
      */
-    public function countBancotransaccions(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    public function countReferenciaabonos(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
     {
-        $partial = $this->collBancotransaccionsPartial && !$this->isNew();
-        if (null === $this->collBancotransaccions || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collBancotransaccions) {
+        $partial = $this->collReferenciaabonosPartial && !$this->isNew();
+        if (null === $this->collReferenciaabonos || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collReferenciaabonos) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getBancotransaccions());
+                return count($this->getReferenciaabonos());
             }
-            $query = BancotransaccionQuery::create(null, $criteria);
+            $query = ReferenciaabonoQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
@@ -1206,28 +1408,28 @@ abstract class BaseBanco extends BaseObject implements Persistent
                 ->count($con);
         }
 
-        return count($this->collBancotransaccions);
+        return count($this->collReferenciaabonos);
     }
 
     /**
-     * Method called to associate a Bancotransaccion object to this object
-     * through the Bancotransaccion foreign key attribute.
+     * Method called to associate a Referenciaabono object to this object
+     * through the Referenciaabono foreign key attribute.
      *
-     * @param    Bancotransaccion $l Bancotransaccion
+     * @param    Referenciaabono $l Referenciaabono
      * @return Banco The current object (for fluent API support)
      */
-    public function addBancotransaccion(Bancotransaccion $l)
+    public function addReferenciaabono(Referenciaabono $l)
     {
-        if ($this->collBancotransaccions === null) {
-            $this->initBancotransaccions();
-            $this->collBancotransaccionsPartial = true;
+        if ($this->collReferenciaabonos === null) {
+            $this->initReferenciaabonos();
+            $this->collReferenciaabonosPartial = true;
         }
 
-        if (!in_array($l, $this->collBancotransaccions->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddBancotransaccion($l);
+        if (!in_array($l, $this->collReferenciaabonos->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddReferenciaabono($l);
 
-            if ($this->bancotransaccionsScheduledForDeletion and $this->bancotransaccionsScheduledForDeletion->contains($l)) {
-                $this->bancotransaccionsScheduledForDeletion->remove($this->bancotransaccionsScheduledForDeletion->search($l));
+            if ($this->referenciaabonosScheduledForDeletion and $this->referenciaabonosScheduledForDeletion->contains($l)) {
+                $this->referenciaabonosScheduledForDeletion->remove($this->referenciaabonosScheduledForDeletion->search($l));
             }
         }
 
@@ -1235,28 +1437,28 @@ abstract class BaseBanco extends BaseObject implements Persistent
     }
 
     /**
-     * @param	Bancotransaccion $bancotransaccion The bancotransaccion object to add.
+     * @param	Referenciaabono $referenciaabono The referenciaabono object to add.
      */
-    protected function doAddBancotransaccion($bancotransaccion)
+    protected function doAddReferenciaabono($referenciaabono)
     {
-        $this->collBancotransaccions[]= $bancotransaccion;
-        $bancotransaccion->setBanco($this);
+        $this->collReferenciaabonos[]= $referenciaabono;
+        $referenciaabono->setBanco($this);
     }
 
     /**
-     * @param	Bancotransaccion $bancotransaccion The bancotransaccion object to remove.
+     * @param	Referenciaabono $referenciaabono The referenciaabono object to remove.
      * @return Banco The current object (for fluent API support)
      */
-    public function removeBancotransaccion($bancotransaccion)
+    public function removeReferenciaabono($referenciaabono)
     {
-        if ($this->getBancotransaccions()->contains($bancotransaccion)) {
-            $this->collBancotransaccions->remove($this->collBancotransaccions->search($bancotransaccion));
-            if (null === $this->bancotransaccionsScheduledForDeletion) {
-                $this->bancotransaccionsScheduledForDeletion = clone $this->collBancotransaccions;
-                $this->bancotransaccionsScheduledForDeletion->clear();
+        if ($this->getReferenciaabonos()->contains($referenciaabono)) {
+            $this->collReferenciaabonos->remove($this->collReferenciaabonos->search($referenciaabono));
+            if (null === $this->referenciaabonosScheduledForDeletion) {
+                $this->referenciaabonosScheduledForDeletion = clone $this->collReferenciaabonos;
+                $this->referenciaabonosScheduledForDeletion->clear();
             }
-            $this->bancotransaccionsScheduledForDeletion[]= clone $bancotransaccion;
-            $bancotransaccion->setBanco(null);
+            $this->referenciaabonosScheduledForDeletion[]= $referenciaabono;
+            $referenciaabono->setBanco(null);
         }
 
         return $this;
@@ -1268,10 +1470,12 @@ abstract class BaseBanco extends BaseObject implements Persistent
     public function clear()
     {
         $this->idbanco = null;
-        $this->banco_nombre = null;
-        $this->banco_cuenta = null;
-        $this->banco_descripcion = null;
+        $this->idconceptobanco = null;
+        $this->banco_fecha = null;
+        $this->banco_tipomovimiento = null;
+        $this->banco_cantidad = null;
         $this->banco_balance = null;
+        $this->banco_nota = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1295,19 +1499,23 @@ abstract class BaseBanco extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->collBancotransaccions) {
-                foreach ($this->collBancotransaccions as $o) {
+            if ($this->collReferenciaabonos) {
+                foreach ($this->collReferenciaabonos as $o) {
                     $o->clearAllReferences($deep);
                 }
+            }
+            if ($this->aConceptobanco instanceof Persistent) {
+              $this->aConceptobanco->clearAllReferences($deep);
             }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        if ($this->collBancotransaccions instanceof PropelCollection) {
-            $this->collBancotransaccions->clearIterator();
+        if ($this->collReferenciaabonos instanceof PropelCollection) {
+            $this->collReferenciaabonos->clearIterator();
         }
-        $this->collBancotransaccions = null;
+        $this->collReferenciaabonos = null;
+        $this->aConceptobanco = null;
     }
 
     /**

@@ -54,16 +54,16 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     protected $idconsultorio;
 
     /**
-     * The value for the consulta_fechaadmision field.
+     * The value for the consulta_fecha field.
      * @var        string
      */
-    protected $consulta_fechaadmision;
+    protected $consulta_fecha;
 
     /**
-     * The value for the consulta_fechasalida field.
+     * The value for the consulta_hora field.
      * @var        string
      */
-    protected $consulta_fechasalida;
+    protected $consulta_hora;
 
     /**
      * The value for the consulta_diagnostico field.
@@ -89,6 +89,30 @@ abstract class BaseConsulta extends BaseObject implements Persistent
      * @var        string
      */
     protected $consulta_total;
+
+    /**
+     * The value for the consulta_tipodepago field.
+     * @var        string
+     */
+    protected $consulta_tipodepago;
+
+    /**
+     * The value for the consulta_referenciapago field.
+     * @var        string
+     */
+    protected $consulta_referenciapago;
+
+    /**
+     * The value for the consulta_facturada field.
+     * @var        boolean
+     */
+    protected $consulta_facturada;
+
+    /**
+     * The value for the consulta_registrada field.
+     * @var        boolean
+     */
+    protected $consulta_registrada;
 
     /**
      * @var        Consultorio
@@ -227,30 +251,30 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [optionally formatted] temporal [consulta_fechaadmision] column value.
+     * Get the [optionally formatted] temporal [consulta_fecha] column value.
      *
      *
      * @param string $format The date/time format string (either date()-style or strftime()-style).
      *				 If format is null, then the raw DateTime object will be returned.
-     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00 00:00:00
+     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getConsultaFechaadmision($format = 'Y-m-d H:i:s')
+    public function getConsultaFecha($format = '%x')
     {
-        if ($this->consulta_fechaadmision === null) {
+        if ($this->consulta_fecha === null) {
             return null;
         }
 
-        if ($this->consulta_fechaadmision === '0000-00-00 00:00:00') {
+        if ($this->consulta_fecha === '0000-00-00') {
             // while technically this is not a default value of null,
             // this seems to be closest in meaning.
             return null;
         }
 
         try {
-            $dt = new DateTime($this->consulta_fechaadmision);
+            $dt = new DateTime($this->consulta_fecha);
         } catch (Exception $x) {
-            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->consulta_fechaadmision, true), $x);
+            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->consulta_fecha, true), $x);
         }
 
         if ($format === null) {
@@ -267,30 +291,25 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [optionally formatted] temporal [consulta_fechasalida] column value.
+     * Get the [optionally formatted] temporal [consulta_hora] column value.
      *
      *
      * @param string $format The date/time format string (either date()-style or strftime()-style).
      *				 If format is null, then the raw DateTime object will be returned.
-     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00 00:00:00
+     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getConsultaFechasalida($format = 'Y-m-d H:i:s')
+    public function getConsultaHora($format = '%X')
     {
-        if ($this->consulta_fechasalida === null) {
+        if ($this->consulta_hora === null) {
             return null;
         }
 
-        if ($this->consulta_fechasalida === '0000-00-00 00:00:00') {
-            // while technically this is not a default value of null,
-            // this seems to be closest in meaning.
-            return null;
-        }
 
         try {
-            $dt = new DateTime($this->consulta_fechasalida);
+            $dt = new DateTime($this->consulta_hora);
         } catch (Exception $x) {
-            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->consulta_fechasalida, true), $x);
+            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->consulta_hora, true), $x);
         }
 
         if ($format === null) {
@@ -348,6 +367,50 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     {
 
         return $this->consulta_total;
+    }
+
+    /**
+     * Get the [consulta_tipodepago] column value.
+     *
+     * @return string
+     */
+    public function getConsultaTipodepago()
+    {
+
+        return $this->consulta_tipodepago;
+    }
+
+    /**
+     * Get the [consulta_referenciapago] column value.
+     *
+     * @return string
+     */
+    public function getConsultaReferenciapago()
+    {
+
+        return $this->consulta_referenciapago;
+    }
+
+    /**
+     * Get the [consulta_facturada] column value.
+     *
+     * @return boolean
+     */
+    public function getConsultaFacturada()
+    {
+
+        return $this->consulta_facturada;
+    }
+
+    /**
+     * Get the [consulta_registrada] column value.
+     *
+     * @return boolean
+     */
+    public function getConsultaRegistrada()
+    {
+
+        return $this->consulta_registrada;
     }
 
     /**
@@ -447,50 +510,50 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     } // setIdconsultorio()
 
     /**
-     * Sets the value of [consulta_fechaadmision] column to a normalized version of the date/time value specified.
+     * Sets the value of [consulta_fecha] column to a normalized version of the date/time value specified.
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
      *               Empty strings are treated as null.
      * @return Consulta The current object (for fluent API support)
      */
-    public function setConsultaFechaadmision($v)
+    public function setConsultaFecha($v)
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->consulta_fechaadmision !== null || $dt !== null) {
-            $currentDateAsString = ($this->consulta_fechaadmision !== null && $tmpDt = new DateTime($this->consulta_fechaadmision)) ? $tmpDt->format('Y-m-d H:i:s') : null;
-            $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
+        if ($this->consulta_fecha !== null || $dt !== null) {
+            $currentDateAsString = ($this->consulta_fecha !== null && $tmpDt = new DateTime($this->consulta_fecha)) ? $tmpDt->format('Y-m-d') : null;
+            $newDateAsString = $dt ? $dt->format('Y-m-d') : null;
             if ($currentDateAsString !== $newDateAsString) {
-                $this->consulta_fechaadmision = $newDateAsString;
-                $this->modifiedColumns[] = ConsultaPeer::CONSULTA_FECHAADMISION;
+                $this->consulta_fecha = $newDateAsString;
+                $this->modifiedColumns[] = ConsultaPeer::CONSULTA_FECHA;
             }
         } // if either are not null
 
 
         return $this;
-    } // setConsultaFechaadmision()
+    } // setConsultaFecha()
 
     /**
-     * Sets the value of [consulta_fechasalida] column to a normalized version of the date/time value specified.
+     * Sets the value of [consulta_hora] column to a normalized version of the date/time value specified.
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
      *               Empty strings are treated as null.
      * @return Consulta The current object (for fluent API support)
      */
-    public function setConsultaFechasalida($v)
+    public function setConsultaHora($v)
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->consulta_fechasalida !== null || $dt !== null) {
-            $currentDateAsString = ($this->consulta_fechasalida !== null && $tmpDt = new DateTime($this->consulta_fechasalida)) ? $tmpDt->format('Y-m-d H:i:s') : null;
-            $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
+        if ($this->consulta_hora !== null || $dt !== null) {
+            $currentDateAsString = ($this->consulta_hora !== null && $tmpDt = new DateTime($this->consulta_hora)) ? $tmpDt->format('H:i:s') : null;
+            $newDateAsString = $dt ? $dt->format('H:i:s') : null;
             if ($currentDateAsString !== $newDateAsString) {
-                $this->consulta_fechasalida = $newDateAsString;
-                $this->modifiedColumns[] = ConsultaPeer::CONSULTA_FECHASALIDA;
+                $this->consulta_hora = $newDateAsString;
+                $this->modifiedColumns[] = ConsultaPeer::CONSULTA_HORA;
             }
         } // if either are not null
 
 
         return $this;
-    } // setConsultaFechasalida()
+    } // setConsultaHora()
 
     /**
      * Set the value of [consulta_diagnostico] column.
@@ -577,6 +640,106 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     } // setConsultaTotal()
 
     /**
+     * Set the value of [consulta_tipodepago] column.
+     *
+     * @param  string $v new value
+     * @return Consulta The current object (for fluent API support)
+     */
+    public function setConsultaTipodepago($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->consulta_tipodepago !== $v) {
+            $this->consulta_tipodepago = $v;
+            $this->modifiedColumns[] = ConsultaPeer::CONSULTA_TIPODEPAGO;
+        }
+
+
+        return $this;
+    } // setConsultaTipodepago()
+
+    /**
+     * Set the value of [consulta_referenciapago] column.
+     *
+     * @param  string $v new value
+     * @return Consulta The current object (for fluent API support)
+     */
+    public function setConsultaReferenciapago($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->consulta_referenciapago !== $v) {
+            $this->consulta_referenciapago = $v;
+            $this->modifiedColumns[] = ConsultaPeer::CONSULTA_REFERENCIAPAGO;
+        }
+
+
+        return $this;
+    } // setConsultaReferenciapago()
+
+    /**
+     * Sets the value of the [consulta_facturada] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param boolean|integer|string $v The new value
+     * @return Consulta The current object (for fluent API support)
+     */
+    public function setConsultaFacturada($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->consulta_facturada !== $v) {
+            $this->consulta_facturada = $v;
+            $this->modifiedColumns[] = ConsultaPeer::CONSULTA_FACTURADA;
+        }
+
+
+        return $this;
+    } // setConsultaFacturada()
+
+    /**
+     * Sets the value of the [consulta_registrada] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param boolean|integer|string $v The new value
+     * @return Consulta The current object (for fluent API support)
+     */
+    public function setConsultaRegistrada($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->consulta_registrada !== $v) {
+            $this->consulta_registrada = $v;
+            $this->modifiedColumns[] = ConsultaPeer::CONSULTA_REGISTRADA;
+        }
+
+
+        return $this;
+    } // setConsultaRegistrada()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -616,12 +779,16 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             $this->idpaciente = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->idmedico = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
             $this->idconsultorio = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
-            $this->consulta_fechaadmision = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->consulta_fechasalida = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->consulta_fecha = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->consulta_hora = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->consulta_diagnostico = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
             $this->consulta_observaciones = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
             $this->consulta_status = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
             $this->consulta_total = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->consulta_tipodepago = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->consulta_referenciapago = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
+            $this->consulta_facturada = ($row[$startcol + 12] !== null) ? (boolean) $row[$startcol + 12] : null;
+            $this->consulta_registrada = ($row[$startcol + 13] !== null) ? (boolean) $row[$startcol + 13] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -631,7 +798,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 10; // 10 = ConsultaPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 14; // 14 = ConsultaPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Consulta object", $e);
@@ -950,11 +1117,11 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         if ($this->isColumnModified(ConsultaPeer::IDCONSULTORIO)) {
             $modifiedColumns[':p' . $index++]  = '`idconsultorio`';
         }
-        if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHAADMISION)) {
-            $modifiedColumns[':p' . $index++]  = '`consulta_fechaadmision`';
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHA)) {
+            $modifiedColumns[':p' . $index++]  = '`consulta_fecha`';
         }
-        if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHASALIDA)) {
-            $modifiedColumns[':p' . $index++]  = '`consulta_fechasalida`';
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_HORA)) {
+            $modifiedColumns[':p' . $index++]  = '`consulta_hora`';
         }
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_DIAGNOSTICO)) {
             $modifiedColumns[':p' . $index++]  = '`consulta_diagnostico`';
@@ -967,6 +1134,18 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         }
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_TOTAL)) {
             $modifiedColumns[':p' . $index++]  = '`consulta_total`';
+        }
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_TIPODEPAGO)) {
+            $modifiedColumns[':p' . $index++]  = '`consulta_tipodepago`';
+        }
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_REFERENCIAPAGO)) {
+            $modifiedColumns[':p' . $index++]  = '`consulta_referenciapago`';
+        }
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_FACTURADA)) {
+            $modifiedColumns[':p' . $index++]  = '`consulta_facturada`';
+        }
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_REGISTRADA)) {
+            $modifiedColumns[':p' . $index++]  = '`consulta_registrada`';
         }
 
         $sql = sprintf(
@@ -991,11 +1170,11 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                     case '`idconsultorio`':
                         $stmt->bindValue($identifier, $this->idconsultorio, PDO::PARAM_INT);
                         break;
-                    case '`consulta_fechaadmision`':
-                        $stmt->bindValue($identifier, $this->consulta_fechaadmision, PDO::PARAM_STR);
+                    case '`consulta_fecha`':
+                        $stmt->bindValue($identifier, $this->consulta_fecha, PDO::PARAM_STR);
                         break;
-                    case '`consulta_fechasalida`':
-                        $stmt->bindValue($identifier, $this->consulta_fechasalida, PDO::PARAM_STR);
+                    case '`consulta_hora`':
+                        $stmt->bindValue($identifier, $this->consulta_hora, PDO::PARAM_STR);
                         break;
                     case '`consulta_diagnostico`':
                         $stmt->bindValue($identifier, $this->consulta_diagnostico, PDO::PARAM_STR);
@@ -1008,6 +1187,18 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                         break;
                     case '`consulta_total`':
                         $stmt->bindValue($identifier, $this->consulta_total, PDO::PARAM_STR);
+                        break;
+                    case '`consulta_tipodepago`':
+                        $stmt->bindValue($identifier, $this->consulta_tipodepago, PDO::PARAM_STR);
+                        break;
+                    case '`consulta_referenciapago`':
+                        $stmt->bindValue($identifier, $this->consulta_referenciapago, PDO::PARAM_STR);
+                        break;
+                    case '`consulta_facturada`':
+                        $stmt->bindValue($identifier, (int) $this->consulta_facturada, PDO::PARAM_INT);
+                        break;
+                    case '`consulta_registrada`':
+                        $stmt->bindValue($identifier, (int) $this->consulta_registrada, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1204,10 +1395,10 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                 return $this->getIdconsultorio();
                 break;
             case 4:
-                return $this->getConsultaFechaadmision();
+                return $this->getConsultaFecha();
                 break;
             case 5:
-                return $this->getConsultaFechasalida();
+                return $this->getConsultaHora();
                 break;
             case 6:
                 return $this->getConsultaDiagnostico();
@@ -1220,6 +1411,18 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                 break;
             case 9:
                 return $this->getConsultaTotal();
+                break;
+            case 10:
+                return $this->getConsultaTipodepago();
+                break;
+            case 11:
+                return $this->getConsultaReferenciapago();
+                break;
+            case 12:
+                return $this->getConsultaFacturada();
+                break;
+            case 13:
+                return $this->getConsultaRegistrada();
                 break;
             default:
                 return null;
@@ -1254,12 +1457,16 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             $keys[1] => $this->getIdpaciente(),
             $keys[2] => $this->getIdmedico(),
             $keys[3] => $this->getIdconsultorio(),
-            $keys[4] => $this->getConsultaFechaadmision(),
-            $keys[5] => $this->getConsultaFechasalida(),
+            $keys[4] => $this->getConsultaFecha(),
+            $keys[5] => $this->getConsultaHora(),
             $keys[6] => $this->getConsultaDiagnostico(),
             $keys[7] => $this->getConsultaObservaciones(),
             $keys[8] => $this->getConsultaStatus(),
             $keys[9] => $this->getConsultaTotal(),
+            $keys[10] => $this->getConsultaTipodepago(),
+            $keys[11] => $this->getConsultaReferenciapago(),
+            $keys[12] => $this->getConsultaFacturada(),
+            $keys[13] => $this->getConsultaRegistrada(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1332,10 +1539,10 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                 $this->setIdconsultorio($value);
                 break;
             case 4:
-                $this->setConsultaFechaadmision($value);
+                $this->setConsultaFecha($value);
                 break;
             case 5:
-                $this->setConsultaFechasalida($value);
+                $this->setConsultaHora($value);
                 break;
             case 6:
                 $this->setConsultaDiagnostico($value);
@@ -1348,6 +1555,18 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                 break;
             case 9:
                 $this->setConsultaTotal($value);
+                break;
+            case 10:
+                $this->setConsultaTipodepago($value);
+                break;
+            case 11:
+                $this->setConsultaReferenciapago($value);
+                break;
+            case 12:
+                $this->setConsultaFacturada($value);
+                break;
+            case 13:
+                $this->setConsultaRegistrada($value);
                 break;
         } // switch()
     }
@@ -1377,12 +1596,16 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setIdpaciente($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setIdmedico($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setIdconsultorio($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setConsultaFechaadmision($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setConsultaFechasalida($arr[$keys[5]]);
+        if (array_key_exists($keys[4], $arr)) $this->setConsultaFecha($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setConsultaHora($arr[$keys[5]]);
         if (array_key_exists($keys[6], $arr)) $this->setConsultaDiagnostico($arr[$keys[6]]);
         if (array_key_exists($keys[7], $arr)) $this->setConsultaObservaciones($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setConsultaStatus($arr[$keys[8]]);
         if (array_key_exists($keys[9], $arr)) $this->setConsultaTotal($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setConsultaTipodepago($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setConsultaReferenciapago($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setConsultaFacturada($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setConsultaRegistrada($arr[$keys[13]]);
     }
 
     /**
@@ -1398,12 +1621,16 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         if ($this->isColumnModified(ConsultaPeer::IDPACIENTE)) $criteria->add(ConsultaPeer::IDPACIENTE, $this->idpaciente);
         if ($this->isColumnModified(ConsultaPeer::IDMEDICO)) $criteria->add(ConsultaPeer::IDMEDICO, $this->idmedico);
         if ($this->isColumnModified(ConsultaPeer::IDCONSULTORIO)) $criteria->add(ConsultaPeer::IDCONSULTORIO, $this->idconsultorio);
-        if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHAADMISION)) $criteria->add(ConsultaPeer::CONSULTA_FECHAADMISION, $this->consulta_fechaadmision);
-        if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHASALIDA)) $criteria->add(ConsultaPeer::CONSULTA_FECHASALIDA, $this->consulta_fechasalida);
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHA)) $criteria->add(ConsultaPeer::CONSULTA_FECHA, $this->consulta_fecha);
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_HORA)) $criteria->add(ConsultaPeer::CONSULTA_HORA, $this->consulta_hora);
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_DIAGNOSTICO)) $criteria->add(ConsultaPeer::CONSULTA_DIAGNOSTICO, $this->consulta_diagnostico);
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_OBSERVACIONES)) $criteria->add(ConsultaPeer::CONSULTA_OBSERVACIONES, $this->consulta_observaciones);
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_STATUS)) $criteria->add(ConsultaPeer::CONSULTA_STATUS, $this->consulta_status);
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_TOTAL)) $criteria->add(ConsultaPeer::CONSULTA_TOTAL, $this->consulta_total);
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_TIPODEPAGO)) $criteria->add(ConsultaPeer::CONSULTA_TIPODEPAGO, $this->consulta_tipodepago);
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_REFERENCIAPAGO)) $criteria->add(ConsultaPeer::CONSULTA_REFERENCIAPAGO, $this->consulta_referenciapago);
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_FACTURADA)) $criteria->add(ConsultaPeer::CONSULTA_FACTURADA, $this->consulta_facturada);
+        if ($this->isColumnModified(ConsultaPeer::CONSULTA_REGISTRADA)) $criteria->add(ConsultaPeer::CONSULTA_REGISTRADA, $this->consulta_registrada);
 
         return $criteria;
     }
@@ -1470,12 +1697,16 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         $copyObj->setIdpaciente($this->getIdpaciente());
         $copyObj->setIdmedico($this->getIdmedico());
         $copyObj->setIdconsultorio($this->getIdconsultorio());
-        $copyObj->setConsultaFechaadmision($this->getConsultaFechaadmision());
-        $copyObj->setConsultaFechasalida($this->getConsultaFechasalida());
+        $copyObj->setConsultaFecha($this->getConsultaFecha());
+        $copyObj->setConsultaHora($this->getConsultaHora());
         $copyObj->setConsultaDiagnostico($this->getConsultaDiagnostico());
         $copyObj->setConsultaObservaciones($this->getConsultaObservaciones());
         $copyObj->setConsultaStatus($this->getConsultaStatus());
         $copyObj->setConsultaTotal($this->getConsultaTotal());
+        $copyObj->setConsultaTipodepago($this->getConsultaTipodepago());
+        $copyObj->setConsultaReferenciapago($this->getConsultaReferenciapago());
+        $copyObj->setConsultaFacturada($this->getConsultaFacturada());
+        $copyObj->setConsultaRegistrada($this->getConsultaRegistrada());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -2489,12 +2720,16 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         $this->idpaciente = null;
         $this->idmedico = null;
         $this->idconsultorio = null;
-        $this->consulta_fechaadmision = null;
-        $this->consulta_fechasalida = null;
+        $this->consulta_fecha = null;
+        $this->consulta_hora = null;
         $this->consulta_diagnostico = null;
         $this->consulta_observaciones = null;
         $this->consulta_status = null;
         $this->consulta_total = null;
+        $this->consulta_tipodepago = null;
+        $this->consulta_referenciapago = null;
+        $this->consulta_facturada = null;
+        $this->consulta_registrada = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

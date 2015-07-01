@@ -41,9 +41,13 @@ class ServicioTableMap extends TableMap
         $this->addPrimaryKey('idservicio', 'Idservicio', 'INTEGER', true, null, null);
         $this->addColumn('servicio_nombre', 'ServicioNombre', 'VARCHAR', true, 300, null);
         $this->addColumn('servicio_descripcion', 'ServicioDescripcion', 'LONGVARCHAR', true, null, null);
-        $this->addColumn('servicio_costo', 'ServicioCosto', 'DECIMAL', true, 10, null);
         $this->addColumn('servicio_precio', 'ServicioPrecio', 'DECIMAL', true, 10, null);
-        $this->addColumn('servicio_iva', 'ServicioIva', 'DECIMAL', true, 10, null);
+        $this->addColumn('servicio_iva', 'ServicioIva', 'CHAR', true, null, null);
+        $this->getColumn('servicio_iva', false)->setValueSet(array (
+  0 => 'exento',
+  1 => '0',
+  2 => '16',
+));
         // validators
     } // initialize()
 

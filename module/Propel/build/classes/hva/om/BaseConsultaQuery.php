@@ -10,23 +10,31 @@
  * @method ConsultaQuery orderByIdpaciente($order = Criteria::ASC) Order by the idpaciente column
  * @method ConsultaQuery orderByIdmedico($order = Criteria::ASC) Order by the idmedico column
  * @method ConsultaQuery orderByIdconsultorio($order = Criteria::ASC) Order by the idconsultorio column
- * @method ConsultaQuery orderByConsultaFechaadmision($order = Criteria::ASC) Order by the consulta_fechaadmision column
- * @method ConsultaQuery orderByConsultaFechasalida($order = Criteria::ASC) Order by the consulta_fechasalida column
+ * @method ConsultaQuery orderByConsultaFecha($order = Criteria::ASC) Order by the consulta_fecha column
+ * @method ConsultaQuery orderByConsultaHora($order = Criteria::ASC) Order by the consulta_hora column
  * @method ConsultaQuery orderByConsultaDiagnostico($order = Criteria::ASC) Order by the consulta_diagnostico column
  * @method ConsultaQuery orderByConsultaObservaciones($order = Criteria::ASC) Order by the consulta_observaciones column
  * @method ConsultaQuery orderByConsultaStatus($order = Criteria::ASC) Order by the consulta_status column
  * @method ConsultaQuery orderByConsultaTotal($order = Criteria::ASC) Order by the consulta_total column
+ * @method ConsultaQuery orderByConsultaTipodepago($order = Criteria::ASC) Order by the consulta_tipodepago column
+ * @method ConsultaQuery orderByConsultaReferenciapago($order = Criteria::ASC) Order by the consulta_referenciapago column
+ * @method ConsultaQuery orderByConsultaFacturada($order = Criteria::ASC) Order by the consulta_facturada column
+ * @method ConsultaQuery orderByConsultaRegistrada($order = Criteria::ASC) Order by the consulta_registrada column
  *
  * @method ConsultaQuery groupByIdconsulta() Group by the idconsulta column
  * @method ConsultaQuery groupByIdpaciente() Group by the idpaciente column
  * @method ConsultaQuery groupByIdmedico() Group by the idmedico column
  * @method ConsultaQuery groupByIdconsultorio() Group by the idconsultorio column
- * @method ConsultaQuery groupByConsultaFechaadmision() Group by the consulta_fechaadmision column
- * @method ConsultaQuery groupByConsultaFechasalida() Group by the consulta_fechasalida column
+ * @method ConsultaQuery groupByConsultaFecha() Group by the consulta_fecha column
+ * @method ConsultaQuery groupByConsultaHora() Group by the consulta_hora column
  * @method ConsultaQuery groupByConsultaDiagnostico() Group by the consulta_diagnostico column
  * @method ConsultaQuery groupByConsultaObservaciones() Group by the consulta_observaciones column
  * @method ConsultaQuery groupByConsultaStatus() Group by the consulta_status column
  * @method ConsultaQuery groupByConsultaTotal() Group by the consulta_total column
+ * @method ConsultaQuery groupByConsultaTipodepago() Group by the consulta_tipodepago column
+ * @method ConsultaQuery groupByConsultaReferenciapago() Group by the consulta_referenciapago column
+ * @method ConsultaQuery groupByConsultaFacturada() Group by the consulta_facturada column
+ * @method ConsultaQuery groupByConsultaRegistrada() Group by the consulta_registrada column
  *
  * @method ConsultaQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ConsultaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -62,23 +70,31 @@
  * @method Consulta findOneByIdpaciente(int $idpaciente) Return the first Consulta filtered by the idpaciente column
  * @method Consulta findOneByIdmedico(int $idmedico) Return the first Consulta filtered by the idmedico column
  * @method Consulta findOneByIdconsultorio(int $idconsultorio) Return the first Consulta filtered by the idconsultorio column
- * @method Consulta findOneByConsultaFechaadmision(string $consulta_fechaadmision) Return the first Consulta filtered by the consulta_fechaadmision column
- * @method Consulta findOneByConsultaFechasalida(string $consulta_fechasalida) Return the first Consulta filtered by the consulta_fechasalida column
+ * @method Consulta findOneByConsultaFecha(string $consulta_fecha) Return the first Consulta filtered by the consulta_fecha column
+ * @method Consulta findOneByConsultaHora(string $consulta_hora) Return the first Consulta filtered by the consulta_hora column
  * @method Consulta findOneByConsultaDiagnostico(string $consulta_diagnostico) Return the first Consulta filtered by the consulta_diagnostico column
  * @method Consulta findOneByConsultaObservaciones(string $consulta_observaciones) Return the first Consulta filtered by the consulta_observaciones column
  * @method Consulta findOneByConsultaStatus(string $consulta_status) Return the first Consulta filtered by the consulta_status column
  * @method Consulta findOneByConsultaTotal(string $consulta_total) Return the first Consulta filtered by the consulta_total column
+ * @method Consulta findOneByConsultaTipodepago(string $consulta_tipodepago) Return the first Consulta filtered by the consulta_tipodepago column
+ * @method Consulta findOneByConsultaReferenciapago(string $consulta_referenciapago) Return the first Consulta filtered by the consulta_referenciapago column
+ * @method Consulta findOneByConsultaFacturada(boolean $consulta_facturada) Return the first Consulta filtered by the consulta_facturada column
+ * @method Consulta findOneByConsultaRegistrada(boolean $consulta_registrada) Return the first Consulta filtered by the consulta_registrada column
  *
  * @method array findByIdconsulta(int $idconsulta) Return Consulta objects filtered by the idconsulta column
  * @method array findByIdpaciente(int $idpaciente) Return Consulta objects filtered by the idpaciente column
  * @method array findByIdmedico(int $idmedico) Return Consulta objects filtered by the idmedico column
  * @method array findByIdconsultorio(int $idconsultorio) Return Consulta objects filtered by the idconsultorio column
- * @method array findByConsultaFechaadmision(string $consulta_fechaadmision) Return Consulta objects filtered by the consulta_fechaadmision column
- * @method array findByConsultaFechasalida(string $consulta_fechasalida) Return Consulta objects filtered by the consulta_fechasalida column
+ * @method array findByConsultaFecha(string $consulta_fecha) Return Consulta objects filtered by the consulta_fecha column
+ * @method array findByConsultaHora(string $consulta_hora) Return Consulta objects filtered by the consulta_hora column
  * @method array findByConsultaDiagnostico(string $consulta_diagnostico) Return Consulta objects filtered by the consulta_diagnostico column
  * @method array findByConsultaObservaciones(string $consulta_observaciones) Return Consulta objects filtered by the consulta_observaciones column
  * @method array findByConsultaStatus(string $consulta_status) Return Consulta objects filtered by the consulta_status column
  * @method array findByConsultaTotal(string $consulta_total) Return Consulta objects filtered by the consulta_total column
+ * @method array findByConsultaTipodepago(string $consulta_tipodepago) Return Consulta objects filtered by the consulta_tipodepago column
+ * @method array findByConsultaReferenciapago(string $consulta_referenciapago) Return Consulta objects filtered by the consulta_referenciapago column
+ * @method array findByConsultaFacturada(boolean $consulta_facturada) Return Consulta objects filtered by the consulta_facturada column
+ * @method array findByConsultaRegistrada(boolean $consulta_registrada) Return Consulta objects filtered by the consulta_registrada column
  *
  * @package    propel.generator.hva.om
  */
@@ -186,7 +202,7 @@ abstract class BaseConsultaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idconsulta`, `idpaciente`, `idmedico`, `idconsultorio`, `consulta_fechaadmision`, `consulta_fechasalida`, `consulta_diagnostico`, `consulta_observaciones`, `consulta_status`, `consulta_total` FROM `consulta` WHERE `idconsulta` = :p0';
+        $sql = 'SELECT `idconsulta`, `idpaciente`, `idmedico`, `idconsultorio`, `consulta_fecha`, `consulta_hora`, `consulta_diagnostico`, `consulta_observaciones`, `consulta_status`, `consulta_total`, `consulta_tipodepago`, `consulta_referenciapago`, `consulta_facturada`, `consulta_registrada` FROM `consulta` WHERE `idconsulta` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -450,16 +466,16 @@ abstract class BaseConsultaQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the consulta_fechaadmision column
+     * Filter the query on the consulta_fecha column
      *
      * Example usage:
      * <code>
-     * $query->filterByConsultaFechaadmision('2011-03-14'); // WHERE consulta_fechaadmision = '2011-03-14'
-     * $query->filterByConsultaFechaadmision('now'); // WHERE consulta_fechaadmision = '2011-03-14'
-     * $query->filterByConsultaFechaadmision(array('max' => 'yesterday')); // WHERE consulta_fechaadmision < '2011-03-13'
+     * $query->filterByConsultaFecha('2011-03-14'); // WHERE consulta_fecha = '2011-03-14'
+     * $query->filterByConsultaFecha('now'); // WHERE consulta_fecha = '2011-03-14'
+     * $query->filterByConsultaFecha(array('max' => 'yesterday')); // WHERE consulta_fecha < '2011-03-13'
      * </code>
      *
-     * @param     mixed $consultaFechaadmision The value to use as filter.
+     * @param     mixed $consultaFecha The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
@@ -469,16 +485,16 @@ abstract class BaseConsultaQuery extends ModelCriteria
      *
      * @return ConsultaQuery The current query, for fluid interface
      */
-    public function filterByConsultaFechaadmision($consultaFechaadmision = null, $comparison = null)
+    public function filterByConsultaFecha($consultaFecha = null, $comparison = null)
     {
-        if (is_array($consultaFechaadmision)) {
+        if (is_array($consultaFecha)) {
             $useMinMax = false;
-            if (isset($consultaFechaadmision['min'])) {
-                $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHAADMISION, $consultaFechaadmision['min'], Criteria::GREATER_EQUAL);
+            if (isset($consultaFecha['min'])) {
+                $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHA, $consultaFecha['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($consultaFechaadmision['max'])) {
-                $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHAADMISION, $consultaFechaadmision['max'], Criteria::LESS_EQUAL);
+            if (isset($consultaFecha['max'])) {
+                $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHA, $consultaFecha['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -489,20 +505,20 @@ abstract class BaseConsultaQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHAADMISION, $consultaFechaadmision, $comparison);
+        return $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHA, $consultaFecha, $comparison);
     }
 
     /**
-     * Filter the query on the consulta_fechasalida column
+     * Filter the query on the consulta_hora column
      *
      * Example usage:
      * <code>
-     * $query->filterByConsultaFechasalida('2011-03-14'); // WHERE consulta_fechasalida = '2011-03-14'
-     * $query->filterByConsultaFechasalida('now'); // WHERE consulta_fechasalida = '2011-03-14'
-     * $query->filterByConsultaFechasalida(array('max' => 'yesterday')); // WHERE consulta_fechasalida < '2011-03-13'
+     * $query->filterByConsultaHora('2011-03-14'); // WHERE consulta_hora = '2011-03-14'
+     * $query->filterByConsultaHora('now'); // WHERE consulta_hora = '2011-03-14'
+     * $query->filterByConsultaHora(array('max' => 'yesterday')); // WHERE consulta_hora < '2011-03-13'
      * </code>
      *
-     * @param     mixed $consultaFechasalida The value to use as filter.
+     * @param     mixed $consultaHora The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
@@ -512,16 +528,16 @@ abstract class BaseConsultaQuery extends ModelCriteria
      *
      * @return ConsultaQuery The current query, for fluid interface
      */
-    public function filterByConsultaFechasalida($consultaFechasalida = null, $comparison = null)
+    public function filterByConsultaHora($consultaHora = null, $comparison = null)
     {
-        if (is_array($consultaFechasalida)) {
+        if (is_array($consultaHora)) {
             $useMinMax = false;
-            if (isset($consultaFechasalida['min'])) {
-                $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHASALIDA, $consultaFechasalida['min'], Criteria::GREATER_EQUAL);
+            if (isset($consultaHora['min'])) {
+                $this->addUsingAlias(ConsultaPeer::CONSULTA_HORA, $consultaHora['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($consultaFechasalida['max'])) {
-                $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHASALIDA, $consultaFechasalida['max'], Criteria::LESS_EQUAL);
+            if (isset($consultaHora['max'])) {
+                $this->addUsingAlias(ConsultaPeer::CONSULTA_HORA, $consultaHora['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -532,7 +548,7 @@ abstract class BaseConsultaQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(ConsultaPeer::CONSULTA_FECHASALIDA, $consultaFechasalida, $comparison);
+        return $this->addUsingAlias(ConsultaPeer::CONSULTA_HORA, $consultaHora, $comparison);
     }
 
     /**
@@ -662,6 +678,118 @@ abstract class BaseConsultaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ConsultaPeer::CONSULTA_TOTAL, $consultaTotal, $comparison);
+    }
+
+    /**
+     * Filter the query on the consulta_tipodepago column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByConsultaTipodepago('fooValue');   // WHERE consulta_tipodepago = 'fooValue'
+     * $query->filterByConsultaTipodepago('%fooValue%'); // WHERE consulta_tipodepago LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $consultaTipodepago The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ConsultaQuery The current query, for fluid interface
+     */
+    public function filterByConsultaTipodepago($consultaTipodepago = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($consultaTipodepago)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $consultaTipodepago)) {
+                $consultaTipodepago = str_replace('*', '%', $consultaTipodepago);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ConsultaPeer::CONSULTA_TIPODEPAGO, $consultaTipodepago, $comparison);
+    }
+
+    /**
+     * Filter the query on the consulta_referenciapago column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByConsultaReferenciapago('fooValue');   // WHERE consulta_referenciapago = 'fooValue'
+     * $query->filterByConsultaReferenciapago('%fooValue%'); // WHERE consulta_referenciapago LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $consultaReferenciapago The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ConsultaQuery The current query, for fluid interface
+     */
+    public function filterByConsultaReferenciapago($consultaReferenciapago = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($consultaReferenciapago)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $consultaReferenciapago)) {
+                $consultaReferenciapago = str_replace('*', '%', $consultaReferenciapago);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ConsultaPeer::CONSULTA_REFERENCIAPAGO, $consultaReferenciapago, $comparison);
+    }
+
+    /**
+     * Filter the query on the consulta_facturada column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByConsultaFacturada(true); // WHERE consulta_facturada = true
+     * $query->filterByConsultaFacturada('yes'); // WHERE consulta_facturada = true
+     * </code>
+     *
+     * @param     boolean|string $consultaFacturada The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ConsultaQuery The current query, for fluid interface
+     */
+    public function filterByConsultaFacturada($consultaFacturada = null, $comparison = null)
+    {
+        if (is_string($consultaFacturada)) {
+            $consultaFacturada = in_array(strtolower($consultaFacturada), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(ConsultaPeer::CONSULTA_FACTURADA, $consultaFacturada, $comparison);
+    }
+
+    /**
+     * Filter the query on the consulta_registrada column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByConsultaRegistrada(true); // WHERE consulta_registrada = true
+     * $query->filterByConsultaRegistrada('yes'); // WHERE consulta_registrada = true
+     * </code>
+     *
+     * @param     boolean|string $consultaRegistrada The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ConsultaQuery The current query, for fluid interface
+     */
+    public function filterByConsultaRegistrada($consultaRegistrada = null, $comparison = null)
+    {
+        if (is_string($consultaRegistrada)) {
+            $consultaRegistrada = in_array(strtolower($consultaRegistrada), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(ConsultaPeer::CONSULTA_REGISTRADA, $consultaRegistrada, $comparison);
     }
 
     /**

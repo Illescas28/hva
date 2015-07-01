@@ -27,22 +27,6 @@ class ServicioForm extends Form
             ),
         ));
         $this->add(array(
-            'name' => 'servicio_costo',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'Float',
-                    'options' => array(
-                        'min' => 0,
-                        'locale' => 'es_MX',
-                    ),
-                ),
-            ),
-            'options' => array(
-                'label' => 'Costo'
-            )
-        ));
-        $this->add(array(
             'name' => 'servicio_precio',
             'required' => true,
             'validators' => array(

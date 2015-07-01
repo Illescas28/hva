@@ -24,13 +24,13 @@ abstract class BaseAdmisionPeer
     const TM_CLASS = 'AdmisionTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 11;
+    const NUM_COLUMNS = 15;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 11;
+    const NUM_HYDRATE_COLUMNS = 15;
 
     /** the column name for the idadmision field */
     const IDADMISION = 'admision.idadmision';
@@ -65,10 +65,29 @@ abstract class BaseAdmisionPeer
     /** the column name for the admision_pagadaen field */
     const ADMISION_PAGADAEN = 'admision.admision_pagadaen';
 
+    /** the column name for the admision_tipodepago field */
+    const ADMISION_TIPODEPAGO = 'admision.admision_tipodepago';
+
+    /** the column name for the admision_referenciapago field */
+    const ADMISION_REFERENCIAPAGO = 'admision.admision_referenciapago';
+
+    /** the column name for the admision_facturada field */
+    const ADMISION_FACTURADA = 'admision.admision_facturada';
+
+    /** the column name for the admision_registrada field */
+    const ADMISION_REGISTRADA = 'admision.admision_registrada';
+
     /** The enumerated values for the admision_status field */
     const ADMISION_STATUS_PAGADA = 'pagada';
     const ADMISION_STATUS_NO_PAGADA = 'no pagada';
     const ADMISION_STATUS_PENDIENTE = 'pendiente';
+
+    /** The enumerated values for the admision_tipodepago field */
+    const ADMISION_TIPODEPAGO_EFECTIVO = 'efectivo';
+    const ADMISION_TIPODEPAGO_TARJETA_DEBITO = 'tarjeta debito';
+    const ADMISION_TIPODEPAGO_TARJETA_CREDITO = 'tarjeta credito';
+    const ADMISION_TIPODEPAGO_CHEQUE = 'cheque';
+    const ADMISION_TIPODEPAGO_NO_IDENTIFICADO = 'no identificado';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -89,12 +108,12 @@ abstract class BaseAdmisionPeer
      * e.g. AdmisionPeer::$fieldNames[AdmisionPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idadmision', 'Idpaciente', 'Idmedico', 'Idcuarto', 'AdmisionFechaadmision', 'AdmisionFechasalida', 'AdmisionDiagnostico', 'AdmisionObservaciones', 'AdmisionStatus', 'AdmisionTotal', 'AdmisionPagadaen', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idadmision', 'idpaciente', 'idmedico', 'idcuarto', 'admisionFechaadmision', 'admisionFechasalida', 'admisionDiagnostico', 'admisionObservaciones', 'admisionStatus', 'admisionTotal', 'admisionPagadaen', ),
-        BasePeer::TYPE_COLNAME => array (AdmisionPeer::IDADMISION, AdmisionPeer::IDPACIENTE, AdmisionPeer::IDMEDICO, AdmisionPeer::IDCUARTO, AdmisionPeer::ADMISION_FECHAADMISION, AdmisionPeer::ADMISION_FECHASALIDA, AdmisionPeer::ADMISION_DIAGNOSTICO, AdmisionPeer::ADMISION_OBSERVACIONES, AdmisionPeer::ADMISION_STATUS, AdmisionPeer::ADMISION_TOTAL, AdmisionPeer::ADMISION_PAGADAEN, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDADMISION', 'IDPACIENTE', 'IDMEDICO', 'IDCUARTO', 'ADMISION_FECHAADMISION', 'ADMISION_FECHASALIDA', 'ADMISION_DIAGNOSTICO', 'ADMISION_OBSERVACIONES', 'ADMISION_STATUS', 'ADMISION_TOTAL', 'ADMISION_PAGADAEN', ),
-        BasePeer::TYPE_FIELDNAME => array ('idadmision', 'idpaciente', 'idmedico', 'idcuarto', 'admision_fechaadmision', 'admision_fechasalida', 'admision_diagnostico', 'admision_observaciones', 'admision_status', 'admision_total', 'admision_pagadaen', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+        BasePeer::TYPE_PHPNAME => array ('Idadmision', 'Idpaciente', 'Idmedico', 'Idcuarto', 'AdmisionFechaadmision', 'AdmisionFechasalida', 'AdmisionDiagnostico', 'AdmisionObservaciones', 'AdmisionStatus', 'AdmisionTotal', 'AdmisionPagadaen', 'AdmisionTipodepago', 'AdmisionReferenciapago', 'AdmisionFacturada', 'AdmisionRegistrada', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idadmision', 'idpaciente', 'idmedico', 'idcuarto', 'admisionFechaadmision', 'admisionFechasalida', 'admisionDiagnostico', 'admisionObservaciones', 'admisionStatus', 'admisionTotal', 'admisionPagadaen', 'admisionTipodepago', 'admisionReferenciapago', 'admisionFacturada', 'admisionRegistrada', ),
+        BasePeer::TYPE_COLNAME => array (AdmisionPeer::IDADMISION, AdmisionPeer::IDPACIENTE, AdmisionPeer::IDMEDICO, AdmisionPeer::IDCUARTO, AdmisionPeer::ADMISION_FECHAADMISION, AdmisionPeer::ADMISION_FECHASALIDA, AdmisionPeer::ADMISION_DIAGNOSTICO, AdmisionPeer::ADMISION_OBSERVACIONES, AdmisionPeer::ADMISION_STATUS, AdmisionPeer::ADMISION_TOTAL, AdmisionPeer::ADMISION_PAGADAEN, AdmisionPeer::ADMISION_TIPODEPAGO, AdmisionPeer::ADMISION_REFERENCIAPAGO, AdmisionPeer::ADMISION_FACTURADA, AdmisionPeer::ADMISION_REGISTRADA, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDADMISION', 'IDPACIENTE', 'IDMEDICO', 'IDCUARTO', 'ADMISION_FECHAADMISION', 'ADMISION_FECHASALIDA', 'ADMISION_DIAGNOSTICO', 'ADMISION_OBSERVACIONES', 'ADMISION_STATUS', 'ADMISION_TOTAL', 'ADMISION_PAGADAEN', 'ADMISION_TIPODEPAGO', 'ADMISION_REFERENCIAPAGO', 'ADMISION_FACTURADA', 'ADMISION_REGISTRADA', ),
+        BasePeer::TYPE_FIELDNAME => array ('idadmision', 'idpaciente', 'idmedico', 'idcuarto', 'admision_fechaadmision', 'admision_fechasalida', 'admision_diagnostico', 'admision_observaciones', 'admision_status', 'admision_total', 'admision_pagadaen', 'admision_tipodepago', 'admision_referenciapago', 'admision_facturada', 'admision_registrada', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
     );
 
     /**
@@ -104,12 +123,12 @@ abstract class BaseAdmisionPeer
      * e.g. AdmisionPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idadmision' => 0, 'Idpaciente' => 1, 'Idmedico' => 2, 'Idcuarto' => 3, 'AdmisionFechaadmision' => 4, 'AdmisionFechasalida' => 5, 'AdmisionDiagnostico' => 6, 'AdmisionObservaciones' => 7, 'AdmisionStatus' => 8, 'AdmisionTotal' => 9, 'AdmisionPagadaen' => 10, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idadmision' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idcuarto' => 3, 'admisionFechaadmision' => 4, 'admisionFechasalida' => 5, 'admisionDiagnostico' => 6, 'admisionObservaciones' => 7, 'admisionStatus' => 8, 'admisionTotal' => 9, 'admisionPagadaen' => 10, ),
-        BasePeer::TYPE_COLNAME => array (AdmisionPeer::IDADMISION => 0, AdmisionPeer::IDPACIENTE => 1, AdmisionPeer::IDMEDICO => 2, AdmisionPeer::IDCUARTO => 3, AdmisionPeer::ADMISION_FECHAADMISION => 4, AdmisionPeer::ADMISION_FECHASALIDA => 5, AdmisionPeer::ADMISION_DIAGNOSTICO => 6, AdmisionPeer::ADMISION_OBSERVACIONES => 7, AdmisionPeer::ADMISION_STATUS => 8, AdmisionPeer::ADMISION_TOTAL => 9, AdmisionPeer::ADMISION_PAGADAEN => 10, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDADMISION' => 0, 'IDPACIENTE' => 1, 'IDMEDICO' => 2, 'IDCUARTO' => 3, 'ADMISION_FECHAADMISION' => 4, 'ADMISION_FECHASALIDA' => 5, 'ADMISION_DIAGNOSTICO' => 6, 'ADMISION_OBSERVACIONES' => 7, 'ADMISION_STATUS' => 8, 'ADMISION_TOTAL' => 9, 'ADMISION_PAGADAEN' => 10, ),
-        BasePeer::TYPE_FIELDNAME => array ('idadmision' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idcuarto' => 3, 'admision_fechaadmision' => 4, 'admision_fechasalida' => 5, 'admision_diagnostico' => 6, 'admision_observaciones' => 7, 'admision_status' => 8, 'admision_total' => 9, 'admision_pagadaen' => 10, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+        BasePeer::TYPE_PHPNAME => array ('Idadmision' => 0, 'Idpaciente' => 1, 'Idmedico' => 2, 'Idcuarto' => 3, 'AdmisionFechaadmision' => 4, 'AdmisionFechasalida' => 5, 'AdmisionDiagnostico' => 6, 'AdmisionObservaciones' => 7, 'AdmisionStatus' => 8, 'AdmisionTotal' => 9, 'AdmisionPagadaen' => 10, 'AdmisionTipodepago' => 11, 'AdmisionReferenciapago' => 12, 'AdmisionFacturada' => 13, 'AdmisionRegistrada' => 14, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idadmision' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idcuarto' => 3, 'admisionFechaadmision' => 4, 'admisionFechasalida' => 5, 'admisionDiagnostico' => 6, 'admisionObservaciones' => 7, 'admisionStatus' => 8, 'admisionTotal' => 9, 'admisionPagadaen' => 10, 'admisionTipodepago' => 11, 'admisionReferenciapago' => 12, 'admisionFacturada' => 13, 'admisionRegistrada' => 14, ),
+        BasePeer::TYPE_COLNAME => array (AdmisionPeer::IDADMISION => 0, AdmisionPeer::IDPACIENTE => 1, AdmisionPeer::IDMEDICO => 2, AdmisionPeer::IDCUARTO => 3, AdmisionPeer::ADMISION_FECHAADMISION => 4, AdmisionPeer::ADMISION_FECHASALIDA => 5, AdmisionPeer::ADMISION_DIAGNOSTICO => 6, AdmisionPeer::ADMISION_OBSERVACIONES => 7, AdmisionPeer::ADMISION_STATUS => 8, AdmisionPeer::ADMISION_TOTAL => 9, AdmisionPeer::ADMISION_PAGADAEN => 10, AdmisionPeer::ADMISION_TIPODEPAGO => 11, AdmisionPeer::ADMISION_REFERENCIAPAGO => 12, AdmisionPeer::ADMISION_FACTURADA => 13, AdmisionPeer::ADMISION_REGISTRADA => 14, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDADMISION' => 0, 'IDPACIENTE' => 1, 'IDMEDICO' => 2, 'IDCUARTO' => 3, 'ADMISION_FECHAADMISION' => 4, 'ADMISION_FECHASALIDA' => 5, 'ADMISION_DIAGNOSTICO' => 6, 'ADMISION_OBSERVACIONES' => 7, 'ADMISION_STATUS' => 8, 'ADMISION_TOTAL' => 9, 'ADMISION_PAGADAEN' => 10, 'ADMISION_TIPODEPAGO' => 11, 'ADMISION_REFERENCIAPAGO' => 12, 'ADMISION_FACTURADA' => 13, 'ADMISION_REGISTRADA' => 14, ),
+        BasePeer::TYPE_FIELDNAME => array ('idadmision' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idcuarto' => 3, 'admision_fechaadmision' => 4, 'admision_fechasalida' => 5, 'admision_diagnostico' => 6, 'admision_observaciones' => 7, 'admision_status' => 8, 'admision_total' => 9, 'admision_pagadaen' => 10, 'admision_tipodepago' => 11, 'admision_referenciapago' => 12, 'admision_facturada' => 13, 'admision_registrada' => 14, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
     );
 
     /** The enumerated values for this table */
@@ -118,6 +137,13 @@ abstract class BaseAdmisionPeer
             AdmisionPeer::ADMISION_STATUS_PAGADA,
             AdmisionPeer::ADMISION_STATUS_NO_PAGADA,
             AdmisionPeer::ADMISION_STATUS_PENDIENTE,
+        ),
+        AdmisionPeer::ADMISION_TIPODEPAGO => array(
+            AdmisionPeer::ADMISION_TIPODEPAGO_EFECTIVO,
+            AdmisionPeer::ADMISION_TIPODEPAGO_TARJETA_DEBITO,
+            AdmisionPeer::ADMISION_TIPODEPAGO_TARJETA_CREDITO,
+            AdmisionPeer::ADMISION_TIPODEPAGO_CHEQUE,
+            AdmisionPeer::ADMISION_TIPODEPAGO_NO_IDENTIFICADO,
         ),
     );
 
@@ -248,6 +274,10 @@ abstract class BaseAdmisionPeer
             $criteria->addSelectColumn(AdmisionPeer::ADMISION_STATUS);
             $criteria->addSelectColumn(AdmisionPeer::ADMISION_TOTAL);
             $criteria->addSelectColumn(AdmisionPeer::ADMISION_PAGADAEN);
+            $criteria->addSelectColumn(AdmisionPeer::ADMISION_TIPODEPAGO);
+            $criteria->addSelectColumn(AdmisionPeer::ADMISION_REFERENCIAPAGO);
+            $criteria->addSelectColumn(AdmisionPeer::ADMISION_FACTURADA);
+            $criteria->addSelectColumn(AdmisionPeer::ADMISION_REGISTRADA);
         } else {
             $criteria->addSelectColumn($alias . '.idadmision');
             $criteria->addSelectColumn($alias . '.idpaciente');
@@ -260,6 +290,10 @@ abstract class BaseAdmisionPeer
             $criteria->addSelectColumn($alias . '.admision_status');
             $criteria->addSelectColumn($alias . '.admision_total');
             $criteria->addSelectColumn($alias . '.admision_pagadaen');
+            $criteria->addSelectColumn($alias . '.admision_tipodepago');
+            $criteria->addSelectColumn($alias . '.admision_referenciapago');
+            $criteria->addSelectColumn($alias . '.admision_facturada');
+            $criteria->addSelectColumn($alias . '.admision_registrada');
         }
     }
 

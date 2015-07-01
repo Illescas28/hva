@@ -42,27 +42,46 @@ abstract class BaseVenta extends BaseObject implements Persistent
     protected $idpaciente;
 
     /**
-     * The value for the idcajachica field.
-     * @var        int
-     */
-    protected $idcajachica;
-
-    /**
      * The value for the venta_fecha field.
      * @var        string
      */
     protected $venta_fecha;
 
     /**
-     * The value for the venta_cantidad field.
+     * The value for the venta_tipodepago field.
      * @var        string
      */
-    protected $venta_cantidad;
+    protected $venta_tipodepago;
 
     /**
-     * @var        Cajachica
+     * The value for the venta_status field.
+     * @var        string
      */
-    protected $aCajachica;
+    protected $venta_status;
+
+    /**
+     * The value for the venta_facturada field.
+     * @var        boolean
+     */
+    protected $venta_facturada;
+
+    /**
+     * The value for the venta_registrada field.
+     * @var        boolean
+     */
+    protected $venta_registrada;
+
+    /**
+     * The value for the venta_total field.
+     * @var        string
+     */
+    protected $venta_total;
+
+    /**
+     * The value for the venta_referenciapago field.
+     * @var        string
+     */
+    protected $venta_referenciapago;
 
     /**
      * @var        Paciente
@@ -124,17 +143,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [idcajachica] column value.
-     *
-     * @return int
-     */
-    public function getIdcajachica()
-    {
-
-        return $this->idcajachica;
-    }
-
-    /**
      * Get the [optionally formatted] temporal [venta_fecha] column value.
      *
      *
@@ -175,14 +183,69 @@ abstract class BaseVenta extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [venta_cantidad] column value.
+     * Get the [venta_tipodepago] column value.
      *
      * @return string
      */
-    public function getVentaCantidad()
+    public function getVentaTipodepago()
     {
 
-        return $this->venta_cantidad;
+        return $this->venta_tipodepago;
+    }
+
+    /**
+     * Get the [venta_status] column value.
+     *
+     * @return string
+     */
+    public function getVentaStatus()
+    {
+
+        return $this->venta_status;
+    }
+
+    /**
+     * Get the [venta_facturada] column value.
+     *
+     * @return boolean
+     */
+    public function getVentaFacturada()
+    {
+
+        return $this->venta_facturada;
+    }
+
+    /**
+     * Get the [venta_registrada] column value.
+     *
+     * @return boolean
+     */
+    public function getVentaRegistrada()
+    {
+
+        return $this->venta_registrada;
+    }
+
+    /**
+     * Get the [venta_total] column value.
+     *
+     * @return string
+     */
+    public function getVentaTotal()
+    {
+
+        return $this->venta_total;
+    }
+
+    /**
+     * Get the [venta_referenciapago] column value.
+     *
+     * @return string
+     */
+    public function getVentaReferenciapago()
+    {
+
+        return $this->venta_referenciapago;
     }
 
     /**
@@ -232,31 +295,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
     } // setIdpaciente()
 
     /**
-     * Set the value of [idcajachica] column.
-     *
-     * @param  int $v new value
-     * @return Venta The current object (for fluent API support)
-     */
-    public function setIdcajachica($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->idcajachica !== $v) {
-            $this->idcajachica = $v;
-            $this->modifiedColumns[] = VentaPeer::IDCAJACHICA;
-        }
-
-        if ($this->aCajachica !== null && $this->aCajachica->getIdcajachica() !== $v) {
-            $this->aCajachica = null;
-        }
-
-
-        return $this;
-    } // setIdcajachica()
-
-    /**
      * Sets the value of [venta_fecha] column to a normalized version of the date/time value specified.
      *
      * @param mixed $v string, integer (timestamp), or DateTime value.
@@ -280,25 +318,146 @@ abstract class BaseVenta extends BaseObject implements Persistent
     } // setVentaFecha()
 
     /**
-     * Set the value of [venta_cantidad] column.
+     * Set the value of [venta_tipodepago] column.
      *
      * @param  string $v new value
      * @return Venta The current object (for fluent API support)
      */
-    public function setVentaCantidad($v)
+    public function setVentaTipodepago($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->venta_tipodepago !== $v) {
+            $this->venta_tipodepago = $v;
+            $this->modifiedColumns[] = VentaPeer::VENTA_TIPODEPAGO;
+        }
+
+
+        return $this;
+    } // setVentaTipodepago()
+
+    /**
+     * Set the value of [venta_status] column.
+     *
+     * @param  string $v new value
+     * @return Venta The current object (for fluent API support)
+     */
+    public function setVentaStatus($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->venta_status !== $v) {
+            $this->venta_status = $v;
+            $this->modifiedColumns[] = VentaPeer::VENTA_STATUS;
+        }
+
+
+        return $this;
+    } // setVentaStatus()
+
+    /**
+     * Sets the value of the [venta_facturada] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param boolean|integer|string $v The new value
+     * @return Venta The current object (for fluent API support)
+     */
+    public function setVentaFacturada($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->venta_facturada !== $v) {
+            $this->venta_facturada = $v;
+            $this->modifiedColumns[] = VentaPeer::VENTA_FACTURADA;
+        }
+
+
+        return $this;
+    } // setVentaFacturada()
+
+    /**
+     * Sets the value of the [venta_registrada] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param boolean|integer|string $v The new value
+     * @return Venta The current object (for fluent API support)
+     */
+    public function setVentaRegistrada($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->venta_registrada !== $v) {
+            $this->venta_registrada = $v;
+            $this->modifiedColumns[] = VentaPeer::VENTA_REGISTRADA;
+        }
+
+
+        return $this;
+    } // setVentaRegistrada()
+
+    /**
+     * Set the value of [venta_total] column.
+     *
+     * @param  string $v new value
+     * @return Venta The current object (for fluent API support)
+     */
+    public function setVentaTotal($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (string) $v;
         }
 
-        if ($this->venta_cantidad !== $v) {
-            $this->venta_cantidad = $v;
-            $this->modifiedColumns[] = VentaPeer::VENTA_CANTIDAD;
+        if ($this->venta_total !== $v) {
+            $this->venta_total = $v;
+            $this->modifiedColumns[] = VentaPeer::VENTA_TOTAL;
         }
 
 
         return $this;
-    } // setVentaCantidad()
+    } // setVentaTotal()
+
+    /**
+     * Set the value of [venta_referenciapago] column.
+     *
+     * @param  string $v new value
+     * @return Venta The current object (for fluent API support)
+     */
+    public function setVentaReferenciapago($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->venta_referenciapago !== $v) {
+            $this->venta_referenciapago = $v;
+            $this->modifiedColumns[] = VentaPeer::VENTA_REFERENCIAPAGO;
+        }
+
+
+        return $this;
+    } // setVentaReferenciapago()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -334,9 +493,13 @@ abstract class BaseVenta extends BaseObject implements Persistent
 
             $this->idventa = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->idpaciente = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->idcajachica = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-            $this->venta_fecha = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->venta_cantidad = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->venta_fecha = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->venta_tipodepago = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->venta_status = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->venta_facturada = ($row[$startcol + 5] !== null) ? (boolean) $row[$startcol + 5] : null;
+            $this->venta_registrada = ($row[$startcol + 6] !== null) ? (boolean) $row[$startcol + 6] : null;
+            $this->venta_total = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->venta_referenciapago = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -346,7 +509,7 @@ abstract class BaseVenta extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = VentaPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 9; // 9 = VentaPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Venta object", $e);
@@ -371,9 +534,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
 
         if ($this->aPaciente !== null && $this->idpaciente !== $this->aPaciente->getIdpaciente()) {
             $this->aPaciente = null;
-        }
-        if ($this->aCajachica !== null && $this->idcajachica !== $this->aCajachica->getIdcajachica()) {
-            $this->aCajachica = null;
         }
     } // ensureConsistency
 
@@ -414,7 +574,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aCajachica = null;
             $this->aPaciente = null;
             $this->collCargoventas = null;
 
@@ -536,13 +695,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aCajachica !== null) {
-                if ($this->aCajachica->isModified() || $this->aCajachica->isNew()) {
-                    $affectedRows += $this->aCajachica->save($con);
-                }
-                $this->setCajachica($this->aCajachica);
-            }
-
             if ($this->aPaciente !== null) {
                 if ($this->aPaciente->isModified() || $this->aPaciente->isNew()) {
                     $affectedRows += $this->aPaciente->save($con);
@@ -610,14 +762,26 @@ abstract class BaseVenta extends BaseObject implements Persistent
         if ($this->isColumnModified(VentaPeer::IDPACIENTE)) {
             $modifiedColumns[':p' . $index++]  = '`idpaciente`';
         }
-        if ($this->isColumnModified(VentaPeer::IDCAJACHICA)) {
-            $modifiedColumns[':p' . $index++]  = '`idcajachica`';
-        }
         if ($this->isColumnModified(VentaPeer::VENTA_FECHA)) {
             $modifiedColumns[':p' . $index++]  = '`venta_fecha`';
         }
-        if ($this->isColumnModified(VentaPeer::VENTA_CANTIDAD)) {
-            $modifiedColumns[':p' . $index++]  = '`venta_cantidad`';
+        if ($this->isColumnModified(VentaPeer::VENTA_TIPODEPAGO)) {
+            $modifiedColumns[':p' . $index++]  = '`venta_tipodepago`';
+        }
+        if ($this->isColumnModified(VentaPeer::VENTA_STATUS)) {
+            $modifiedColumns[':p' . $index++]  = '`venta_status`';
+        }
+        if ($this->isColumnModified(VentaPeer::VENTA_FACTURADA)) {
+            $modifiedColumns[':p' . $index++]  = '`venta_facturada`';
+        }
+        if ($this->isColumnModified(VentaPeer::VENTA_REGISTRADA)) {
+            $modifiedColumns[':p' . $index++]  = '`venta_registrada`';
+        }
+        if ($this->isColumnModified(VentaPeer::VENTA_TOTAL)) {
+            $modifiedColumns[':p' . $index++]  = '`venta_total`';
+        }
+        if ($this->isColumnModified(VentaPeer::VENTA_REFERENCIAPAGO)) {
+            $modifiedColumns[':p' . $index++]  = '`venta_referenciapago`';
         }
 
         $sql = sprintf(
@@ -636,14 +800,26 @@ abstract class BaseVenta extends BaseObject implements Persistent
                     case '`idpaciente`':
                         $stmt->bindValue($identifier, $this->idpaciente, PDO::PARAM_INT);
                         break;
-                    case '`idcajachica`':
-                        $stmt->bindValue($identifier, $this->idcajachica, PDO::PARAM_INT);
-                        break;
                     case '`venta_fecha`':
                         $stmt->bindValue($identifier, $this->venta_fecha, PDO::PARAM_STR);
                         break;
-                    case '`venta_cantidad`':
-                        $stmt->bindValue($identifier, $this->venta_cantidad, PDO::PARAM_STR);
+                    case '`venta_tipodepago`':
+                        $stmt->bindValue($identifier, $this->venta_tipodepago, PDO::PARAM_STR);
+                        break;
+                    case '`venta_status`':
+                        $stmt->bindValue($identifier, $this->venta_status, PDO::PARAM_STR);
+                        break;
+                    case '`venta_facturada`':
+                        $stmt->bindValue($identifier, (int) $this->venta_facturada, PDO::PARAM_INT);
+                        break;
+                    case '`venta_registrada`':
+                        $stmt->bindValue($identifier, (int) $this->venta_registrada, PDO::PARAM_INT);
+                        break;
+                    case '`venta_total`':
+                        $stmt->bindValue($identifier, $this->venta_total, PDO::PARAM_STR);
+                        break;
+                    case '`venta_referenciapago`':
+                        $stmt->bindValue($identifier, $this->venta_referenciapago, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -744,12 +920,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aCajachica !== null) {
-                if (!$this->aCajachica->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aCajachica->getValidationFailures());
-                }
-            }
-
             if ($this->aPaciente !== null) {
                 if (!$this->aPaciente->validate($columns)) {
                     $failureMap = array_merge($failureMap, $this->aPaciente->getValidationFailures());
@@ -812,13 +982,25 @@ abstract class BaseVenta extends BaseObject implements Persistent
                 return $this->getIdpaciente();
                 break;
             case 2:
-                return $this->getIdcajachica();
-                break;
-            case 3:
                 return $this->getVentaFecha();
                 break;
+            case 3:
+                return $this->getVentaTipodepago();
+                break;
             case 4:
-                return $this->getVentaCantidad();
+                return $this->getVentaStatus();
+                break;
+            case 5:
+                return $this->getVentaFacturada();
+                break;
+            case 6:
+                return $this->getVentaRegistrada();
+                break;
+            case 7:
+                return $this->getVentaTotal();
+                break;
+            case 8:
+                return $this->getVentaReferenciapago();
                 break;
             default:
                 return null;
@@ -851,9 +1033,13 @@ abstract class BaseVenta extends BaseObject implements Persistent
         $result = array(
             $keys[0] => $this->getIdventa(),
             $keys[1] => $this->getIdpaciente(),
-            $keys[2] => $this->getIdcajachica(),
-            $keys[3] => $this->getVentaFecha(),
-            $keys[4] => $this->getVentaCantidad(),
+            $keys[2] => $this->getVentaFecha(),
+            $keys[3] => $this->getVentaTipodepago(),
+            $keys[4] => $this->getVentaStatus(),
+            $keys[5] => $this->getVentaFacturada(),
+            $keys[6] => $this->getVentaRegistrada(),
+            $keys[7] => $this->getVentaTotal(),
+            $keys[8] => $this->getVentaReferenciapago(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -861,9 +1047,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aCajachica) {
-                $result['Cajachica'] = $this->aCajachica->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
             if (null !== $this->aPaciente) {
                 $result['Paciente'] = $this->aPaciente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
@@ -911,13 +1094,25 @@ abstract class BaseVenta extends BaseObject implements Persistent
                 $this->setIdpaciente($value);
                 break;
             case 2:
-                $this->setIdcajachica($value);
-                break;
-            case 3:
                 $this->setVentaFecha($value);
                 break;
+            case 3:
+                $this->setVentaTipodepago($value);
+                break;
             case 4:
-                $this->setVentaCantidad($value);
+                $this->setVentaStatus($value);
+                break;
+            case 5:
+                $this->setVentaFacturada($value);
+                break;
+            case 6:
+                $this->setVentaRegistrada($value);
+                break;
+            case 7:
+                $this->setVentaTotal($value);
+                break;
+            case 8:
+                $this->setVentaReferenciapago($value);
                 break;
         } // switch()
     }
@@ -945,9 +1140,13 @@ abstract class BaseVenta extends BaseObject implements Persistent
 
         if (array_key_exists($keys[0], $arr)) $this->setIdventa($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setIdpaciente($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setIdcajachica($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setVentaFecha($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setVentaCantidad($arr[$keys[4]]);
+        if (array_key_exists($keys[2], $arr)) $this->setVentaFecha($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setVentaTipodepago($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setVentaStatus($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setVentaFacturada($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setVentaRegistrada($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setVentaTotal($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setVentaReferenciapago($arr[$keys[8]]);
     }
 
     /**
@@ -961,9 +1160,13 @@ abstract class BaseVenta extends BaseObject implements Persistent
 
         if ($this->isColumnModified(VentaPeer::IDVENTA)) $criteria->add(VentaPeer::IDVENTA, $this->idventa);
         if ($this->isColumnModified(VentaPeer::IDPACIENTE)) $criteria->add(VentaPeer::IDPACIENTE, $this->idpaciente);
-        if ($this->isColumnModified(VentaPeer::IDCAJACHICA)) $criteria->add(VentaPeer::IDCAJACHICA, $this->idcajachica);
         if ($this->isColumnModified(VentaPeer::VENTA_FECHA)) $criteria->add(VentaPeer::VENTA_FECHA, $this->venta_fecha);
-        if ($this->isColumnModified(VentaPeer::VENTA_CANTIDAD)) $criteria->add(VentaPeer::VENTA_CANTIDAD, $this->venta_cantidad);
+        if ($this->isColumnModified(VentaPeer::VENTA_TIPODEPAGO)) $criteria->add(VentaPeer::VENTA_TIPODEPAGO, $this->venta_tipodepago);
+        if ($this->isColumnModified(VentaPeer::VENTA_STATUS)) $criteria->add(VentaPeer::VENTA_STATUS, $this->venta_status);
+        if ($this->isColumnModified(VentaPeer::VENTA_FACTURADA)) $criteria->add(VentaPeer::VENTA_FACTURADA, $this->venta_facturada);
+        if ($this->isColumnModified(VentaPeer::VENTA_REGISTRADA)) $criteria->add(VentaPeer::VENTA_REGISTRADA, $this->venta_registrada);
+        if ($this->isColumnModified(VentaPeer::VENTA_TOTAL)) $criteria->add(VentaPeer::VENTA_TOTAL, $this->venta_total);
+        if ($this->isColumnModified(VentaPeer::VENTA_REFERENCIAPAGO)) $criteria->add(VentaPeer::VENTA_REFERENCIAPAGO, $this->venta_referenciapago);
 
         return $criteria;
     }
@@ -1028,9 +1231,13 @@ abstract class BaseVenta extends BaseObject implements Persistent
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setIdpaciente($this->getIdpaciente());
-        $copyObj->setIdcajachica($this->getIdcajachica());
         $copyObj->setVentaFecha($this->getVentaFecha());
-        $copyObj->setVentaCantidad($this->getVentaCantidad());
+        $copyObj->setVentaTipodepago($this->getVentaTipodepago());
+        $copyObj->setVentaStatus($this->getVentaStatus());
+        $copyObj->setVentaFacturada($this->getVentaFacturada());
+        $copyObj->setVentaRegistrada($this->getVentaRegistrada());
+        $copyObj->setVentaTotal($this->getVentaTotal());
+        $copyObj->setVentaReferenciapago($this->getVentaReferenciapago());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1093,58 +1300,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
         }
 
         return self::$peer;
-    }
-
-    /**
-     * Declares an association between this object and a Cajachica object.
-     *
-     * @param                  Cajachica $v
-     * @return Venta The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setCajachica(Cajachica $v = null)
-    {
-        if ($v === null) {
-            $this->setIdcajachica(NULL);
-        } else {
-            $this->setIdcajachica($v->getIdcajachica());
-        }
-
-        $this->aCajachica = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Cajachica object, it will not be re-added.
-        if ($v !== null) {
-            $v->addVenta($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated Cajachica object
-     *
-     * @param PropelPDO $con Optional Connection object.
-     * @param $doQuery Executes a query to get the object if required
-     * @return Cajachica The associated Cajachica object.
-     * @throws PropelException
-     */
-    public function getCajachica(PropelPDO $con = null, $doQuery = true)
-    {
-        if ($this->aCajachica === null && ($this->idcajachica !== null) && $doQuery) {
-            $this->aCajachica = CajachicaQuery::create()->findPk($this->idcajachica, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aCajachica->addVentas($this);
-             */
-        }
-
-        return $this->aCajachica;
     }
 
     /**
@@ -1497,9 +1652,13 @@ abstract class BaseVenta extends BaseObject implements Persistent
     {
         $this->idventa = null;
         $this->idpaciente = null;
-        $this->idcajachica = null;
         $this->venta_fecha = null;
-        $this->venta_cantidad = null;
+        $this->venta_tipodepago = null;
+        $this->venta_status = null;
+        $this->venta_facturada = null;
+        $this->venta_registrada = null;
+        $this->venta_total = null;
+        $this->venta_referenciapago = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1527,9 +1686,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->aCajachica instanceof Persistent) {
-              $this->aCajachica->clearAllReferences($deep);
-            }
             if ($this->aPaciente instanceof Persistent) {
               $this->aPaciente->clearAllReferences($deep);
             }
@@ -1541,7 +1697,6 @@ abstract class BaseVenta extends BaseObject implements Persistent
             $this->collCargoventas->clearIterator();
         }
         $this->collCargoventas = null;
-        $this->aCajachica = null;
         $this->aPaciente = null;
     }
 

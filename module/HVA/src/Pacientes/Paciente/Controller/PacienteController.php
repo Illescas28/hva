@@ -20,6 +20,11 @@ use Pacientes\Admision\Filter\AdmisionFilter;
 use Pacientes\Cargoconsulta\Filter\CargoconsultaFilter;
 use Pacientes\Cargoadmision\Filter\CargoadmisionFilter;
 
+//// Form ////
+use Pacientes\Admisionanticipo\Form\AdmisionanticipoForm;
+//// Filter ////
+use Pacientes\Admisionanticipo\Filter\AdmisionanticipoFilter;
+
 //// Propel ////
 use Paciente;
 use PacienteQuery;
@@ -186,8 +191,71 @@ class PacienteController extends AbstractActionController
     }
 
     public function asignarAction(){
-
         $request = $this->getRequest();
+
+        // Inicio Anticipo Admision
+        //Intanciamos nuestro formulario admisionanticipo
+        $admisionanticipoForm = new AdmisionanticipoForm();
+        //Instanciamos nuestro filtro
+        $admisionanticipoFilter = new AdmisionanticipoFilter();
+        //Le ponemos nuestro filtro a nuesto fromulario
+        $admisionanticipoForm->setInputFilter($admisionanticipoFilter->getInputFilter());
+
+        //Le ponemos los datos a nuestro formulario
+        $admisionanticipoForm->setData($request->getPost());
+
+        //Validamos nuestro formulario
+        if($admisionanticipoForm->isValid()){
+
+            $admisionanticipo = new \Admisionanticipo();
+
+            //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Admisionanticipo
+            foreach ($admisionanticipoForm->getData() as $admisionanticipoKey => $admisionanticipoValue){
+                $admisionanticipo->setByName($admisionanticipoKey, $admisionanticipoValue, \BasePeer::TYPE_FIELDNAME);
+            }
+            $admisionanticipo->setAdmisionanticipoFecha(date('Y-m-d H:i:s'));
+            //Guardamos en nuestra base de datos
+            $admisionanticipo->save();
+
+            $admisionanticipoArray = \AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($admisionanticipo->getIdadmisionanticipo())->findOne()->toArray(\BasePeer::TYPE_FIELDNAME);
+
+            return new JsonModel(array(
+                'admisionanticipoArray' => $admisionanticipoArray,
+            ));
+        }
+        // Fin Anticipo Admision
+
+        // Inicio Pago Admision
+        //Intanciamos nuestro formulario admisionanticipo
+        $admisionanticipoForm = new AdmisionanticipoForm();
+        //Instanciamos nuestro filtro
+        $admisionanticipoFilter = new AdmisionanticipoFilter();
+        //Le ponemos nuestro filtro a nuesto fromulario
+        $admisionanticipoForm->setInputFilter($admisionanticipoFilter->getInputFilter());
+
+        //Le ponemos los datos a nuestro formulario
+        $admisionanticipoForm->setData($request->getPost());
+
+        //Validamos nuestro formulario
+        if($admisionanticipoForm->isValid()){
+
+            $admisionanticipo = new \Admisionanticipo();
+
+            //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Admisionanticipo
+            foreach ($admisionanticipoForm->getData() as $admisionanticipoKey => $admisionanticipoValue){
+                $admisionanticipo->setByName($admisionanticipoKey, $admisionanticipoValue, \BasePeer::TYPE_FIELDNAME);
+            }
+            $admisionanticipo->setAdmisionanticipoFecha(date('Y-m-d H:i:s'));
+            //Guardamos en nuestra base de datos
+            $admisionanticipo->save();
+
+            $admisionanticipoArray = \AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($admisionanticipo->getIdadmisionanticipo())->findOne()->toArray(\BasePeer::TYPE_FIELDNAME);
+
+            return new JsonModel(array(
+                'admisionanticipoArray' => $admisionanticipoArray,
+            ));
+        }
+        // Fin Pago Admision
 
         $id = (int) $this->params()->fromRoute('id', 0);
         if($id){
@@ -293,7 +361,7 @@ class PacienteController extends AbstractActionController
                             'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
                             'idlugarinventario' => $idlugarinventario,
                             'cargoconsulta_tipo' => 'articulo',
-                            'cargoconsulta_fecha' => date('Y-m-d H:i:s'),
+                                'cargoconsulta_fecha' => date('Y-m-d H:i:s'),
                             'ordencompradetalle_caducidad' => $ordencompradetalleEntity->getOrdencompradetalleCaducidad(),
                             'existencia' => $lugarinventarioCantidad,
                             'articulo' => $articuloNombre,
@@ -475,9 +543,6 @@ class PacienteController extends AbstractActionController
                     //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Consulta
                     foreach ($consultaForm->getData() as $consultaKey => $consultaValue){
                         $consulta->setByName($consultaKey, $consultaValue, \BasePeer::TYPE_FIELDNAME);
-                        if($consultaKey == 'consulta_fechaadmision'){
-                            $consulta->setConsultaFechaadmision($consultaValue." ".date('H:i:s'));
-                        }
                         $consulta->setConsultaStatus('no pagada');
                     }
                     //Guardamos en nuestra base de datos
@@ -646,7 +711,20 @@ class PacienteController extends AbstractActionController
                     ));
                     //Redireccionamos a nuestro list
                     //return $this->redirect()->toRoute('pacientes');
-                }
+                }/*else {
+                    $messageArray = array();
+                    foreach ($cargoadmisionForm->getMessages() as $key => $value){
+                        foreach($value as $val){
+                            //Obtenemos el valor de la columna con error
+                            $message = $key.' '.$val;
+                            array_push($messageArray, $message);
+                        }
+                    }
+                    var_dump($messageArray);
+                    return new JsonModel(array(
+                        'error' => $messageArray,
+                    ));
+                }*/
 
                 //Instanciamos nuestro filtro
                 $cargoadmisionFilter = new CargoadmisionFilter();

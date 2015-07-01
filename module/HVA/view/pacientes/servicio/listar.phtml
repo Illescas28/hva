@@ -23,7 +23,6 @@ $this->headTitle($title);
         <tr>
             <th>Nombre</th>
             <th>Descripción</th>
-            <th>Costo</th>
             <th>Precio</th>
             <th>IVA</th>
             <th>Opciones</th>
@@ -35,7 +34,6 @@ $this->headTitle($title);
             <tr>
                 <td><?php echo $servicioEntity->getServicioNombre() ?></td>
                 <td><?php echo $servicioEntity->getServicioDescripcion() ?></td>
-                <td><?php echo $servicioEntity->getServicioCosto() ?></td>
                 <td><?php echo $servicioEntity->getServicioPrecio() ?></td>
                 <td><?php echo $servicioEntity->getServicioIva() ?></td>
                 <td>
@@ -65,19 +63,13 @@ $this->headTitle($title);
                                     <p><?php echo $servicioEntity->getServicioDescripcion()?></p>
                                 </div>
                             </div>
-                            <div class="col s4">
-                                <div class="label-container">
-                                    <label>Costo:</label>
-                                    <p><?php echo $servicioEntity->getServicioCosto()?></p>
-                                </div>
-                            </div>
-                            <div class="col s4">
+                            <div class="col s6">
                                 <div class="label-container">
                                     <label>Precio:</label>
                                     <p><?php echo $servicioEntity->getServicioPrecio()?></p>
                                 </div>
                             </div>
-                            <div class="col s4">
+                            <div class="col s6">
                                 <div class="label-container">
                                     <label>Iva:</label>
                                     <p><?php echo $servicioEntity->getServicioIva()?></p>
@@ -88,7 +80,7 @@ $this->headTitle($title);
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href='<?php echo "/servicio/editar/".$servicioEntity->getIdservicio()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                    <a href='<?php echo "/servicios/editar/".$servicioEntity->getIdservicio()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
                 </div>
             </div>
             <!-- End View Modal Structure -->

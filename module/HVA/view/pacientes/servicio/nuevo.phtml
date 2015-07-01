@@ -46,25 +46,7 @@ $this->headTitle($title);
                 <?php  endif;?>
             </div>
         </div>
-        <div class="col s4">
-            <div class="input-field">
-                <?php echo $this->formText($servicioForm->get('servicio_costo')); ?>
-                <?php echo $this->formLabel($servicioForm->get('servicio_costo')); ?>
-                <?php $showError=$this->formElementErrors($servicioForm->get('servicio_costo'));
-                if(!empty($showError)):
-                    ?>
-                    <div class="center-align col" style="color: #e57373">
-                        <i class="mdi-content-report prefix"></i>
-                    </div>
-                    <div class="center-align col s11 offset-s1" style="color: #e57373">
-                        <?php
-                        echo $showError;
-                        ?>
-                    </div>
-                <?php  endif;?>
-            </div>
-        </div>
-        <div class="col s4">
+        <div class="col s6">
             <div class="input-field">
                 <?php echo $this->formText($servicioForm->get('servicio_precio')); ?>
                 <?php echo $this->formLabel($servicioForm->get('servicio_precio')); ?>
@@ -82,7 +64,7 @@ $this->headTitle($title);
                 <?php  endif;?>
             </div>
         </div>
-        <div class="col s4">
+        <div class="col s6">
             <div class="input-field">
                 <?php echo $this->formText($servicioForm->get('servicio_iva')); ?>
                 <?php echo $this->formLabel($servicioForm->get('servicio_iva')); ?>
