@@ -95,12 +95,31 @@ $this->headTitle($title);
                 <?php  endif;?>
             </div>
         </div>
-        <div class="col s12">
+        <div class="col s6">
             <div class="input-field">
-                <?php echo $this->formText($consultaForm->get('consulta_fechaadmision')); ?>
-                <?php echo $this->formLabel($consultaForm->get('consulta_fechaadmision')); ?>
-                <span class="red-text hidden" for="consulta_fechaadmision" id="fechaadmision_error">Debe selecionar una fecha.</span><br><br>
-                <?php $showError=$this->formElementErrors($consultaForm->get('consulta_fechaadmision'));
+                <?php echo $this->formText($consultaForm->get('consulta_fecha')); ?>
+                <?php echo $this->formLabel($consultaForm->get('consulta_fecha')); ?>
+                <span class="red-text hidden" for="consulta_fecha" id="fecha_error">Debe selecionar una fecha.</span><br><br>
+                <?php $showError=$this->formElementErrors($consultaForm->get('consulta_fecha'));
+                if(!empty($showError)):
+                    ?>
+                    <div class="center-align col" style="color: #e57373">
+                        <i class="mdi-content-report prefix"></i>
+                    </div>
+                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                        <?php
+                        echo $showError;
+                        ?>
+                    </div>
+                <?php  endif;?>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="input-field">
+                <?php echo $this->formText($consultaForm->get('consulta_hora')); ?>
+                <?php echo $this->formLabel($consultaForm->get('consulta_hora')); ?>
+                <span class="red-text hidden" for="consulta_fecha" id="fecha_error">Debe selecionar una hora.</span><br><br>
+                <?php $showError=$this->formElementErrors($consultaForm->get('consulta_hora'));
                 if(!empty($showError)):
                     ?>
                     <div class="center-align col" style="color: #e57373">
@@ -377,7 +396,6 @@ $this->headTitle($title);
                                         <th>Fecha/hora</th>
                                         <th>Precio</th>
                                         <th>Subtotal</th>
-                                        <th>Opciones</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -458,7 +476,6 @@ $this->headTitle($title);
                                         <th>Fecha/hora</th>
                                         <th>Precio</th>
                                         <th>Subtotal</th>
-                                        <th>Opciones</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -590,7 +607,6 @@ $this->headTitle($title);
                                         <th>Fecha/hora</th>
                                         <th>Precio</th>
                                         <th>Subtotal</th>
-                                        <th>Opciones</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -604,6 +620,8 @@ $this->headTitle($title);
                 </div>
             </div>
             <!-- End Create Modal Structure -->
+
+
             <div id="cargoadmisionArticuloResult" class="col s12">
                 <table class="hoverable striped">
                     <thead>
@@ -690,7 +708,6 @@ $this->headTitle($title);
                                         <th>Fecha/hora</th>
                                         <th>Precio</th>
                                         <th>Subtotal</th>
-                                        <th>Opciones</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -780,8 +797,11 @@ $this->headTitle($title);
 <script type="text/javascript">
 $(document).ready(function() {
     $('select').material_select();
-    $("#consulta_fechaadmision").datepicker();
+    $("#consulta_fecha").datepicker();
     $("#admision_fechaadmision").datepicker();
+
+    // lolliclock
+    $('#consulta_hora').lolliclock({autoclose:true});
 
     //Cargoconsulta
     $('.modal-trigger').leanModal();
@@ -869,18 +889,19 @@ $("#guardarConsulta").click(function() {
     }
 
     //Obtenemos el valor del campo fechaadmision
-    var consulta_fechaadmision = $("input#consulta_fechaadmision").val();
+    var consulta_fecha = $("input#consulta_fecha").val();
+    var consulta_hora = $("input#consulta_hora").val();
 
     //Validamos el campo fechaadmision, simplemente miramos que no esté vacío
-    if (consulta_fechaadmision == "") {
-        if ($('span#fechaadmision_error').hasClass('hidden')){
-            $('span#fechaadmision_error').removeClass('hidden');
-            $("span#fechaadmision_error").show();
-            $("span#consulta_fechaadmision").focus();
+    if (consulta_fecha == "") {
+        if ($('span#fecha_error').hasClass('hidden')){
+            $('span#fecha_error').removeClass('hidden');
+            $("span#fecha_error").show();
+            $("span#consulta_fecha").focus();
         }
         return false;
     }else{
-        $("span#fechaadmision_error").hide();
+        $("span#fecha_error").hide();
     }
 
     //Obtenemos el valor del campo idpaciente
@@ -891,7 +912,7 @@ $("#guardarConsulta").click(function() {
     var consulta_observaciones = $("input#consulta_observaciones").val();
 
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'idmedico=' + idmedico + '&idconsultorio=' + idconsultorio + '&idpaciente=' + idpaciente + '&consulta_fechaadmision=' + consulta_fechaadmision + '&consulta_diagnostico=' + consulta_diagnostico + '&consulta_observaciones=' + consulta_observaciones;
+    var dataString = 'idmedico=' + idmedico + '&idconsultorio=' + idconsultorio + '&idpaciente=' + idpaciente + '&consulta_fecha=' + consulta_fecha + '&consulta_hora=' + consulta_hora + '&consulta_diagnostico=' + consulta_diagnostico + '&consulta_observaciones=' + consulta_observaciones;
 
     $.ajax({
         type: "POST",
@@ -1570,7 +1591,7 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
     var tblBody = document.createElement("tbody");
 
     // Creamos un array con las columnas de nuestra tabla
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -1640,38 +1661,6 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
-            if(j == 7){
-                var link1 = document.createElement("a");
-                link1.className = "tooltipped modal-trigger";
-                link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var vista = document.createElement("i");
-                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
-
-                var link2 = document.createElement("a");
-                link2.className = "tooltipped";
-                link2.setAttribute ( 'data-position', 'right' );
-                link2.setAttribute ( 'data-tooltip', 'Editar' );
-                link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var editar = document.createElement("i");
-                editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-
-                var link3 = document.createElement("a");
-                link3.className = "tooltipped";
-                link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var eliminar = document.createElement("i");
-                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                celda.appendChild(link1);
-                celda.appendChild(vista);
-                celda.appendChild(link2);
-                celda.appendChild(editar);
-                celda.appendChild(link3);
-                celda.appendChild(eliminar);
-                hilera.appendChild(celda);
-            }
         }
 
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
@@ -1700,7 +1689,7 @@ function tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray) {
     var tblBody = document.createElement("tbody");
 
     // Creamos un array con las columnas de nuestra tabla
-    var thArray = ['Cantidad', 'Servicio', /*'Descripción',*/ 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Servicio', /*'Descripción',*/ 'Fecha/hora', 'Precio', 'Subtotal']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -1765,38 +1754,6 @@ function tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray) {
             if(j == 4){
                 var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
                 celda.appendChild(textoCelda);
-                hilera.appendChild(celda);
-            }
-            if(j == 5){
-                var link1 = document.createElement("a");
-                link1.className = "tooltipped modal-trigger";
-                link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var vista = document.createElement("i");
-                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
-
-                var link2 = document.createElement("a");
-                link2.className = "tooltipped";
-                link2.setAttribute ( 'data-position', 'right' );
-                link2.setAttribute ( 'data-tooltip', 'Editar' );
-                link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var editar = document.createElement("i");
-                editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-
-                var link3 = document.createElement("a");
-                link3.className = "tooltipped";
-                link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var eliminar = document.createElement("i");
-                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                celda.appendChild(link1);
-                celda.appendChild(vista);
-                celda.appendChild(link2);
-                celda.appendChild(editar);
-                celda.appendChild(link3);
-                celda.appendChild(eliminar);
                 hilera.appendChild(celda);
             }
         }
@@ -3366,7 +3323,7 @@ function tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray) {
     var tblBody = document.createElement("tbody");
 
     // Creamos un array con las columnas de nuestra tabla
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -3396,6 +3353,7 @@ function tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray) {
         var hilera = document.createElement("tr");
 
         for (var j = 0; j < thArray.length; j++) {
+
             // Crea un elemento <td> y un nodo de texto, haz que el nodo de
             // texto sea el contenido de <td>, ubica el elemento <td> al final
             // de la hilera de la tabla
@@ -3436,38 +3394,6 @@ function tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray) {
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
-            if(j == 7){
-                var link1 = document.createElement("a");
-                link1.className = "tooltipped modal-trigger";
-                link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                link1.setAttribute ( 'href', '#view-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-                var vista = document.createElement("i");
-                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
-
-                var link2 = document.createElement("a");
-                link2.className = "tooltipped";
-                link2.setAttribute ( 'data-position', 'right' );
-                link2.setAttribute ( 'data-tooltip', 'Editar' );
-                link2.setAttribute ( 'href', '#edit-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-                var editar = document.createElement("i");
-                editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-
-                var link3 = document.createElement("a");
-                link3.className = "tooltipped";
-                link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                link3.setAttribute ( 'href', '#delete-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-                var eliminar = document.createElement("i");
-                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                celda.appendChild(link1);
-                celda.appendChild(vista);
-                celda.appendChild(link2);
-                celda.appendChild(editar);
-                celda.appendChild(link3);
-                celda.appendChild(eliminar);
-                hilera.appendChild(celda);
-            }
         }
 
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
@@ -3496,7 +3422,7 @@ function tablaCargoadmisionServicioAgregadoModal(cargoadmisionArray) {
     var tblBody = document.createElement("tbody");
 
     // Creamos un array con las columnas de nuestra tabla
-    var thArray = ['Cantidad', 'Servicio', /*'Descripción',*/ 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Servicio', /*'Descripción',*/ 'Fecha/hora', 'Precio', 'Subtotal']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -3561,38 +3487,6 @@ function tablaCargoadmisionServicioAgregadoModal(cargoadmisionArray) {
             if(j == 4){
                 var textoCelda = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
                 celda.appendChild(textoCelda);
-                hilera.appendChild(celda);
-            }
-            if(j == 5){
-                var link1 = document.createElement("a");
-                link1.className = "tooltipped modal-trigger";
-                link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                link1.setAttribute ( 'href', '#view-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-                var vista = document.createElement("i");
-                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
-
-                var link2 = document.createElement("a");
-                link2.className = "tooltipped";
-                link2.setAttribute ( 'data-position', 'right' );
-                link2.setAttribute ( 'data-tooltip', 'Editar' );
-                link2.setAttribute ( 'href', '#edit-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-                var editar = document.createElement("i");
-                editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-
-                var link3 = document.createElement("a");
-                link3.className = "tooltipped";
-                link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                link3.setAttribute ( 'href', '#delete-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-                var eliminar = document.createElement("i");
-                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                celda.appendChild(link1);
-                celda.appendChild(vista);
-                celda.appendChild(link2);
-                celda.appendChild(editar);
-                celda.appendChild(link3);
-                celda.appendChild(eliminar);
                 hilera.appendChild(celda);
             }
         }
@@ -4172,6 +4066,67 @@ function buscarCargoadmisionServicio(idservicio){
 };
 function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
 
+    for (var i = 0; i < cargoadmisionArray.length; i++) {
+
+        <!-- View Modal Structure -->
+        var divViewModalCargoadmision = document.createElement('div')
+        divViewModalCargoadmision.setAttribute ( 'id', 'view-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoconsulta"]);
+        divViewModalCargoadmision.className = "modal";
+        var h4 = document.createElement('h4')
+        var texth4 = document.createTextNode("Cargoconsulta:");
+        h4.appendChild(texth4);
+        var divRow = document.createElement('div')
+        divRow.className = "row";
+        var fieldset = document.createElement('fieldset')
+        var legend = document.createElement('legend')
+        var textlegend = document.createTextNode("Datos Generales");
+        legend.appendChild(textlegend);
+        var divCol1 = document.createElement('div')
+        divCol1.className = "col s6";
+        var divLabelContainer1 = document.createElement('div')
+        divLabelContainer1.className = "label-container";
+        var label1 = document.createElement('label')
+        var textlabel1 = document.createTextNode("Artículo:");
+        label1.appendChild(textlabel1);
+        var p1 = document.createElement('p')
+        var textp1 = document.createTextNode(cargoadmisionArray[i]["articulo"]);
+        p1.appendChild(textp1);
+        divLabelContainer1.appendChild(p1);
+        divLabelContainer1.appendChild(label1);
+        divCol1.appendChild(divLabelContainer1);
+        var divCol2 = document.createElement('div')
+        divCol2.className = "col s6";
+        var divLabelContainer2 = document.createElement('div')
+        divLabelContainer2.className = "label-container";
+        var label2 = document.createElement('label')
+        var textlabel2 = document.createTextNode("Descripción:");
+        label2.appendChild(textlabel2);
+        var p2 = document.createElement('p')
+        var textp2 = document.createTextNode(cargoadmisionArray[i]["descripcion"]);
+        p2.appendChild(textp2);
+        divLabelContainer2.appendChild(p2);
+        divLabelContainer2.appendChild(label2);
+        divCol2.appendChild(divLabelContainer2);
+        fieldset.appendChild(divCol2);
+        fieldset.appendChild(divCol1);
+        fieldset.appendChild(legend);
+        divRow.appendChild(fieldset);
+        var divViewModalFooter = document.createElement('div')
+        divViewModalFooter.className = "modal-footer";
+        var linkCerrar = document.createElement('a')
+        linkCerrar.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+        var iconCerrar = document.createElement('i')
+        iconCerrar.className = "mdi-navigation-close left";
+        var textoIconCerrar = document.createTextNode('Cerrar');
+        iconCerrar.appendChild(textoIconCerrar);
+        linkCerrar.appendChild(iconCerrar);
+        divViewModalFooter.appendChild(linkCerrar);
+        divViewModalCargoadmision.appendChild(divViewModalFooter);
+        divViewModalCargoadmision.appendChild(divRow);
+        divViewModalCargoadmision.appendChild(h4);
+    }
+    <!-- End View Modal Structure -->
+
     // Obtener la referencia del elemento div con id = cargoadmisionArticuloResult
     var div = document.getElementById("cargoadmisionArticuloResult");
     div.innerHTML = div;
@@ -4277,15 +4232,14 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 link3.setAttribute ( 'data-position', 'right' );
                 link3.setAttribute ( 'data-tooltip', 'Eliminar' );
                 link3.setAttribute ( 'href', '#delete-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-
                 var eliminar = document.createElement("i");
                 eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                link1.appendChild(vista);
                 celda.appendChild(link1);
-                celda.appendChild(vista);
+                link2.appendChild(editar);
                 celda.appendChild(link2);
-                celda.appendChild(editar);
+                link3.appendChild(eliminar);
                 celda.appendChild(link3);
-                celda.appendChild(eliminar);
                 hilera.appendChild(celda);
             }
         }
@@ -4435,31 +4389,25 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
 var subTotal = 0;
 function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null) {
 
+    // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
+
     subTotal += subTotalArticulo+subTotalServicio;
 
     var anticipoCantidad = 0;
 
     if(tipo == "consulta"){
+
         var divTotalSuperior = document.getElementById("totalSuperior");
         divTotalSuperior.innerHTML = divTotalSuperior;
         var divSubTotal = document.createElement('div');
         divSubTotal.className = "col s3";
-        var divAnticipo = document.createElement('div');
-        divAnticipo.className = "col s3";
         var divStatus = document.createElement('div');
         divStatus.className = "col s3";
         var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
-        var editar = document.createElement("i");
-        editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-        editar.setAttribute ( 'id', 'pagarAnticipo' );
-        var textoAnticipo = document.createTextNode("Anticipo: "+anticipoCantidad+" MXN");
         var textoStatus = document.createTextNode("Status: "+status);
         divSubTotal.appendChild(textoSubTotal);
-        divAnticipo.appendChild(textoAnticipo);
-        divAnticipo.appendChild(editar);
         divStatus.appendChild(textoStatus);
         divTotalSuperior.appendChild(divSubTotal);
-        divTotalSuperior.appendChild(divAnticipo);
         divTotalSuperior.appendChild(divStatus);
 
         var divTotalInferior = document.getElementById("totalInferior");
@@ -4479,7 +4427,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         buttonPagarAnticipo.style.marginTop = "20px";
         buttonPagarAnticipo.className = "btn waves-effect waves-light";
         buttonPagarAnticipo.setAttribute ( 'type', 'submit' );
-        var textoButtonPagarAnticipo = document.createTextNode("Pagar/Anticipo");
+        var textoButtonPagarAnticipo = document.createTextNode("Pagar");
         buttonPagarAnticipo.appendChild(textoButtonPagarAnticipo)
         divbotonPagarAnticipo.appendChild(buttonPagarAnticipo)
 
@@ -4523,49 +4471,16 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     }
 
     if(tipo == "admision"){
-        var divTotalSuperior = document.getElementById("totalSuperiorAdmision");
-        divTotalSuperior.innerHTML = divTotalSuperior;
-        var divSubTotal = document.createElement('div');
-        divSubTotal.className = "col s3";
-        var divAnticipo = document.createElement('div');
-        divAnticipo.className = "col s3";
-        var divStatus = document.createElement('div');
-        divStatus.className = "col s3";
-        var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
-        var editar = document.createElement("i");
-        editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-        editar.setAttribute ( 'id', 'pagarAnticipoAdmision' );
-        var textoAnticipo = document.createTextNode("Anticipo: "+anticipoCantidad+" MXN");
-        var textoStatus = document.createTextNode("Status: "+status);
-        divSubTotal.appendChild(textoSubTotal);
-        divAnticipo.appendChild(textoAnticipo);
-        divAnticipo.appendChild(editar);
-        divStatus.appendChild(textoStatus);
-        divTotalSuperior.appendChild(divSubTotal);
-        divTotalSuperior.appendChild(divAnticipo);
-        divTotalSuperior.appendChild(divStatus);
-
-        var divTotalInferior = document.getElementById("totalInferiorAdmision");
-        divTotalInferior.innerHTML = divTotalInferior;
-        var h4 = document.createElement('h4')
-        h4.className = "right-align";
-        var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
-        h4.appendChild(textoServicioTotal)
-        divTotalInferior.appendChild(h4)
 
         // Creamos los elementos de Anticipo admision
-        var anticipoAdmision = document.getElementById("anticipoAdmision");
-        anticipoAdmision.innerHTML = anticipoAdmision;
-
         var divCantidadRestanteAnticipo = document.createElement('div')
         divCantidadRestanteAnticipo.className = "col s12";
         var spanAnticipo = document.createElement('span')
         var cantidadRestanteAnticipo = document.createTextNode("Cantidad restante: "+subTotal);
         spanAnticipo.appendChild(cantidadRestanteAnticipo);
         divCantidadRestanteAnticipo.appendChild(spanAnticipo);
-        anticipoAdmision.appendChild(divCantidadRestanteAnticipo);
         var brAnticipo1 = document.createElement('br')
-        anticipoAdmision.appendChild(brAnticipo1);
+        divCantidadRestanteAnticipo.appendChild(brAnticipo1);
 
         var divInputAnticipo = document.createElement('div')
         divInputAnticipo.className = "col s12";
@@ -4578,7 +4493,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         inputAnticipo.setAttribute ( 'name', 'anticipo' );
         inputAnticipo.setAttribute ( 'value', subTotal );
         divInputAnticipo.appendChild(inputAnticipo);
-        anticipoAdmision.appendChild(divInputAnticipo);
+        divCantidadRestanteAnticipo.appendChild(divInputAnticipo);
 
         var divInputNotaAnticipo = document.createElement('div')
         divInputNotaAnticipo.className = "input-field col s12";
@@ -4592,7 +4507,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         labelNotaAnticipo.appendChild(notaAnticipo);
         labelNotaAnticipo.setAttribute ( 'for', 'input_nota_anticipo' );
         divInputNotaAnticipo.appendChild(labelNotaAnticipo);
-        anticipoAdmision.appendChild(divInputNotaAnticipo);
+        divCantidadRestanteAnticipo.appendChild(divInputNotaAnticipo);
 
         var divBotonPagarAnticipo = document.createElement('div')
         divBotonPagarAnticipo.className = "right col s4";
@@ -4605,13 +4520,10 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textBotonPagarAnticipo = document.createTextNode("Pagar");
         botonPagarAnticipo.appendChild(textBotonPagarAnticipo);
         divBotonPagarAnticipo.appendChild(botonPagarAnticipo);
-        anticipoAdmision.appendChild(divBotonPagarAnticipo);
+        divCantidadRestanteAnticipo.appendChild(divBotonPagarAnticipo);
         // Creamos los elementos de Anticipo admision
 
-
         // Creamos los elementos de Pago admision
-        var pagoAdmision = document.getElementById("pagoAdmision");
-        pagoAdmision.innerHTML = pagoAdmision;
 
         var divCantidadRestantePago = document.createElement('div')
         divCantidadRestantePago.className = "col s12";
@@ -4619,9 +4531,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var cantidadRestantePago = document.createTextNode("Cantidad restante: "+subTotal);
         spanPago.appendChild(cantidadRestantePago);
         divCantidadRestantePago.appendChild(spanPago);
-        pagoAdmision.appendChild(divCantidadRestantePago);
         var br1 = document.createElement('br')
-        pagoAdmision.appendChild(br1);
+        divCantidadRestantePago.appendChild(br1);
 
         var divMetodoDePago = document.createElement('div')
         divMetodoDePago.className = "col s12";
@@ -4657,7 +4568,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         inputMetodoDePago.setAttribute ( 'value', subTotal );
         inputMetodoDePago.setAttribute ( 'readonly', 'readonly');
         divMetodoDePago.appendChild(inputMetodoDePago);
-        pagoAdmision.appendChild(divMetodoDePago);
+        divCantidadRestantePago.appendChild(divMetodoDePago);
 
         var divInputNotaPago = document.createElement('div')
         divInputNotaPago.className = "input-field col s12";
@@ -4671,7 +4582,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         labelNotaPago.appendChild(notaPago);
         labelNotaPago.setAttribute ( 'for', 'input_nota_pago' );
         divInputNotaPago.appendChild(labelNotaPago);
-        pagoAdmision.appendChild(divInputNotaPago);
+        divCantidadRestantePago.appendChild(divInputNotaPago);
 
         var divBotonPagar = document.createElement('div')
         divBotonPagar.className = "right col s4";
@@ -4684,9 +4595,38 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textBotonPagar = document.createTextNode("Pagar");
         botonPagar.appendChild(textBotonPagar);
         divBotonPagar.appendChild(botonPagar);
-        pagoAdmision.appendChild(divBotonPagar);
+        divCantidadRestantePago.appendChild(divBotonPagar);
         // Creamos los elementos de Pago admision
 
+        var divTotalSuperior = document.getElementById("totalSuperiorAdmision");
+        divTotalSuperior.innerHTML = divTotalSuperior;
+        var divSubTotal = document.createElement('div');
+        divSubTotal.className = "col s3";
+        var divAnticipo = document.createElement('div');
+        divAnticipo.className = "col s3";
+        var divStatus = document.createElement('div');
+        divStatus.className = "col s3";
+        var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
+        var editar = document.createElement("i");
+        editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
+        editar.setAttribute ( 'id', 'pagarAnticipoAdmision' );
+        var textoAnticipo = document.createTextNode("Anticipo: "+anticipoCantidad+" MXN");
+        var textoStatus = document.createTextNode("Status: "+status);
+        divSubTotal.appendChild(textoSubTotal);
+        divAnticipo.appendChild(textoAnticipo);
+        divAnticipo.appendChild(editar);
+        divStatus.appendChild(textoStatus);
+        divTotalSuperior.appendChild(divSubTotal);
+        divTotalSuperior.appendChild(divAnticipo);
+        divTotalSuperior.appendChild(divStatus);
+
+        var divTotalInferior = document.getElementById("totalInferiorAdmision");
+        divTotalInferior.innerHTML = divTotalInferior;
+        var h4 = document.createElement('h4')
+        h4.className = "right-align";
+        var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
+        h4.appendChild(textoServicioTotal)
+        divTotalInferior.appendChild(h4)
 
         var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipoAdmision");
         divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo;
@@ -4742,28 +4682,18 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     }
     $("#divBotonAdmisionPagarAnticipo").click(function() {
 
-        alert("subTotal: " + subTotal)
         //Obtenemos el valor del input de divInputAnticipo
         var anticipoAdmision = $("input#input_anticipo_admision").val();
 
         if(anticipoAdmision > subTotal || anticipoAdmision < 0){
-            var divInputAnticipoElement = document.getElementById("divInputAnticipo");
-            divInputAnticipoElement.innerHTML = divInputAnticipoElement;
-            var span4 = document.createElement('span')
-            span4.className = "col 12";
-            var textoSpan4 = document.createTextNode("Generar Factura");
-            textoSpan4.className = "red-text";
-            span4.appendChild(textoSpan4)
-            divInputAnticipoElement.appendChild(span4)
+            alert("La cantidad agregada: "+anticipoAdmision+" no puede ser mayor a: "+subTotal+" ni menor o igual a 0.")
             return false;
         }
         var idadmision = $("input#idadmision").val();
         var notaAnticipoAdmision = $("input#input_nota_anticipo").val();
 
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idadmision=' + idadmision + '&admisionanticipo_cantidad=' + anticipoAdmision + '&input_nota_anticipo=' + notaAnticipoAdmision ;
-
-        alert(dataString);
+        var dataString = 'idadmision=' + idadmision + '&admisionanticipo_cantidad=' + anticipoAdmision + '&admisionanticipo_nota=' + notaAnticipoAdmision ;
 
         $.ajax({
             type: "POST",
@@ -4772,19 +4702,25 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
             data: dataString,
             jsonpCallback: 'callback',
             success: function(data) {
+
+                alert("Se agregó exitosamente el anticipo de: "+anticipoAdmision+" MXN")
+
                 admisionanticipoArray = []
-                var admisionanticipoEntity = data.admisionanticipo
+                var admisionanticipoEntity = data.admisionanticipoArray
                 $.each( admisionanticipoEntity, function( key, value ) {
-                    servicioArray.push({
+                    admisionanticipoArray.push({
                         "idadmisionanticipo" : value.idadmisionanticipo,
                         "admisionanticipo_fecha" : value.admisionanticipo_fecha,
                         "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
                         "admisionanticipo_nota" : value.admisionanticipo_nota,
                     });
                 });
+
+                // Creamos nuestra tabla de colecciones -> será en un modal!!!
+                generaTablaAnticipo(admisionanticipoArray);
             },
-            error: function(){
-                alert("Error al intentar guardar admision-anticipo")
+            error: function(data){
+                alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
             }
         });
 
@@ -4799,6 +4735,116 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
             var pagoAdmision = $("input#divMetodoDePago").val();
         }
     });
+}
+
+function generaTablaAnticipo(admisionanticipoArray) {
+
+    // Crearemos la tabla en un modal!!!
+
+    var divTabla   = document.createElement("tablaAnticipo");
+    divTabla.innerHTML = divTabla;
+    // Crea un elemento <table> y un elemento <thead> y <tbody>
+    var tabla   = document.createElement("table");
+    tabla.className = "hoverable striped";
+    var tblHead = document.createElement("thead");
+    var tblBody = document.createElement("tbody");
+    var thArray = ['Fecha', 'Cantidad', 'Nota', 'Opciones']
+
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <th> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <th>, ubica el elemento <th> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
+
+    // posiciona el <thead> debajo del elemento <table>
+    tabla.appendChild(tblHead);
+
+    // Crea las celdas
+    for (var i = 0; i < admisionanticipoArray.length; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+        hilera.className = "pointer";
+        // Le agregamos un id a la entidad <th>
+        hilera.setAttribute('id', 'entidadServicio-' + admisionanticipoArray[i]["idadmisionanticipo"])
+
+        for (var j = 0; j < thArray.length; j++) {
+
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+
+            if(j == 0){
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["servicio_nombre"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 1){
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["servicio_descripcion"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 2){
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["servicio_precio"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 3){
+                var link1 = document.createElement("a");
+                link1.className = "tooltipped modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'href', '#view-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                var vista = document.createElement("i");
+                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
+
+                var link2 = document.createElement("a");
+                link2.className = "tooltipped";
+                link2.setAttribute ( 'data-position', 'right' );
+                link2.setAttribute ( 'data-tooltip', 'Editar' );
+                link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                var editar = document.createElement("i");
+                editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
+
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'href', '#delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                celda.appendChild(link1);
+                celda.appendChild(vista);
+                celda.appendChild(link2);
+                celda.appendChild(editar);
+                celda.appendChild(link3);
+                celda.appendChild(eliminar);
+                hilera.appendChild(celda);
+            }
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
+    }
+
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+
+    // appends <table> into <div>
+    divTabla.appendChild(tabla);
 }
 
 function anticipoAdmision() {

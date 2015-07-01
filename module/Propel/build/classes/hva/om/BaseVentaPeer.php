@@ -24,13 +24,13 @@ abstract class BaseVentaPeer
     const TM_CLASS = 'VentaTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 9;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 9;
 
     /** the column name for the idventa field */
     const IDVENTA = 'venta.idventa';
@@ -38,14 +38,37 @@ abstract class BaseVentaPeer
     /** the column name for the idpaciente field */
     const IDPACIENTE = 'venta.idpaciente';
 
-    /** the column name for the idcajachica field */
-    const IDCAJACHICA = 'venta.idcajachica';
-
     /** the column name for the venta_fecha field */
     const VENTA_FECHA = 'venta.venta_fecha';
 
-    /** the column name for the venta_cantidad field */
-    const VENTA_CANTIDAD = 'venta.venta_cantidad';
+    /** the column name for the venta_tipodepago field */
+    const VENTA_TIPODEPAGO = 'venta.venta_tipodepago';
+
+    /** the column name for the venta_status field */
+    const VENTA_STATUS = 'venta.venta_status';
+
+    /** the column name for the venta_facturada field */
+    const VENTA_FACTURADA = 'venta.venta_facturada';
+
+    /** the column name for the venta_registrada field */
+    const VENTA_REGISTRADA = 'venta.venta_registrada';
+
+    /** the column name for the venta_total field */
+    const VENTA_TOTAL = 'venta.venta_total';
+
+    /** the column name for the venta_referenciapago field */
+    const VENTA_REFERENCIAPAGO = 'venta.venta_referenciapago';
+
+    /** The enumerated values for the venta_tipodepago field */
+    const VENTA_TIPODEPAGO_EFECTIVO = 'efectivo';
+    const VENTA_TIPODEPAGO_TARJETA_DEBITO = 'tarjeta debito';
+    const VENTA_TIPODEPAGO_TARJETA_CREDITO = 'tarjeta credito';
+    const VENTA_TIPODEPAGO_CHEQUE = 'cheque';
+
+    /** The enumerated values for the venta_status field */
+    const VENTA_STATUS_PAGADA = 'pagada';
+    const VENTA_STATUS_NO_PAGADA = 'no pagada';
+    const VENTA_STATUS_PENDIENTE = 'pendiente';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -66,12 +89,12 @@ abstract class BaseVentaPeer
      * e.g. VentaPeer::$fieldNames[VentaPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idventa', 'Idpaciente', 'Idcajachica', 'VentaFecha', 'VentaCantidad', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idventa', 'idpaciente', 'idcajachica', 'ventaFecha', 'ventaCantidad', ),
-        BasePeer::TYPE_COLNAME => array (VentaPeer::IDVENTA, VentaPeer::IDPACIENTE, VentaPeer::IDCAJACHICA, VentaPeer::VENTA_FECHA, VentaPeer::VENTA_CANTIDAD, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDVENTA', 'IDPACIENTE', 'IDCAJACHICA', 'VENTA_FECHA', 'VENTA_CANTIDAD', ),
-        BasePeer::TYPE_FIELDNAME => array ('idventa', 'idpaciente', 'idcajachica', 'venta_fecha', 'venta_cantidad', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idventa', 'Idpaciente', 'VentaFecha', 'VentaTipodepago', 'VentaStatus', 'VentaFacturada', 'VentaRegistrada', 'VentaTotal', 'VentaReferenciapago', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idventa', 'idpaciente', 'ventaFecha', 'ventaTipodepago', 'ventaStatus', 'ventaFacturada', 'ventaRegistrada', 'ventaTotal', 'ventaReferenciapago', ),
+        BasePeer::TYPE_COLNAME => array (VentaPeer::IDVENTA, VentaPeer::IDPACIENTE, VentaPeer::VENTA_FECHA, VentaPeer::VENTA_TIPODEPAGO, VentaPeer::VENTA_STATUS, VentaPeer::VENTA_FACTURADA, VentaPeer::VENTA_REGISTRADA, VentaPeer::VENTA_TOTAL, VentaPeer::VENTA_REFERENCIAPAGO, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDVENTA', 'IDPACIENTE', 'VENTA_FECHA', 'VENTA_TIPODEPAGO', 'VENTA_STATUS', 'VENTA_FACTURADA', 'VENTA_REGISTRADA', 'VENTA_TOTAL', 'VENTA_REFERENCIAPAGO', ),
+        BasePeer::TYPE_FIELDNAME => array ('idventa', 'idpaciente', 'venta_fecha', 'venta_tipodepago', 'venta_status', 'venta_facturada', 'venta_registrada', 'venta_total', 'venta_referenciapago', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -81,12 +104,27 @@ abstract class BaseVentaPeer
      * e.g. VentaPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idventa' => 0, 'Idpaciente' => 1, 'Idcajachica' => 2, 'VentaFecha' => 3, 'VentaCantidad' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idventa' => 0, 'idpaciente' => 1, 'idcajachica' => 2, 'ventaFecha' => 3, 'ventaCantidad' => 4, ),
-        BasePeer::TYPE_COLNAME => array (VentaPeer::IDVENTA => 0, VentaPeer::IDPACIENTE => 1, VentaPeer::IDCAJACHICA => 2, VentaPeer::VENTA_FECHA => 3, VentaPeer::VENTA_CANTIDAD => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDVENTA' => 0, 'IDPACIENTE' => 1, 'IDCAJACHICA' => 2, 'VENTA_FECHA' => 3, 'VENTA_CANTIDAD' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('idventa' => 0, 'idpaciente' => 1, 'idcajachica' => 2, 'venta_fecha' => 3, 'venta_cantidad' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idventa' => 0, 'Idpaciente' => 1, 'VentaFecha' => 2, 'VentaTipodepago' => 3, 'VentaStatus' => 4, 'VentaFacturada' => 5, 'VentaRegistrada' => 6, 'VentaTotal' => 7, 'VentaReferenciapago' => 8, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idventa' => 0, 'idpaciente' => 1, 'ventaFecha' => 2, 'ventaTipodepago' => 3, 'ventaStatus' => 4, 'ventaFacturada' => 5, 'ventaRegistrada' => 6, 'ventaTotal' => 7, 'ventaReferenciapago' => 8, ),
+        BasePeer::TYPE_COLNAME => array (VentaPeer::IDVENTA => 0, VentaPeer::IDPACIENTE => 1, VentaPeer::VENTA_FECHA => 2, VentaPeer::VENTA_TIPODEPAGO => 3, VentaPeer::VENTA_STATUS => 4, VentaPeer::VENTA_FACTURADA => 5, VentaPeer::VENTA_REGISTRADA => 6, VentaPeer::VENTA_TOTAL => 7, VentaPeer::VENTA_REFERENCIAPAGO => 8, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDVENTA' => 0, 'IDPACIENTE' => 1, 'VENTA_FECHA' => 2, 'VENTA_TIPODEPAGO' => 3, 'VENTA_STATUS' => 4, 'VENTA_FACTURADA' => 5, 'VENTA_REGISTRADA' => 6, 'VENTA_TOTAL' => 7, 'VENTA_REFERENCIAPAGO' => 8, ),
+        BasePeer::TYPE_FIELDNAME => array ('idventa' => 0, 'idpaciente' => 1, 'venta_fecha' => 2, 'venta_tipodepago' => 3, 'venta_status' => 4, 'venta_facturada' => 5, 'venta_registrada' => 6, 'venta_total' => 7, 'venta_referenciapago' => 8, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+    );
+
+    /** The enumerated values for this table */
+    protected static $enumValueSets = array(
+        VentaPeer::VENTA_TIPODEPAGO => array(
+            VentaPeer::VENTA_TIPODEPAGO_EFECTIVO,
+            VentaPeer::VENTA_TIPODEPAGO_TARJETA_DEBITO,
+            VentaPeer::VENTA_TIPODEPAGO_TARJETA_CREDITO,
+            VentaPeer::VENTA_TIPODEPAGO_CHEQUE,
+        ),
+        VentaPeer::VENTA_STATUS => array(
+            VentaPeer::VENTA_STATUS_PAGADA,
+            VentaPeer::VENTA_STATUS_NO_PAGADA,
+            VentaPeer::VENTA_STATUS_PENDIENTE,
+        ),
     );
 
     /**
@@ -129,6 +167,51 @@ abstract class BaseVentaPeer
     }
 
     /**
+     * Gets the list of values for all ENUM columns
+     * @return array
+     */
+    public static function getValueSets()
+    {
+      return VentaPeer::$enumValueSets;
+    }
+
+    /**
+     * Gets the list of values for an ENUM column
+     *
+     * @param string $colname The ENUM column name.
+     *
+     * @return array list of possible values for the column
+     */
+    public static function getValueSet($colname)
+    {
+        $valueSets = VentaPeer::getValueSets();
+
+        if (!isset($valueSets[$colname])) {
+            throw new PropelException(sprintf('Column "%s" has no ValueSet.', $colname));
+        }
+
+        return $valueSets[$colname];
+    }
+
+    /**
+     * Gets the SQL value for the ENUM column value
+     *
+     * @param string $colname ENUM column name.
+     * @param string $enumVal ENUM value.
+     *
+     * @return int SQL value
+     */
+    public static function getSqlValueForEnum($colname, $enumVal)
+    {
+        $values = VentaPeer::getValueSet($colname);
+        if (!in_array($enumVal, $values)) {
+            throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $colname));
+        }
+
+        return array_search($enumVal, $values);
+    }
+
+    /**
      * Convenience method which changes table.column to alias.column.
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
@@ -162,15 +245,23 @@ abstract class BaseVentaPeer
         if (null === $alias) {
             $criteria->addSelectColumn(VentaPeer::IDVENTA);
             $criteria->addSelectColumn(VentaPeer::IDPACIENTE);
-            $criteria->addSelectColumn(VentaPeer::IDCAJACHICA);
             $criteria->addSelectColumn(VentaPeer::VENTA_FECHA);
-            $criteria->addSelectColumn(VentaPeer::VENTA_CANTIDAD);
+            $criteria->addSelectColumn(VentaPeer::VENTA_TIPODEPAGO);
+            $criteria->addSelectColumn(VentaPeer::VENTA_STATUS);
+            $criteria->addSelectColumn(VentaPeer::VENTA_FACTURADA);
+            $criteria->addSelectColumn(VentaPeer::VENTA_REGISTRADA);
+            $criteria->addSelectColumn(VentaPeer::VENTA_TOTAL);
+            $criteria->addSelectColumn(VentaPeer::VENTA_REFERENCIAPAGO);
         } else {
             $criteria->addSelectColumn($alias . '.idventa');
             $criteria->addSelectColumn($alias . '.idpaciente');
-            $criteria->addSelectColumn($alias . '.idcajachica');
             $criteria->addSelectColumn($alias . '.venta_fecha');
-            $criteria->addSelectColumn($alias . '.venta_cantidad');
+            $criteria->addSelectColumn($alias . '.venta_tipodepago');
+            $criteria->addSelectColumn($alias . '.venta_status');
+            $criteria->addSelectColumn($alias . '.venta_facturada');
+            $criteria->addSelectColumn($alias . '.venta_registrada');
+            $criteria->addSelectColumn($alias . '.venta_total');
+            $criteria->addSelectColumn($alias . '.venta_referenciapago');
         }
     }
 
@@ -476,57 +567,6 @@ abstract class BaseVentaPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related Cajachica table
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinCajachica(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(VentaPeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            VentaPeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-        // Set the correct dbName
-        $criteria->setDbName(VentaPeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(VentaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(VentaPeer::IDCAJACHICA, CajachicaPeer::IDCAJACHICA, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
-    }
-
-
-    /**
      * Returns the number of rows matching criteria, joining the related Paciente table
      *
      * @param      Criteria $criteria
@@ -574,73 +614,6 @@ abstract class BaseVentaPeer
         $stmt->closeCursor();
 
         return $count;
-    }
-
-
-    /**
-     * Selects a collection of Venta objects pre-filled with their Cajachica objects.
-     * @param      Criteria  $criteria
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Venta objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
-     */
-    public static function doSelectJoinCajachica(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $criteria = clone $criteria;
-
-        // Set the correct dbName if it has not been overridden
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(VentaPeer::DATABASE_NAME);
-        }
-
-        VentaPeer::addSelectColumns($criteria);
-        $startcol = VentaPeer::NUM_HYDRATE_COLUMNS;
-        CajachicaPeer::addSelectColumns($criteria);
-
-        $criteria->addJoin(VentaPeer::IDCAJACHICA, CajachicaPeer::IDCAJACHICA, $join_behavior);
-
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = VentaPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = VentaPeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-
-                $cls = VentaPeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                VentaPeer::addInstanceToPool($obj1, $key1);
-            } // if $obj1 already loaded
-
-            $key2 = CajachicaPeer::getPrimaryKeyHashFromRow($row, $startcol);
-            if ($key2 !== null) {
-                $obj2 = CajachicaPeer::getInstanceFromPool($key2);
-                if (!$obj2) {
-
-                    $cls = CajachicaPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol);
-                    CajachicaPeer::addInstanceToPool($obj2, $key2);
-                } // if obj2 already loaded
-
-                // Add the $obj1 (Venta) to $obj2 (Cajachica)
-                $obj2->addVenta($obj1);
-
-            } // if joined row was not null
-
-            $results[] = $obj1;
-        }
-        $stmt->closeCursor();
-
-        return $results;
     }
 
 
@@ -747,8 +720,6 @@ abstract class BaseVentaPeer
             $con = Propel::getConnection(VentaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(VentaPeer::IDCAJACHICA, CajachicaPeer::IDCAJACHICA, $join_behavior);
-
         $criteria->addJoin(VentaPeer::IDPACIENTE, PacientePeer::IDPACIENTE, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
@@ -785,209 +756,11 @@ abstract class BaseVentaPeer
         VentaPeer::addSelectColumns($criteria);
         $startcol2 = VentaPeer::NUM_HYDRATE_COLUMNS;
 
-        CajachicaPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + CajachicaPeer::NUM_HYDRATE_COLUMNS;
-
-        PacientePeer::addSelectColumns($criteria);
-        $startcol4 = $startcol3 + PacientePeer::NUM_HYDRATE_COLUMNS;
-
-        $criteria->addJoin(VentaPeer::IDCAJACHICA, CajachicaPeer::IDCAJACHICA, $join_behavior);
-
-        $criteria->addJoin(VentaPeer::IDPACIENTE, PacientePeer::IDPACIENTE, $join_behavior);
-
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = VentaPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = VentaPeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-                $cls = VentaPeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                VentaPeer::addInstanceToPool($obj1, $key1);
-            } // if obj1 already loaded
-
-            // Add objects for joined Cajachica rows
-
-            $key2 = CajachicaPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-            if ($key2 !== null) {
-                $obj2 = CajachicaPeer::getInstanceFromPool($key2);
-                if (!$obj2) {
-
-                    $cls = CajachicaPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    CajachicaPeer::addInstanceToPool($obj2, $key2);
-                } // if obj2 loaded
-
-                // Add the $obj1 (Venta) to the collection in $obj2 (Cajachica)
-                $obj2->addVenta($obj1);
-            } // if joined row not null
-
-            // Add objects for joined Paciente rows
-
-            $key3 = PacientePeer::getPrimaryKeyHashFromRow($row, $startcol3);
-            if ($key3 !== null) {
-                $obj3 = PacientePeer::getInstanceFromPool($key3);
-                if (!$obj3) {
-
-                    $cls = PacientePeer::getOMClass();
-
-                    $obj3 = new $cls();
-                    $obj3->hydrate($row, $startcol3);
-                    PacientePeer::addInstanceToPool($obj3, $key3);
-                } // if obj3 loaded
-
-                // Add the $obj1 (Venta) to the collection in $obj3 (Paciente)
-                $obj3->addVenta($obj1);
-            } // if joined row not null
-
-            $results[] = $obj1;
-        }
-        $stmt->closeCursor();
-
-        return $results;
-    }
-
-
-    /**
-     * Returns the number of rows matching criteria, joining the related Cajachica table
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinAllExceptCajachica(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(VentaPeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            VentaPeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
-
-        // Set the correct dbName
-        $criteria->setDbName(VentaPeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(VentaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(VentaPeer::IDPACIENTE, PacientePeer::IDPACIENTE, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
-    }
-
-
-    /**
-     * Returns the number of rows matching criteria, joining the related Paciente table
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinAllExceptPaciente(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(VentaPeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            VentaPeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
-
-        // Set the correct dbName
-        $criteria->setDbName(VentaPeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(VentaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(VentaPeer::IDCAJACHICA, CajachicaPeer::IDCAJACHICA, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
-    }
-
-
-    /**
-     * Selects a collection of Venta objects pre-filled with all related objects except Cajachica.
-     *
-     * @param      Criteria  $criteria
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Venta objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
-     */
-    public static function doSelectJoinAllExceptCajachica(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $criteria = clone $criteria;
-
-        // Set the correct dbName if it has not been overridden
-        // $criteria->getDbName() will return the same object if not set to another value
-        // so == check is okay and faster
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(VentaPeer::DATABASE_NAME);
-        }
-
-        VentaPeer::addSelectColumns($criteria);
-        $startcol2 = VentaPeer::NUM_HYDRATE_COLUMNS;
-
         PacientePeer::addSelectColumns($criteria);
         $startcol3 = $startcol2 + PacientePeer::NUM_HYDRATE_COLUMNS;
 
         $criteria->addJoin(VentaPeer::IDPACIENTE, PacientePeer::IDPACIENTE, $join_behavior);
 
-
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
 
@@ -1005,98 +778,23 @@ abstract class BaseVentaPeer
                 VentaPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-                // Add objects for joined Paciente rows
+            // Add objects for joined Paciente rows
 
-                $key2 = PacientePeer::getPrimaryKeyHashFromRow($row, $startcol2);
-                if ($key2 !== null) {
-                    $obj2 = PacientePeer::getInstanceFromPool($key2);
-                    if (!$obj2) {
+            $key2 = PacientePeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            if ($key2 !== null) {
+                $obj2 = PacientePeer::getInstanceFromPool($key2);
+                if (!$obj2) {
 
-                        $cls = PacientePeer::getOMClass();
+                    $cls = PacientePeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol2);
                     PacientePeer::addInstanceToPool($obj2, $key2);
-                } // if $obj2 already loaded
+                } // if obj2 loaded
 
                 // Add the $obj1 (Venta) to the collection in $obj2 (Paciente)
                 $obj2->addVenta($obj1);
-
-            } // if joined row is not null
-
-            $results[] = $obj1;
-        }
-        $stmt->closeCursor();
-
-        return $results;
-    }
-
-
-    /**
-     * Selects a collection of Venta objects pre-filled with all related objects except Paciente.
-     *
-     * @param      Criteria  $criteria
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Venta objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
-     */
-    public static function doSelectJoinAllExceptPaciente(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $criteria = clone $criteria;
-
-        // Set the correct dbName if it has not been overridden
-        // $criteria->getDbName() will return the same object if not set to another value
-        // so == check is okay and faster
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(VentaPeer::DATABASE_NAME);
-        }
-
-        VentaPeer::addSelectColumns($criteria);
-        $startcol2 = VentaPeer::NUM_HYDRATE_COLUMNS;
-
-        CajachicaPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + CajachicaPeer::NUM_HYDRATE_COLUMNS;
-
-        $criteria->addJoin(VentaPeer::IDCAJACHICA, CajachicaPeer::IDCAJACHICA, $join_behavior);
-
-
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = VentaPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = VentaPeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-                $cls = VentaPeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                VentaPeer::addInstanceToPool($obj1, $key1);
-            } // if obj1 already loaded
-
-                // Add objects for joined Cajachica rows
-
-                $key2 = CajachicaPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-                if ($key2 !== null) {
-                    $obj2 = CajachicaPeer::getInstanceFromPool($key2);
-                    if (!$obj2) {
-
-                        $cls = CajachicaPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    CajachicaPeer::addInstanceToPool($obj2, $key2);
-                } // if $obj2 already loaded
-
-                // Add the $obj1 (Venta) to the collection in $obj2 (Cajachica)
-                $obj2->addVenta($obj1);
-
-            } // if joined row is not null
+            } // if joined row not null
 
             $results[] = $obj1;
         }

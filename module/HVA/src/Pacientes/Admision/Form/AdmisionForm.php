@@ -127,5 +127,47 @@ class AdmisionForm extends Form
                 'id' => 'admision_pagadaen'
             )
         ));
+        $this->add(array(
+            'name' => 'admision_tipodepago',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Tipo de pago',
+                'empty_option' => 'Seleccione tipo de pago',
+                'value_options' => array('efectivo', 'tarjeta debito','tarjeta credito','cheque','no identificado'),
+            ),
+            'attributes' => array(
+                'id' => 'admision_tipodepago'
+            )
+        ));
+        $this->add(array(
+            'name' => 'admision_referenciapago',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Referencia de pago (4 últimos dígitos)',
+            ),
+            'attributes' => array(
+                'id' => 'admision_referenciapago'
+            )
+        ));
+        $this->add(array(
+            'name' => 'admision_facturada',
+            'type' => 'Text',
+            'options' => array(
+                'label' => '¿Facturada?',
+            ),
+            'attributes' => array(
+                'id' => 'admision_facturada'
+            )
+        ));
+        $this->add(array(
+            'name' => 'admision_registrada',
+            'type' => 'Text',
+            'options' => array(
+                'label' => '¿Registrada?',
+            ),
+            'attributes' => array(
+                'id' => 'admision_registrada'
+            )
+        ));
     }
 }

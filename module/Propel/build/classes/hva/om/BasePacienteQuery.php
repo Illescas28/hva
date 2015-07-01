@@ -1345,7 +1345,7 @@ abstract class BasePacienteQuery extends ModelCriteria
      *
      * @return PacienteQuery The current query, for fluid interface
      */
-    public function joinVenta($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinVenta($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Venta');
@@ -1380,7 +1380,7 @@ abstract class BasePacienteQuery extends ModelCriteria
      *
      * @return   VentaQuery A secondary query class using the current class as primary query
      */
-    public function useVentaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useVentaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinVenta($relationAlias, $joinType)

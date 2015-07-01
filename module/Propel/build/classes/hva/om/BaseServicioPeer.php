@@ -24,13 +24,13 @@ abstract class BaseServicioPeer
     const TM_CLASS = 'ServicioTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 5;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /** the column name for the idservicio field */
     const IDSERVICIO = 'servicio.idservicio';
@@ -41,14 +41,16 @@ abstract class BaseServicioPeer
     /** the column name for the servicio_descripcion field */
     const SERVICIO_DESCRIPCION = 'servicio.servicio_descripcion';
 
-    /** the column name for the servicio_costo field */
-    const SERVICIO_COSTO = 'servicio.servicio_costo';
-
     /** the column name for the servicio_precio field */
     const SERVICIO_PRECIO = 'servicio.servicio_precio';
 
     /** the column name for the servicio_iva field */
     const SERVICIO_IVA = 'servicio.servicio_iva';
+
+    /** The enumerated values for the servicio_iva field */
+    const SERVICIO_IVA_EXENTO = 'exento';
+    const SERVICIO_IVA_0 = '0';
+    const SERVICIO_IVA_16 = '16';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -69,12 +71,12 @@ abstract class BaseServicioPeer
      * e.g. ServicioPeer::$fieldNames[ServicioPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idservicio', 'ServicioNombre', 'ServicioDescripcion', 'ServicioCosto', 'ServicioPrecio', 'ServicioIva', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idservicio', 'servicioNombre', 'servicioDescripcion', 'servicioCosto', 'servicioPrecio', 'servicioIva', ),
-        BasePeer::TYPE_COLNAME => array (ServicioPeer::IDSERVICIO, ServicioPeer::SERVICIO_NOMBRE, ServicioPeer::SERVICIO_DESCRIPCION, ServicioPeer::SERVICIO_COSTO, ServicioPeer::SERVICIO_PRECIO, ServicioPeer::SERVICIO_IVA, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDSERVICIO', 'SERVICIO_NOMBRE', 'SERVICIO_DESCRIPCION', 'SERVICIO_COSTO', 'SERVICIO_PRECIO', 'SERVICIO_IVA', ),
-        BasePeer::TYPE_FIELDNAME => array ('idservicio', 'servicio_nombre', 'servicio_descripcion', 'servicio_costo', 'servicio_precio', 'servicio_iva', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Idservicio', 'ServicioNombre', 'ServicioDescripcion', 'ServicioPrecio', 'ServicioIva', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idservicio', 'servicioNombre', 'servicioDescripcion', 'servicioPrecio', 'servicioIva', ),
+        BasePeer::TYPE_COLNAME => array (ServicioPeer::IDSERVICIO, ServicioPeer::SERVICIO_NOMBRE, ServicioPeer::SERVICIO_DESCRIPCION, ServicioPeer::SERVICIO_PRECIO, ServicioPeer::SERVICIO_IVA, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDSERVICIO', 'SERVICIO_NOMBRE', 'SERVICIO_DESCRIPCION', 'SERVICIO_PRECIO', 'SERVICIO_IVA', ),
+        BasePeer::TYPE_FIELDNAME => array ('idservicio', 'servicio_nombre', 'servicio_descripcion', 'servicio_precio', 'servicio_iva', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
     );
 
     /**
@@ -84,12 +86,21 @@ abstract class BaseServicioPeer
      * e.g. ServicioPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idservicio' => 0, 'ServicioNombre' => 1, 'ServicioDescripcion' => 2, 'ServicioCosto' => 3, 'ServicioPrecio' => 4, 'ServicioIva' => 5, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idservicio' => 0, 'servicioNombre' => 1, 'servicioDescripcion' => 2, 'servicioCosto' => 3, 'servicioPrecio' => 4, 'servicioIva' => 5, ),
-        BasePeer::TYPE_COLNAME => array (ServicioPeer::IDSERVICIO => 0, ServicioPeer::SERVICIO_NOMBRE => 1, ServicioPeer::SERVICIO_DESCRIPCION => 2, ServicioPeer::SERVICIO_COSTO => 3, ServicioPeer::SERVICIO_PRECIO => 4, ServicioPeer::SERVICIO_IVA => 5, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDSERVICIO' => 0, 'SERVICIO_NOMBRE' => 1, 'SERVICIO_DESCRIPCION' => 2, 'SERVICIO_COSTO' => 3, 'SERVICIO_PRECIO' => 4, 'SERVICIO_IVA' => 5, ),
-        BasePeer::TYPE_FIELDNAME => array ('idservicio' => 0, 'servicio_nombre' => 1, 'servicio_descripcion' => 2, 'servicio_costo' => 3, 'servicio_precio' => 4, 'servicio_iva' => 5, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Idservicio' => 0, 'ServicioNombre' => 1, 'ServicioDescripcion' => 2, 'ServicioPrecio' => 3, 'ServicioIva' => 4, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idservicio' => 0, 'servicioNombre' => 1, 'servicioDescripcion' => 2, 'servicioPrecio' => 3, 'servicioIva' => 4, ),
+        BasePeer::TYPE_COLNAME => array (ServicioPeer::IDSERVICIO => 0, ServicioPeer::SERVICIO_NOMBRE => 1, ServicioPeer::SERVICIO_DESCRIPCION => 2, ServicioPeer::SERVICIO_PRECIO => 3, ServicioPeer::SERVICIO_IVA => 4, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDSERVICIO' => 0, 'SERVICIO_NOMBRE' => 1, 'SERVICIO_DESCRIPCION' => 2, 'SERVICIO_PRECIO' => 3, 'SERVICIO_IVA' => 4, ),
+        BasePeer::TYPE_FIELDNAME => array ('idservicio' => 0, 'servicio_nombre' => 1, 'servicio_descripcion' => 2, 'servicio_precio' => 3, 'servicio_iva' => 4, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+    );
+
+    /** The enumerated values for this table */
+    protected static $enumValueSets = array(
+        ServicioPeer::SERVICIO_IVA => array(
+            ServicioPeer::SERVICIO_IVA_EXENTO,
+            ServicioPeer::SERVICIO_IVA_0,
+            ServicioPeer::SERVICIO_IVA_16,
+        ),
     );
 
     /**
@@ -132,6 +143,51 @@ abstract class BaseServicioPeer
     }
 
     /**
+     * Gets the list of values for all ENUM columns
+     * @return array
+     */
+    public static function getValueSets()
+    {
+      return ServicioPeer::$enumValueSets;
+    }
+
+    /**
+     * Gets the list of values for an ENUM column
+     *
+     * @param string $colname The ENUM column name.
+     *
+     * @return array list of possible values for the column
+     */
+    public static function getValueSet($colname)
+    {
+        $valueSets = ServicioPeer::getValueSets();
+
+        if (!isset($valueSets[$colname])) {
+            throw new PropelException(sprintf('Column "%s" has no ValueSet.', $colname));
+        }
+
+        return $valueSets[$colname];
+    }
+
+    /**
+     * Gets the SQL value for the ENUM column value
+     *
+     * @param string $colname ENUM column name.
+     * @param string $enumVal ENUM value.
+     *
+     * @return int SQL value
+     */
+    public static function getSqlValueForEnum($colname, $enumVal)
+    {
+        $values = ServicioPeer::getValueSet($colname);
+        if (!in_array($enumVal, $values)) {
+            throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $colname));
+        }
+
+        return array_search($enumVal, $values);
+    }
+
+    /**
      * Convenience method which changes table.column to alias.column.
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
@@ -166,14 +222,12 @@ abstract class BaseServicioPeer
             $criteria->addSelectColumn(ServicioPeer::IDSERVICIO);
             $criteria->addSelectColumn(ServicioPeer::SERVICIO_NOMBRE);
             $criteria->addSelectColumn(ServicioPeer::SERVICIO_DESCRIPCION);
-            $criteria->addSelectColumn(ServicioPeer::SERVICIO_COSTO);
             $criteria->addSelectColumn(ServicioPeer::SERVICIO_PRECIO);
             $criteria->addSelectColumn(ServicioPeer::SERVICIO_IVA);
         } else {
             $criteria->addSelectColumn($alias . '.idservicio');
             $criteria->addSelectColumn($alias . '.servicio_nombre');
             $criteria->addSelectColumn($alias . '.servicio_descripcion');
-            $criteria->addSelectColumn($alias . '.servicio_costo');
             $criteria->addSelectColumn($alias . '.servicio_precio');
             $criteria->addSelectColumn($alias . '.servicio_iva');
         }

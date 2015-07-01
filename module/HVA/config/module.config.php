@@ -110,7 +110,7 @@ return array(
             'consultaanticipo' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/consultaanticipo[/:action][/:id][/]',
+                    'route'    => '/pacientes/consultaanticipo[/:action][/:id][/]',
                     'constraints' => array(
                         'action' => 'nuevo|ver|editar|eliminar',
                         'id'     => '[0-9]+',
@@ -124,7 +124,7 @@ return array(
             'admisionanticipo' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/admisionanticipo[/:action][/:id][/]',
+                    'route'    => '/pacientes/admisionanticipo[/:action][/:id][/]',
                     'constraints' => array(
                         'action' => 'nuevo|ver|editar|eliminar',
                         'id'     => '[0-9]+',
@@ -543,7 +543,7 @@ return array(
             'Productos\Reorden\Controller\Reorden'                              =>   'Productos\Reorden\Controller\ReordenController',
             'Productos\Precios\Controller\Precios'                              =>   'Productos\Precios\Controller\PreciosController',
             'Pacientes\Consultaanticipo\Controller\Consultaanticipo'            => 'Pacientes\Consultaanticipo\Controller\ConsultaanticipoController',
-            'Pacientes\Admisionanticipo\Controller\Admisionanticipoanticipo'    => 'Pacientes\Admisionanticipo\Controller\AdmisionanticipoanticipoController',
+            'Pacientes\Admisionanticipo\Controller\Admisionanticipo'            => 'Pacientes\Admisionanticipo\Controller\AdmisionanticipoController',
             // Módulo Pacientes
             'Pacientes\Paciente\Controller\Paciente'                            => 'Pacientes\Paciente\Controller\PacienteController',
             'Pacientes\Consultorio\Controller\Consultorio'                      => 'Pacientes\Consultorio\Controller\ConsultorioController',
@@ -551,11 +551,11 @@ return array(
             'Pacientes\Cargoconsulta\Controller\Cargoconsulta'                  => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
             
             //Modulo Compras
-            'Compras\Controller\Compras'                                => 'Compras\Controller\ComprasController',
+            'Compras\Controller\Compras'                                        => 'Compras\Controller\ComprasController',
             
             //Modulo Empleado
-            'Empleados\Controller\Empleados'                            => 'Empleados\Controller\EmpleadosController',
-            'Empleados\Controller\Roles'                            => 'Empleados\Controller\RolesController'
+            'Empleados\Controller\Empleados'                                    => 'Empleados\Controller\EmpleadosController',
+            'Empleados\Controller\Roles'                                        => 'Empleados\Controller\RolesController'
         ),
     ),
     'view_manager' => array(

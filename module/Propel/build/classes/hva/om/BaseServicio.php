@@ -48,12 +48,6 @@ abstract class BaseServicio extends BaseObject implements Persistent
     protected $servicio_descripcion;
 
     /**
-     * The value for the servicio_costo field.
-     * @var        string
-     */
-    protected $servicio_costo;
-
-    /**
      * The value for the servicio_precio field.
      * @var        string
      */
@@ -155,17 +149,6 @@ abstract class BaseServicio extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [servicio_costo] column value.
-     *
-     * @return string
-     */
-    public function getServicioCosto()
-    {
-
-        return $this->servicio_costo;
-    }
-
-    /**
      * Get the [servicio_precio] column value.
      *
      * @return string
@@ -251,27 +234,6 @@ abstract class BaseServicio extends BaseObject implements Persistent
     } // setServicioDescripcion()
 
     /**
-     * Set the value of [servicio_costo] column.
-     *
-     * @param  string $v new value
-     * @return Servicio The current object (for fluent API support)
-     */
-    public function setServicioCosto($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->servicio_costo !== $v) {
-            $this->servicio_costo = $v;
-            $this->modifiedColumns[] = ServicioPeer::SERVICIO_COSTO;
-        }
-
-
-        return $this;
-    } // setServicioCosto()
-
-    /**
      * Set the value of [servicio_precio] column.
      *
      * @param  string $v new value
@@ -300,7 +262,7 @@ abstract class BaseServicio extends BaseObject implements Persistent
      */
     public function setServicioIva($v)
     {
-        if ($v !== null && is_numeric($v)) {
+        if ($v !== null) {
             $v = (string) $v;
         }
 
@@ -348,9 +310,8 @@ abstract class BaseServicio extends BaseObject implements Persistent
             $this->idservicio = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->servicio_nombre = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
             $this->servicio_descripcion = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->servicio_costo = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->servicio_precio = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->servicio_iva = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->servicio_precio = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->servicio_iva = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -360,7 +321,7 @@ abstract class BaseServicio extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 6; // 6 = ServicioPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = ServicioPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Servicio object", $e);
@@ -638,9 +599,6 @@ abstract class BaseServicio extends BaseObject implements Persistent
         if ($this->isColumnModified(ServicioPeer::SERVICIO_DESCRIPCION)) {
             $modifiedColumns[':p' . $index++]  = '`servicio_descripcion`';
         }
-        if ($this->isColumnModified(ServicioPeer::SERVICIO_COSTO)) {
-            $modifiedColumns[':p' . $index++]  = '`servicio_costo`';
-        }
         if ($this->isColumnModified(ServicioPeer::SERVICIO_PRECIO)) {
             $modifiedColumns[':p' . $index++]  = '`servicio_precio`';
         }
@@ -666,9 +624,6 @@ abstract class BaseServicio extends BaseObject implements Persistent
                         break;
                     case '`servicio_descripcion`':
                         $stmt->bindValue($identifier, $this->servicio_descripcion, PDO::PARAM_STR);
-                        break;
-                    case '`servicio_costo`':
-                        $stmt->bindValue($identifier, $this->servicio_costo, PDO::PARAM_STR);
                         break;
                     case '`servicio_precio`':
                         $stmt->bindValue($identifier, $this->servicio_precio, PDO::PARAM_STR);
@@ -844,12 +799,9 @@ abstract class BaseServicio extends BaseObject implements Persistent
                 return $this->getServicioDescripcion();
                 break;
             case 3:
-                return $this->getServicioCosto();
-                break;
-            case 4:
                 return $this->getServicioPrecio();
                 break;
-            case 5:
+            case 4:
                 return $this->getServicioIva();
                 break;
             default:
@@ -884,9 +836,8 @@ abstract class BaseServicio extends BaseObject implements Persistent
             $keys[0] => $this->getIdservicio(),
             $keys[1] => $this->getServicioNombre(),
             $keys[2] => $this->getServicioDescripcion(),
-            $keys[3] => $this->getServicioCosto(),
-            $keys[4] => $this->getServicioPrecio(),
-            $keys[5] => $this->getServicioIva(),
+            $keys[3] => $this->getServicioPrecio(),
+            $keys[4] => $this->getServicioIva(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -947,12 +898,9 @@ abstract class BaseServicio extends BaseObject implements Persistent
                 $this->setServicioDescripcion($value);
                 break;
             case 3:
-                $this->setServicioCosto($value);
-                break;
-            case 4:
                 $this->setServicioPrecio($value);
                 break;
-            case 5:
+            case 4:
                 $this->setServicioIva($value);
                 break;
         } // switch()
@@ -982,9 +930,8 @@ abstract class BaseServicio extends BaseObject implements Persistent
         if (array_key_exists($keys[0], $arr)) $this->setIdservicio($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setServicioNombre($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setServicioDescripcion($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setServicioCosto($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setServicioPrecio($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setServicioIva($arr[$keys[5]]);
+        if (array_key_exists($keys[3], $arr)) $this->setServicioPrecio($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setServicioIva($arr[$keys[4]]);
     }
 
     /**
@@ -999,7 +946,6 @@ abstract class BaseServicio extends BaseObject implements Persistent
         if ($this->isColumnModified(ServicioPeer::IDSERVICIO)) $criteria->add(ServicioPeer::IDSERVICIO, $this->idservicio);
         if ($this->isColumnModified(ServicioPeer::SERVICIO_NOMBRE)) $criteria->add(ServicioPeer::SERVICIO_NOMBRE, $this->servicio_nombre);
         if ($this->isColumnModified(ServicioPeer::SERVICIO_DESCRIPCION)) $criteria->add(ServicioPeer::SERVICIO_DESCRIPCION, $this->servicio_descripcion);
-        if ($this->isColumnModified(ServicioPeer::SERVICIO_COSTO)) $criteria->add(ServicioPeer::SERVICIO_COSTO, $this->servicio_costo);
         if ($this->isColumnModified(ServicioPeer::SERVICIO_PRECIO)) $criteria->add(ServicioPeer::SERVICIO_PRECIO, $this->servicio_precio);
         if ($this->isColumnModified(ServicioPeer::SERVICIO_IVA)) $criteria->add(ServicioPeer::SERVICIO_IVA, $this->servicio_iva);
 
@@ -1067,7 +1013,6 @@ abstract class BaseServicio extends BaseObject implements Persistent
     {
         $copyObj->setServicioNombre($this->getServicioNombre());
         $copyObj->setServicioDescripcion($this->getServicioDescripcion());
-        $copyObj->setServicioCosto($this->getServicioCosto());
         $copyObj->setServicioPrecio($this->getServicioPrecio());
         $copyObj->setServicioIva($this->getServicioIva());
 
@@ -2001,7 +1946,6 @@ abstract class BaseServicio extends BaseObject implements Persistent
         $this->idservicio = null;
         $this->servicio_nombre = null;
         $this->servicio_descripcion = null;
-        $this->servicio_costo = null;
         $this->servicio_precio = null;
         $this->servicio_iva = null;
         $this->alreadyInSave = false;
