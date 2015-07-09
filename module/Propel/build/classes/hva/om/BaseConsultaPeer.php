@@ -84,7 +84,6 @@ abstract class BaseConsultaPeer
     const CONSULTA_TIPODEPAGO_TARJETA_DEBITO = 'tarjeta debito';
     const CONSULTA_TIPODEPAGO_TARJETA_CREDITO = 'tarjeta credito';
     const CONSULTA_TIPODEPAGO_CHEQUE = 'cheque';
-    const CONSULTA_TIPODEPAGO_NO_IDENTIFICADO = 'no identificado';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -140,7 +139,6 @@ abstract class BaseConsultaPeer
             ConsultaPeer::CONSULTA_TIPODEPAGO_TARJETA_DEBITO,
             ConsultaPeer::CONSULTA_TIPODEPAGO_TARJETA_CREDITO,
             ConsultaPeer::CONSULTA_TIPODEPAGO_CHEQUE,
-            ConsultaPeer::CONSULTA_TIPODEPAGO_NO_IDENTIFICADO,
         ),
     );
 

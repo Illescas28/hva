@@ -483,6 +483,17 @@ return array(
                     ),
                 ),
             ),
+            //Almacen
+            'almacen-transferencias' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/almacen/transferencias[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Almacen\Controller\Transferencias',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             
             'auth' => array(
                 'type'    => 'segment',
@@ -559,8 +570,10 @@ return array(
             
             //Modulo Empleado
             'Empleados\Controller\Empleados'                                    => 'Empleados\Controller\EmpleadosController',
-            'Empleados\Controller\Roles'                                        => 'Empleados\Controller\RolesController'
-        ),
+            'Empleados\Controller\Roles'                                        => 'Empleados\Controller\RolesController',
+            //Modulo de almacen
+            'Almacen\Controller\Transferencias'                                 => 'Almacen\Controller\TransferenciasController'
+            ),
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,

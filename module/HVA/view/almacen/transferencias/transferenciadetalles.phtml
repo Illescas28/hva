@@ -1,0 +1,65 @@
+<div id="<?php echo $modalName?>" class="modal">    
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s12" style="padding-top: 20px;">
+                <h4><?php echo 'Transferencia: #'.$modal['id']?></h4>
+            </div>
+        </div>
+        <div class="row">
+            <fieldset>
+                <legend>Datos Generales</legend>
+                <div class="col s4">
+                    <div class="label-container">
+                        <label>Fecha:</label>
+                        <p><?php echo $modal['fecha'] ?></p>
+                    </div>
+                </div>
+                <div class="col s4">
+                    <div class="label-container">
+                        <label>Remitente:</label>
+                        <p><?php echo $modal['remitente'] ?></p>
+                    </div>
+                </div>
+                <div class="col s4">
+                    <div class="label-container">
+                        <label>Receptor:</label>
+                        <p><?php echo $modal['receptor'] ?></p>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="row">
+            <fieldset>
+                <legend>Detalles de la transferencia</legend>
+                
+                <table class="striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cantidad</th>
+                            <th>Descripcion</th>
+                            <th>Caducidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $count = 1 ?>
+                        <?php foreach ($modal['detalles'] as $detalle) :?>
+                            <tr>
+                                <td><?php echo $count?></td>
+                                <td><?php echo $detalle['cantidad']?></td>
+                                <td><?php echo $detalle['descripcion']?></td>
+                                <td><?php echo $detalle['caducidad']?></td>
+                            </tr>
+                            <?php $count++;?>
+                        <?php endforeach;?>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+        <a href='<?php echo "/almacen/transferencias/editar/".$modal['id'] ?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+     </div>
+</div>

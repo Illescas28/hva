@@ -4,6 +4,7 @@
     
     //Fecha
     $fecha = new DateTime();
+    
     $fecha = $fecha->format('d/m/Y');
 ?>
 <style>
@@ -187,7 +188,7 @@
             }
         });
         
-        
+        console.log(productos);
 
         $('#proveedor_autocomplete').autocomplete({
             source:proveedores,
@@ -207,7 +208,7 @@
                 event.preventDefault();
             }
         });
-        
+//        
         
         
         //evento add product
@@ -294,7 +295,7 @@
                         $(this).datepicker({
                             changeMonth: true,
                             changeYear: true,
-                            dateFormat: 'mm/y',
+                            dateFormat: 'mm/yy',
                             defaultDate: '01/01/20',
                             monthNamesShort: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" ],
                             onClose: function(dateText, inst) { 
