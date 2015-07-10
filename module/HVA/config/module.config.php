@@ -494,7 +494,28 @@ return array(
                     ),
                 ),
             ),
-            
+            //Caja chica
+            'cajachica-concepto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/cajachica/concepto[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Cajachica\Controller\Concepto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            //Bancos
+            'bancos-concepto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/bancos/concepto[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Bancos\Controller\Concepto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -572,7 +593,11 @@ return array(
             'Empleados\Controller\Empleados'                                    => 'Empleados\Controller\EmpleadosController',
             'Empleados\Controller\Roles'                                        => 'Empleados\Controller\RolesController',
             //Modulo de almacen
-            'Almacen\Controller\Transferencias'                                 => 'Almacen\Controller\TransferenciasController'
+            'Almacen\Controller\Transferencias'                                 => 'Almacen\Controller\TransferenciasController',
+            //Modulo Caja chica
+            'Cajachica\Controller\Concepto'                                     => 'Cajachica\Controller\ConceptoController',
+            //Modulo Bancos
+            'Bancos\Controller\Concepto'                                        => 'Bancos\Controller\ConceptoController',
             ),
     ),
     'view_manager' => array(

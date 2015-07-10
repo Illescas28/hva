@@ -1,6 +1,7 @@
 <?php
-    $title = 'Almacenes';
+    $title = 'Conceptos';
     $this->headTitle($title);
+   
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div class="row" id="table-header">
@@ -12,7 +13,7 @@
         <?php endif;?>    
         <div class="row" style="position: relative">
             <div class="col s6" id="new-container">
-                <a href="/catalogos/lugar/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo almacen</a>
+                <a href="/bancos/concepto/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo concepto</a>
             </div>
               <div class="input-field col s4 offset-s2" id="search-container">
               <i class="mdi-action-search prefix"></i>
@@ -22,27 +23,27 @@
         </div>
     </form>
 </div>
-<table id="tabla-lugars" class="striped">
+<table id="tabla-bancos" class="striped">
     <thead>
         <tr>
             <th>Nombre</th>
-            <th>Descripcion</th>
+            <th>Descripción</th>
             <th>Opciones</th>
         </tr>
     </thead>
-    <tbody>
-    <?php foreach($lugars as $lugar) : ?>
-        <tr>
-            <td><?php echo $lugar->getLugarNombre() ?></td>
-            <td><?php echo $lugar->getLugarDescripcion() ?></td>
+    <tbody> 
+    <?php foreach($collection as $entity) : ?>
+        <tr id="<?php echo  $entity['idbancotransaccion']?>">
+            <td><?php  echo $entity['bancotransaccion_nombre']?></td>
+            <td><?php  echo $entity['bancotransaccion_descripcion']?></td>
             <td>
-                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/lugar/editar/".$lugar->getIdlugar()?>'><i class="tiny mdi-action-assignment"></i></a>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/bancos/concepto/editar/".$entity['idbancotransaccion']?>'><i class="tiny mdi-action-assignment"></i></a>
                 &nbsp;&nbsp;    
-                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-lugar-".$lugar->getIdlugar()?>'><i class="tiny mdi-action-delete"></i></a>
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idbancotransaccion']?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
         </tr>
         <!-- Delete Modal Structure -->
-        <div id="delete-modal-lugar-<?php echo $lugar->getIdLugar()?>" class="modal ">
+        <div id="delete-modal-<?php echo $entity['idbancotransaccion']?>" class="modal ">
             <div class="modal-content" id="delete-modal-container">
                 <div class="row" id="delete-modal-header-container">
                     <div class="col s5 offset-s4">
@@ -51,25 +52,24 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <p><?php echo "Esta seguro que desea eliminar el área de trabajo: ". $lugar->getLugarNombre(). " de su catalogo?" ?></p>
+                        <p><?php echo "Esta seguro que desea eliminar el concepto '". $entity['bancotransaccion_nombre']."' ?"?></p>
                     </div>
                 </div>
-                
             </div>
             <div class="modal-footer">
                 <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                <a href="/catalogos/lugar/eliminar/<?php echo $lugar->getIdLugar()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
-              
+                <a href="/bancos/concepto/eliminar/<?php echo $entity['idbancotransaccion']?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>       
             </div>
         </div>
-        <!-- End Delete Modal Structure -->
+        <!-- End Delete Modal Structure -->   
     <?php endforeach; ?>
     </tbody>
 </table>
 <script>
 $(document).ready(function(){
-        $("#tabla-lugars").tablesorter({headers:{2:{sorter:false}}});
-        $("#tabla-lugars").filterTable({inputSelector: '#search-container input',minRows:1});
-        $('.modal-trigger').leanModal();
+    
+    $('.modal-trigger').leanModal();
+    $("#tabla-bancos").tablesorter({headers:{2:{sorter:false}}});
+    $("#tabla-bancos").filterTable({inputSelector: '#search-container input',minRows:1}); 
 }); 
 </script>
