@@ -24,7 +24,7 @@ $this->headTitle($title);
             <th>Nombre</th>
             <th>Apellido paterno</th>
             <th>Apellido materno</th>
-            <th>Fecha de admisión</th>
+            <th>Fecha/Hora de admisión</th>
             <th>Consultorio/Cuarto</th>
             <th>Médico a cargo</th>
             <th>Opciones</th>
@@ -37,7 +37,7 @@ $this->headTitle($title);
                 <td><?php echo $pacienteEntity->getPaciente()->getPacienteNombre() ?></td>
                 <td><?php echo $pacienteEntity->getPaciente()->getPacienteAp() ?></td>
                 <td><?php echo $pacienteEntity->getPaciente()->getPacienteAm() ?></td>
-                <td><?php echo $pacienteEntity->getConsultaFechaadmision() ?></td>
+                <td><?php echo $pacienteEntity->getConsultaFecha().' '.$pacienteEntity->getConsultaHora() ?></td>
                 <td><?php echo $pacienteEntity->getConsultorio()->getConsultorioNombre()?></td>
                 <td><?php echo $pacienteEntity->getMedico()->getMedicoNombre() ." ". $pacienteEntity->getMedico()->getMedicoApellidopaterno() ." ". $pacienteEntity->getMedico()->getMedicoApellidomaterno();?></td>
                 <td>

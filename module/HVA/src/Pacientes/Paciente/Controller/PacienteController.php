@@ -191,7 +191,250 @@ class PacienteController extends AbstractActionController
     }
 
     public function asignarAction(){
+
         $request = $this->getRequest();
+
+        // Start Eliminar cargoadmision
+        if($request->getPost()->idcargoadmision){
+            if($request->getPost()->eliminar_cargoadmision_tipo == 'articulo'){
+                if(\CargoadmisionQuery::create()->filterByIdcargoadmision($request->getPost()->idcargoadmision)->exists()){
+
+                    $cargoadmisionEliminado = \CargoadmisionQuery::create()->filterByIdcargoadmision($request->getPost()->idcargoadmision)->findOne();
+                    $cargoadmisionEliminadoArray = array();
+                    if($cargoadmisionEliminado->getIdlugarinventario() != null){
+                        $articulovarianteEliminado = $cargoadmisionEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                        foreach($articulovarianteEliminado->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEliminado){
+                            $propiedadEliminadoQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEliminado->getIdpropiedad())->findOne();
+                            $propiedadNombreEliminado = $propiedadEliminadoQuery->getPropiedadNombre();
+                        }
+                        foreach($articulovarianteEliminado->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEliminado){
+                            $propiedadvalorEliminadoQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEliminado->getIdpropiedadvalor())->findOne();
+                            $propiedadvalorNombreEliminado = $propiedadvalorEliminadoQuery->getPropiedadvalorNombre();
+                        }
+                        $cargoadmisionEliminado = array(
+                            'idcargoadmision' => $cargoadmisionEliminado->getIdcargoadmision(),
+                            'idadmision' => $cargoadmisionEliminado->getIdadmision(),
+                            'status' => $cargoadmisionEliminado->getAdmision()->getAdmisionStatus(),
+                            'cargoadmision_cantidad' => $cargoadmisionEliminado->getCargoadmisionCantidad(),
+                            'articulo' => $cargoadmisionEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                            'descripcion' => utf8_encode($propiedadNombreEliminado." ".$propiedadvalorNombreEliminado),
+                            'salida' => $cargoadmisionEliminado->getLugarinventario()->getLugar()->getLugarNombre(),
+                            'fechahora' => $cargoadmisionEliminado->getCargoadmisionFecha(),
+                            'precio' => $cargoadmisionEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
+                            'subtotal' => $cargoadmisionEliminado->getCargoadmisionMonto(),
+                        );
+                        array_push($cargoadmisionEliminadoArray, $cargoadmisionEliminado);
+                    }
+                    \CargoadmisionQuery::create()->filterByIdcargoadmision($request->getPost()->idcargoadmision)->delete();
+
+
+                    $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
+                    if($cargoadmisionQuery->getArrayCopy()){
+                        $cargoadmisionArray = array();
+                        foreach($cargoadmisionQuery as $cargoadmisionEntity){
+                            if($cargoadmisionEntity->getIdlugarinventario() != null){
+                                $articulovarianteEntity = $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                                foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                    $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                    $propiedadNombre = $propiedadQuery->getPropiedadNombre();
+                                }
+                                foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                    $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                    $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                }
+                                $cargoadmision = array(
+                                    'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
+                                    'idadmision' => $cargoadmisionEntity->getIdadmision(),
+                                    'status' => $cargoadmisionEntity->getAdmision()->getAdmisionStatus(),
+                                    'cargoadmision_cantidad' => $cargoadmisionEntity->getCargoadmisionCantidad(),
+                                    'articulo' => $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                                    'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
+                                    'salida' => $cargoadmisionEntity->getLugarinventario()->getLugar()->getLugarNombre(),
+                                    'fechahora' => $cargoadmisionEntity->getCargoadmisionFecha(),
+                                    'precio' => $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
+                                    'subtotal' => $cargoadmisionEntity->getCargoadmisionMonto(),
+                                );
+                                array_push($cargoadmisionArray, $cargoadmision);
+                            }
+                        }
+                    }
+                    return new JsonModel(array(
+                        'cargoadmisionArray' => $cargoadmisionArray,
+                        'cargoadmisionEliminadoArray' => $cargoadmisionEliminadoArray,
+                    ));
+                }
+            }
+            if($request->getPost()->eliminar_cargoadmision_tipo == 'servicio'){
+                if(\CargoadmisionQuery::create()->filterByIdcargoadmision($request->getPost()->idcargoadmision)->exists()){
+
+                    $cargoadmisionEliminado = \CargoadmisionQuery::create()->filterByIdcargoadmision($request->getPost()->idcargoadmision)->findOne();
+                    $cargoadmisionEliminadoArray = array();
+                    if($cargoadmisionEliminado->getIdservicio() != null){
+                        $cargoadmisionEliminado = array(
+                            'idcargoadmision' => $cargoadmisionEliminado->getIdcargoadmision(),
+                            'idadmision' => $cargoadmisionEliminado->getIdadmision(),
+                            'status' => $cargoadmisionEliminado->getAdmision()->getAdmisionStatus(),
+                            'cargoadmision_cantidad' => $cargoadmisionEliminado->getCargoadmisionCantidad(),
+                            'servicio' => $cargoadmisionEliminado->getServicio()->getServicioNombre(),
+                            'descripcion' => $cargoadmisionEliminado->getServicio()->getServicioDescripcion(),
+                            'precio' => $cargoadmisionEliminado->getServicio()->getServicioPrecio(),
+                            'subtotal' => $cargoadmisionEliminado->getCargoadmisionMonto(),
+                            'fechahora' => $cargoadmisionEliminado->getCargoadmisionFecha(),
+                        );
+                        array_push($cargoadmisionEliminadoArray, $cargoadmisionEliminado);
+                    }
+                    \CargoadmisionQuery::create()->filterByIdcargoadmision($request->getPost()->idcargoadmision)->delete();
+
+                    $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
+                    if($cargoadmisionQuery->getArrayCopy()){
+                        $cargoadmisionArray = array();
+                        foreach($cargoadmisionQuery as $cargoadmisionEntity){
+                            if($cargoadmisionEntity->getIdservicio() != null){
+                                $cargoadmision = array(
+                                    'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
+                                    'idadmision' => $cargoadmisionEntity->getIdadmision(),
+                                    'status' => $cargoadmisionEntity->getAdmision()->getAdmisionStatus(),
+                                    'cargoadmision_cantidad' => $cargoadmisionEntity->getCargoadmisionCantidad(),
+                                    'servicio' => $cargoadmisionEntity->getServicio()->getServicioNombre(),
+                                    'descripcion' => $cargoadmisionEntity->getServicio()->getServicioDescripcion(),
+                                    'precio' => $cargoadmisionEntity->getServicio()->getServicioPrecio(),
+                                    'subtotal' => $cargoadmisionEntity->getCargoadmisionMonto(),
+                                    'fechahora' => date('Y-m-d H:i:s'),
+                                );
+                                array_push($cargoadmisionArray, $cargoadmision);
+                            }
+                        }
+                    }
+
+                    return new JsonModel(array(
+                        'cargoadmisionArray' => $cargoadmisionArray,
+                        'cargoadmisionEliminadoArray' => $cargoadmisionEliminadoArray,
+                    ));
+                }
+            }
+        }
+        // End Eliminar cargoadmision
+
+        // Start Eliminar cargoconsulta
+        if($request->getPost()->idcargoconsulta){
+            if($request->getPost()->eliminar_cargoconsulta_tipo == 'articulo'){
+                if(\CargoconsultaQuery::create()->filterByIdcargoconsulta($request->getPost()->idcargoconsulta)->exists()){
+
+                    $cargoconsultaEliminado = \CargoconsultaQuery::create()->filterByIdcargoconsulta($request->getPost()->idcargoconsulta)->findOne();
+                    $cargoconsultaEliminadoArray = array();
+                    if($cargoconsultaEliminado->getIdlugarinventario() != null){
+                        $articulovarianteEliminado = $cargoconsultaEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                        foreach($articulovarianteEliminado->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEliminado){
+                            $propiedadEliminadoQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEliminado->getIdpropiedad())->findOne();
+                            $propiedadNombreEliminado = $propiedadEliminadoQuery->getPropiedadNombre();
+                        }
+                        foreach($articulovarianteEliminado->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEliminado){
+                            $propiedadvalorEliminadoQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEliminado->getIdpropiedadvalor())->findOne();
+                            $propiedadvalorNombreEliminado = $propiedadvalorEliminadoQuery->getPropiedadvalorNombre();
+                        }
+                        $cargoconsultaEliminado = array(
+                            'idcargoconsulta' => $cargoconsultaEliminado->getIdcargoconsulta(),
+                            'idconsulta' => $cargoconsultaEliminado->getIdconsulta(),
+                            'status' => $cargoconsultaEliminado->getConsulta()->getConsultaStatus(),
+                            'cantidad' => $cargoconsultaEliminado->getCantidad(),
+                            'articulo' => $cargoconsultaEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                            'descripcion' => utf8_encode($propiedadNombreEliminado." ".$propiedadvalorNombreEliminado),
+                            'salida' => $cargoconsultaEliminado->getLugarinventario()->getLugar()->getLugarNombre(),
+                            'fechahora' => $cargoconsultaEliminado->getCargoconsultaFecha(),
+                            'precio' => $cargoconsultaEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
+                            'subtotal' => $cargoconsultaEliminado->getMonto(),
+                        );
+                        array_push($cargoconsultaEliminadoArray, $cargoconsultaEliminado);
+                    }
+                    \CargoconsultaQuery::create()->filterByIdcargoconsulta($request->getPost()->idcargoconsulta)->delete();
+
+
+                    $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdconsulta($request->getPost()->idconsulta)->find();
+                    if($cargoconsultaQuery->getArrayCopy()){
+                        $cargoconsultaArray = array();
+                        foreach($cargoconsultaQuery as $cargoconsultaEntity){
+                            if($cargoconsultaEntity->getIdlugarinventario() != null){
+                                $articulovarianteEntity = $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                                foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                    $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                    $propiedadNombre = $propiedadQuery->getPropiedadNombre();
+                                }
+                                foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                    $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                    $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                }
+                                $cargoconsulta = array(
+                                    'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                                    'idconsulta' => $cargoconsultaEntity->getIdconsulta(),
+                                    'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
+                                    'cantidad' => $cargoconsultaEntity->getCantidad(),
+                                    'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                                    'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
+                                    'salida' => $cargoconsultaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
+                                    'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
+                                    'precio' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
+                                    'subtotal' => $cargoconsultaEntity->getMonto(),
+                                );
+                                array_push($cargoconsultaArray, $cargoconsulta);
+                            }
+                        }
+                    }
+                    return new JsonModel(array(
+                        'cargoconsultaArray' => $cargoconsultaArray,
+                        'cargoconsultaEliminadoArray' => $cargoconsultaEliminadoArray,
+                    ));
+                }
+            }
+            if($request->getPost()->eliminar_cargoconsulta_tipo == 'servicio'){
+                if(\CargoconsultaQuery::create()->filterByIdcargoconsulta($request->getPost()->idcargoconsulta)->exists()){
+
+                    $cargoconsultaEliminado = \CargoconsultaQuery::create()->filterByIdcargoconsulta($request->getPost()->idcargoconsulta)->findOne();
+                    $cargoconsultaEliminadoArray = array();
+                    if($cargoconsultaEliminado->getIdservicio() != null){
+                        $cargoconsultaEliminado = array(
+                            'idcargoconsulta' => $cargoconsultaEliminado->getIdcargoconsulta(),
+                            'idconsulta' => $cargoconsultaEliminado->getIdconsulta(),
+                            'status' => $cargoconsultaEliminado->getConsulta()->getConsultaStatus(),
+                            'cantidad' => $cargoconsultaEliminado->getCantidad(),
+                            'servicio' => $cargoconsultaEliminado->getServicio()->getServicioNombre(),
+                            'descripcion' => $cargoconsultaEliminado->getServicio()->getServicioDescripcion(),
+                            'precio' => $cargoconsultaEliminado->getServicio()->getServicioPrecio(),
+                            'subtotal' => $cargoconsultaEliminado->getMonto(),
+                            'fechahora' => $cargoconsultaEliminado->getCargoconsultaFecha(),
+                        );
+                        array_push($cargoconsultaEliminadoArray, $cargoconsultaEliminado);
+                    }
+                    \CargoconsultaQuery::create()->filterByIdcargoconsulta($request->getPost()->idcargoconsulta)->delete();
+
+                    $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdconsulta($request->getPost()->idconsulta)->find();
+                    if($cargoconsultaQuery->getArrayCopy()){
+                        $cargoconsultaArray = array();
+                        foreach($cargoconsultaQuery as $cargoconsultaEntity){
+                            if($cargoconsultaEntity->getIdservicio() != null){
+                                $cargoconsulta = array(
+                                    'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                                    'idconsulta' => $cargoconsultaEntity->getIdconsulta(),
+                                    'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
+                                    'cantidad' => $cargoconsultaEntity->getCantidad(),
+                                    'servicio' => $cargoconsultaEntity->getServicio()->getServicioNombre(),
+                                    'descripcion' => $cargoconsultaEntity->getServicio()->getServicioDescripcion(),
+                                    'precio' => $cargoconsultaEntity->getServicio()->getServicioPrecio(),
+                                    'subtotal' => $cargoconsultaEntity->getMonto(),
+                                    'fechahora' => date('Y-m-d H:i:s'),
+                                );
+                                array_push($cargoconsultaArray, $cargoconsulta);
+                            }
+                        }
+                    }
+
+                    return new JsonModel(array(
+                        'cargoconsultaArray' => $cargoconsultaArray,
+                        'cargoconsultaEliminadoArray' => $cargoconsultaEliminadoArray,
+                    ));
+                }
+            }
+        }
+        // End Eliminar cargoconsulta
 
         // Inicio Anticipo Admision
         //Intanciamos nuestro formulario admisionanticipo
@@ -361,7 +604,7 @@ class PacienteController extends AbstractActionController
                             'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
                             'idlugarinventario' => $idlugarinventario,
                             'cargoconsulta_tipo' => 'articulo',
-                                'cargoconsulta_fecha' => date('Y-m-d H:i:s'),
+                            'cargoconsulta_fecha' => date('Y-m-d H:i:s'),
                             'ordencompradetalle_caducidad' => $ordencompradetalleEntity->getOrdencompradetalleCaducidad(),
                             'existencia' => $lugarinventarioCantidad,
                             'articulo' => $articuloNombre,
@@ -613,6 +856,7 @@ class PacienteController extends AbstractActionController
                                     }
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                                        'idconsulta' => $cargoconsultaEntity->getIdconsulta(),
                                         'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
                                         'cantidad' => $cargoconsultaEntity->getCantidad(),
                                         'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
@@ -650,6 +894,7 @@ class PacienteController extends AbstractActionController
                                 if($cargoconsultaEntity->getIdservicio() != null){
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                                        'idconsulta' => $cargoconsultaEntity->getIdconsulta(),
                                         'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
                                         'cantidad' => $cargoconsultaEntity->getCantidad(),
                                         'servicio' => $cargoconsultaEntity->getServicio()->getServicioNombre(),
@@ -781,6 +1026,7 @@ class PacienteController extends AbstractActionController
                                     }
                                     $cargoadmision = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
+                                        'idadmision' => $cargoadmisionEntity->getIdadmision(),
                                         'status' => $cargoadmisionEntity->getAdmision()->getAdmisionStatus(),
                                         'cargoadmision_cantidad' => $cargoadmisionEntity->getCargoadmisionCantidad(),
                                         'articulo' => $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
@@ -818,6 +1064,7 @@ class PacienteController extends AbstractActionController
                                 if($cargoadmisionEntity->getIdservicio() != null){
                                     $cargoadmision = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
+                                        'idadmision' => $cargoadmisionEntity->getIdadmision(),
                                         'status' => $cargoadmisionEntity->getAdmision()->getAdmisionStatus(),
                                         'cargoadmision_cantidad' => $cargoadmisionEntity->getCargoadmisionCantidad(),
                                         'servicio' => $cargoadmisionEntity->getServicio()->getServicioNombre(),
@@ -942,13 +1189,13 @@ class PacienteController extends AbstractActionController
         //Verificamos que el Id medico que se quiere eliminar exista
         if(PacienteQuery::create()->filterByIdpaciente($id)->exists()){
 
-            //Instanciamos nuestro medico
-            $medico = PacienteQuery::create()->findPk($id);
+            //Instanciamos nuestro paciente
+            $paciente = PacienteQuery::create()->findPk($id);
 
-            $medico->delete();
+            $paciente->delete();
 
             //Agregamos un mensaje
-            $this->flashMessenger()->addMessage('Medico eliminado exitosamente!');
+            $this->flashMessenger()->addMessage('Paciente eliminado exitosamente!');
             //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('pacientes');
 
