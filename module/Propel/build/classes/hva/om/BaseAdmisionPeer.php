@@ -87,7 +87,6 @@ abstract class BaseAdmisionPeer
     const ADMISION_TIPODEPAGO_TARJETA_DEBITO = 'tarjeta debito';
     const ADMISION_TIPODEPAGO_TARJETA_CREDITO = 'tarjeta credito';
     const ADMISION_TIPODEPAGO_CHEQUE = 'cheque';
-    const ADMISION_TIPODEPAGO_NO_IDENTIFICADO = 'no identificado';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -143,7 +142,6 @@ abstract class BaseAdmisionPeer
             AdmisionPeer::ADMISION_TIPODEPAGO_TARJETA_DEBITO,
             AdmisionPeer::ADMISION_TIPODEPAGO_TARJETA_CREDITO,
             AdmisionPeer::ADMISION_TIPODEPAGO_CHEQUE,
-            AdmisionPeer::ADMISION_TIPODEPAGO_NO_IDENTIFICADO,
         ),
     );
 

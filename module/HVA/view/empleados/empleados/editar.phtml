@@ -5,6 +5,7 @@
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <?php $form->setAttribute('action', '/empleados/editar/'.$id);?>
 <?php $form->setAttribute('class', 'hva-form');?>
+<?php $form->setAttribute('enctype', 'multipart/form-data');?>
 <?php $form->prepare();?>
 <?php echo $this->form()->openTag($form); ?>
 <div class="row">
@@ -56,6 +57,7 @@
             <div class="col s4">
                 <div class="input-field" style="margin-top: 30px;">
                     <?php echo $this->formPassword($form->get('empleado_password')); ?>
+                    <?php $form->get('empleado_password')->setLabel('Contraseña');?>
                     <?php echo $this->formLabel($form->get('empleado_password')); ?>
                 </div>
                 <p id="empleado_password" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
@@ -66,6 +68,16 @@
                 </div>
                 <p id="idrol" class="input-error"> <i class="tiny mdi-alert-error"></i>Por favor seleccione un rol</p>
             </div>
+        </div>
+    </fieldset>
+</div>
+<div class="row">
+    <fieldset>
+        <legend>Fotografia</legend>
+        <div class="col s4 offset-s4" style="padding-left: 120px; padding-right: 120px;">
+            <img id="empleado_imagen" src="<?php echo $empleado_imagen?>" width="210" height="210">
+            <input type="file" name="empleado_imagen" style="display: none" accept="image/*" value="<?php echo $empleado_imagen?>"> 
+            <p id="eliminar_imagen" style="text-align: center; display: none"><a href="javascript:void(0)">Eliminar Imagen</a></p>
         </div>
     </fieldset>
 </div>
@@ -81,6 +93,8 @@
 <script>
     
     $(document).ready(function(){
+        
+        var idempleado = <?php echo $id ?>;
         
         //Inicializamos el select de materialize
         $('select').material_select();
@@ -126,6 +140,51 @@
             }
 
         });
+        
+        //Imagen empleado
+        var empleado_imagen = '<?php echo $empleado_imagen?>';
+        if(empleado_imagen != '/img/empleados/default_profile.jpg'){
+            $('p#eliminar_imagen').show();
+        }
+        $('img#empleado_imagen').on('click',function(){
+            $('img#empleado_imagen + input').trigger('click');
+        });
+        
+        $('img#empleado_imagen + input').on('change',function(){
+            
+            var $input = $(this);
+            var photo =  $('img.img#empleado_imagen');
+            var inputFiles = this.files;
+            
+            if(inputFiles == undefined || inputFiles.length == 0) return;
+
+            var inputFile = inputFiles[0];
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+
+                $('img#empleado_imagen').attr("src", event.target.result);
+           
+            };
+            
+            if($('img#empleado_imagen + input').val() != ''){
+                $('p#eliminar_imagen').show();
+            }
+
+            reader.readAsDataURL(inputFile);
+        });
+        
+        $('p#eliminar_imagen').on('click',function(){
+             $('img#empleado_imagen').attr("src", '/img/empleados/default_profile.jpg');
+             $('img#empleado_imagen + input').val('');
+             $('p#eliminar_imagen').hide();
+             $.get('/empleados/eliminarimagen',
+                {id:idempleado}
+            );
+            
+        });
+        
+        
         
     });
     

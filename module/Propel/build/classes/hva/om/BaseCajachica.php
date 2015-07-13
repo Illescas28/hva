@@ -66,10 +66,22 @@ abstract class BaseCajachica extends BaseObject implements Persistent
     protected $cajachica_balance;
 
     /**
+     * The value for the cajachica_comprobante field.
+     * @var        string
+     */
+    protected $cajachica_comprobante;
+
+    /**
      * The value for the cajachica_nota field.
      * @var        string
      */
     protected $cajachica_nota;
+
+    /**
+     * The value for the cajachica_pacientedoctor field.
+     * @var        string
+     */
+    protected $cajachica_pacientedoctor;
 
     /**
      * @var        Conceptocajachica
@@ -192,6 +204,17 @@ abstract class BaseCajachica extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [cajachica_comprobante] column value.
+     *
+     * @return string
+     */
+    public function getCajachicaComprobante()
+    {
+
+        return $this->cajachica_comprobante;
+    }
+
+    /**
      * Get the [cajachica_nota] column value.
      *
      * @return string
@@ -200,6 +223,17 @@ abstract class BaseCajachica extends BaseObject implements Persistent
     {
 
         return $this->cajachica_nota;
+    }
+
+    /**
+     * Get the [cajachica_pacientedoctor] column value.
+     *
+     * @return string
+     */
+    public function getCajachicaPacientedoctor()
+    {
+
+        return $this->cajachica_pacientedoctor;
     }
 
     /**
@@ -335,6 +369,27 @@ abstract class BaseCajachica extends BaseObject implements Persistent
     } // setCajachicaBalance()
 
     /**
+     * Set the value of [cajachica_comprobante] column.
+     *
+     * @param  string $v new value
+     * @return Cajachica The current object (for fluent API support)
+     */
+    public function setCajachicaComprobante($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->cajachica_comprobante !== $v) {
+            $this->cajachica_comprobante = $v;
+            $this->modifiedColumns[] = CajachicaPeer::CAJACHICA_COMPROBANTE;
+        }
+
+
+        return $this;
+    } // setCajachicaComprobante()
+
+    /**
      * Set the value of [cajachica_nota] column.
      *
      * @param  string $v new value
@@ -354,6 +409,27 @@ abstract class BaseCajachica extends BaseObject implements Persistent
 
         return $this;
     } // setCajachicaNota()
+
+    /**
+     * Set the value of [cajachica_pacientedoctor] column.
+     *
+     * @param  string $v new value
+     * @return Cajachica The current object (for fluent API support)
+     */
+    public function setCajachicaPacientedoctor($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->cajachica_pacientedoctor !== $v) {
+            $this->cajachica_pacientedoctor = $v;
+            $this->modifiedColumns[] = CajachicaPeer::CAJACHICA_PACIENTEDOCTOR;
+        }
+
+
+        return $this;
+    } // setCajachicaPacientedoctor()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -393,7 +469,9 @@ abstract class BaseCajachica extends BaseObject implements Persistent
             $this->cajachica_cantidad = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->cajachica_fecha = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->cajachica_balance = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->cajachica_nota = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->cajachica_comprobante = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->cajachica_nota = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->cajachica_pacientedoctor = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -403,7 +481,7 @@ abstract class BaseCajachica extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 7; // 7 = CajachicaPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 9; // 9 = CajachicaPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Cajachica object", $e);
@@ -649,8 +727,14 @@ abstract class BaseCajachica extends BaseObject implements Persistent
         if ($this->isColumnModified(CajachicaPeer::CAJACHICA_BALANCE)) {
             $modifiedColumns[':p' . $index++]  = '`cajachica_balance`';
         }
+        if ($this->isColumnModified(CajachicaPeer::CAJACHICA_COMPROBANTE)) {
+            $modifiedColumns[':p' . $index++]  = '`cajachica_comprobante`';
+        }
         if ($this->isColumnModified(CajachicaPeer::CAJACHICA_NOTA)) {
             $modifiedColumns[':p' . $index++]  = '`cajachica_nota`';
+        }
+        if ($this->isColumnModified(CajachicaPeer::CAJACHICA_PACIENTEDOCTOR)) {
+            $modifiedColumns[':p' . $index++]  = '`cajachica_pacientedoctor`';
         }
 
         $sql = sprintf(
@@ -681,8 +765,14 @@ abstract class BaseCajachica extends BaseObject implements Persistent
                     case '`cajachica_balance`':
                         $stmt->bindValue($identifier, $this->cajachica_balance, PDO::PARAM_STR);
                         break;
+                    case '`cajachica_comprobante`':
+                        $stmt->bindValue($identifier, $this->cajachica_comprobante, PDO::PARAM_STR);
+                        break;
                     case '`cajachica_nota`':
                         $stmt->bindValue($identifier, $this->cajachica_nota, PDO::PARAM_STR);
+                        break;
+                    case '`cajachica_pacientedoctor`':
+                        $stmt->bindValue($identifier, $this->cajachica_pacientedoctor, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -849,7 +939,13 @@ abstract class BaseCajachica extends BaseObject implements Persistent
                 return $this->getCajachicaBalance();
                 break;
             case 6:
+                return $this->getCajachicaComprobante();
+                break;
+            case 7:
                 return $this->getCajachicaNota();
+                break;
+            case 8:
+                return $this->getCajachicaPacientedoctor();
                 break;
             default:
                 return null;
@@ -886,7 +982,9 @@ abstract class BaseCajachica extends BaseObject implements Persistent
             $keys[3] => $this->getCajachicaCantidad(),
             $keys[4] => $this->getCajachicaFecha(),
             $keys[5] => $this->getCajachicaBalance(),
-            $keys[6] => $this->getCajachicaNota(),
+            $keys[6] => $this->getCajachicaComprobante(),
+            $keys[7] => $this->getCajachicaNota(),
+            $keys[8] => $this->getCajachicaPacientedoctor(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -950,7 +1048,13 @@ abstract class BaseCajachica extends BaseObject implements Persistent
                 $this->setCajachicaBalance($value);
                 break;
             case 6:
+                $this->setCajachicaComprobante($value);
+                break;
+            case 7:
                 $this->setCajachicaNota($value);
+                break;
+            case 8:
+                $this->setCajachicaPacientedoctor($value);
                 break;
         } // switch()
     }
@@ -982,7 +1086,9 @@ abstract class BaseCajachica extends BaseObject implements Persistent
         if (array_key_exists($keys[3], $arr)) $this->setCajachicaCantidad($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setCajachicaFecha($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setCajachicaBalance($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setCajachicaNota($arr[$keys[6]]);
+        if (array_key_exists($keys[6], $arr)) $this->setCajachicaComprobante($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setCajachicaNota($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setCajachicaPacientedoctor($arr[$keys[8]]);
     }
 
     /**
@@ -1000,7 +1106,9 @@ abstract class BaseCajachica extends BaseObject implements Persistent
         if ($this->isColumnModified(CajachicaPeer::CAJACHICA_CANTIDAD)) $criteria->add(CajachicaPeer::CAJACHICA_CANTIDAD, $this->cajachica_cantidad);
         if ($this->isColumnModified(CajachicaPeer::CAJACHICA_FECHA)) $criteria->add(CajachicaPeer::CAJACHICA_FECHA, $this->cajachica_fecha);
         if ($this->isColumnModified(CajachicaPeer::CAJACHICA_BALANCE)) $criteria->add(CajachicaPeer::CAJACHICA_BALANCE, $this->cajachica_balance);
+        if ($this->isColumnModified(CajachicaPeer::CAJACHICA_COMPROBANTE)) $criteria->add(CajachicaPeer::CAJACHICA_COMPROBANTE, $this->cajachica_comprobante);
         if ($this->isColumnModified(CajachicaPeer::CAJACHICA_NOTA)) $criteria->add(CajachicaPeer::CAJACHICA_NOTA, $this->cajachica_nota);
+        if ($this->isColumnModified(CajachicaPeer::CAJACHICA_PACIENTEDOCTOR)) $criteria->add(CajachicaPeer::CAJACHICA_PACIENTEDOCTOR, $this->cajachica_pacientedoctor);
 
         return $criteria;
     }
@@ -1069,7 +1177,9 @@ abstract class BaseCajachica extends BaseObject implements Persistent
         $copyObj->setCajachicaCantidad($this->getCajachicaCantidad());
         $copyObj->setCajachicaFecha($this->getCajachicaFecha());
         $copyObj->setCajachicaBalance($this->getCajachicaBalance());
+        $copyObj->setCajachicaComprobante($this->getCajachicaComprobante());
         $copyObj->setCajachicaNota($this->getCajachicaNota());
+        $copyObj->setCajachicaPacientedoctor($this->getCajachicaPacientedoctor());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1191,7 +1301,9 @@ abstract class BaseCajachica extends BaseObject implements Persistent
         $this->cajachica_cantidad = null;
         $this->cajachica_fecha = null;
         $this->cajachica_balance = null;
+        $this->cajachica_comprobante = null;
         $this->cajachica_nota = null;
+        $this->cajachica_pacientedoctor = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

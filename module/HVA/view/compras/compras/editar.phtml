@@ -89,6 +89,7 @@
                             <input name="producto" type="text" id="productos_autocomplete">
                              <label class="active" for="productos">Productos</label>
                             <input type="hidden" id="idproducto">
+                            <input type="hidden" id="producto_precio">
                         </div>
                     </div>
                     <div class="col s1" style="margin-top: 31px; padding-right: 21px; margin-right: 0px; margin-left: -21px;">
@@ -120,10 +121,10 @@
                     <td id="producto" style="padding-left: 12px;"><span id="idarticulo" style="display: none"><?php echo $item['idarticulo']?></span><span id="producto_nombre"><?php echo $item['articulo']?></span></td>
                     <td id="caducidad" class="datepicker" style="padding-left: 12px;"><input class="input-datepicker" type="text" value="<?php echo $item['caducidad']?>"></td>
                     <td id="costo"><input type="text" value="<?php echo $item['costo']?>"></td>
-                    <td id="costo"><input type="text" value="<?php echo $item['precio']?>"></td>
+                    <td id="precio"><input type="text" value="<?php echo $item['precio']?>"></td>
                     <td id="subtotal" style="padding-left: 12px;"><?php echo $item['importe']?></td>
                     <td id="opciones">
-                        <a id="show_item" class="tooltipped modal-trigger" href="#view-modal-articulo-<?php echo $item['idarticulo']?>" data-tooltip="Visualizar" data-position="left"><i class="tiny mdi-image-remove-red-eye"></i></a>
+                        <!--<a id="show_item" class="tooltipped modal-trigger" href="#view-modal-articulo-<?php echo $item['idarticulo']?>" data-tooltip="Visualizar" data-position="left"><i class="tiny mdi-image-remove-red-eye"></i></a>-->
                        <a  id="delete_item" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='javascript:void(0)'><i class="tiny mdi-action-delete"></i></a>
                     </td>
                 </tr>           
@@ -223,6 +224,7 @@
         $('#productos_autocomplete').autocomplete({
             source:productos,
             select: function( event, ui ) {
+                $('#producto_precio').val(ui.item.precio);
                 $('#idproducto').val(ui.item.value);
                 $(this).val(ui.item.label);
                 event.preventDefault();
@@ -333,10 +335,10 @@
                 var td_producto = $('<td id="producto" style="padding-left: 12px;"><span id="idarticulo" style="display:none">'+$('input#idproducto').val()+'</span><span id="producto_nombre">'+$('#productos_autocomplete').val()+'</span></td>').appendTo(tr);        
                 var td_caducidad = $('<td class="datepicker" id="caducidad" style="padding-left: 12px;"><input class="input-datepicker" type="text"></td>').appendTo(tr);
                 var td_costo = $('<td id="costo" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
-                var td_precio = $('<td id="precio" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
+                var td_precio = $('<td id="precio" ><span style="visibility: hidden"></span><input type="text" value="'+$('#producto_precio').val()+'"></td>').appendTo(tr);
                 var td_subtotal = $('<td id="subtotal" style="padding-left: 12px;">'+formatMoney(0,'$')+'</td>').appendTo(tr);
-                var td_opciones = $('<td><a id="show_item" class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="#view-modal-articulo-'+$('#idproducto').val()+'"><i class="tiny mdi-image-remove-red-eye"></i></a>&nbsp;&nbsp;<a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
-                
+                //var td_opciones = $('<td><a id="show_item" class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="#view-modal-articulo-'+$('#idproducto').val()+'"><i class="tiny mdi-image-remove-red-eye"></i></a>&nbsp;&nbsp;<a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
+                var td_opciones = $('<td><a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
                 
                 $('tbody').append(tr);
                 $('#productos_autocomplete').val('');
@@ -445,7 +447,7 @@
               
               var orden_facturapdf = null;
 
-                  if($('input[name=pdf]').val() != ''){
+                  if(typeof $('input[name=pdf]').val() != 'undefined'){
                     
                     var inputFile = document.getElementById('orden_pdf');
                     var file = inputFile.files[0];

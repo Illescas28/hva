@@ -1,0 +1,64 @@
+<?php
+    $title = 'Concepto: '.$form->get('bancotransaccion_nombre')->getValue();
+    $this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<?php $form->setAttribute('action', '/bancos/concepto/editar/'.$id);?>
+<?php $form->setAttribute('class', 'hva-form');?>
+<?php $form->prepare();?>
+<?php echo $this->form()->openTag($form); ?>
+<div class="row">
+    <fieldset>
+        <legend>Datos Generales</legend>
+        <div class="row">
+            <div class="col s4">
+                <div class="input-field">
+                    <?php echo $this->formText($form->get('bancotransaccion_nombre')); ?>
+                    <?php echo $this->formLabel($form->get('bancotransaccion_nombre')); ?>
+                </div>
+                <p id="bancotransaccion_nombre" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s12">
+                <div class="input-field">
+                    <?php echo $this->formText($form->get('bancotransaccion_descripcion')); ?>
+                    <?php echo $this->formLabel($form->get('bancotransaccion_descripcion')); ?>
+                </div>
+                <p id="bancotransaccion_descripcion" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<p style="color: #9e9e9e">(*) Campos obligatorios</p>
+<div class="row">
+    <div class="col s4 offset-s4">
+        <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+<script type="text/javascript">
+    $(document).ready(function() {        
+
+        //Validacion de campos obligatorios 
+        $(document).on('click', 'form button[type=submit]', function(e) {
+            $('p.input-error').hide();
+            var isValid = true;
+            //console.log($('select[name=idtipo]').val());
+            if(!$('input[name=bancotransaccion_nombre]').val().length){
+               isValid = false;
+               $('p#bancotransaccion_nombre').show();
+               e.preventDefault(); 
+            }
+            if(!$('input[name=bancotransaccion_descripcion]').val().length){
+               isValid = false;
+               $('p#bancotransaccion_descripcion').show();
+               e.preventDefault(); 
+            }
+            
+        });
+          
+
+    });
+</script>
+  
