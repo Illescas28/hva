@@ -2764,6 +2764,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
         var idcargoconsulta = cargoconsultaArray[i]["idcargoconsulta"]
         var idconsulta = cargoconsultaArray[i]["idconsulta"]
+        var cantidad = cargoconsultaArray[i]["cantidad"]
     }
 
     // posiciona el <tbody> debajo del elemento <table>
@@ -2773,10 +2774,10 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
     div.appendChild(tabla);
 
     // Si dan clic en eliminarCargoconsulta-id
-    $("#eliminarCargoconsulta"+idcargoconsulta).click({idcargoconsulta:idcargoconsulta, idconsulta:idconsulta},function() {
+    $("#eliminarCargoconsulta"+idcargoconsulta).click({idcargoconsulta:idcargoconsulta, idconsulta:idconsulta, cantidad:cantidad},function() {
 
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'eliminar_cargoconsulta_tipo=articulo' + '&idcargoconsulta=' + idcargoconsulta + '&idconsulta=' + idconsulta;
+        var dataString = 'eliminar_cargoconsulta_tipo=articulo' + '&idcargoconsulta=' + idcargoconsulta + '&idconsulta=' + idconsulta + '&cantidad=' + cantidad;
 
         $.ajax({
             type: "POST",
@@ -6018,6 +6019,8 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
 
         var idcargoadmision = cargoadmisionArray[i]["idcargoadmision"]
         var idadmision = cargoadmisionArray[i]["idadmision"]
+        var cantidad = cargoadmisionArray[i]["cargoadmision_cantidad"]
+
     }
 
     // posiciona el <tbody> debajo del elemento <table>
@@ -6027,7 +6030,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
     div.appendChild(tabla);
 
     // Si dan clic en eliminarCargoadmision-id
-    $("#eliminarCargoadmision"+idcargoadmision).click({idcargoadmision:idcargoadmision, idadmision:idadmision},function() {
+    $("#eliminarCargoadmision"+idcargoadmision).click({idcargoadmision:idcargoadmision, idadmision:idadmision, cantidad:cantidad},function() {
 
         /*
          //Obtenemos el valor del input de divInputAnticipo
@@ -6035,7 +6038,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
          var idadmision = $("input#input_idadmision").val();
          */
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'eliminar_cargoadmision_tipo=articulo' + '&idcargoadmision=' + idcargoadmision + '&idadmision=' + idadmision;
+        var dataString = 'eliminar_cargoadmision_tipo=articulo' + '&idcargoadmision=' + idcargoadmision + '&idadmision=' + idadmision + '&cantidad=' + cantidad;
 
         $.ajax({
             type: "POST",

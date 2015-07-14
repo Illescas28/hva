@@ -200,6 +200,10 @@ class PacienteController extends AbstractActionController
                 if(\CargoadmisionQuery::create()->filterByIdcargoadmision($request->getPost()->idcargoadmision)->exists()){
 
                     $cargoadmisionEliminado = \CargoadmisionQuery::create()->filterByIdcargoadmision($request->getPost()->idcargoadmision)->findOne();
+                    $lugarinventarioEntity = $cargoadmisionEliminado->getLugarinventario();
+                    $cantidad = $lugarinventarioEntity->getLugarinventarioCantidad();
+                    $lugarinventarioEntity->setLugarinventarioCantidad($cantidad+$request->getPost()->cantidad);
+                    $lugarinventarioEntity->save();
                     $cargoadmisionEliminadoArray = array();
                     if($cargoadmisionEliminado->getIdlugarinventario() != null){
                         $articulovarianteEliminado = $cargoadmisionEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
@@ -321,6 +325,10 @@ class PacienteController extends AbstractActionController
                 if(\CargoconsultaQuery::create()->filterByIdcargoconsulta($request->getPost()->idcargoconsulta)->exists()){
 
                     $cargoconsultaEliminado = \CargoconsultaQuery::create()->filterByIdcargoconsulta($request->getPost()->idcargoconsulta)->findOne();
+                    $lugarinventarioEntity = $cargoconsultaEliminado->getLugarinventario();
+                    $cantidad = $lugarinventarioEntity->getLugarinventarioCantidad();
+                    $lugarinventarioEntity->setLugarinventarioCantidad($cantidad+$request->getPost()->cantidad);
+                    $lugarinventarioEntity->save();
                     $cargoconsultaEliminadoArray = array();
                     if($cargoconsultaEliminado->getIdlugarinventario() != null){
                         $articulovarianteEliminado = $cargoconsultaEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
