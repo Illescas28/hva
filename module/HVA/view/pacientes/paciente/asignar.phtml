@@ -318,6 +318,7 @@ $this->headTitle($title);
                         <th>Cantidad</th>
                         <th>Articulo</th>
                         <th>Descripción</th>
+                        <th>Salida</th>
                         <th>Fecha/hora</th>
                         <th>Precio</th>
                         <th>Subtotal</th>
@@ -2345,6 +2346,7 @@ function buscarCargoconsultaServicio(idservicio){
 
     return false;
 };
+
 function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = cargoconsultaArticuloResult
@@ -2356,7 +2358,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -2431,8 +2433,310 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 7){
+
+                <!-- View Modal Structure -->
+                var divcargosConsulta = document.getElementById('cargosConsulta')
+                var divViewModalCargoconsulta = document.createElement('div')
+                divViewModalCargoconsulta.setAttribute ( 'id', 'view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
+                divViewModalCargoconsulta.className = "modal bottom-sheet";
+                var h4 = document.createElement('h4')
+                var texth4 = document.createTextNode("Cargo-consulta");
+                h4.appendChild(texth4);
+                var br = document.createElement('br')
+                var divRow = document.createElement('div')
+                divRow.className = "row";
+                var fieldset = document.createElement('fieldset')
+                var legend = document.createElement('legend')
+                var textlegend = document.createTextNode("Datos generales");
+                legend.appendChild(textlegend);
+                var divCol1 = document.createElement('div')
+                divCol1.className = "col s4";
+                var divLabelContainer1 = document.createElement('div')
+                divLabelContainer1.className = "label-container";
+                var label1 = document.createElement('label')
+                var textlabel1 = document.createTextNode("Cantidad:");
+                label1.appendChild(textlabel1);
+                var p1 = document.createElement('p')
+                var textp1 = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                p1.appendChild(textp1);
+                divLabelContainer1.appendChild(label1);
+                divLabelContainer1.appendChild(p1);
+                divCol1.appendChild(divLabelContainer1);
+                var divCol2 = document.createElement('div')
+                divCol2.className = "col s4";
+                var divLabelContainer2 = document.createElement('div')
+                divLabelContainer2.className = "label-container";
+                var label2 = document.createElement('label')
+                var textlabel2 = document.createTextNode("Artículo:");
+                label2.appendChild(textlabel2);
+                var p2 = document.createElement('p')
+                var textp2 = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                p2.appendChild(textp2);
+                divLabelContainer2.appendChild(label2);
+                divLabelContainer2.appendChild(p2);
+                divCol2.appendChild(divLabelContainer2);
+                var divCol3 = document.createElement('div')
+                divCol3.className = "col s4";
+                var divLabelContainer3 = document.createElement('div')
+                divLabelContainer3.className = "label-container";
+                var label3 = document.createElement('label')
+                var textlabel3 = document.createTextNode("Descripción:");
+                label3.appendChild(textlabel3);
+                var p3 = document.createElement('p')
+                var textp3 = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                p3.appendChild(textp3);
+                divLabelContainer3.appendChild(label3);
+                divLabelContainer3.appendChild(p3);
+                divCol3.appendChild(divLabelContainer3);
+                var divCol4 = document.createElement('div')
+                divCol4.className = "col s4";
+                var divLabelContainer4 = document.createElement('div')
+                divLabelContainer4.className = "label-container";
+                var label4 = document.createElement('label')
+                var textlabel4 = document.createTextNode("Salida:");
+                label4.appendChild(textlabel4);
+                var p4 = document.createElement('p')
+                var textp4 = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                p4.appendChild(textp4);
+                divLabelContainer4.appendChild(label4);
+                divLabelContainer4.appendChild(p4);
+                divCol4.appendChild(divLabelContainer4);
+                var divCol5 = document.createElement('div')
+                divCol5.className = "col s4";
+                var divLabelContainer5 = document.createElement('div')
+                divLabelContainer5.className = "label-container";
+                var label5 = document.createElement('label')
+                var textlabel5 = document.createTextNode("Fecha/Hora:");
+                label5.appendChild(textlabel5);
+                var p5 = document.createElement('p')
+                var textp5 = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                p5.appendChild(textp5);
+                divLabelContainer5.appendChild(label5);
+                divLabelContainer5.appendChild(p5);
+                divCol5.appendChild(divLabelContainer5);
+                var divCol6 = document.createElement('div')
+                divCol6.className = "col s4";
+                var divLabelContainer6 = document.createElement('div')
+                divLabelContainer6.className = "label-container";
+                var label6 = document.createElement('label')
+                var textlabel6 = document.createTextNode("Precio:");
+                label6.appendChild(textlabel6);
+                var p6 = document.createElement('p')
+                var textp6 = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                p6.appendChild(textp6);
+                divLabelContainer6.appendChild(label6);
+                divLabelContainer6.appendChild(p6);
+                divCol6.appendChild(divLabelContainer6);
+                var divCol7 = document.createElement('div')
+                divCol7.className = "col s12";
+                var divLabelContainer7 = document.createElement('div')
+                divLabelContainer7.className = "label-container";
+                var label7 = document.createElement('label')
+                var textlabel7 = document.createTextNode("Subtotal:");
+                label7.appendChild(textlabel7);
+                var p7 = document.createElement('p')
+                var textp7 = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                p7.appendChild(textp7);
+                divLabelContainer7.appendChild(label7);
+                divLabelContainer7.appendChild(p7);
+                divCol7.appendChild(divLabelContainer7);
+                fieldset.appendChild(divCol1);
+                fieldset.appendChild(divCol2);
+                fieldset.appendChild(divCol3);
+                fieldset.appendChild(divCol4);
+                fieldset.appendChild(divCol5);
+                fieldset.appendChild(divCol6);
+                fieldset.appendChild(divCol7);
+                fieldset.appendChild(legend);
+                divRow.appendChild(fieldset);
+                var divViewModalFooter = document.createElement('div')
+                divViewModalFooter.className = "modal-footer";
+                var linkCerrar = document.createElement('a')
+                linkCerrar.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                var iconCerrar = document.createElement('i')
+                iconCerrar.className = "mdi-navigation-close left";
+                var textoIconCerrar = document.createTextNode('Cerrar');
+                iconCerrar.appendChild(textoIconCerrar);
+                linkCerrar.appendChild(iconCerrar);
+                divViewModalFooter.appendChild(linkCerrar);
+                divViewModalCargoconsulta.appendChild(br);
+                divViewModalCargoconsulta.appendChild(h4);
+                divViewModalCargoconsulta.appendChild(divRow);
+                divViewModalCargoconsulta.appendChild(divViewModalFooter);
+                divcargosConsulta.appendChild(divViewModalCargoconsulta);
+                <!-- End View Modal Structure -->
+
+                <!-- Start Delete Structure -->
+                var divcargosConsultaDelete = document.getElementById('cargosConsulta')
+                var divDeleteModalCargoconsultaDelete = document.createElement('div')
+                divDeleteModalCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
+                divDeleteModalCargoconsultaDelete.className = "modal";
+                var divDeleteModalContentCargoconsultaDelete = document.createElement('div')
+                divDeleteModalContentCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta');
+                divDeleteModalContentCargoconsultaDelete.className = "modal-content";
+
+                var divRowDelete = document.createElement('div')
+                divRowDelete.setAttribute ( 'id', 'delete-modal-header-container');
+                divRowDelete.className = "row";
+                var divRowAtencionDelete = document.createElement('div')
+                divRowAtencionDelete.className = "col s4 offset-s4";
+                var h4Delete = document.createElement('h4')
+                var iDelete = document.createElement('i')
+                iDelete.className = "mdi-alert-warning";
+                var textoiDelete = document.createTextNode("ATENCION");
+                iDelete.appendChild(textoiDelete);
+                h4Delete.appendChild(iDelete);
+                divRowAtencionDelete.appendChild(h4Delete);
+                divRowDelete.appendChild(divRowAtencionDelete);
+                divDeleteModalContentCargoconsultaDelete.appendChild(divRowDelete)
+
+                var divRow2Delete = document.createElement('div')
+                divRow2Delete.className = "row";
+                var fieldsetDelete = document.createElement('fieldset')
+                var legendDelete = document.createElement('legend')
+                var textlegendDelete = document.createTextNode("Datos generales");
+                legendDelete.appendChild(textlegendDelete);
+                var divCol1Delete = document.createElement('div')
+                divCol1Delete.className = "col s4";
+                var divLabelContainer1Delete = document.createElement('div')
+                divLabelContainer1Delete.className = "label-container";
+                var label1Delete = document.createElement('label')
+                var textlabel1Delete = document.createTextNode("Cantidad:");
+                label1Delete.appendChild(textlabel1Delete);
+                var p1Delete = document.createElement('p')
+                var textp1Delete = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                p1Delete.appendChild(textp1Delete);
+                divLabelContainer1Delete.appendChild(label1Delete);
+                divLabelContainer1Delete.appendChild(p1Delete);
+                divCol1Delete.appendChild(divLabelContainer1Delete);
+                var divCol2Delete = document.createElement('div')
+                divCol2Delete.className = "col s4";
+                var divLabelContainer2Delete = document.createElement('div')
+                divLabelContainer2Delete.className = "label-container";
+                var label2Delete = document.createElement('label')
+                var textlabel2Delete = document.createTextNode("Artículo:");
+                label2Delete.appendChild(textlabel2Delete);
+                var p2Delete = document.createElement('p')
+                var textp2Delete = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                p2Delete.appendChild(textp2Delete);
+                divLabelContainer2Delete.appendChild(label2Delete);
+                divLabelContainer2Delete.appendChild(p2Delete);
+                divCol2Delete.appendChild(divLabelContainer2Delete);
+                var divCol3Delete = document.createElement('div')
+                divCol3Delete.className = "col s4";
+                var divLabelContainer3Delete = document.createElement('div')
+                divLabelContainer3Delete.className = "label-container";
+                var label3Delete = document.createElement('label')
+                var textlabel3Delete = document.createTextNode("Descripción:");
+                label3Delete.appendChild(textlabel3Delete);
+                var p3Delete = document.createElement('p')
+                var textp3Delete = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                p3Delete.appendChild(textp3Delete);
+                divLabelContainer3Delete.appendChild(label3Delete);
+                divLabelContainer3Delete.appendChild(p3Delete);
+                divCol3Delete.appendChild(divLabelContainer3Delete);
+                var divCol4Delete = document.createElement('div')
+                divCol4Delete.className = "col s4";
+                var divLabelContainer4Delete = document.createElement('div')
+                divLabelContainer4Delete.className = "label-container";
+                var label4Delete = document.createElement('label')
+                var textlabel4Delete = document.createTextNode("Salida:");
+                label4Delete.appendChild(textlabel4Delete);
+                var p4Delete = document.createElement('p')
+                var textp4Delete = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                p4Delete.appendChild(textp4Delete);
+                divLabelContainer4Delete.appendChild(label4Delete);
+                divLabelContainer4Delete.appendChild(p4Delete);
+                divCol4Delete.appendChild(divLabelContainer4Delete);
+                var divCol5Delete = document.createElement('div')
+                divCol5Delete.className = "col s4";
+                var divLabelContainer5Delete = document.createElement('div')
+                divLabelContainer5Delete.className = "label-container";
+                var label5Delete = document.createElement('label')
+                var textlabel5Delete = document.createTextNode("Fecha/Hora:");
+                label5Delete.appendChild(textlabel5Delete);
+                var p5Delete = document.createElement('p')
+                var textp5Delete = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                p5Delete.appendChild(textp5Delete);
+                divLabelContainer5Delete.appendChild(label5Delete);
+                divLabelContainer5Delete.appendChild(p5Delete);
+                divCol5Delete.appendChild(divLabelContainer5Delete);
+                var divCol6Delete = document.createElement('div')
+                divCol6Delete.className = "col s4";
+                var divLabelContainer6Delete = document.createElement('div')
+                divLabelContainer6Delete.className = "label-container";
+                var label6Delete = document.createElement('label')
+                var textlabel6Delete = document.createTextNode("Precio:");
+                label6Delete.appendChild(textlabel6Delete);
+                var p6Delete = document.createElement('p')
+                var textp6Delete = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                p6Delete.appendChild(textp6Delete);
+                divLabelContainer6Delete.appendChild(label6Delete);
+                divLabelContainer6Delete.appendChild(p6Delete);
+                divCol6Delete.appendChild(divLabelContainer6Delete);
+                var divCol7Delete = document.createElement('div')
+                divCol7Delete.className = "col s12";
+                var divLabelContainer7Delete = document.createElement('div')
+                divLabelContainer7Delete.className = "label-container";
+                var label7Delete = document.createElement('label')
+                var textlabel7Delete = document.createTextNode("Subtotal:");
+                label7Delete.appendChild(textlabel7Delete);
+                var p7Delete = document.createElement('p')
+                var textp7Delete = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                p7Delete.appendChild(textp7Delete);
+                divLabelContainer7Delete.appendChild(label7Delete);
+                divLabelContainer7Delete.appendChild(p7Delete);
+                divCol7Delete.appendChild(divLabelContainer7Delete);
+                fieldsetDelete.appendChild(divCol1Delete);
+                fieldsetDelete.appendChild(divCol2Delete);
+                fieldsetDelete.appendChild(divCol3Delete);
+                fieldsetDelete.appendChild(divCol4Delete);
+                fieldsetDelete.appendChild(divCol5Delete);
+                fieldsetDelete.appendChild(divCol6Delete);
+                fieldsetDelete.appendChild(divCol7Delete);
+                fieldsetDelete.appendChild(legendDelete);
+                divRow2Delete.appendChild(fieldsetDelete);
+                divDeleteModalContentCargoconsultaDelete.appendChild(divRow2Delete)
+
+                var divRow3Delete = document.createElement('div')
+                divRow3Delete.className = "row";
+                var divRowPreguntaDelete = document.createElement('div')
+                divRowPreguntaDelete.className = "col s12";
+                var h5Delete = document.createElement('h5')
+                var textoi2Delete = document.createTextNode("¿Estás seguro que deseas eliminar el cargo?");
+                h5Delete.appendChild(textoi2Delete);
+                divRowPreguntaDelete.appendChild(h5Delete);
+                divRow3Delete.appendChild(divRowPreguntaDelete);
+                divDeleteModalContentCargoconsultaDelete.appendChild(divRow3Delete)
+
+                divDeleteModalCargoconsultaDelete.appendChild(divDeleteModalContentCargoconsultaDelete);
+
+                var divDeleteModalFooterDelete = document.createElement('div')
+                divDeleteModalFooterDelete.className = "modal-footer";
+                var linkCerrarDelete = document.createElement('a')
+                linkCerrarDelete.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                var iconCerrarDelete = document.createElement('i')
+                iconCerrarDelete.className = "mdi-navigation-close left";
+                var textoIconCerrarDelete = document.createTextNode('Cerrar');
+                iconCerrarDelete.appendChild(textoIconCerrarDelete);
+                linkCerrarDelete.appendChild(iconCerrarDelete);
+                var linkEliminarDelete = document.createElement('a')
+                linkEliminarDelete.setAttribute ( 'id', 'eliminarCargoconsulta'+cargoconsultaArray[i]["idcargoconsulta"]);
+                linkEliminarDelete.className = "waves-effect waves-light btn eliminar";
+                var iconEliminarDelete = document.createElement('i')
+                iconEliminarDelete.className = "mdi-action-delete left";
+                var textoIconEliminarDelete = document.createTextNode('Eliminar');
+                iconEliminarDelete.appendChild(textoIconEliminarDelete);
+                linkEliminarDelete.appendChild(iconEliminarDelete);
+
+                divDeleteModalFooterDelete.appendChild(linkCerrarDelete);
+                divDeleteModalFooterDelete.appendChild(linkEliminarDelete);
+                divDeleteModalCargoconsultaDelete.appendChild(divDeleteModalFooterDelete);
+                divcargosConsultaDelete.appendChild(divDeleteModalCargoconsultaDelete);
+                <!-- End Delete Modal Structure -->
+
                 var link1 = document.createElement("a");
-                link1.className = "tooltipped modal-trigger";
+                link1.className = "modal-trigger";
                 link1.setAttribute ( 'data-position', 'left' );
                 link1.setAttribute ( 'data-tooltip', 'Visualizar' );
                 link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
@@ -2440,22 +2744,26 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                 vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
 
                 var link3 = document.createElement("a");
-                link3.className = "tooltipped";
+                link3.className = "tooltipped modal-trigger";
                 link3.setAttribute ( 'data-position', 'right' );
                 link3.setAttribute ( 'data-tooltip', 'Eliminar' );
                 link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
                 var eliminar = document.createElement("i");
                 eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                link1.appendChild(vista);
                 celda.appendChild(link1);
-                celda.appendChild(vista);
+                link3.appendChild(eliminar);
                 celda.appendChild(link3);
-                celda.appendChild(eliminar);
                 hilera.appendChild(celda);
+
             }
         }
 
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
         tblBody.appendChild(hilera);
+
+        var idcargoconsulta = cargoconsultaArray[i]["idcargoconsulta"]
+        var idconsulta = cargoconsultaArray[i]["idconsulta"]
     }
 
     // posiciona el <tbody> debajo del elemento <table>
@@ -2464,8 +2772,492 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
     // appends <table> into <body>
     div.appendChild(tabla);
 
+    // Si dan clic en eliminarCargoconsulta-id
+    $("#eliminarCargoconsulta"+idcargoconsulta).click({idcargoconsulta:idcargoconsulta, idconsulta:idconsulta},function() {
+
+        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+        var dataString = 'eliminar_cargoconsulta_tipo=articulo' + '&idcargoconsulta=' + idcargoconsulta + '&idconsulta=' + idconsulta;
+
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                alert("Se eliminó exitosamente el cargo de un articulo")
+
+                cargoconsultaArray = []
+                var cargoconsultaEntity = data.cargoconsultaArray
+                if(cargoconsultaEntity){
+                    $.each( cargoconsultaEntity, function( key, value ) {
+                        cargoconsultaArray.push({
+                            "idcargoconsulta" : value.idcargoconsulta,
+                            "idconsulta" : value.idconsulta,
+                            "status" : value.status,
+                            "cantidad" : value.cantidad,
+                            "articulo" : value.articulo,
+                            "descripcion" : value.descripcion,
+                            "salida" : value.salida,
+                            "fechahora" : value.fechahora,
+                            "precio" : value.precio,
+                            "subtotal" : value.subtotal
+                        });
+                    });
+                }
+
+                tablaCargoconsultaArticuloEliminado(cargoconsultaArray)
+                tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray)
+                cargoconsultaEliminadoArray = []
+                var cargoconsultaEliminado = data.cargoconsultaEliminadoArray
+                if(cargoconsultaEliminado){
+                    $.each( cargoconsultaEliminado, function( key, value ) {
+                        cargoconsultaEliminadoArray.push({
+                            "idcargoconsulta" : value.idcargoconsulta,
+                            "idconsulta" : value.idconsulta,
+                            "status" : value.status,
+                            "cantidad" : value.cantidad,
+                            "articulo" : value.articulo,
+                            "descripcion" : value.descripcion,
+                            "salida" : value.salida,
+                            "fechahora" : value.fechahora,
+                            "precio" : value.precio,
+                            "subtotal" : value.subtotal
+                        });
+                    });
+                }
+                subTotalResponse(status, -(cargoconsultaEliminadoArray[0]['subtotal']), null, 'consulta')
+            },
+            error: function(){
+                alert("Error al intentar eliminar idcargoconsulta")
+            }
+        });
+        return false;
+
+    });
+
     subTotalResponse(status, subTotalArticulo, null, 'consulta')
 
+}
+
+function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
+
+    // Obtener la referencia del elemento div con id = cargoconsultaArticuloResult
+    var div = document.getElementById("cargoconsultaArticuloResult");
+    div.innerHTML = div;
+    // Crea un elemento <table> y un elemento <tbody>
+    var tabla   = document.createElement("table");
+    tabla.className = "hoverable striped";
+    var tblHead = document.createElement("thead");
+    var tblBody = document.createElement("tbody");
+
+    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
+
+    // posiciona el <thead> debajo del elemento <tbody>
+    tabla.appendChild(tblHead);
+
+    // Crea las celdas
+    for (var i = 0; i < cargoconsultaArray.length; i++) {
+
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+
+            if(j == 0){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 1){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 2){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 3){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 4){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 5){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 6){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
+
+                <!-- View Modal Structure -->
+                var divcargosConsulta = document.getElementById('cargosConsulta')
+                var divViewModalCargoconsulta = document.createElement('div')
+                divViewModalCargoconsulta.setAttribute ( 'id', 'view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
+                divViewModalCargoconsulta.className = "modal bottom-sheet";
+                var h4 = document.createElement('h4')
+                var texth4 = document.createTextNode("Cargo-consulta");
+                h4.appendChild(texth4);
+                var br = document.createElement('br')
+                var divRow = document.createElement('div')
+                divRow.className = "row";
+                var fieldset = document.createElement('fieldset')
+                var legend = document.createElement('legend')
+                var textlegend = document.createTextNode("Datos generales");
+                legend.appendChild(textlegend);
+                var divCol1 = document.createElement('div')
+                divCol1.className = "col s4";
+                var divLabelContainer1 = document.createElement('div')
+                divLabelContainer1.className = "label-container";
+                var label1 = document.createElement('label')
+                var textlabel1 = document.createTextNode("Cantidad:");
+                label1.appendChild(textlabel1);
+                var p1 = document.createElement('p')
+                var textp1 = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                p1.appendChild(textp1);
+                divLabelContainer1.appendChild(label1);
+                divLabelContainer1.appendChild(p1);
+                divCol1.appendChild(divLabelContainer1);
+                var divCol2 = document.createElement('div')
+                divCol2.className = "col s4";
+                var divLabelContainer2 = document.createElement('div')
+                divLabelContainer2.className = "label-container";
+                var label2 = document.createElement('label')
+                var textlabel2 = document.createTextNode("Artículo:");
+                label2.appendChild(textlabel2);
+                var p2 = document.createElement('p')
+                var textp2 = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                p2.appendChild(textp2);
+                divLabelContainer2.appendChild(label2);
+                divLabelContainer2.appendChild(p2);
+                divCol2.appendChild(divLabelContainer2);
+                var divCol3 = document.createElement('div')
+                divCol3.className = "col s4";
+                var divLabelContainer3 = document.createElement('div')
+                divLabelContainer3.className = "label-container";
+                var label3 = document.createElement('label')
+                var textlabel3 = document.createTextNode("Descripción:");
+                label3.appendChild(textlabel3);
+                var p3 = document.createElement('p')
+                var textp3 = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                p3.appendChild(textp3);
+                divLabelContainer3.appendChild(label3);
+                divLabelContainer3.appendChild(p3);
+                divCol3.appendChild(divLabelContainer3);
+                var divCol4 = document.createElement('div')
+                divCol4.className = "col s4";
+                var divLabelContainer4 = document.createElement('div')
+                divLabelContainer4.className = "label-container";
+                var label4 = document.createElement('label')
+                var textlabel4 = document.createTextNode("Salida:");
+                label4.appendChild(textlabel4);
+                var p4 = document.createElement('p')
+                var textp4 = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                p4.appendChild(textp4);
+                divLabelContainer4.appendChild(label4);
+                divLabelContainer4.appendChild(p4);
+                divCol4.appendChild(divLabelContainer4);
+                var divCol5 = document.createElement('div')
+                divCol5.className = "col s4";
+                var divLabelContainer5 = document.createElement('div')
+                divLabelContainer5.className = "label-container";
+                var label5 = document.createElement('label')
+                var textlabel5 = document.createTextNode("Fecha/Hora:");
+                label5.appendChild(textlabel5);
+                var p5 = document.createElement('p')
+                var textp5 = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                p5.appendChild(textp5);
+                divLabelContainer5.appendChild(label5);
+                divLabelContainer5.appendChild(p5);
+                divCol5.appendChild(divLabelContainer5);
+                var divCol6 = document.createElement('div')
+                divCol6.className = "col s4";
+                var divLabelContainer6 = document.createElement('div')
+                divLabelContainer6.className = "label-container";
+                var label6 = document.createElement('label')
+                var textlabel6 = document.createTextNode("Precio:");
+                label6.appendChild(textlabel6);
+                var p6 = document.createElement('p')
+                var textp6 = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                p6.appendChild(textp6);
+                divLabelContainer6.appendChild(label6);
+                divLabelContainer6.appendChild(p6);
+                divCol6.appendChild(divLabelContainer6);
+                var divCol7 = document.createElement('div')
+                divCol7.className = "col s12";
+                var divLabelContainer7 = document.createElement('div')
+                divLabelContainer7.className = "label-container";
+                var label7 = document.createElement('label')
+                var textlabel7 = document.createTextNode("Subtotal:");
+                label7.appendChild(textlabel7);
+                var p7 = document.createElement('p')
+                var textp7 = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                p7.appendChild(textp7);
+                divLabelContainer7.appendChild(label7);
+                divLabelContainer7.appendChild(p7);
+                divCol7.appendChild(divLabelContainer7);
+                fieldset.appendChild(divCol1);
+                fieldset.appendChild(divCol2);
+                fieldset.appendChild(divCol3);
+                fieldset.appendChild(divCol4);
+                fieldset.appendChild(divCol5);
+                fieldset.appendChild(divCol6);
+                fieldset.appendChild(divCol7);
+                fieldset.appendChild(legend);
+                divRow.appendChild(fieldset);
+                var divViewModalFooter = document.createElement('div')
+                divViewModalFooter.className = "modal-footer";
+                var linkCerrar = document.createElement('a')
+                linkCerrar.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                var iconCerrar = document.createElement('i')
+                iconCerrar.className = "mdi-navigation-close left";
+                var textoIconCerrar = document.createTextNode('Cerrar');
+                iconCerrar.appendChild(textoIconCerrar);
+                linkCerrar.appendChild(iconCerrar);
+                divViewModalFooter.appendChild(linkCerrar);
+                divViewModalCargoconsulta.appendChild(br);
+                divViewModalCargoconsulta.appendChild(h4);
+                divViewModalCargoconsulta.appendChild(divRow);
+                divViewModalCargoconsulta.appendChild(divViewModalFooter);
+                divcargosConsulta.appendChild(divViewModalCargoconsulta);
+                <!-- End View Modal Structure -->
+
+                <!-- Start Delete Structure -->
+                var divcargosConsultaDelete = document.getElementById('cargosConsulta')
+                var divDeleteModalCargoconsultaDelete = document.createElement('div')
+                divDeleteModalCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
+                divDeleteModalCargoconsultaDelete.className = "modal";
+                var divDeleteModalContentCargoconsultaDelete = document.createElement('div')
+                divDeleteModalContentCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta');
+                divDeleteModalContentCargoconsultaDelete.className = "modal-content";
+
+                var divRowDelete = document.createElement('div')
+                divRowDelete.setAttribute ( 'id', 'delete-modal-header-container');
+                divRowDelete.className = "row";
+                var divRowAtencionDelete = document.createElement('div')
+                divRowAtencionDelete.className = "col s4 offset-s4";
+                var h4Delete = document.createElement('h4')
+                var iDelete = document.createElement('i')
+                iDelete.className = "mdi-alert-warning";
+                var textoiDelete = document.createTextNode("ATENCION");
+                iDelete.appendChild(textoiDelete);
+                h4Delete.appendChild(iDelete);
+                divRowAtencionDelete.appendChild(h4Delete);
+                divRowDelete.appendChild(divRowAtencionDelete);
+                divDeleteModalContentCargoconsultaDelete.appendChild(divRowDelete)
+
+                var divRow2Delete = document.createElement('div')
+                divRow2Delete.className = "row";
+                var fieldsetDelete = document.createElement('fieldset')
+                var legendDelete = document.createElement('legend')
+                var textlegendDelete = document.createTextNode("Datos generales");
+                legendDelete.appendChild(textlegendDelete);
+                var divCol1Delete = document.createElement('div')
+                divCol1Delete.className = "col s4";
+                var divLabelContainer1Delete = document.createElement('div')
+                divLabelContainer1Delete.className = "label-container";
+                var label1Delete = document.createElement('label')
+                var textlabel1Delete = document.createTextNode("Cantidad:");
+                label1Delete.appendChild(textlabel1Delete);
+                var p1Delete = document.createElement('p')
+                var textp1Delete = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                p1Delete.appendChild(textp1Delete);
+                divLabelContainer1Delete.appendChild(label1Delete);
+                divLabelContainer1Delete.appendChild(p1Delete);
+                divCol1Delete.appendChild(divLabelContainer1Delete);
+                var divCol2Delete = document.createElement('div')
+                divCol2Delete.className = "col s4";
+                var divLabelContainer2Delete = document.createElement('div')
+                divLabelContainer2Delete.className = "label-container";
+                var label2Delete = document.createElement('label')
+                var textlabel2Delete = document.createTextNode("Artículo:");
+                label2Delete.appendChild(textlabel2Delete);
+                var p2Delete = document.createElement('p')
+                var textp2Delete = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                p2Delete.appendChild(textp2Delete);
+                divLabelContainer2Delete.appendChild(label2Delete);
+                divLabelContainer2Delete.appendChild(p2Delete);
+                divCol2Delete.appendChild(divLabelContainer2Delete);
+                var divCol3Delete = document.createElement('div')
+                divCol3Delete.className = "col s4";
+                var divLabelContainer3Delete = document.createElement('div')
+                divLabelContainer3Delete.className = "label-container";
+                var label3Delete = document.createElement('label')
+                var textlabel3Delete = document.createTextNode("Descripción:");
+                label3Delete.appendChild(textlabel3Delete);
+                var p3Delete = document.createElement('p')
+                var textp3Delete = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                p3Delete.appendChild(textp3Delete);
+                divLabelContainer3Delete.appendChild(label3Delete);
+                divLabelContainer3Delete.appendChild(p3Delete);
+                divCol3Delete.appendChild(divLabelContainer3Delete);
+                var divCol4Delete = document.createElement('div')
+                divCol4Delete.className = "col s4";
+                var divLabelContainer4Delete = document.createElement('div')
+                divLabelContainer4Delete.className = "label-container";
+                var label4Delete = document.createElement('label')
+                var textlabel4Delete = document.createTextNode("Salida:");
+                label4Delete.appendChild(textlabel4Delete);
+                var p4Delete = document.createElement('p')
+                var textp4Delete = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                p4Delete.appendChild(textp4Delete);
+                divLabelContainer4Delete.appendChild(label4Delete);
+                divLabelContainer4Delete.appendChild(p4Delete);
+                divCol4Delete.appendChild(divLabelContainer4Delete);
+                var divCol5Delete = document.createElement('div')
+                divCol5Delete.className = "col s4";
+                var divLabelContainer5Delete = document.createElement('div')
+                divLabelContainer5Delete.className = "label-container";
+                var label5Delete = document.createElement('label')
+                var textlabel5Delete = document.createTextNode("Fecha/Hora:");
+                label5Delete.appendChild(textlabel5Delete);
+                var p5Delete = document.createElement('p')
+                var textp5Delete = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                p5Delete.appendChild(textp5Delete);
+                divLabelContainer5Delete.appendChild(label5Delete);
+                divLabelContainer5Delete.appendChild(p5Delete);
+                divCol5Delete.appendChild(divLabelContainer5Delete);
+                var divCol6Delete = document.createElement('div')
+                divCol6Delete.className = "col s4";
+                var divLabelContainer6Delete = document.createElement('div')
+                divLabelContainer6Delete.className = "label-container";
+                var label6Delete = document.createElement('label')
+                var textlabel6Delete = document.createTextNode("Precio:");
+                label6Delete.appendChild(textlabel6Delete);
+                var p6Delete = document.createElement('p')
+                var textp6Delete = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                p6Delete.appendChild(textp6Delete);
+                divLabelContainer6Delete.appendChild(label6Delete);
+                divLabelContainer6Delete.appendChild(p6Delete);
+                divCol6Delete.appendChild(divLabelContainer6Delete);
+                var divCol7Delete = document.createElement('div')
+                divCol7Delete.className = "col s12";
+                var divLabelContainer7Delete = document.createElement('div')
+                divLabelContainer7Delete.className = "label-container";
+                var label7Delete = document.createElement('label')
+                var textlabel7Delete = document.createTextNode("Subtotal:");
+                label7Delete.appendChild(textlabel7Delete);
+                var p7Delete = document.createElement('p')
+                var textp7Delete = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                p7Delete.appendChild(textp7Delete);
+                divLabelContainer7Delete.appendChild(label7Delete);
+                divLabelContainer7Delete.appendChild(p7Delete);
+                divCol7Delete.appendChild(divLabelContainer7Delete);
+                fieldsetDelete.appendChild(divCol1Delete);
+                fieldsetDelete.appendChild(divCol2Delete);
+                fieldsetDelete.appendChild(divCol3Delete);
+                fieldsetDelete.appendChild(divCol4Delete);
+                fieldsetDelete.appendChild(divCol5Delete);
+                fieldsetDelete.appendChild(divCol6Delete);
+                fieldsetDelete.appendChild(divCol7Delete);
+                fieldsetDelete.appendChild(legendDelete);
+                divRow2Delete.appendChild(fieldsetDelete);
+                divDeleteModalContentCargoconsultaDelete.appendChild(divRow2Delete)
+
+                var divRow3Delete = document.createElement('div')
+                divRow3Delete.className = "row";
+                var divRowPreguntaDelete = document.createElement('div')
+                divRowPreguntaDelete.className = "col s12";
+                var h5Delete = document.createElement('h5')
+                var textoi2Delete = document.createTextNode("¿Estás seguro que deseas eliminar el cargo?");
+                h5Delete.appendChild(textoi2Delete);
+                divRowPreguntaDelete.appendChild(h5Delete);
+                divRow3Delete.appendChild(divRowPreguntaDelete);
+                divDeleteModalContentCargoconsultaDelete.appendChild(divRow3Delete)
+
+                divDeleteModalCargoconsultaDelete.appendChild(divDeleteModalContentCargoconsultaDelete);
+
+                var divDeleteModalFooterDelete = document.createElement('div')
+                divDeleteModalFooterDelete.className = "modal-footer";
+                var linkCerrarDelete = document.createElement('a')
+                linkCerrarDelete.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                var iconCerrarDelete = document.createElement('i')
+                iconCerrarDelete.className = "mdi-navigation-close left";
+                var textoIconCerrarDelete = document.createTextNode('Cerrar');
+                iconCerrarDelete.appendChild(textoIconCerrarDelete);
+                linkCerrarDelete.appendChild(iconCerrarDelete);
+                var linkEliminarDelete = document.createElement('a')
+                linkEliminarDelete.setAttribute ( 'id', 'eliminarCargoconsulta'+cargoconsultaArray[i]["idcargoconsulta"]);
+                linkEliminarDelete.className = "waves-effect waves-light btn eliminar";
+                var iconEliminarDelete = document.createElement('i')
+                iconEliminarDelete.className = "mdi-action-delete left";
+                var textoIconEliminarDelete = document.createTextNode('Eliminar');
+                iconEliminarDelete.appendChild(textoIconEliminarDelete);
+                linkEliminarDelete.appendChild(iconEliminarDelete);
+
+                divDeleteModalFooterDelete.appendChild(linkCerrarDelete);
+                divDeleteModalFooterDelete.appendChild(linkEliminarDelete);
+                divDeleteModalCargoconsultaDelete.appendChild(divDeleteModalFooterDelete);
+                divcargosConsultaDelete.appendChild(divDeleteModalCargoconsultaDelete);
+                <!-- End Delete Modal Structure -->
+
+                var link1 = document.createElement("a");
+                link1.className = "modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var vista = document.createElement("i");
+                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
+
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped modal-trigger";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                link1.appendChild(vista);
+                celda.appendChild(link1);
+                link3.appendChild(eliminar);
+                celda.appendChild(link3);
+                hilera.appendChild(celda);
+
+            }
+        }
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
+
+    }
+
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+
+    // appends <table> into <body>
+    div.appendChild(tabla);
 }
 
 function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
@@ -2843,6 +3635,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                 link3.appendChild(eliminar);
                 celda.appendChild(link3);
                 hilera.appendChild(celda);
+
             }
         }
 
@@ -4877,13 +5670,34 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
             }
             if(j == 7){
 
+                var link1 = document.createElement("a");
+                link1.className = "modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'href', '#view-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
+                var vista = document.createElement("i");
+                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
+
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped modal-trigger";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'href', '#delete-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                link1.appendChild(vista);
+                celda.appendChild(link1);
+                link3.appendChild(eliminar);
+                celda.appendChild(link3);
+                hilera.appendChild(celda);
+
                 <!-- View Modal Structure -->
                 var divcargosAdmision = document.getElementById('cargosAdmision')
                 var divViewModalCargoadmision = document.createElement('div')
                 divViewModalCargoadmision.setAttribute ( 'id', 'view-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"]);
                 divViewModalCargoadmision.className = "modal bottom-sheet";
                 var h4 = document.createElement('h4')
-                var texth4 = document.createTextNode("Cargo-consulta");
+                var texth4 = document.createTextNode("Cargo-admisión");
                 h4.appendChild(texth4);
                 var br = document.createElement('br')
                 var divRow = document.createElement('div')
@@ -5197,26 +6011,6 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 divcargosAdmisionDelete.appendChild(divDeleteModalCargoadmisionDelete);
                 <!-- End Delete Modal Structure -->
 
-                var link1 = document.createElement("a");
-                link1.className = "modal-trigger";
-                link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                link1.setAttribute ( 'href', '#view-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-                var vista = document.createElement("i");
-                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
-
-                var link3 = document.createElement("a");
-                link3.className = "tooltipped modal-trigger";
-                link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                link3.setAttribute ( 'href', '#delete-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"] );
-                var eliminar = document.createElement("i");
-                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                link1.appendChild(vista);
-                celda.appendChild(link1);
-                link3.appendChild(eliminar);
-                celda.appendChild(link3);
-                hilera.appendChild(celda);
             }
         }
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
@@ -5395,7 +6189,7 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 divViewModalCargoadmision.setAttribute ( 'id', 'view-modal-cargoadmision-'+cargoadmisionArray[i]["idcargoadmision"]);
                 divViewModalCargoadmision.className = "modal bottom-sheet";
                 var h4 = document.createElement('h4')
-                var texth4 = document.createTextNode("Cargo-consulta");
+                var texth4 = document.createTextNode("Cargo-admisión");
                 h4.appendChild(texth4);
                 var br = document.createElement('br')
                 var divRow = document.createElement('div')
@@ -7098,9 +7892,4 @@ function anticipoTotalStatus(cargoconsultaArray){
     a.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
 }
 
-// Esta función no está en uso
-function eliminarTabla(){
-    var parrafo = document.getElementById("cargoconsultaArticuloResult");
-    parrafo.parentNode.removeChild(parrafo);
-}
 </script>
