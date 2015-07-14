@@ -483,11 +483,43 @@ return array(
                     ),
                 ),
             ),
-            
+            //Almacen
+            'almacen-transferencias' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/almacen/transferencias[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Almacen\Controller\Transferencias',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            //Caja chica
+            'cajachica-concepto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/cajachica/concepto[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Cajachica\Controller\Concepto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            //Bancos
+            'bancos-concepto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/bancos/concepto[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Bancos\Controller\Concepto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/auth',
+                    'route'    => '/auth[/:action]',
                     'defaults' => array(
                         'controller' => 'Auth\Controller\Auth',
                         'action'     => 'login',
@@ -524,17 +556,21 @@ return array(
             'Auth\Controller\Auth' => 'Auth\Controller\AuthController',
 
             // Módulo Catalogos
-            'Catalogos\Proveedor\Controller\Proveedor'                          => 'Catalogos\Proveedor\Controller\ProveedorController',
-            'Catalogos\Tipo\Controller\Tipo'                                    => 'Catalogos\Tipo\Controller\TipoController',
-            'Catalogos\Articulo\Controller\Articulo'                            => 'Catalogos\Articulo\Controller\ArticuloController',
-            'Catalogos\Articulovariante\Controller\Articulovariante'            => 'Catalogos\Articulovariante\Controller\ArticulovarianteController',
-            'Catalogos\Propiedad\Controller\Propiedad'                          => 'Catalogos\Propiedad\Controller\PropiedadController',
-            'Catalogos\Producto\Controller\Producto'                            => 'Catalogos\Producto\Controller\ProductoController',
-            'Catalogos\Medico\Controller\Medico'                                => 'Catalogos\Medico\Controller\MedicoController',
-            'Catalogos\Especialidad\Controller\Especialidad'                    => 'Catalogos\Especialidad\Controller\EspecialidadController',
-            'Catalogos\Cuarto\Controller\Cuarto'                                => 'Catalogos\Cuarto\Controller\CuartoController',
-            //'Catalogos\Servicio\Controller\Servicio'                            => 'Catalogos\Servicio\Controller\ServicioController',
-            'Catalogos\Empleado\Controller\Empleado'                            =>  'Catalogos\Empleado\Controller\EmpleadoController',
+
+            'Catalogos\Proveedor\Controller\Proveedor'                  => 'Catalogos\Proveedor\Controller\ProveedorController',
+            'Catalogos\Tipo\Controller\Tipo'                            => 'Catalogos\Tipo\Controller\TipoController',
+            'Catalogos\Articulo\Controller\Articulo'                    => 'Catalogos\Articulo\Controller\ArticuloController',
+            'Catalogos\Articulovariante\Controller\Articulovariante'    => 'Catalogos\Articulovariante\Controller\ArticulovarianteController',
+            'Catalogos\Propiedad\Controller\Propiedad'                  => 'Catalogos\Propiedad\Controller\PropiedadController',
+            'Catalogos\Producto\Controller\Producto'                    => 'Catalogos\Producto\Controller\ProductoController',
+            'Catalogos\Medico\Controller\Medico'                        => 'Catalogos\Medico\Controller\MedicoController',
+            'Catalogos\Especialidad\Controller\Especialidad'            => 'Catalogos\Especialidad\Controller\EspecialidadController',
+            'Catalogos\Cuarto\Controller\Cuarto'                        => 'Catalogos\Cuarto\Controller\CuartoController',
+            //'Catalogos\Servicio\Controller\Servicio'                    => 'Catalogos\Servicio\Controller\ServicioController',
+            'Catalogos\Empleado\Controller\Empleado'                    =>  'Catalogos\Empleado\Controller\EmpleadoController',
+            'Catalogos\Lugar\Controller\Lugar'                          =>  'Catalogos\Lugar\Controller\LugarController',
+            'Catalogos\Banco\Controller\Banco'                          =>  'Catalogos\Banco\Controller\BancoController',
+
 
             //Modulo Productos
             'Productos\Registro\Controller\Registro'                            => 'Productos\Registro\Controller\RegistroController',
@@ -555,8 +591,14 @@ return array(
             
             //Modulo Empleado
             'Empleados\Controller\Empleados'                                    => 'Empleados\Controller\EmpleadosController',
-            'Empleados\Controller\Roles'                                        => 'Empleados\Controller\RolesController'
-        ),
+            'Empleados\Controller\Roles'                                        => 'Empleados\Controller\RolesController',
+            //Modulo de almacen
+            'Almacen\Controller\Transferencias'                                 => 'Almacen\Controller\TransferenciasController',
+            //Modulo Caja chica
+            'Cajachica\Controller\Concepto'                                     => 'Cajachica\Controller\ConceptoController',
+            //Modulo Bancos
+            'Bancos\Controller\Concepto'                                        => 'Bancos\Controller\ConceptoController',
+            ),
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,

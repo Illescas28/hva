@@ -12,7 +12,9 @@
  * @method CajachicaQuery orderByCajachicaCantidad($order = Criteria::ASC) Order by the cajachica_cantidad column
  * @method CajachicaQuery orderByCajachicaFecha($order = Criteria::ASC) Order by the cajachica_fecha column
  * @method CajachicaQuery orderByCajachicaBalance($order = Criteria::ASC) Order by the cajachica_balance column
+ * @method CajachicaQuery orderByCajachicaComprobante($order = Criteria::ASC) Order by the cajachica_comprobante column
  * @method CajachicaQuery orderByCajachicaNota($order = Criteria::ASC) Order by the cajachica_nota column
+ * @method CajachicaQuery orderByCajachicaPacientedoctor($order = Criteria::ASC) Order by the cajachica_pacientedoctor column
  *
  * @method CajachicaQuery groupByIdcajachica() Group by the idcajachica column
  * @method CajachicaQuery groupByIdconceptocajachica() Group by the idconceptocajachica column
@@ -20,7 +22,9 @@
  * @method CajachicaQuery groupByCajachicaCantidad() Group by the cajachica_cantidad column
  * @method CajachicaQuery groupByCajachicaFecha() Group by the cajachica_fecha column
  * @method CajachicaQuery groupByCajachicaBalance() Group by the cajachica_balance column
+ * @method CajachicaQuery groupByCajachicaComprobante() Group by the cajachica_comprobante column
  * @method CajachicaQuery groupByCajachicaNota() Group by the cajachica_nota column
+ * @method CajachicaQuery groupByCajachicaPacientedoctor() Group by the cajachica_pacientedoctor column
  *
  * @method CajachicaQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method CajachicaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -38,7 +42,9 @@
  * @method Cajachica findOneByCajachicaCantidad(string $cajachica_cantidad) Return the first Cajachica filtered by the cajachica_cantidad column
  * @method Cajachica findOneByCajachicaFecha(string $cajachica_fecha) Return the first Cajachica filtered by the cajachica_fecha column
  * @method Cajachica findOneByCajachicaBalance(string $cajachica_balance) Return the first Cajachica filtered by the cajachica_balance column
+ * @method Cajachica findOneByCajachicaComprobante(string $cajachica_comprobante) Return the first Cajachica filtered by the cajachica_comprobante column
  * @method Cajachica findOneByCajachicaNota(string $cajachica_nota) Return the first Cajachica filtered by the cajachica_nota column
+ * @method Cajachica findOneByCajachicaPacientedoctor(string $cajachica_pacientedoctor) Return the first Cajachica filtered by the cajachica_pacientedoctor column
  *
  * @method array findByIdcajachica(int $idcajachica) Return Cajachica objects filtered by the idcajachica column
  * @method array findByIdconceptocajachica(int $idconceptocajachica) Return Cajachica objects filtered by the idconceptocajachica column
@@ -46,7 +52,9 @@
  * @method array findByCajachicaCantidad(string $cajachica_cantidad) Return Cajachica objects filtered by the cajachica_cantidad column
  * @method array findByCajachicaFecha(string $cajachica_fecha) Return Cajachica objects filtered by the cajachica_fecha column
  * @method array findByCajachicaBalance(string $cajachica_balance) Return Cajachica objects filtered by the cajachica_balance column
+ * @method array findByCajachicaComprobante(string $cajachica_comprobante) Return Cajachica objects filtered by the cajachica_comprobante column
  * @method array findByCajachicaNota(string $cajachica_nota) Return Cajachica objects filtered by the cajachica_nota column
+ * @method array findByCajachicaPacientedoctor(string $cajachica_pacientedoctor) Return Cajachica objects filtered by the cajachica_pacientedoctor column
  *
  * @package    propel.generator.hva.om
  */
@@ -154,7 +162,7 @@ abstract class BaseCajachicaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idcajachica`, `idconceptocajachica`, `cajachica_tipomovimiento`, `cajachica_cantidad`, `cajachica_fecha`, `cajachica_balance`, `cajachica_nota` FROM `cajachica` WHERE `idcajachica` = :p0';
+        $sql = 'SELECT `idcajachica`, `idconceptocajachica`, `cajachica_tipomovimiento`, `cajachica_cantidad`, `cajachica_fecha`, `cajachica_balance`, `cajachica_comprobante`, `cajachica_nota`, `cajachica_pacientedoctor` FROM `cajachica` WHERE `idcajachica` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -486,6 +494,35 @@ abstract class BaseCajachicaQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the cajachica_comprobante column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCajachicaComprobante('fooValue');   // WHERE cajachica_comprobante = 'fooValue'
+     * $query->filterByCajachicaComprobante('%fooValue%'); // WHERE cajachica_comprobante LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $cajachicaComprobante The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return CajachicaQuery The current query, for fluid interface
+     */
+    public function filterByCajachicaComprobante($cajachicaComprobante = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($cajachicaComprobante)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $cajachicaComprobante)) {
+                $cajachicaComprobante = str_replace('*', '%', $cajachicaComprobante);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(CajachicaPeer::CAJACHICA_COMPROBANTE, $cajachicaComprobante, $comparison);
+    }
+
+    /**
      * Filter the query on the cajachica_nota column
      *
      * Example usage:
@@ -512,6 +549,35 @@ abstract class BaseCajachicaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(CajachicaPeer::CAJACHICA_NOTA, $cajachicaNota, $comparison);
+    }
+
+    /**
+     * Filter the query on the cajachica_pacientedoctor column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCajachicaPacientedoctor('fooValue');   // WHERE cajachica_pacientedoctor = 'fooValue'
+     * $query->filterByCajachicaPacientedoctor('%fooValue%'); // WHERE cajachica_pacientedoctor LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $cajachicaPacientedoctor The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return CajachicaQuery The current query, for fluid interface
+     */
+    public function filterByCajachicaPacientedoctor($cajachicaPacientedoctor = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($cajachicaPacientedoctor)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $cajachicaPacientedoctor)) {
+                $cajachicaPacientedoctor = str_replace('*', '%', $cajachicaPacientedoctor);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(CajachicaPeer::CAJACHICA_PACIENTEDOCTOR, $cajachicaPacientedoctor, $comparison);
     }
 
     /**

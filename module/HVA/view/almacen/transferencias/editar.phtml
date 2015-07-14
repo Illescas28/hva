@@ -1,0 +1,263 @@
+<?php
+    $title = 'Transferencia #'. $id;
+    $this->headTitle($title);
+    
+    //Fecha
+    $fecha = DateTime::createFromFormat('Y-m-d h:m:s', $transferencia['TraspasoFecha']);
+    
+    $fecha = $fecha->format('d/m/Y');
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<fieldset>
+    <legend>Datos de la transferencia</legend>
+    <div class="row">
+        <div class="col s4">
+            <div class="input-field">
+                <input id="traspaso_fecha" type="text" readonly value="<?php echo $fecha ?>">
+                <label>Fecha    </label>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <input type="text" readonly value="Almacen General">
+                <label>Almacen de origen</label>
+            </div>
+           
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <select id="lugar_destinatario">
+                    <option value="">Seleccione el almacen destino *</option>
+                    <?php foreach($lugares as $lugar) :?>
+                    <option value="<?php echo $lugar['value']?>"><?php echo $lugar['name']?></option>
+                    <?php endforeach;?>
+                </select> 
+            </div>
+             <p id="lugar_destinatario" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>  
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s9">
+             <div class="input-field">
+                <input id="productos_autocomplete" type="text">
+                <label>Productos</label>
+            </div>
+        </div>
+        <div class="col s2">
+            <div class="input-field" style="margin-top: 30px;" >
+                <input type="number" min="1" style="text-align: center">
+                <label>Cantidad</label>
+            </div>   
+        </div>
+        <input type="hidden" id="idlugarinventario">
+        <input type="hidden" id="producto_nombre">
+        <input type="hidden" id="producto_costo">
+        <input type="hidden" id="producto_caducidad">
+        <input type="hidden" id="idarticulovariante">
+        
+        <div class="col s1" style="padding-top: 37px;">
+            <i id="addproduct" class="small mdi-content-add-box" style="color: #050661; cursor: pointer"></i>
+        </div>
+    </div>
+</fieldset>
+<p style="color: rgb(158, 158, 158); margin-top: 0px; padding-left: 24px;">(*) Campos obligatorios</p>
+<div class="row">
+    <div class="col s12">
+        <table id="order-items" class="table-inputs bordered ordertable">
+            <thead>
+                <th>Cantidad</th>
+                <th style="width: 680px">Producto</th>
+                <th>Caducidad</th>
+                <th>Costo</th>
+                <th>Opciones</th>
+            </thead>
+            <tbody>
+                
+                <?php foreach ($transferencia['detalles'] as $detalle) :?>
+                    
+                    <tr id="<?php echo $detalle['idlugarinventario']?>">
+                        <td><?php echo $detalle['cantidad']?></td>
+                        <td id="<?php echo $detalle['idarticulovariante']?>"><?php echo $detalle['descripcion']?></td>
+                        <td><?php echo $detalle['caducidad']?></td>
+                        <td><?php echo $detalle['costo']?></td>
+                        <td style="padding-left: 24px">
+                            <a id="delete_item" href="javascript:void(0)">
+                                <i class="tiny mdi-action-delete"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach;?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col s4 offset-s4">
+        <button id="save_transfer" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+</div>
+<script>
+    
+$(document).ready(function() {
+    
+    /*
+     * Inicializamos el select de lugars
+     */
+    
+    $('select#lugar_destinatario').val(<?php echo $transferencia['Idlugardestinatario']?>);
+    $('select').material_select();
+    
+    
+    
+    var productos;
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url:'/almacen/transferencias/getproductos',
+        async: false,
+        success: function (data) {
+            productos = data;
+        }
+    });
+    
+    
+    /*
+     * Incializamos el evento delete item
+     */
+
+    //Evento remove Item
+    $(document).find('a#delete_item').on('click',function(){
+        var tr = $(this).closest('tr');
+        var idlugarinventario = $(tr).attr('id');
+       
+        $.each(productos,function(index,element){
+            if(element.id == idlugarinventario){
+                element.existencias = (element.existencias + parseInt(tr.find('td').eq(0).text()));
+                element.label = element.nombre + ' ' + element.descripcion + ' ; Existencias: ' + element.existencias +'; Caducidad: ' + element.caducidad;
+                tr.remove();
+            }
+        });
+     
+    });
+        
+     $('#productos_autocomplete').autocomplete({
+        source:productos,
+        select: function( event, ui ) {
+            
+             $(this).val(ui.item.nombre + ' ' +ui.item.descripcion);
+             $('input[type=number] + label').addClass('active'); $('input[type=number]').val('1');
+             $('input#producto_nombre').val(ui.item.nombre + ' ' +ui.item.descripcion);
+             $('input#producto_costo').val(ui.item.costo);
+              $('input#idlugarinventario').val(ui.item.id);
+              $('input#producto_caducidad').val(ui.item.caducidad);
+               $('input#idarticulovariante').val(ui.item.idarticulovariante);
+            event.preventDefault();
+        }
+     });
+     
+     //Evento cantidad
+     $('input[type=number]').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+     
+     
+     //Evento agregar producto
+     $('#addproduct').on('click',function(){
+         if($('#productos_autocomplete').val() != ''){
+             
+             //Verificamos si la cantidad es menor o igual al de la existencia
+             $.each(productos,function(index,element){
+                 if(element.id == $('#idlugarinventario').val()){
+                     var current_stock = parseInt(element.existencias);
+                    if(current_stock>=$('input[type=number]').val()){
+                        //Restamos a las existencias
+                        element.existencias = element.existencias - parseInt($('input[type=number]').val());
+                        element.label = element.nombre + ' ' + element.descripcion + ' ; Existencias: ' + element.existencias +'; Caducidad: ' + element.caducidad;
+                        
+                        var tr = $('<tr>').attr('id',$('#idlugarinventario').val());
+                        var cantidad = $('<td>').text($('input[type=number]').val()).appendTo(tr);
+                        var producto = $('<td>').attr('id',$('#idarticulovariante').val()).text($('#producto_nombre').val()).appendTo(tr);
+                        var caducidad = $('<td>').text($('#producto_caducidad').val()).appendTo(tr);
+                        var costo = $('<td>').text($('#producto_costo').val()).appendTo(tr);
+                        var opciones = $('<td>').attr('style','padding-left: 24px').html('<a id="delete_item" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a>').appendTo(tr);
+                        
+                        //Evento remove Item
+                        opciones.find('a#delete_item').on('click',function(){
+                           var tr = $(this).closest('tr');
+                           var idlugarinventario = $(tr).attr('id');
+                            element.existencias = (element.existencias + parseInt(cantidad.text()));
+                            element.label = element.nombre + ' ' + element.descripcion + ' ; Existencias: ' + element.existencias +'; Caducidad: ' + element.caducidad;
+                            tr.remove();
+                        });
+                        
+                        //Agregamos a nuestra tabla                      
+                        $('tbody').append(tr);
+                        
+                        //Limpiamos los inputs
+                        $('#productos_autocomplete').val('');
+                        $('input[type=number]').val(''); $('input[type=number] + label').removeClass('active');
+                        
+                    }else{
+                        alert('la cantidad debe ser menor o igual al de las existencias actuales');
+                    }
+                 }
+             });
+                
+         }else{
+             alert('Por favor ingrese un producto');
+         }
+                
+     });
+     
+     
+     //Evento Guardar transferencia
+     $('#save_transfer').on('click',function(e){
+        //Valida los campos requeridos
+        var isValid = true;
+        if($('select#lugar_destinatario').val() == ''){
+            isValid = false;
+            $('p#lugar_destinatario').show();
+        }else{
+            $('p#lugar_destinatario').hide();
+        }
+        
+        if(isValid){
+            
+            var traspaso = {
+                traspaso_fecha:$('#traspaso_fecha').val(),
+                traspaso_idlugardestinatario:$('select#lugar_destinatario').val(),
+                traspaso_detalles: new Array(),
+                
+            };
+            
+            $.each($('tbody tr'),function(index,element){
+                var traspaso_detalle = {
+                    idlugarinventario: $(element).attr('id'),
+                    idarticulovariante: $(element).find('td').eq(1).attr('id'),
+                    caducidad: $(element).find('td').eq(2).text(),
+                    traspaso_cantidad: $(element).find('td').first().text(),
+                }
+                traspaso.traspaso_detalles.push(traspaso_detalle);
+                
+            });
+            
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url:'/almacen/transferencias/editar/'+ <?php echo $id?>,
+                data:traspaso,
+                async: false,
+                success: function (data) {
+                    window.location.replace("/almacen/transferencias");
+                }
+            });
+            
+        }
+        
+     });
+     
+    
+
+});
+    
+</script>

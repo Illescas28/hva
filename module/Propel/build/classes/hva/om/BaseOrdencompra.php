@@ -89,6 +89,12 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
     protected $collOrdencompradetallesPartial;
 
     /**
+     * @var        PropelObjectCollection|Traspaso[] Collection to store aggregation of Traspaso objects.
+     */
+    protected $collTraspasos;
+    protected $collTraspasosPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      * @var        boolean
@@ -113,6 +119,12 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $ordencompradetallesScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $traspasosScheduledForDeletion = null;
 
     /**
      * Get the [idordencompra] column value.
@@ -553,6 +565,8 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
             $this->aProveedor = null;
             $this->collOrdencompradetalles = null;
 
+            $this->collTraspasos = null;
+
         } // if (deep)
     }
 
@@ -700,6 +714,23 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
 
             if ($this->collOrdencompradetalles !== null) {
                 foreach ($this->collOrdencompradetalles as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->traspasosScheduledForDeletion !== null) {
+                if (!$this->traspasosScheduledForDeletion->isEmpty()) {
+                    TraspasoQuery::create()
+                        ->filterByPrimaryKeys($this->traspasosScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->traspasosScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collTraspasos !== null) {
+                foreach ($this->collTraspasos as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -910,6 +941,14 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
                     }
                 }
 
+                if ($this->collTraspasos !== null) {
+                    foreach ($this->collTraspasos as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
 
             $this->alreadyInValidation = false;
         }
@@ -1018,6 +1057,9 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
             }
             if (null !== $this->collOrdencompradetalles) {
                 $result['Ordencompradetalles'] = $this->collOrdencompradetalles->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collTraspasos) {
+                $result['Traspasos'] = $this->collTraspasos->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1212,6 +1254,12 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
                 }
             }
 
+            foreach ($this->getTraspasos() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addTraspaso($relObj->copy($deepCopy));
+                }
+            }
+
             //unflag object copy
             $this->startCopy = false;
         } // if ($deepCopy)
@@ -1327,6 +1375,9 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
     {
         if ('Ordencompradetalle' == $relationName) {
             $this->initOrdencompradetalles();
+        }
+        if ('Traspaso' == $relationName) {
+            $this->initTraspasos();
         }
     }
 
@@ -1581,6 +1632,281 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
     }
 
     /**
+     * Clears out the collTraspasos collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return Ordencompra The current object (for fluent API support)
+     * @see        addTraspasos()
+     */
+    public function clearTraspasos()
+    {
+        $this->collTraspasos = null; // important to set this to null since that means it is uninitialized
+        $this->collTraspasosPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collTraspasos collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialTraspasos($v = true)
+    {
+        $this->collTraspasosPartial = $v;
+    }
+
+    /**
+     * Initializes the collTraspasos collection.
+     *
+     * By default this just sets the collTraspasos collection to an empty array (like clearcollTraspasos());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initTraspasos($overrideExisting = true)
+    {
+        if (null !== $this->collTraspasos && !$overrideExisting) {
+            return;
+        }
+        $this->collTraspasos = new PropelObjectCollection();
+        $this->collTraspasos->setModel('Traspaso');
+    }
+
+    /**
+     * Gets an array of Traspaso objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this Ordencompra is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|Traspaso[] List of Traspaso objects
+     * @throws PropelException
+     */
+    public function getTraspasos($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collTraspasosPartial && !$this->isNew();
+        if (null === $this->collTraspasos || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collTraspasos) {
+                // return empty collection
+                $this->initTraspasos();
+            } else {
+                $collTraspasos = TraspasoQuery::create(null, $criteria)
+                    ->filterByOrdencompra($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collTraspasosPartial && count($collTraspasos)) {
+                      $this->initTraspasos(false);
+
+                      foreach ($collTraspasos as $obj) {
+                        if (false == $this->collTraspasos->contains($obj)) {
+                          $this->collTraspasos->append($obj);
+                        }
+                      }
+
+                      $this->collTraspasosPartial = true;
+                    }
+
+                    $collTraspasos->getInternalIterator()->rewind();
+
+                    return $collTraspasos;
+                }
+
+                if ($partial && $this->collTraspasos) {
+                    foreach ($this->collTraspasos as $obj) {
+                        if ($obj->isNew()) {
+                            $collTraspasos[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collTraspasos = $collTraspasos;
+                $this->collTraspasosPartial = false;
+            }
+        }
+
+        return $this->collTraspasos;
+    }
+
+    /**
+     * Sets a collection of Traspaso objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $traspasos A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return Ordencompra The current object (for fluent API support)
+     */
+    public function setTraspasos(PropelCollection $traspasos, PropelPDO $con = null)
+    {
+        $traspasosToDelete = $this->getTraspasos(new Criteria(), $con)->diff($traspasos);
+
+
+        $this->traspasosScheduledForDeletion = $traspasosToDelete;
+
+        foreach ($traspasosToDelete as $traspasoRemoved) {
+            $traspasoRemoved->setOrdencompra(null);
+        }
+
+        $this->collTraspasos = null;
+        foreach ($traspasos as $traspaso) {
+            $this->addTraspaso($traspaso);
+        }
+
+        $this->collTraspasos = $traspasos;
+        $this->collTraspasosPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Traspaso objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related Traspaso objects.
+     * @throws PropelException
+     */
+    public function countTraspasos(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collTraspasosPartial && !$this->isNew();
+        if (null === $this->collTraspasos || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collTraspasos) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getTraspasos());
+            }
+            $query = TraspasoQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByOrdencompra($this)
+                ->count($con);
+        }
+
+        return count($this->collTraspasos);
+    }
+
+    /**
+     * Method called to associate a Traspaso object to this object
+     * through the Traspaso foreign key attribute.
+     *
+     * @param    Traspaso $l Traspaso
+     * @return Ordencompra The current object (for fluent API support)
+     */
+    public function addTraspaso(Traspaso $l)
+    {
+        if ($this->collTraspasos === null) {
+            $this->initTraspasos();
+            $this->collTraspasosPartial = true;
+        }
+
+        if (!in_array($l, $this->collTraspasos->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddTraspaso($l);
+
+            if ($this->traspasosScheduledForDeletion and $this->traspasosScheduledForDeletion->contains($l)) {
+                $this->traspasosScheduledForDeletion->remove($this->traspasosScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	Traspaso $traspaso The traspaso object to add.
+     */
+    protected function doAddTraspaso($traspaso)
+    {
+        $this->collTraspasos[]= $traspaso;
+        $traspaso->setOrdencompra($this);
+    }
+
+    /**
+     * @param	Traspaso $traspaso The traspaso object to remove.
+     * @return Ordencompra The current object (for fluent API support)
+     */
+    public function removeTraspaso($traspaso)
+    {
+        if ($this->getTraspasos()->contains($traspaso)) {
+            $this->collTraspasos->remove($this->collTraspasos->search($traspaso));
+            if (null === $this->traspasosScheduledForDeletion) {
+                $this->traspasosScheduledForDeletion = clone $this->collTraspasos;
+                $this->traspasosScheduledForDeletion->clear();
+            }
+            $this->traspasosScheduledForDeletion[]= clone $traspaso;
+            $traspaso->setOrdencompra(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Ordencompra is new, it will return
+     * an empty collection; or if this Ordencompra has previously
+     * been saved, it will retrieve related Traspasos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Ordencompra.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|Traspaso[] List of Traspaso objects
+     */
+    public function getTraspasosJoinLugarRelatedByIdlugardestinatario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = TraspasoQuery::create(null, $criteria);
+        $query->joinWith('LugarRelatedByIdlugardestinatario', $join_behavior);
+
+        return $this->getTraspasos($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Ordencompra is new, it will return
+     * an empty collection; or if this Ordencompra has previously
+     * been saved, it will retrieve related Traspasos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Ordencompra.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|Traspaso[] List of Traspaso objects
+     */
+    public function getTraspasosJoinLugarRelatedByIdlugarremitente($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = TraspasoQuery::create(null, $criteria);
+        $query->joinWith('LugarRelatedByIdlugarremitente', $join_behavior);
+
+        return $this->getTraspasos($query, $con);
+    }
+
+    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -1620,6 +1946,11 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collTraspasos) {
+                foreach ($this->collTraspasos as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->aProveedor instanceof Persistent) {
               $this->aProveedor->clearAllReferences($deep);
             }
@@ -1631,6 +1962,10 @@ abstract class BaseOrdencompra extends BaseObject implements Persistent
             $this->collOrdencompradetalles->clearIterator();
         }
         $this->collOrdencompradetalles = null;
+        if ($this->collTraspasos instanceof PropelCollection) {
+            $this->collTraspasos->clearIterator();
+        }
+        $this->collTraspasos = null;
         $this->aProveedor = null;
     }
 
