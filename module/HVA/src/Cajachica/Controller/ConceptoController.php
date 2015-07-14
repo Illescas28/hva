@@ -165,6 +165,10 @@ class ConceptoController extends AbstractActionController
 
     }
     
+    public function movimientosAction(){
+        
+    }
+    
     
 
     

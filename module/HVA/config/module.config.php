@@ -505,6 +505,16 @@ return array(
                     ),
                 ),
             ),
+            'cajachica-movimientos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/cajachica/movimientos[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Cajachica\Controller\Concepto',
+                        'action'     => 'movimientos',
+                    ),
+                ),
+            ),           
             //Bancos
             'bancos-concepto' => array(
                 'type'    => 'segment',

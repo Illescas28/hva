@@ -1,0 +1,131 @@
+<style>
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        left: initial;
+        position: initial;
+    }
+</style>
+<link href="/css/multiple.css" rel="stylesheet"/>
+<script src="/js/multiple.js"></script>
+<?php
+    $title = 'Movimientos';
+    $this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row">
+    <fieldset>
+        <legend>Nuevo movimiento</legend>
+        <div class="row">
+            <div class="col s3">
+                <div class="input-field">
+                    <input name="cajachica_fecha" type="text" value="13/01/2014" disabled>
+                    <label>Fecha</label>
+                </div>
+                <p id="cajachica_fecha" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s3">
+                <select name="cajachica_tipomoviento">
+                    <option value="" disabled selected>Tipo de movimiento *</option>
+                    <option value="cargo">Cargo</option>
+                    <option value="abono">Abono</option>
+                </select>       
+            </div>
+            <div class="col s8">
+                <div class="input-field">
+                    <input name="cajachica_concepto" type="text">
+                    <label>Concepto *</label>
+                </div>
+                <p id="cajachica_concepto" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>   
+            <div class="col s4">
+                <div class="input-field">
+                    <input name="cajachica_cantidad" type="text" value="0.00">
+                    <label>Cantidad</label>
+                </div>
+                <p id="cajachica_cantidad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s6">
+                <div class="input-field">
+                    <input name="cajachica_comprobante" type="text">
+                    <label>Comprobante</label>
+                </div>
+            </div>
+            <div class="col s6">
+                <div class="input-field">
+                    <input name="cajachica_pacientedoctor" type="text"  >
+                    <label>Paciente/Doctor</label>
+                </div>           
+            </div>
+            <div class="col s8">
+                <div class="input-field">
+                    <input name="cajachica_nota" type="text"  >
+                    <label>Nota</label>
+                </div>           
+            </div>
+            <div class="col s4" style="padding-top: 30px;">
+                <button id="cajachica_guardar" style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                    <i class="mdi-content-save left"></i>
+                </button>         
+            </div>
+        </div>
+    </fieldset>
+</div>
+<p style="color: rgb(158, 158, 158); margin-bottom: 40px;">(*) Campos obligatorios</p>
+<div class="row" >
+    <div class="col s6" style="top: -26px;">
+        <fieldset>
+            <legend>Filtros</legend>
+            <label>Por concepto</label>
+            <select multiple="multiple" class="browser-default" id="concepto_filter">
+                <option value="">Conceptos...</option>
+                <option value="1">abc</option>
+                <option value="31">789</option>
+            </select>
+        </fieldset>
+    </div>
+
+      <div class="input-field col s4 offset-s2" id="search-container">
+      <i class="mdi-action-search prefix"></i>
+      <input id="icon_prefix" type="text">
+      <label for="icon_prefix">Buscar</label>
+    </div>     
+</div>
+<div class="row">
+    <div class="col s12">
+        <table id="cajachica-table" class="table-inputs bordered">
+            <thead>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Ingreso</th>
+                <th>Egreso</th>
+                <th>Balance</th>
+                <th>Comprobante</th>
+                <th>Paciente/Doctor</th>
+                <th>Nota</th>
+                <th>Opciones</th>
+            </thead>
+        </table>
+    </div>
+</div>
+            
+<script>
+$(document).ready(function() {
+    $('select[name=cajachica_tipomoviento]').material_select();
+    
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: true, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false // Displays dropdown below the button
+    });
+    
+    $("select#concepto_filter").multipleSelect({
+        allSelected:'Todos los conceptos',
+        selectAllText:'Todos los conceptos',
+    });
+   
+    
+
+});
+</script>
