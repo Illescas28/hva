@@ -4,6 +4,7 @@
     
     //Fecha
     $fecha = new DateTime();
+    
     $fecha = $fecha->format('d/m/Y');
 ?>
 <style>
@@ -57,6 +58,7 @@
                             <input name="proveedor" type="text" id="proveedor_autocomplete">
                             <label for="proveedor">Proveedor *</label>
                             <input type="hidden" id="idproveedor" >
+                            
                         </div>
                         <p id="orden_proveedor" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
                     </div>
@@ -89,6 +91,7 @@
                             <input name="producto" type="text" id="productos_autocomplete">
                              <label for="productos">Productos</label>
                             <input type="hidden" id="idproducto">
+                            <input type="hidden" id="producto_precio">
                         </div>
                     </div>
                     <div class="col s1" style="margin-top: 31px; padding-right: 21px; margin-right: 0px; margin-left: -21px;">
@@ -185,7 +188,7 @@
             }
         });
         
-        
+        console.log(productos);
 
         $('#proveedor_autocomplete').autocomplete({
             source:proveedores,
@@ -199,12 +202,13 @@
         $('#productos_autocomplete').autocomplete({
             source:productos,
             select: function( event, ui ) {
+                $('#producto_precio').val(ui.item.precio);
                 $('#idproducto').val(ui.item.value);
                 $(this).val(ui.item.label);
                 event.preventDefault();
             }
         });
-        
+//        
         
         
         //evento add product
@@ -217,9 +221,10 @@
                 var td_producto = $('<td id="producto" style="padding-left: 12px;">'+$('#productos_autocomplete').val()+'</td>').appendTo(tr);
                 var td_caducidad = $('<td class="datepicker" id="caducidad" style="padding-left: 12px;"><span style="visibility: hidden"></span><input class="input-datepicker" type="text"></td>').appendTo(tr);
                 var td_costo = $('<td id="costo" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
-                var td_precio = $('<td id="precio" ><span style="visibility: hidden"></span><input type="text" value="0.00"></td>').appendTo(tr);
+                var td_precio = $('<td id="precio" ><span style="visibility: hidden"></span><input type="text" value="'+$('#producto_precio').val()+'"></td>').appendTo(tr);
                 var td_subtotal = $('<td id="subtotal" style="padding-left: 12px;">'+formatMoney(0,'$')+'</td>').appendTo(tr);
-                var td_opciones = $('<td><a id="show_item" class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="#view-modal-articulo-'+$('#idproducto').val()+'"><i class="tiny mdi-image-remove-red-eye"></i></a>&nbsp;&nbsp;<a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
+                var td_opciones = $('<td><a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
+                //var td_opciones = $('<td><a id="show_item" class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="#view-modal-articulo-'+$('#idproducto').val()+'"><i class="tiny mdi-image-remove-red-eye"></i></a>&nbsp;&nbsp;<a id="delete_item" style="margin-left: 4px;" class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href="javascript:void(0)"><i class="tiny mdi-action-delete"></i></a></td>').appendTo(tr);
                 
                 //Damos formato de dinero a a los input
                 
@@ -290,7 +295,7 @@
                         $(this).datepicker({
                             changeMonth: true,
                             changeYear: true,
-                            dateFormat: 'mm/y',
+                            dateFormat: 'mm/yy',
                             defaultDate: '01/01/20',
                             monthNamesShort: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" ],
                             onClose: function(dateText, inst) { 
