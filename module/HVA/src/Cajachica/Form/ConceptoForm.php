@@ -24,7 +24,7 @@ class ConceptoForm extends Form
             'name' => 'conceptocajachica_descripcion',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Descripción *',
+                'label' => 'Descripción',
             ),
         ));
 

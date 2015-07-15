@@ -503,6 +503,9 @@ return array(
                         'controller' => 'Cajachica\Controller\Concepto',
                         'action'     => 'listar',
                     ),
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar|listar',
+                    ),
                 ),
             ),
             'cajachica-movimientos' => array(
@@ -513,8 +516,21 @@ return array(
                         'controller' => 'Cajachica\Controller\Concepto',
                         'action'     => 'movimientos',
                     ),
+                    'constraints' => array(
+                        'action' => 'movimientos|getconceptos|nuevomovimiento',
+                    ),
                 ),
-            ),           
+            ),
+            'cajachica-movimientos-conceptos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/cajachica/movimientos/getconceptos',
+                    'defaults' => array(
+                        'controller' => 'Cajachica\Controller\Concepto',
+                        'action'     => 'getconceptos',
+                    ),
+                ),
+            ),
             //Bancos
             'bancos-concepto' => array(
                 'type'    => 'segment',

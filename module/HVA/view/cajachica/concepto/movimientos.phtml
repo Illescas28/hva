@@ -5,12 +5,14 @@
     }
 </style>
 <link href="/css/multiple.css" rel="stylesheet"/>
+<script src="/js/movimientos.js"></script>
 <script src="/js/multiple.js"></script>
 <?php
     $title = 'Movimientos';
     $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
+<div id="cajachica-movimientos-contaiener">
 <div class="row">
     <fieldset>
         <legend>Nuevo movimiento</legend>
@@ -20,17 +22,18 @@
                     <input name="cajachica_fecha" type="text" value="13/01/2014" disabled>
                     <label>Fecha</label>
                 </div>
-                <p id="cajachica_fecha" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
             <div class="col s3">
                 <select name="cajachica_tipomoviento">
                     <option value="" disabled selected>Tipo de movimiento *</option>
                     <option value="cargo">Cargo</option>
                     <option value="abono">Abono</option>
-                </select>       
+                </select>
+                
             </div>
             <div class="col s8">
                 <div class="input-field">
+                    <input name="idconcepto" type="hidden">
                     <input name="cajachica_concepto" type="text">
                     <label>Concepto *</label>
                 </div>
@@ -38,8 +41,8 @@
             </div>   
             <div class="col s4">
                 <div class="input-field">
-                    <input name="cajachica_cantidad" type="text" value="0.00">
-                    <label>Cantidad</label>
+                    <input name="cajachica_cantidad" type="text">
+                    <label>Cantidad *</label>
                 </div>
                 <p id="cajachica_cantidad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
@@ -129,10 +132,13 @@
         </table>
     </div>
 </div>
-            
+</div>        
 <script>
 $(document).ready(function() {
-    $('select[name=cajachica_tipomoviento]').material_select();
+    
+    $('#cajachica-movimientos-contaiener').movimientos();
+    
+    
     
 
     $("select#concepto_filter").multipleSelect({

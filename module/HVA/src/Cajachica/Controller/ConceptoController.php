@@ -178,6 +178,28 @@ class ConceptoController extends AbstractActionController
         
     }
     
+    public function getconceptosAction(){
+        
+        $collection = \ConceptocajachicaQuery::create()->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        
+        $conceptos_autcomplete = array();
+        
+        foreach ($collection as $entity){
+            $tmp['value'] = $entity["idconceptocajachica"];
+            $tmp['label'] = $entity["conceptocajachica_nombre"];
+            $conceptos_autcomplete[] = $tmp;
+        }
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($conceptos_autcomplete));
+        
+    }
+    
+    
+    public function nuevomovimientoAction(){
+        
+       echo '<pre>';var_dump('entro'); echo '</pre>';exit();
+        
+    }
+    
     
 
     

@@ -290,6 +290,20 @@ p.input-error {
     display: none;
 }
 
+p.input-error-show {
+    margin: 0;
+    margin-left: 11px;
+    color: #d32f2f !important;
+    width: 200%;
+    display: inline-block;
+}
+
+p.input-error-show i{
+
+    color: #d32f2f !important;
+
+}
+
 input[type="text"]{
     margin: 15px 0 15px 0;
 }
