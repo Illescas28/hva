@@ -167,6 +167,15 @@ class ConceptoController extends AbstractActionController
     
     public function movimientosAction(){
         
+        $collection = \CajachicaQuery::create()->joinConceptocajachica()->orderBy('idcajachica', 'desc')->withColumn('conceptocajachica_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        
+       
+        return new ViewModel(array(
+            'collection'   => $collection,
+            'flashMessages' => $this->flashMessenger()->getMessages(),
+        ));
+        
+        
     }
     
     

@@ -76,9 +76,8 @@
             <legend>Filtros</legend>
             <label>Por concepto</label>
             <select multiple="multiple" class="browser-default" id="concepto_filter">
-                <option value="">Conceptos...</option>
-                <option value="1">abc</option>
-                <option value="31">789</option>
+                <option value="1">INICIO</option>
+                <option value="31">Agua</option>
             </select>
         </fieldset>
     </div>
@@ -103,6 +102,30 @@
                 <th>Nota</th>
                 <th>Opciones</th>
             </thead>
+            <?php foreach ($collection as $entity) :?>
+            <?php 
+                $fecha = new DateTime($entity['cajachica_fecha']);
+                $fecha = $fecha->format('d-m-Y');
+            ?>
+            <tr id="<?php echo $entity['idcajachica']?>">
+                <td><?php echo $fecha?></td>
+                <td><?php echo $entity['conceptocajachica_nombre']?></td>
+                <?php  if($entity['cajachica_tipomovimiento'] == 'cargo') :  ?>
+                     <td><?php echo $entity['cajachica_cantidad']?></td>
+                     <td> - </td>
+                <?php else :?>
+                     <td> - </td>
+                    <td><?php echo $entity['cajachica_cantidad']?></td> 
+                <?php endif;?>
+                <td><?php echo $entity['cajachica_balance']?></td>   
+                <td><?php echo $entity['cajachica_comprobante']?></td>        
+                <td><?php echo $entity['cajachica_pacientedoctor']?></td>
+                <td><?php echo $entity['cajachica_nota']?></td>
+                <td>   
+                    <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idcajachica']?>'><i class="tiny mdi-action-delete"></i></a>
+                </td>
+            </tr>
+            <?php endforeach;?>
         </table>
     </div>
 </div>
@@ -111,19 +134,17 @@
 $(document).ready(function() {
     $('select[name=cajachica_tipomoviento]').material_select();
     
-    $('.dropdown-button').dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      constrain_width: false, // Does not change width of dropdown to that of the activator
-      hover: true, // Activate on hover
-      gutter: 0, // Spacing from edge
-      belowOrigin: false // Displays dropdown below the button
-    });
-    
+
     $("select#concepto_filter").multipleSelect({
+        selectAll:true,
         allSelected:'Todos los conceptos',
         selectAllText:'Todos los conceptos',
     });
+    
+    $("select#concepto_filter").multipleSelect("checkAll");
+
+   
+   
    
     
 
