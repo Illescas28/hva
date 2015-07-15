@@ -106,7 +106,8 @@ class ComprasController extends AbstractActionController {
             //Comenzamos a itinerar sobre las variaciones
             foreach ($articulovarianteCollection as $kav => $vav){
                 $tmp['value'] = $vav->getIdarticulovariante();
-     
+                $articulovariante = \ArticulovarianteQuery::create()->findPk($tmp['value']);
+                $tmp['precio'] = (!is_null($articulovariante->getArticulovariantePrecio())) ? $articulovariante->getArticulovariantePrecio() : 0.00;
 
                 
                 //Por cada valor obtenemos su variaciones
@@ -229,10 +230,19 @@ class ComprasController extends AbstractActionController {
                                    ->setOrdencompradetalleImporte($item_importe);
                 
                 if(!empty($item['ordencompradetalle_caducidad'])){
-                    $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);
+                    
+                    $caducidad = \DateTime::createFromFormat('m/Y', $item['ordencompradetalle_caducidad']);
+
+                    $caducidad = $caducidad->format('Y-m-d');
+                    
+                    $ordenCompraDetalle->setOrdencompradetalleCaducidad($caducidad);
                 }
                 
                 $ordenCompraDetalle->save();
+                //Tambien actualizamos el precio del articulo variante
+                $articulo_variante = \ArticulovarianteQuery::create()->findPk($item['idarticulovariante']);
+                $articulo_variante->setArticulovariantePrecio($item['ordencompradetalle_precio']);
+                $articulo_variante->save();
                 
                 //Los insertamos en nuestro almacen general
                 $lugarInventario = new \Lugarinventario();
@@ -319,20 +329,22 @@ class ComprasController extends AbstractActionController {
             if(!is_null($orden['orden_facturapdf'])){
                 $orden_compra->setOrdencompraFacturapdf($orden['orden_facturapdf']);
             }
-            //echo '<pre>';var_dump($orden_compra->toArray()); echo '<pre>';exit();
+            
              $orden_compra->save();
             
             //Itenaramos sobre los items
             foreach ($orden['orden_items'] as $item){
                
                 if(isset($item["idordendetalle"])){
-                    
+                   
                     $item_importe = $item['ordencompradetalle_importe'];
                     $item_importe_split = explode('$ ', $item_importe);
                     $item_importe = $item_importe_split[1];
                     $item_importe = str_replace(',', '',$item_importe);
                     
                     $ordenCompraDetalle = \OrdencompradetalleQuery::create()->findPk($item["idordendetalle"]);
+                    
+                    
                     $ordenCompraDetalle
                                    ->setIdarticulovariante($item['idarticulovariante'])
                                    ->setOrdencompradetalleCantidad($item['ordencompradetalle_cantidad'])
@@ -343,8 +355,13 @@ class ComprasController extends AbstractActionController {
                      if(!empty($item['ordencompradetalle_caducidad'])){
                         $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);
                     }
-                   
+                    
                     $ordenCompraDetalle->save();
+                    
+                    //Tambien actualizamos el precio del articulo variante
+                    $articulo_variante = \ArticulovarianteQuery::create()->findPk($item['idarticulovariante']);
+                    $articulo_variante->setArticulovariantePrecio($item['ordencompradetalle_precio']);
+                    $articulo_variante->save();
                     
                     //Actualizamos el lugar inventario
                     $lugarInventario = \LugarinventarioQuery::create()->findOneByIdordencompradetalle($item["idordendetalle"]);
@@ -375,6 +392,10 @@ class ComprasController extends AbstractActionController {
                     
                    
                     $ordenCompraDetalle->save();
+                    //Tambien actualizamos el precio del articulo variante
+                    $articulo_variante = \ArticulovarianteQuery::create()->findPk($item['idarticulovariante']);
+                    $articulo_variante->setArticulovariantePrecio($item['ordencompradetalle_precio']);
+                    $articulo_variante->save();
                     
                     //Los insertamos en nuestro almacen general
                     $lugarInventario = new \Lugarinventario();

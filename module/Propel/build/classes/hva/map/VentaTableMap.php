@@ -39,10 +39,25 @@ class VentaTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idventa', 'Idventa', 'INTEGER', true, null, null);
-        $this->addForeignKey('idpaciente', 'Idpaciente', 'INTEGER', 'paciente', 'idpaciente', false, null, null);
-        $this->addForeignKey('idcajachica', 'Idcajachica', 'INTEGER', 'cajachica', 'idcajachica', true, null, null);
+        $this->addForeignKey('idpaciente', 'Idpaciente', 'INTEGER', 'paciente', 'idpaciente', true, null, null);
         $this->addColumn('venta_fecha', 'VentaFecha', 'TIMESTAMP', true, null, null);
-        $this->addColumn('venta_cantidad', 'VentaCantidad', 'DECIMAL', true, 10, null);
+        $this->addColumn('venta_tipodepago', 'VentaTipodepago', 'CHAR', false, null, null);
+        $this->getColumn('venta_tipodepago', false)->setValueSet(array (
+  0 => 'efectivo',
+  1 => 'tarjeta debito',
+  2 => 'tarjeta credito',
+  3 => 'cheque',
+));
+        $this->addColumn('venta_status', 'VentaStatus', 'CHAR', false, null, null);
+        $this->getColumn('venta_status', false)->setValueSet(array (
+  0 => 'pagada',
+  1 => 'no pagada',
+  2 => 'pendiente',
+));
+        $this->addColumn('venta_facturada', 'VentaFacturada', 'BOOLEAN', false, 1, null);
+        $this->addColumn('venta_registrada', 'VentaRegistrada', 'BOOLEAN', false, 1, null);
+        $this->addColumn('venta_total', 'VentaTotal', 'DECIMAL', false, 10, null);
+        $this->addColumn('venta_referenciapago', 'VentaReferenciapago', 'VARCHAR', false, 45, null);
         // validators
     } // initialize()
 
@@ -51,7 +66,6 @@ class VentaTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Cajachica', 'Cajachica', RelationMap::MANY_TO_ONE, array('idcajachica' => 'idcajachica', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Paciente', 'Paciente', RelationMap::MANY_TO_ONE, array('idpaciente' => 'idpaciente', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Cargoventa', 'Cargoventa', RelationMap::ONE_TO_MANY, array('idventa' => 'idventa', ), 'CASCADE', 'CASCADE', 'Cargoventas');
     } // buildRelations()

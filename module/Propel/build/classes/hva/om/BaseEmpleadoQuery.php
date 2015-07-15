@@ -14,6 +14,7 @@
  * @method EmpleadoQuery orderByEmpleadoNombreusuario($order = Criteria::ASC) Order by the empleado_nombreusuario column
  * @method EmpleadoQuery orderByEmpleadoPassword($order = Criteria::ASC) Order by the empleado_password column
  * @method EmpleadoQuery orderByEmpleadoEmail($order = Criteria::ASC) Order by the empleado_email column
+ * @method EmpleadoQuery orderByEmpleadoImagen($order = Criteria::ASC) Order by the empleado_imagen column
  *
  * @method EmpleadoQuery groupByIdempleado() Group by the idempleado column
  * @method EmpleadoQuery groupByIdrol() Group by the idrol column
@@ -23,6 +24,7 @@
  * @method EmpleadoQuery groupByEmpleadoNombreusuario() Group by the empleado_nombreusuario column
  * @method EmpleadoQuery groupByEmpleadoPassword() Group by the empleado_password column
  * @method EmpleadoQuery groupByEmpleadoEmail() Group by the empleado_email column
+ * @method EmpleadoQuery groupByEmpleadoImagen() Group by the empleado_imagen column
  *
  * @method EmpleadoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method EmpleadoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -46,6 +48,7 @@
  * @method Empleado findOneByEmpleadoNombreusuario(string $empleado_nombreusuario) Return the first Empleado filtered by the empleado_nombreusuario column
  * @method Empleado findOneByEmpleadoPassword(string $empleado_password) Return the first Empleado filtered by the empleado_password column
  * @method Empleado findOneByEmpleadoEmail(string $empleado_email) Return the first Empleado filtered by the empleado_email column
+ * @method Empleado findOneByEmpleadoImagen(string $empleado_imagen) Return the first Empleado filtered by the empleado_imagen column
  *
  * @method array findByIdempleado(int $idempleado) Return Empleado objects filtered by the idempleado column
  * @method array findByIdrol(int $idrol) Return Empleado objects filtered by the idrol column
@@ -55,6 +58,7 @@
  * @method array findByEmpleadoNombreusuario(string $empleado_nombreusuario) Return Empleado objects filtered by the empleado_nombreusuario column
  * @method array findByEmpleadoPassword(string $empleado_password) Return Empleado objects filtered by the empleado_password column
  * @method array findByEmpleadoEmail(string $empleado_email) Return Empleado objects filtered by the empleado_email column
+ * @method array findByEmpleadoImagen(string $empleado_imagen) Return Empleado objects filtered by the empleado_imagen column
  *
  * @package    propel.generator.hva.om
  */
@@ -162,7 +166,7 @@ abstract class BaseEmpleadoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idempleado`, `idrol`, `empleado_nombre`, `empleado_apellidopaterno`, `empleado_apellidomaterno`, `empleado_nombreusuario`, `empleado_password`, `empleado_email` FROM `empleado` WHERE `idempleado` = :p0';
+        $sql = 'SELECT `idempleado`, `idrol`, `empleado_nombre`, `empleado_apellidopaterno`, `empleado_apellidomaterno`, `empleado_nombreusuario`, `empleado_password`, `empleado_email`, `empleado_imagen` FROM `empleado` WHERE `idempleado` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -509,6 +513,35 @@ abstract class BaseEmpleadoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(EmpleadoPeer::EMPLEADO_EMAIL, $empleadoEmail, $comparison);
+    }
+
+    /**
+     * Filter the query on the empleado_imagen column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEmpleadoImagen('fooValue');   // WHERE empleado_imagen = 'fooValue'
+     * $query->filterByEmpleadoImagen('%fooValue%'); // WHERE empleado_imagen LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $empleadoImagen The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return EmpleadoQuery The current query, for fluid interface
+     */
+    public function filterByEmpleadoImagen($empleadoImagen = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($empleadoImagen)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $empleadoImagen)) {
+                $empleadoImagen = str_replace('*', '%', $empleadoImagen);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(EmpleadoPeer::EMPLEADO_IMAGEN, $empleadoImagen, $comparison);
     }
 
     /**

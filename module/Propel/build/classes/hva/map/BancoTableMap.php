@@ -39,10 +39,17 @@ class BancoTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idbanco', 'Idbanco', 'INTEGER', true, null, null);
-        $this->addColumn('banco_nombre', 'BancoNombre', 'VARCHAR', true, 100, null);
-        $this->addColumn('banco_cuenta', 'BancoCuenta', 'VARCHAR', true, 45, null);
-        $this->addColumn('banco_descripcion', 'BancoDescripcion', 'LONGVARCHAR', false, null, null);
+        $this->addForeignKey('idconceptobanco', 'Idconceptobanco', 'INTEGER', 'conceptobanco', 'idbancotransaccion', true, null, null);
+        $this->addColumn('banco_fecha', 'BancoFecha', 'VARCHAR', true, 100, null);
+        $this->addColumn('banco_tipomovimiento', 'BancoTipomovimiento', 'CHAR', true, null, null);
+        $this->getColumn('banco_tipomovimiento', false)->setValueSet(array (
+  0 => 'cargo',
+  1 => 'abono',
+));
+        $this->addColumn('banco_cantidad', 'BancoCantidad', 'DECIMAL', true, 10, null);
         $this->addColumn('banco_balance', 'BancoBalance', 'DECIMAL', true, 10, 0);
+        $this->addColumn('banco_comprobante', 'BancoComprobante', 'VARCHAR', false, 255, null);
+        $this->addColumn('banco_nota', 'BancoNota', 'LONGVARCHAR', false, null, null);
         // validators
     } // initialize()
 
@@ -51,7 +58,8 @@ class BancoTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Bancotransaccion', 'Bancotransaccion', RelationMap::ONE_TO_MANY, array('idbanco' => 'idbanco', ), 'CASCADE', 'CASCADE', 'Bancotransaccions');
+        $this->addRelation('Conceptobanco', 'Conceptobanco', RelationMap::MANY_TO_ONE, array('idconceptobanco' => 'idbancotransaccion', ), 'CASCADE', 'CASCADE');
+        $this->addRelation('Referenciaabono', 'Referenciaabono', RelationMap::ONE_TO_MANY, array('idbanco' => 'idbanco', ), 'CASCADE', 'CASCADE', 'Referenciaabonos');
     } // buildRelations()
 
 } // BancoTableMap

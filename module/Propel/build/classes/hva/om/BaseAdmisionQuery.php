@@ -17,6 +17,10 @@
  * @method AdmisionQuery orderByAdmisionStatus($order = Criteria::ASC) Order by the admision_status column
  * @method AdmisionQuery orderByAdmisionTotal($order = Criteria::ASC) Order by the admision_total column
  * @method AdmisionQuery orderByAdmisionPagadaen($order = Criteria::ASC) Order by the admision_pagadaen column
+ * @method AdmisionQuery orderByAdmisionTipodepago($order = Criteria::ASC) Order by the admision_tipodepago column
+ * @method AdmisionQuery orderByAdmisionReferenciapago($order = Criteria::ASC) Order by the admision_referenciapago column
+ * @method AdmisionQuery orderByAdmisionFacturada($order = Criteria::ASC) Order by the admision_facturada column
+ * @method AdmisionQuery orderByAdmisionRegistrada($order = Criteria::ASC) Order by the admision_registrada column
  *
  * @method AdmisionQuery groupByIdadmision() Group by the idadmision column
  * @method AdmisionQuery groupByIdpaciente() Group by the idpaciente column
@@ -29,6 +33,10 @@
  * @method AdmisionQuery groupByAdmisionStatus() Group by the admision_status column
  * @method AdmisionQuery groupByAdmisionTotal() Group by the admision_total column
  * @method AdmisionQuery groupByAdmisionPagadaen() Group by the admision_pagadaen column
+ * @method AdmisionQuery groupByAdmisionTipodepago() Group by the admision_tipodepago column
+ * @method AdmisionQuery groupByAdmisionReferenciapago() Group by the admision_referenciapago column
+ * @method AdmisionQuery groupByAdmisionFacturada() Group by the admision_facturada column
+ * @method AdmisionQuery groupByAdmisionRegistrada() Group by the admision_registrada column
  *
  * @method AdmisionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method AdmisionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -67,6 +75,10 @@
  * @method Admision findOneByAdmisionStatus(string $admision_status) Return the first Admision filtered by the admision_status column
  * @method Admision findOneByAdmisionTotal(string $admision_total) Return the first Admision filtered by the admision_total column
  * @method Admision findOneByAdmisionPagadaen(string $admision_pagadaen) Return the first Admision filtered by the admision_pagadaen column
+ * @method Admision findOneByAdmisionTipodepago(string $admision_tipodepago) Return the first Admision filtered by the admision_tipodepago column
+ * @method Admision findOneByAdmisionReferenciapago(string $admision_referenciapago) Return the first Admision filtered by the admision_referenciapago column
+ * @method Admision findOneByAdmisionFacturada(boolean $admision_facturada) Return the first Admision filtered by the admision_facturada column
+ * @method Admision findOneByAdmisionRegistrada(boolean $admision_registrada) Return the first Admision filtered by the admision_registrada column
  *
  * @method array findByIdadmision(int $idadmision) Return Admision objects filtered by the idadmision column
  * @method array findByIdpaciente(int $idpaciente) Return Admision objects filtered by the idpaciente column
@@ -79,6 +91,10 @@
  * @method array findByAdmisionStatus(string $admision_status) Return Admision objects filtered by the admision_status column
  * @method array findByAdmisionTotal(string $admision_total) Return Admision objects filtered by the admision_total column
  * @method array findByAdmisionPagadaen(string $admision_pagadaen) Return Admision objects filtered by the admision_pagadaen column
+ * @method array findByAdmisionTipodepago(string $admision_tipodepago) Return Admision objects filtered by the admision_tipodepago column
+ * @method array findByAdmisionReferenciapago(string $admision_referenciapago) Return Admision objects filtered by the admision_referenciapago column
+ * @method array findByAdmisionFacturada(boolean $admision_facturada) Return Admision objects filtered by the admision_facturada column
+ * @method array findByAdmisionRegistrada(boolean $admision_registrada) Return Admision objects filtered by the admision_registrada column
  *
  * @package    propel.generator.hva.om
  */
@@ -186,7 +202,7 @@ abstract class BaseAdmisionQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idadmision`, `idpaciente`, `idmedico`, `idcuarto`, `admision_fechaadmision`, `admision_fechasalida`, `admision_diagnostico`, `admision_observaciones`, `admision_status`, `admision_total`, `admision_pagadaen` FROM `admision` WHERE `idadmision` = :p0';
+        $sql = 'SELECT `idadmision`, `idpaciente`, `idmedico`, `idcuarto`, `admision_fechaadmision`, `admision_fechasalida`, `admision_diagnostico`, `admision_observaciones`, `admision_status`, `admision_total`, `admision_pagadaen`, `admision_tipodepago`, `admision_referenciapago`, `admision_facturada`, `admision_registrada` FROM `admision` WHERE `idadmision` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -705,6 +721,118 @@ abstract class BaseAdmisionQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(AdmisionPeer::ADMISION_PAGADAEN, $admisionPagadaen, $comparison);
+    }
+
+    /**
+     * Filter the query on the admision_tipodepago column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAdmisionTipodepago('fooValue');   // WHERE admision_tipodepago = 'fooValue'
+     * $query->filterByAdmisionTipodepago('%fooValue%'); // WHERE admision_tipodepago LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $admisionTipodepago The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return AdmisionQuery The current query, for fluid interface
+     */
+    public function filterByAdmisionTipodepago($admisionTipodepago = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($admisionTipodepago)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $admisionTipodepago)) {
+                $admisionTipodepago = str_replace('*', '%', $admisionTipodepago);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(AdmisionPeer::ADMISION_TIPODEPAGO, $admisionTipodepago, $comparison);
+    }
+
+    /**
+     * Filter the query on the admision_referenciapago column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAdmisionReferenciapago('fooValue');   // WHERE admision_referenciapago = 'fooValue'
+     * $query->filterByAdmisionReferenciapago('%fooValue%'); // WHERE admision_referenciapago LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $admisionReferenciapago The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return AdmisionQuery The current query, for fluid interface
+     */
+    public function filterByAdmisionReferenciapago($admisionReferenciapago = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($admisionReferenciapago)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $admisionReferenciapago)) {
+                $admisionReferenciapago = str_replace('*', '%', $admisionReferenciapago);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(AdmisionPeer::ADMISION_REFERENCIAPAGO, $admisionReferenciapago, $comparison);
+    }
+
+    /**
+     * Filter the query on the admision_facturada column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAdmisionFacturada(true); // WHERE admision_facturada = true
+     * $query->filterByAdmisionFacturada('yes'); // WHERE admision_facturada = true
+     * </code>
+     *
+     * @param     boolean|string $admisionFacturada The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return AdmisionQuery The current query, for fluid interface
+     */
+    public function filterByAdmisionFacturada($admisionFacturada = null, $comparison = null)
+    {
+        if (is_string($admisionFacturada)) {
+            $admisionFacturada = in_array(strtolower($admisionFacturada), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(AdmisionPeer::ADMISION_FACTURADA, $admisionFacturada, $comparison);
+    }
+
+    /**
+     * Filter the query on the admision_registrada column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAdmisionRegistrada(true); // WHERE admision_registrada = true
+     * $query->filterByAdmisionRegistrada('yes'); // WHERE admision_registrada = true
+     * </code>
+     *
+     * @param     boolean|string $admisionRegistrada The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return AdmisionQuery The current query, for fluid interface
+     */
+    public function filterByAdmisionRegistrada($admisionRegistrada = null, $comparison = null)
+    {
+        if (is_string($admisionRegistrada)) {
+            $admisionRegistrada = in_array(strtolower($admisionRegistrada), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(AdmisionPeer::ADMISION_REGISTRADA, $admisionRegistrada, $comparison);
     }
 
     /**

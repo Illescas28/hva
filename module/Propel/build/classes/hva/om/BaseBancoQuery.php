@@ -7,38 +7,54 @@
  *
  *
  * @method BancoQuery orderByIdbanco($order = Criteria::ASC) Order by the idbanco column
- * @method BancoQuery orderByBancoNombre($order = Criteria::ASC) Order by the banco_nombre column
- * @method BancoQuery orderByBancoCuenta($order = Criteria::ASC) Order by the banco_cuenta column
- * @method BancoQuery orderByBancoDescripcion($order = Criteria::ASC) Order by the banco_descripcion column
+ * @method BancoQuery orderByIdconceptobanco($order = Criteria::ASC) Order by the idconceptobanco column
+ * @method BancoQuery orderByBancoFecha($order = Criteria::ASC) Order by the banco_fecha column
+ * @method BancoQuery orderByBancoTipomovimiento($order = Criteria::ASC) Order by the banco_tipomovimiento column
+ * @method BancoQuery orderByBancoCantidad($order = Criteria::ASC) Order by the banco_cantidad column
  * @method BancoQuery orderByBancoBalance($order = Criteria::ASC) Order by the banco_balance column
+ * @method BancoQuery orderByBancoComprobante($order = Criteria::ASC) Order by the banco_comprobante column
+ * @method BancoQuery orderByBancoNota($order = Criteria::ASC) Order by the banco_nota column
  *
  * @method BancoQuery groupByIdbanco() Group by the idbanco column
- * @method BancoQuery groupByBancoNombre() Group by the banco_nombre column
- * @method BancoQuery groupByBancoCuenta() Group by the banco_cuenta column
- * @method BancoQuery groupByBancoDescripcion() Group by the banco_descripcion column
+ * @method BancoQuery groupByIdconceptobanco() Group by the idconceptobanco column
+ * @method BancoQuery groupByBancoFecha() Group by the banco_fecha column
+ * @method BancoQuery groupByBancoTipomovimiento() Group by the banco_tipomovimiento column
+ * @method BancoQuery groupByBancoCantidad() Group by the banco_cantidad column
  * @method BancoQuery groupByBancoBalance() Group by the banco_balance column
+ * @method BancoQuery groupByBancoComprobante() Group by the banco_comprobante column
+ * @method BancoQuery groupByBancoNota() Group by the banco_nota column
  *
  * @method BancoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method BancoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method BancoQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method BancoQuery leftJoinBancotransaccion($relationAlias = null) Adds a LEFT JOIN clause to the query using the Bancotransaccion relation
- * @method BancoQuery rightJoinBancotransaccion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Bancotransaccion relation
- * @method BancoQuery innerJoinBancotransaccion($relationAlias = null) Adds a INNER JOIN clause to the query using the Bancotransaccion relation
+ * @method BancoQuery leftJoinConceptobanco($relationAlias = null) Adds a LEFT JOIN clause to the query using the Conceptobanco relation
+ * @method BancoQuery rightJoinConceptobanco($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Conceptobanco relation
+ * @method BancoQuery innerJoinConceptobanco($relationAlias = null) Adds a INNER JOIN clause to the query using the Conceptobanco relation
+ *
+ * @method BancoQuery leftJoinReferenciaabono($relationAlias = null) Adds a LEFT JOIN clause to the query using the Referenciaabono relation
+ * @method BancoQuery rightJoinReferenciaabono($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Referenciaabono relation
+ * @method BancoQuery innerJoinReferenciaabono($relationAlias = null) Adds a INNER JOIN clause to the query using the Referenciaabono relation
  *
  * @method Banco findOne(PropelPDO $con = null) Return the first Banco matching the query
  * @method Banco findOneOrCreate(PropelPDO $con = null) Return the first Banco matching the query, or a new Banco object populated from the query conditions when no match is found
  *
- * @method Banco findOneByBancoNombre(string $banco_nombre) Return the first Banco filtered by the banco_nombre column
- * @method Banco findOneByBancoCuenta(string $banco_cuenta) Return the first Banco filtered by the banco_cuenta column
- * @method Banco findOneByBancoDescripcion(string $banco_descripcion) Return the first Banco filtered by the banco_descripcion column
+ * @method Banco findOneByIdconceptobanco(int $idconceptobanco) Return the first Banco filtered by the idconceptobanco column
+ * @method Banco findOneByBancoFecha(string $banco_fecha) Return the first Banco filtered by the banco_fecha column
+ * @method Banco findOneByBancoTipomovimiento(string $banco_tipomovimiento) Return the first Banco filtered by the banco_tipomovimiento column
+ * @method Banco findOneByBancoCantidad(string $banco_cantidad) Return the first Banco filtered by the banco_cantidad column
  * @method Banco findOneByBancoBalance(string $banco_balance) Return the first Banco filtered by the banco_balance column
+ * @method Banco findOneByBancoComprobante(string $banco_comprobante) Return the first Banco filtered by the banco_comprobante column
+ * @method Banco findOneByBancoNota(string $banco_nota) Return the first Banco filtered by the banco_nota column
  *
  * @method array findByIdbanco(int $idbanco) Return Banco objects filtered by the idbanco column
- * @method array findByBancoNombre(string $banco_nombre) Return Banco objects filtered by the banco_nombre column
- * @method array findByBancoCuenta(string $banco_cuenta) Return Banco objects filtered by the banco_cuenta column
- * @method array findByBancoDescripcion(string $banco_descripcion) Return Banco objects filtered by the banco_descripcion column
+ * @method array findByIdconceptobanco(int $idconceptobanco) Return Banco objects filtered by the idconceptobanco column
+ * @method array findByBancoFecha(string $banco_fecha) Return Banco objects filtered by the banco_fecha column
+ * @method array findByBancoTipomovimiento(string $banco_tipomovimiento) Return Banco objects filtered by the banco_tipomovimiento column
+ * @method array findByBancoCantidad(string $banco_cantidad) Return Banco objects filtered by the banco_cantidad column
  * @method array findByBancoBalance(string $banco_balance) Return Banco objects filtered by the banco_balance column
+ * @method array findByBancoComprobante(string $banco_comprobante) Return Banco objects filtered by the banco_comprobante column
+ * @method array findByBancoNota(string $banco_nota) Return Banco objects filtered by the banco_nota column
  *
  * @package    propel.generator.hva.om
  */
@@ -146,7 +162,7 @@ abstract class BaseBancoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idbanco`, `banco_nombre`, `banco_cuenta`, `banco_descripcion`, `banco_balance` FROM `banco` WHERE `idbanco` = :p0';
+        $sql = 'SELECT `idbanco`, `idconceptobanco`, `banco_fecha`, `banco_tipomovimiento`, `banco_cantidad`, `banco_balance`, `banco_comprobante`, `banco_nota` FROM `banco` WHERE `idbanco` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -278,90 +294,147 @@ abstract class BaseBancoQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the banco_nombre column
+     * Filter the query on the idconceptobanco column
      *
      * Example usage:
      * <code>
-     * $query->filterByBancoNombre('fooValue');   // WHERE banco_nombre = 'fooValue'
-     * $query->filterByBancoNombre('%fooValue%'); // WHERE banco_nombre LIKE '%fooValue%'
+     * $query->filterByIdconceptobanco(1234); // WHERE idconceptobanco = 1234
+     * $query->filterByIdconceptobanco(array(12, 34)); // WHERE idconceptobanco IN (12, 34)
+     * $query->filterByIdconceptobanco(array('min' => 12)); // WHERE idconceptobanco >= 12
+     * $query->filterByIdconceptobanco(array('max' => 12)); // WHERE idconceptobanco <= 12
      * </code>
      *
-     * @param     string $bancoNombre The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @see       filterByConceptobanco()
+     *
+     * @param     mixed $idconceptobanco The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return BancoQuery The current query, for fluid interface
      */
-    public function filterByBancoNombre($bancoNombre = null, $comparison = null)
+    public function filterByIdconceptobanco($idconceptobanco = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($bancoNombre)) {
+        if (is_array($idconceptobanco)) {
+            $useMinMax = false;
+            if (isset($idconceptobanco['min'])) {
+                $this->addUsingAlias(BancoPeer::IDCONCEPTOBANCO, $idconceptobanco['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idconceptobanco['max'])) {
+                $this->addUsingAlias(BancoPeer::IDCONCEPTOBANCO, $idconceptobanco['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $bancoNombre)) {
-                $bancoNombre = str_replace('*', '%', $bancoNombre);
-                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(BancoPeer::BANCO_NOMBRE, $bancoNombre, $comparison);
+        return $this->addUsingAlias(BancoPeer::IDCONCEPTOBANCO, $idconceptobanco, $comparison);
     }
 
     /**
-     * Filter the query on the banco_cuenta column
+     * Filter the query on the banco_fecha column
      *
      * Example usage:
      * <code>
-     * $query->filterByBancoCuenta('fooValue');   // WHERE banco_cuenta = 'fooValue'
-     * $query->filterByBancoCuenta('%fooValue%'); // WHERE banco_cuenta LIKE '%fooValue%'
+     * $query->filterByBancoFecha('fooValue');   // WHERE banco_fecha = 'fooValue'
+     * $query->filterByBancoFecha('%fooValue%'); // WHERE banco_fecha LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $bancoCuenta The value to use as filter.
+     * @param     string $bancoFecha The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return BancoQuery The current query, for fluid interface
      */
-    public function filterByBancoCuenta($bancoCuenta = null, $comparison = null)
+    public function filterByBancoFecha($bancoFecha = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($bancoCuenta)) {
+            if (is_array($bancoFecha)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $bancoCuenta)) {
-                $bancoCuenta = str_replace('*', '%', $bancoCuenta);
+            } elseif (preg_match('/[\%\*]/', $bancoFecha)) {
+                $bancoFecha = str_replace('*', '%', $bancoFecha);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(BancoPeer::BANCO_CUENTA, $bancoCuenta, $comparison);
+        return $this->addUsingAlias(BancoPeer::BANCO_FECHA, $bancoFecha, $comparison);
     }
 
     /**
-     * Filter the query on the banco_descripcion column
+     * Filter the query on the banco_tipomovimiento column
      *
      * Example usage:
      * <code>
-     * $query->filterByBancoDescripcion('fooValue');   // WHERE banco_descripcion = 'fooValue'
-     * $query->filterByBancoDescripcion('%fooValue%'); // WHERE banco_descripcion LIKE '%fooValue%'
+     * $query->filterByBancoTipomovimiento('fooValue');   // WHERE banco_tipomovimiento = 'fooValue'
+     * $query->filterByBancoTipomovimiento('%fooValue%'); // WHERE banco_tipomovimiento LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $bancoDescripcion The value to use as filter.
+     * @param     string $bancoTipomovimiento The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return BancoQuery The current query, for fluid interface
      */
-    public function filterByBancoDescripcion($bancoDescripcion = null, $comparison = null)
+    public function filterByBancoTipomovimiento($bancoTipomovimiento = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($bancoDescripcion)) {
+            if (is_array($bancoTipomovimiento)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $bancoDescripcion)) {
-                $bancoDescripcion = str_replace('*', '%', $bancoDescripcion);
+            } elseif (preg_match('/[\%\*]/', $bancoTipomovimiento)) {
+                $bancoTipomovimiento = str_replace('*', '%', $bancoTipomovimiento);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(BancoPeer::BANCO_DESCRIPCION, $bancoDescripcion, $comparison);
+        return $this->addUsingAlias(BancoPeer::BANCO_TIPOMOVIMIENTO, $bancoTipomovimiento, $comparison);
+    }
+
+    /**
+     * Filter the query on the banco_cantidad column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByBancoCantidad(1234); // WHERE banco_cantidad = 1234
+     * $query->filterByBancoCantidad(array(12, 34)); // WHERE banco_cantidad IN (12, 34)
+     * $query->filterByBancoCantidad(array('min' => 12)); // WHERE banco_cantidad >= 12
+     * $query->filterByBancoCantidad(array('max' => 12)); // WHERE banco_cantidad <= 12
+     * </code>
+     *
+     * @param     mixed $bancoCantidad The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BancoQuery The current query, for fluid interface
+     */
+    public function filterByBancoCantidad($bancoCantidad = null, $comparison = null)
+    {
+        if (is_array($bancoCantidad)) {
+            $useMinMax = false;
+            if (isset($bancoCantidad['min'])) {
+                $this->addUsingAlias(BancoPeer::BANCO_CANTIDAD, $bancoCantidad['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($bancoCantidad['max'])) {
+                $this->addUsingAlias(BancoPeer::BANCO_CANTIDAD, $bancoCantidad['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(BancoPeer::BANCO_CANTIDAD, $bancoCantidad, $comparison);
     }
 
     /**
@@ -407,41 +480,101 @@ abstract class BaseBancoQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related Bancotransaccion object
+     * Filter the query on the banco_comprobante column
      *
-     * @param   Bancotransaccion|PropelObjectCollection $bancotransaccion  the related object to use as filter
+     * Example usage:
+     * <code>
+     * $query->filterByBancoComprobante('fooValue');   // WHERE banco_comprobante = 'fooValue'
+     * $query->filterByBancoComprobante('%fooValue%'); // WHERE banco_comprobante LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $bancoComprobante The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BancoQuery The current query, for fluid interface
+     */
+    public function filterByBancoComprobante($bancoComprobante = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($bancoComprobante)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $bancoComprobante)) {
+                $bancoComprobante = str_replace('*', '%', $bancoComprobante);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BancoPeer::BANCO_COMPROBANTE, $bancoComprobante, $comparison);
+    }
+
+    /**
+     * Filter the query on the banco_nota column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByBancoNota('fooValue');   // WHERE banco_nota = 'fooValue'
+     * $query->filterByBancoNota('%fooValue%'); // WHERE banco_nota LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $bancoNota The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BancoQuery The current query, for fluid interface
+     */
+    public function filterByBancoNota($bancoNota = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($bancoNota)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $bancoNota)) {
+                $bancoNota = str_replace('*', '%', $bancoNota);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BancoPeer::BANCO_NOTA, $bancoNota, $comparison);
+    }
+
+    /**
+     * Filter the query by a related Conceptobanco object
+     *
+     * @param   Conceptobanco|PropelObjectCollection $conceptobanco The related object(s) to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return                 BancoQuery The current query, for fluid interface
      * @throws PropelException - if the provided filter is invalid.
      */
-    public function filterByBancotransaccion($bancotransaccion, $comparison = null)
+    public function filterByConceptobanco($conceptobanco, $comparison = null)
     {
-        if ($bancotransaccion instanceof Bancotransaccion) {
+        if ($conceptobanco instanceof Conceptobanco) {
             return $this
-                ->addUsingAlias(BancoPeer::IDBANCO, $bancotransaccion->getIdbanco(), $comparison);
-        } elseif ($bancotransaccion instanceof PropelObjectCollection) {
+                ->addUsingAlias(BancoPeer::IDCONCEPTOBANCO, $conceptobanco->getIdbancotransaccion(), $comparison);
+        } elseif ($conceptobanco instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
             return $this
-                ->useBancotransaccionQuery()
-                ->filterByPrimaryKeys($bancotransaccion->getPrimaryKeys())
-                ->endUse();
+                ->addUsingAlias(BancoPeer::IDCONCEPTOBANCO, $conceptobanco->toKeyValue('PrimaryKey', 'Idbancotransaccion'), $comparison);
         } else {
-            throw new PropelException('filterByBancotransaccion() only accepts arguments of type Bancotransaccion or PropelCollection');
+            throw new PropelException('filterByConceptobanco() only accepts arguments of type Conceptobanco or PropelCollection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Bancotransaccion relation
+     * Adds a JOIN clause to the query using the Conceptobanco relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return BancoQuery The current query, for fluid interface
      */
-    public function joinBancotransaccion($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinConceptobanco($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Bancotransaccion');
+        $relationMap = $tableMap->getRelation('Conceptobanco');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -456,14 +589,14 @@ abstract class BaseBancoQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Bancotransaccion');
+            $this->addJoinObject($join, 'Conceptobanco');
         }
 
         return $this;
     }
 
     /**
-     * Use the Bancotransaccion relation Bancotransaccion object
+     * Use the Conceptobanco relation Conceptobanco object
      *
      * @see       useQuery()
      *
@@ -471,13 +604,87 @@ abstract class BaseBancoQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   BancotransaccionQuery A secondary query class using the current class as primary query
+     * @return   ConceptobancoQuery A secondary query class using the current class as primary query
      */
-    public function useBancotransaccionQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useConceptobancoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinBancotransaccion($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Bancotransaccion', 'BancotransaccionQuery');
+            ->joinConceptobanco($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Conceptobanco', 'ConceptobancoQuery');
+    }
+
+    /**
+     * Filter the query by a related Referenciaabono object
+     *
+     * @param   Referenciaabono|PropelObjectCollection $referenciaabono  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 BancoQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByReferenciaabono($referenciaabono, $comparison = null)
+    {
+        if ($referenciaabono instanceof Referenciaabono) {
+            return $this
+                ->addUsingAlias(BancoPeer::IDBANCO, $referenciaabono->getIdbanco(), $comparison);
+        } elseif ($referenciaabono instanceof PropelObjectCollection) {
+            return $this
+                ->useReferenciaabonoQuery()
+                ->filterByPrimaryKeys($referenciaabono->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByReferenciaabono() only accepts arguments of type Referenciaabono or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Referenciaabono relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return BancoQuery The current query, for fluid interface
+     */
+    public function joinReferenciaabono($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Referenciaabono');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Referenciaabono');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Referenciaabono relation Referenciaabono object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   ReferenciaabonoQuery A secondary query class using the current class as primary query
+     */
+    public function useReferenciaabonoQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinReferenciaabono($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Referenciaabono', 'ReferenciaabonoQuery');
     }
 
     /**

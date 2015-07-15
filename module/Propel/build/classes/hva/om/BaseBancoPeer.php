@@ -24,28 +24,41 @@ abstract class BaseBancoPeer
     const TM_CLASS = 'BancoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 8;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /** the column name for the idbanco field */
     const IDBANCO = 'banco.idbanco';
 
-    /** the column name for the banco_nombre field */
-    const BANCO_NOMBRE = 'banco.banco_nombre';
+    /** the column name for the idconceptobanco field */
+    const IDCONCEPTOBANCO = 'banco.idconceptobanco';
 
-    /** the column name for the banco_cuenta field */
-    const BANCO_CUENTA = 'banco.banco_cuenta';
+    /** the column name for the banco_fecha field */
+    const BANCO_FECHA = 'banco.banco_fecha';
 
-    /** the column name for the banco_descripcion field */
-    const BANCO_DESCRIPCION = 'banco.banco_descripcion';
+    /** the column name for the banco_tipomovimiento field */
+    const BANCO_TIPOMOVIMIENTO = 'banco.banco_tipomovimiento';
+
+    /** the column name for the banco_cantidad field */
+    const BANCO_CANTIDAD = 'banco.banco_cantidad';
 
     /** the column name for the banco_balance field */
     const BANCO_BALANCE = 'banco.banco_balance';
+
+    /** the column name for the banco_comprobante field */
+    const BANCO_COMPROBANTE = 'banco.banco_comprobante';
+
+    /** the column name for the banco_nota field */
+    const BANCO_NOTA = 'banco.banco_nota';
+
+    /** The enumerated values for the banco_tipomovimiento field */
+    const BANCO_TIPOMOVIMIENTO_CARGO = 'cargo';
+    const BANCO_TIPOMOVIMIENTO_ABONO = 'abono';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -66,12 +79,12 @@ abstract class BaseBancoPeer
      * e.g. BancoPeer::$fieldNames[BancoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idbanco', 'BancoNombre', 'BancoCuenta', 'BancoDescripcion', 'BancoBalance', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idbanco', 'bancoNombre', 'bancoCuenta', 'bancoDescripcion', 'bancoBalance', ),
-        BasePeer::TYPE_COLNAME => array (BancoPeer::IDBANCO, BancoPeer::BANCO_NOMBRE, BancoPeer::BANCO_CUENTA, BancoPeer::BANCO_DESCRIPCION, BancoPeer::BANCO_BALANCE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDBANCO', 'BANCO_NOMBRE', 'BANCO_CUENTA', 'BANCO_DESCRIPCION', 'BANCO_BALANCE', ),
-        BasePeer::TYPE_FIELDNAME => array ('idbanco', 'banco_nombre', 'banco_cuenta', 'banco_descripcion', 'banco_balance', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idbanco', 'Idconceptobanco', 'BancoFecha', 'BancoTipomovimiento', 'BancoCantidad', 'BancoBalance', 'BancoComprobante', 'BancoNota', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idbanco', 'idconceptobanco', 'bancoFecha', 'bancoTipomovimiento', 'bancoCantidad', 'bancoBalance', 'bancoComprobante', 'bancoNota', ),
+        BasePeer::TYPE_COLNAME => array (BancoPeer::IDBANCO, BancoPeer::IDCONCEPTOBANCO, BancoPeer::BANCO_FECHA, BancoPeer::BANCO_TIPOMOVIMIENTO, BancoPeer::BANCO_CANTIDAD, BancoPeer::BANCO_BALANCE, BancoPeer::BANCO_COMPROBANTE, BancoPeer::BANCO_NOTA, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDBANCO', 'IDCONCEPTOBANCO', 'BANCO_FECHA', 'BANCO_TIPOMOVIMIENTO', 'BANCO_CANTIDAD', 'BANCO_BALANCE', 'BANCO_COMPROBANTE', 'BANCO_NOTA', ),
+        BasePeer::TYPE_FIELDNAME => array ('idbanco', 'idconceptobanco', 'banco_fecha', 'banco_tipomovimiento', 'banco_cantidad', 'banco_balance', 'banco_comprobante', 'banco_nota', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -81,12 +94,20 @@ abstract class BaseBancoPeer
      * e.g. BancoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idbanco' => 0, 'BancoNombre' => 1, 'BancoCuenta' => 2, 'BancoDescripcion' => 3, 'BancoBalance' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idbanco' => 0, 'bancoNombre' => 1, 'bancoCuenta' => 2, 'bancoDescripcion' => 3, 'bancoBalance' => 4, ),
-        BasePeer::TYPE_COLNAME => array (BancoPeer::IDBANCO => 0, BancoPeer::BANCO_NOMBRE => 1, BancoPeer::BANCO_CUENTA => 2, BancoPeer::BANCO_DESCRIPCION => 3, BancoPeer::BANCO_BALANCE => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDBANCO' => 0, 'BANCO_NOMBRE' => 1, 'BANCO_CUENTA' => 2, 'BANCO_DESCRIPCION' => 3, 'BANCO_BALANCE' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('idbanco' => 0, 'banco_nombre' => 1, 'banco_cuenta' => 2, 'banco_descripcion' => 3, 'banco_balance' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idbanco' => 0, 'Idconceptobanco' => 1, 'BancoFecha' => 2, 'BancoTipomovimiento' => 3, 'BancoCantidad' => 4, 'BancoBalance' => 5, 'BancoComprobante' => 6, 'BancoNota' => 7, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idbanco' => 0, 'idconceptobanco' => 1, 'bancoFecha' => 2, 'bancoTipomovimiento' => 3, 'bancoCantidad' => 4, 'bancoBalance' => 5, 'bancoComprobante' => 6, 'bancoNota' => 7, ),
+        BasePeer::TYPE_COLNAME => array (BancoPeer::IDBANCO => 0, BancoPeer::IDCONCEPTOBANCO => 1, BancoPeer::BANCO_FECHA => 2, BancoPeer::BANCO_TIPOMOVIMIENTO => 3, BancoPeer::BANCO_CANTIDAD => 4, BancoPeer::BANCO_BALANCE => 5, BancoPeer::BANCO_COMPROBANTE => 6, BancoPeer::BANCO_NOTA => 7, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDBANCO' => 0, 'IDCONCEPTOBANCO' => 1, 'BANCO_FECHA' => 2, 'BANCO_TIPOMOVIMIENTO' => 3, 'BANCO_CANTIDAD' => 4, 'BANCO_BALANCE' => 5, 'BANCO_COMPROBANTE' => 6, 'BANCO_NOTA' => 7, ),
+        BasePeer::TYPE_FIELDNAME => array ('idbanco' => 0, 'idconceptobanco' => 1, 'banco_fecha' => 2, 'banco_tipomovimiento' => 3, 'banco_cantidad' => 4, 'banco_balance' => 5, 'banco_comprobante' => 6, 'banco_nota' => 7, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+    );
+
+    /** The enumerated values for this table */
+    protected static $enumValueSets = array(
+        BancoPeer::BANCO_TIPOMOVIMIENTO => array(
+            BancoPeer::BANCO_TIPOMOVIMIENTO_CARGO,
+            BancoPeer::BANCO_TIPOMOVIMIENTO_ABONO,
+        ),
     );
 
     /**
@@ -129,6 +150,51 @@ abstract class BaseBancoPeer
     }
 
     /**
+     * Gets the list of values for all ENUM columns
+     * @return array
+     */
+    public static function getValueSets()
+    {
+      return BancoPeer::$enumValueSets;
+    }
+
+    /**
+     * Gets the list of values for an ENUM column
+     *
+     * @param string $colname The ENUM column name.
+     *
+     * @return array list of possible values for the column
+     */
+    public static function getValueSet($colname)
+    {
+        $valueSets = BancoPeer::getValueSets();
+
+        if (!isset($valueSets[$colname])) {
+            throw new PropelException(sprintf('Column "%s" has no ValueSet.', $colname));
+        }
+
+        return $valueSets[$colname];
+    }
+
+    /**
+     * Gets the SQL value for the ENUM column value
+     *
+     * @param string $colname ENUM column name.
+     * @param string $enumVal ENUM value.
+     *
+     * @return int SQL value
+     */
+    public static function getSqlValueForEnum($colname, $enumVal)
+    {
+        $values = BancoPeer::getValueSet($colname);
+        if (!in_array($enumVal, $values)) {
+            throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $colname));
+        }
+
+        return array_search($enumVal, $values);
+    }
+
+    /**
      * Convenience method which changes table.column to alias.column.
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
@@ -161,16 +227,22 @@ abstract class BaseBancoPeer
     {
         if (null === $alias) {
             $criteria->addSelectColumn(BancoPeer::IDBANCO);
-            $criteria->addSelectColumn(BancoPeer::BANCO_NOMBRE);
-            $criteria->addSelectColumn(BancoPeer::BANCO_CUENTA);
-            $criteria->addSelectColumn(BancoPeer::BANCO_DESCRIPCION);
+            $criteria->addSelectColumn(BancoPeer::IDCONCEPTOBANCO);
+            $criteria->addSelectColumn(BancoPeer::BANCO_FECHA);
+            $criteria->addSelectColumn(BancoPeer::BANCO_TIPOMOVIMIENTO);
+            $criteria->addSelectColumn(BancoPeer::BANCO_CANTIDAD);
             $criteria->addSelectColumn(BancoPeer::BANCO_BALANCE);
+            $criteria->addSelectColumn(BancoPeer::BANCO_COMPROBANTE);
+            $criteria->addSelectColumn(BancoPeer::BANCO_NOTA);
         } else {
             $criteria->addSelectColumn($alias . '.idbanco');
-            $criteria->addSelectColumn($alias . '.banco_nombre');
-            $criteria->addSelectColumn($alias . '.banco_cuenta');
-            $criteria->addSelectColumn($alias . '.banco_descripcion');
+            $criteria->addSelectColumn($alias . '.idconceptobanco');
+            $criteria->addSelectColumn($alias . '.banco_fecha');
+            $criteria->addSelectColumn($alias . '.banco_tipomovimiento');
+            $criteria->addSelectColumn($alias . '.banco_cantidad');
             $criteria->addSelectColumn($alias . '.banco_balance');
+            $criteria->addSelectColumn($alias . '.banco_comprobante');
+            $criteria->addSelectColumn($alias . '.banco_nota');
         }
     }
 
@@ -375,9 +447,9 @@ abstract class BaseBancoPeer
      */
     public static function clearRelatedInstancePool()
     {
-        // Invalidate objects in BancotransaccionPeer instance pool,
+        // Invalidate objects in ReferenciaabonoPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        BancotransaccionPeer::clearInstancePool();
+        ReferenciaabonoPeer::clearInstancePool();
     }
 
     /**
@@ -472,6 +544,244 @@ abstract class BaseBancoPeer
         }
 
         return array($obj, $col);
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining the related Conceptobanco table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinConceptobanco(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(BancoPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            BancoPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(BancoPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(BancoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(BancoPeer::IDCONCEPTOBANCO, ConceptobancoPeer::IDBANCOTRANSACCION, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
+     * Selects a collection of Banco objects pre-filled with their Conceptobanco objects.
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Banco objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinConceptobanco(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(BancoPeer::DATABASE_NAME);
+        }
+
+        BancoPeer::addSelectColumns($criteria);
+        $startcol = BancoPeer::NUM_HYDRATE_COLUMNS;
+        ConceptobancoPeer::addSelectColumns($criteria);
+
+        $criteria->addJoin(BancoPeer::IDCONCEPTOBANCO, ConceptobancoPeer::IDBANCOTRANSACCION, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = BancoPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = BancoPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+
+                $cls = BancoPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                BancoPeer::addInstanceToPool($obj1, $key1);
+            } // if $obj1 already loaded
+
+            $key2 = ConceptobancoPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            if ($key2 !== null) {
+                $obj2 = ConceptobancoPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = ConceptobancoPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol);
+                    ConceptobancoPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 already loaded
+
+                // Add the $obj1 (Banco) to $obj2 (Conceptobanco)
+                $obj2->addBanco($obj1);
+
+            } // if joined row was not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining all related tables
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(BancoPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            BancoPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(BancoPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(BancoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(BancoPeer::IDCONCEPTOBANCO, ConceptobancoPeer::IDBANCOTRANSACCION, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+    /**
+     * Selects a collection of Banco objects pre-filled with all related objects.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Banco objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(BancoPeer::DATABASE_NAME);
+        }
+
+        BancoPeer::addSelectColumns($criteria);
+        $startcol2 = BancoPeer::NUM_HYDRATE_COLUMNS;
+
+        ConceptobancoPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + ConceptobancoPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(BancoPeer::IDCONCEPTOBANCO, ConceptobancoPeer::IDBANCOTRANSACCION, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = BancoPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = BancoPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = BancoPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                BancoPeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+            // Add objects for joined Conceptobanco rows
+
+            $key2 = ConceptobancoPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            if ($key2 !== null) {
+                $obj2 = ConceptobancoPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = ConceptobancoPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    ConceptobancoPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 loaded
+
+                // Add the $obj1 (Banco) to the collection in $obj2 (Conceptobanco)
+                $obj2->addBanco($obj1);
+            } // if joined row not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
     }
 
     /**
@@ -712,11 +1022,11 @@ abstract class BaseBancoPeer
         foreach ($objects as $obj) {
 
 
-            // delete related Bancotransaccion objects
-            $criteria = new Criteria(BancotransaccionPeer::DATABASE_NAME);
+            // delete related Referenciaabono objects
+            $criteria = new Criteria(ReferenciaabonoPeer::DATABASE_NAME);
 
-            $criteria->add(BancotransaccionPeer::IDBANCO, $obj->getIdbanco());
-            $affectedRows += BancotransaccionPeer::doDelete($criteria, $con);
+            $criteria->add(ReferenciaabonoPeer::IDBANCO, $obj->getIdbanco());
+            $affectedRows += ReferenciaabonoPeer::doDelete($criteria, $con);
         }
 
         return $affectedRows;

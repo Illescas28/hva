@@ -13,6 +13,10 @@
     <column name="admision_status" phpName="AdmisionStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false" defaultValue="pendiente"/>
     <column name="admision_total" phpName="AdmisionTotal" type="DECIMAL" size="10" scale="2" required="false"/>
     <column name="admision_pagadaen" phpName="AdmisionPagadaen" type="TIMESTAMP" required="false"/>
+    <column name="admision_tipodepago" phpName="AdmisionTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
+    <column name="admision_referenciapago" phpName="AdmisionReferenciapago" type="VARCHAR" size="45" required="false"/>
+    <column name="admision_facturada" phpName="AdmisionFacturada" type="BOOLEAN" size="1" required="false"/>
+    <column name="admision_registrada" phpName="AdmisionRegistrada" type="BOOLEAN" size="1" required="false"/>
     <foreign-key foreignTable="cuarto" name="idcuarto_admision" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idcuarto" foreign="idcuarto"/>
     </foreign-key>
@@ -143,28 +147,18 @@
   </table>
   <table name="banco" phpName="Banco" idMethod="native">
     <column name="idbanco" phpName="Idbanco" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="banco_nombre" phpName="BancoNombre" type="VARCHAR" size="100" required="true"/>
-    <column name="banco_cuenta" phpName="BancoCuenta" type="VARCHAR" size="45" required="true"/>
-    <column name="banco_descripcion" phpName="BancoDescripcion" type="LONGVARCHAR" required="false"/>
+    <column name="idconceptobanco" phpName="Idconceptobanco" type="INTEGER" required="true"/>
+    <column name="banco_fecha" phpName="BancoFecha" type="VARCHAR" size="100" required="true"/>
+    <column name="banco_tipomovimiento" phpName="BancoTipomovimiento" type="CHAR" sqlType="enum('cargo','abono')" required="true"/>
+    <column name="banco_cantidad" phpName="BancoCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="banco_balance" phpName="BancoBalance" type="DECIMAL" size="10" scale="2" required="true" defaultValue="0.00"/>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
-  <table name="bancotransaccion" phpName="Bancotransaccion" idMethod="native">
-    <column name="idbancotransaccion" phpName="Idbancotransaccion" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="idbanco" phpName="Idbanco" type="INTEGER" required="true"/>
-    <column name="bancotransaccion_tipo" phpName="BancotransaccionTipo" type="CHAR" sqlType="enum('egreso','ingreso')" required="true"/>
-    <column name="bancotransaccion_referencia" phpName="BancotransaccionReferencia" type="CHAR" sqlType="enum('caja chica','consulta','compra','admision')" required="true"/>
-    <column name="idtransaccion" phpName="Idtransaccion" type="INTEGER" required="false"/>
-    <column name="bancotransaccion_cantidad" phpName="BancotransaccionCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
-    <column name="bancotransaccion_fecha" phpName="BancotransaccionFecha" type="TIMESTAMP" required="true"/>
-    <column name="bancotransaccion_nota" phpName="BancotransaccionNota" type="LONGVARCHAR" required="false"/>
-    <foreign-key foreignTable="banco" name="idbanco_bancotransaccion" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference local="idbanco" foreign="idbanco"/>
+    <column name="banco_comprobante" phpName="BancoComprobante" type="VARCHAR" size="255" required="false"/>
+    <column name="banco_nota" phpName="BancoNota" type="LONGVARCHAR" required="false"/>
+    <foreign-key foreignTable="conceptobanco" name="idconceptobanco_banco" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idconceptobanco" foreign="idbancotransaccion"/>
     </foreign-key>
-    <index name="idbanco">
-      <index-column name="idbanco"/>
+    <index name="idconceptobanco">
+      <index-column name="idconceptobanco"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -172,32 +166,19 @@
   </table>
   <table name="cajachica" phpName="Cajachica" idMethod="native">
     <column name="idcajachica" phpName="Idcajachica" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="cajachica_nombre" phpName="CajachicaNombre" type="VARCHAR" size="45" required="true"/>
-    <column name="cajachica_descripcion" phpName="CajachicaDescripcion" type="VARCHAR" size="45" required="false"/>
-    <column name="cajachica_fechainicio" phpName="CajachicaFechainicio" type="DATE" required="true"/>
-    <column name="cajachica_fechafinal" phpName="CajachicaFechafinal" type="DATE" required="false"/>
-    <column name="cajachica_total" phpName="CajachicaTotal" type="DECIMAL" size="10" scale="2" required="false"/>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
-  <table name="cajachicadetalle" phpName="Cajachicadetalle" idMethod="native">
-    <column name="idcajachicadetalle" phpName="Idcajachicadetalle" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="idcajachica" phpName="Idcajachica" type="INTEGER" required="true"/>
-    <column name="idgasto" phpName="Idgasto" type="INTEGER" required="true"/>
-    <column name="cajachicadetalle_cantidad" phpName="CajachicadetalleCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
-    <column name="cajachicadetalle_monto" phpName="CajachicadetalleMonto" type="DECIMAL" size="10" scale="2" required="true"/>
-    <foreign-key foreignTable="cajachica" name="idcajachica_cajachicadetalle" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference local="idcajachica" foreign="idcajachica"/>
+    <column name="idconceptocajachica" phpName="Idconceptocajachica" type="INTEGER" required="true"/>
+    <column name="cajachica_tipomovimiento" phpName="CajachicaTipomovimiento" type="CHAR" sqlType="enum('cargo','abono')" required="true"/>
+    <column name="cajachica_cantidad" phpName="CajachicaCantidad" type="DECIMAL" size="10" scale="2" required="false"/>
+    <column name="cajachica_fecha" phpName="CajachicaFecha" type="DATE" required="true"/>
+    <column name="cajachica_balance" phpName="CajachicaBalance" type="DECIMAL" size="10" scale="2" required="false"/>
+    <column name="cajachica_comprobante" phpName="CajachicaComprobante" type="VARCHAR" size="45" required="false"/>
+    <column name="cajachica_nota" phpName="CajachicaNota" type="LONGVARCHAR" required="false"/>
+    <column name="cajachica_pacientedoctor" phpName="CajachicaPacientedoctor" type="VARCHAR" size="255" required="false"/>
+    <foreign-key foreignTable="conceptocajachica" name="idconceptocajachica_cajachica" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idconceptocajachica" foreign="idconceptocajachica"/>
     </foreign-key>
-    <foreign-key foreignTable="gasto" name="idgasto_cajachicadetalle" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference local="idgasto" foreign="idgasto"/>
-    </foreign-key>
-    <index name="idcajachica">
-      <index-column name="idcajachica"/>
-    </index>
-    <index name="idgasto">
-      <index-column name="idgasto"/>
+    <index name="idconceptocajachica">
+      <index-column name="idconceptocajachica"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -319,17 +300,37 @@
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
+  <table name="conceptobanco" phpName="Conceptobanco" idMethod="native">
+    <column name="idbancotransaccion" phpName="Idbancotransaccion" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="bancotransaccion_nombre" phpName="BancotransaccionNombre" type="VARCHAR" size="255" required="true"/>
+    <column name="bancotransaccion_descripcion" phpName="BancotransaccionDescripcion" type="LONGVARCHAR" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="conceptocajachica" phpName="Conceptocajachica" idMethod="native">
+    <column name="idconceptocajachica" phpName="Idconceptocajachica" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="conceptocajachica_nombre" phpName="ConceptocajachicaNombre" type="VARCHAR" size="45" required="true"/>
+    <column name="conceptocajachica_descripcion" phpName="ConceptocajachicaDescripcion" type="LONGVARCHAR" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
   <table name="consulta" phpName="Consulta" idMethod="native">
     <column name="idconsulta" phpName="Idconsulta" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idpaciente" phpName="Idpaciente" type="INTEGER" required="true"/>
     <column name="idmedico" phpName="Idmedico" type="INTEGER" required="true"/>
     <column name="idconsultorio" phpName="Idconsultorio" type="INTEGER" required="true"/>
-    <column name="consulta_fechaadmision" phpName="ConsultaFechaadmision" type="TIMESTAMP" required="true"/>
-    <column name="consulta_fechasalida" phpName="ConsultaFechasalida" type="TIMESTAMP" required="false"/>
+    <column name="consulta_fecha" phpName="ConsultaFecha" type="DATE" required="true"/>
+    <column name="consulta_hora" phpName="ConsultaHora" type="TIME" required="true"/>
     <column name="consulta_diagnostico" phpName="ConsultaDiagnostico" type="LONGVARCHAR" required="false"/>
     <column name="consulta_observaciones" phpName="ConsultaObservaciones" type="LONGVARCHAR" required="false"/>
     <column name="consulta_status" phpName="ConsultaStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false" defaultValue="pendiente"/>
     <column name="consulta_total" phpName="ConsultaTotal" type="DECIMAL" size="10" scale="2" required="false"/>
+    <column name="consulta_tipodepago" phpName="ConsultaTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
+    <column name="consulta_referenciapago" phpName="ConsultaReferenciapago" type="VARCHAR" size="45" required="false"/>
+    <column name="consulta_facturada" phpName="ConsultaFacturada" type="BOOLEAN" size="1" required="false"/>
+    <column name="consulta_registrada" phpName="ConsultaRegistrada" type="BOOLEAN" size="1" required="false"/>
     <foreign-key foreignTable="consultorio" name="idconsultorio_consulta" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idconsultorio" foreign="idconsultorio"/>
     </foreign-key>
@@ -397,6 +398,7 @@
     <column name="empleado_nombreusuario" phpName="EmpleadoNombreusuario" type="VARCHAR" size="45" required="true"/>
     <column name="empleado_password" phpName="EmpleadoPassword" type="VARCHAR" size="45" required="true"/>
     <column name="empleado_email" phpName="EmpleadoEmail" type="VARCHAR" size="100" required="true"/>
+    <column name="empleado_imagen" phpName="EmpleadoImagen" type="VARCHAR" size="255" required="false"/>
     <foreign-key foreignTable="rol" name="idrol_empleado" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idrol" foreign="idrol"/>
     </foreign-key>
@@ -468,14 +470,6 @@
     <index name="idconsulta">
       <index-column name="idconsulta"/>
     </index>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
-  <table name="gasto" phpName="Gasto" idMethod="native">
-    <column name="idgasto" phpName="Idgasto" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="gasto_nombre" phpName="GastoNombre" type="VARCHAR" size="45" required="true"/>
-    <column name="gasto_descripcion" phpName="GastoDescripcion" type="LONGVARCHAR" required="true"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -746,10 +740,25 @@
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
+  <table name="referenciaabono" phpName="Referenciaabono" idMethod="native">
+    <column name="idreferenciaabono" phpName="Idreferenciaabono" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idbanco" phpName="Idbanco" type="INTEGER" required="false"/>
+    <column name="referenciaabono_tipo" phpName="ReferenciaabonoTipo" type="CHAR" sqlType="enum('consulta','admision','venta')" required="false"/>
+    <column name="referenciaabono_referencia" phpName="ReferenciaabonoReferencia" type="INTEGER" required="false"/>
+    <foreign-key foreignTable="banco" name="idbanco_referenciaabono" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idbanco" foreign="idbanco"/>
+    </foreign-key>
+    <index name="idbanco">
+      <index-column name="idbanco"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
   <table name="rol" phpName="Rol" idMethod="native">
     <column name="idrol" phpName="Idrol" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="rol_nombre" phpName="RolNombre" type="VARCHAR" size="100" required="true"/>
-    <column name="rol_descripcion" phpName="RolDescripcion" type="LONGVARCHAR" required="true"/>
+    <column name="rol_descripcion" phpName="RolDescripcion" type="LONGVARCHAR" required="false"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -778,9 +787,8 @@
     <column name="idservicio" phpName="Idservicio" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="servicio_nombre" phpName="ServicioNombre" type="VARCHAR" size="300" required="true"/>
     <column name="servicio_descripcion" phpName="ServicioDescripcion" type="LONGVARCHAR" required="true"/>
-    <column name="servicio_costo" phpName="ServicioCosto" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="servicio_precio" phpName="ServicioPrecio" type="DECIMAL" size="10" scale="2" required="true"/>
-    <column name="servicio_iva" phpName="ServicioIva" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="servicio_iva" phpName="ServicioIva" type="CHAR" sqlType="enum('exento','0','16')" required="true"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -794,7 +802,8 @@
     </vendor>
   </table>
   <table name="traspaso" phpName="Traspaso" idMethod="native">
-    <column name="idinventariolugar" phpName="Idinventariolugar" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="idinventariolugar" phpName="Idinventariolugar" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idordencompra" phpName="Idordencompra" type="INTEGER" required="true"/>
     <column name="idlugarremitente" phpName="Idlugarremitente" type="INTEGER" primaryKey="true" required="true"/>
     <column name="idlugardestinatario" phpName="Idlugardestinatario" type="INTEGER" primaryKey="true" required="true"/>
     <column name="traspaso_fecha" phpName="TraspasoFecha" type="TIMESTAMP" required="true"/>
@@ -805,11 +814,17 @@
     <foreign-key foreignTable="lugar" name="idlugarremitente_traspaso" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idlugarremitente" foreign="idlugar"/>
     </foreign-key>
+    <foreign-key foreignTable="ordencompra" name="idordencompra_traspaso" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idordencompra" foreign="idordencompra"/>
+    </foreign-key>
     <index name="idlugarremitente">
       <index-column name="idlugarremitente"/>
     </index>
     <index name="idlugardestinantario">
       <index-column name="idlugardestinatario"/>
+    </index>
+    <index name="idordencompra">
+      <index-column name="idordencompra"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -846,19 +861,17 @@
   </table>
   <table name="venta" phpName="Venta" idMethod="native">
     <column name="idventa" phpName="Idventa" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="idpaciente" phpName="Idpaciente" type="INTEGER" required="false"/>
-    <column name="idcajachica" phpName="Idcajachica" type="INTEGER" required="true"/>
+    <column name="idpaciente" phpName="Idpaciente" type="INTEGER" required="true"/>
     <column name="venta_fecha" phpName="VentaFecha" type="TIMESTAMP" required="true"/>
-    <column name="venta_cantidad" phpName="VentaCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
-    <foreign-key foreignTable="cajachica" name="cajachica_venta" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference local="idcajachica" foreign="idcajachica"/>
-    </foreign-key>
+    <column name="venta_tipodepago" phpName="VentaTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
+    <column name="venta_status" phpName="VentaStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false"/>
+    <column name="venta_facturada" phpName="VentaFacturada" type="BOOLEAN" size="1" required="false"/>
+    <column name="venta_registrada" phpName="VentaRegistrada" type="BOOLEAN" size="1" required="false"/>
+    <column name="venta_total" phpName="VentaTotal" type="DECIMAL" size="10" scale="2" required="false"/>
+    <column name="venta_referenciapago" phpName="VentaReferenciapago" type="VARCHAR" size="45" required="false"/>
     <foreign-key foreignTable="paciente" name="idpaciente_venta" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idpaciente" foreign="idpaciente"/>
     </foreign-key>
-    <index name="idcajachica">
-      <index-column name="idcajachica"/>
-    </index>
     <index name="idpaciente">
       <index-column name="idpaciente"/>
     </index>

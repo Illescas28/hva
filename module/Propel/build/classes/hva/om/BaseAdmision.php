@@ -97,6 +97,30 @@ abstract class BaseAdmision extends BaseObject implements Persistent
     protected $admision_pagadaen;
 
     /**
+     * The value for the admision_tipodepago field.
+     * @var        string
+     */
+    protected $admision_tipodepago;
+
+    /**
+     * The value for the admision_referenciapago field.
+     * @var        string
+     */
+    protected $admision_referenciapago;
+
+    /**
+     * The value for the admision_facturada field.
+     * @var        boolean
+     */
+    protected $admision_facturada;
+
+    /**
+     * The value for the admision_registrada field.
+     * @var        boolean
+     */
+    protected $admision_registrada;
+
+    /**
      * @var        Cuarto
      */
     protected $aCuarto;
@@ -385,6 +409,50 @@ abstract class BaseAdmision extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [admision_tipodepago] column value.
+     *
+     * @return string
+     */
+    public function getAdmisionTipodepago()
+    {
+
+        return $this->admision_tipodepago;
+    }
+
+    /**
+     * Get the [admision_referenciapago] column value.
+     *
+     * @return string
+     */
+    public function getAdmisionReferenciapago()
+    {
+
+        return $this->admision_referenciapago;
+    }
+
+    /**
+     * Get the [admision_facturada] column value.
+     *
+     * @return boolean
+     */
+    public function getAdmisionFacturada()
+    {
+
+        return $this->admision_facturada;
+    }
+
+    /**
+     * Get the [admision_registrada] column value.
+     *
+     * @return boolean
+     */
+    public function getAdmisionRegistrada()
+    {
+
+        return $this->admision_registrada;
+    }
+
+    /**
      * Set the value of [idadmision] column.
      *
      * @param  int $v new value
@@ -634,6 +702,106 @@ abstract class BaseAdmision extends BaseObject implements Persistent
     } // setAdmisionPagadaen()
 
     /**
+     * Set the value of [admision_tipodepago] column.
+     *
+     * @param  string $v new value
+     * @return Admision The current object (for fluent API support)
+     */
+    public function setAdmisionTipodepago($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->admision_tipodepago !== $v) {
+            $this->admision_tipodepago = $v;
+            $this->modifiedColumns[] = AdmisionPeer::ADMISION_TIPODEPAGO;
+        }
+
+
+        return $this;
+    } // setAdmisionTipodepago()
+
+    /**
+     * Set the value of [admision_referenciapago] column.
+     *
+     * @param  string $v new value
+     * @return Admision The current object (for fluent API support)
+     */
+    public function setAdmisionReferenciapago($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->admision_referenciapago !== $v) {
+            $this->admision_referenciapago = $v;
+            $this->modifiedColumns[] = AdmisionPeer::ADMISION_REFERENCIAPAGO;
+        }
+
+
+        return $this;
+    } // setAdmisionReferenciapago()
+
+    /**
+     * Sets the value of the [admision_facturada] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param boolean|integer|string $v The new value
+     * @return Admision The current object (for fluent API support)
+     */
+    public function setAdmisionFacturada($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->admision_facturada !== $v) {
+            $this->admision_facturada = $v;
+            $this->modifiedColumns[] = AdmisionPeer::ADMISION_FACTURADA;
+        }
+
+
+        return $this;
+    } // setAdmisionFacturada()
+
+    /**
+     * Sets the value of the [admision_registrada] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param boolean|integer|string $v The new value
+     * @return Admision The current object (for fluent API support)
+     */
+    public function setAdmisionRegistrada($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->admision_registrada !== $v) {
+            $this->admision_registrada = $v;
+            $this->modifiedColumns[] = AdmisionPeer::ADMISION_REGISTRADA;
+        }
+
+
+        return $this;
+    } // setAdmisionRegistrada()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -680,6 +848,10 @@ abstract class BaseAdmision extends BaseObject implements Persistent
             $this->admision_status = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
             $this->admision_total = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
             $this->admision_pagadaen = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->admision_tipodepago = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
+            $this->admision_referenciapago = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
+            $this->admision_facturada = ($row[$startcol + 13] !== null) ? (boolean) $row[$startcol + 13] : null;
+            $this->admision_registrada = ($row[$startcol + 14] !== null) ? (boolean) $row[$startcol + 14] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -689,7 +861,7 @@ abstract class BaseAdmision extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 11; // 11 = AdmisionPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 15; // 15 = AdmisionPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Admision object", $e);
@@ -1010,6 +1182,18 @@ abstract class BaseAdmision extends BaseObject implements Persistent
         if ($this->isColumnModified(AdmisionPeer::ADMISION_PAGADAEN)) {
             $modifiedColumns[':p' . $index++]  = '`admision_pagadaen`';
         }
+        if ($this->isColumnModified(AdmisionPeer::ADMISION_TIPODEPAGO)) {
+            $modifiedColumns[':p' . $index++]  = '`admision_tipodepago`';
+        }
+        if ($this->isColumnModified(AdmisionPeer::ADMISION_REFERENCIAPAGO)) {
+            $modifiedColumns[':p' . $index++]  = '`admision_referenciapago`';
+        }
+        if ($this->isColumnModified(AdmisionPeer::ADMISION_FACTURADA)) {
+            $modifiedColumns[':p' . $index++]  = '`admision_facturada`';
+        }
+        if ($this->isColumnModified(AdmisionPeer::ADMISION_REGISTRADA)) {
+            $modifiedColumns[':p' . $index++]  = '`admision_registrada`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `admision` (%s) VALUES (%s)',
@@ -1053,6 +1237,18 @@ abstract class BaseAdmision extends BaseObject implements Persistent
                         break;
                     case '`admision_pagadaen`':
                         $stmt->bindValue($identifier, $this->admision_pagadaen, PDO::PARAM_STR);
+                        break;
+                    case '`admision_tipodepago`':
+                        $stmt->bindValue($identifier, $this->admision_tipodepago, PDO::PARAM_STR);
+                        break;
+                    case '`admision_referenciapago`':
+                        $stmt->bindValue($identifier, $this->admision_referenciapago, PDO::PARAM_STR);
+                        break;
+                    case '`admision_facturada`':
+                        $stmt->bindValue($identifier, (int) $this->admision_facturada, PDO::PARAM_INT);
+                        break;
+                    case '`admision_registrada`':
+                        $stmt->bindValue($identifier, (int) $this->admision_registrada, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1261,6 +1457,18 @@ abstract class BaseAdmision extends BaseObject implements Persistent
             case 10:
                 return $this->getAdmisionPagadaen();
                 break;
+            case 11:
+                return $this->getAdmisionTipodepago();
+                break;
+            case 12:
+                return $this->getAdmisionReferenciapago();
+                break;
+            case 13:
+                return $this->getAdmisionFacturada();
+                break;
+            case 14:
+                return $this->getAdmisionRegistrada();
+                break;
             default:
                 return null;
                 break;
@@ -1301,6 +1509,10 @@ abstract class BaseAdmision extends BaseObject implements Persistent
             $keys[8] => $this->getAdmisionStatus(),
             $keys[9] => $this->getAdmisionTotal(),
             $keys[10] => $this->getAdmisionPagadaen(),
+            $keys[11] => $this->getAdmisionTipodepago(),
+            $keys[12] => $this->getAdmisionReferenciapago(),
+            $keys[13] => $this->getAdmisionFacturada(),
+            $keys[14] => $this->getAdmisionRegistrada(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1390,6 +1602,18 @@ abstract class BaseAdmision extends BaseObject implements Persistent
             case 10:
                 $this->setAdmisionPagadaen($value);
                 break;
+            case 11:
+                $this->setAdmisionTipodepago($value);
+                break;
+            case 12:
+                $this->setAdmisionReferenciapago($value);
+                break;
+            case 13:
+                $this->setAdmisionFacturada($value);
+                break;
+            case 14:
+                $this->setAdmisionRegistrada($value);
+                break;
         } // switch()
     }
 
@@ -1425,6 +1649,10 @@ abstract class BaseAdmision extends BaseObject implements Persistent
         if (array_key_exists($keys[8], $arr)) $this->setAdmisionStatus($arr[$keys[8]]);
         if (array_key_exists($keys[9], $arr)) $this->setAdmisionTotal($arr[$keys[9]]);
         if (array_key_exists($keys[10], $arr)) $this->setAdmisionPagadaen($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setAdmisionTipodepago($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setAdmisionReferenciapago($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setAdmisionFacturada($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setAdmisionRegistrada($arr[$keys[14]]);
     }
 
     /**
@@ -1447,6 +1675,10 @@ abstract class BaseAdmision extends BaseObject implements Persistent
         if ($this->isColumnModified(AdmisionPeer::ADMISION_STATUS)) $criteria->add(AdmisionPeer::ADMISION_STATUS, $this->admision_status);
         if ($this->isColumnModified(AdmisionPeer::ADMISION_TOTAL)) $criteria->add(AdmisionPeer::ADMISION_TOTAL, $this->admision_total);
         if ($this->isColumnModified(AdmisionPeer::ADMISION_PAGADAEN)) $criteria->add(AdmisionPeer::ADMISION_PAGADAEN, $this->admision_pagadaen);
+        if ($this->isColumnModified(AdmisionPeer::ADMISION_TIPODEPAGO)) $criteria->add(AdmisionPeer::ADMISION_TIPODEPAGO, $this->admision_tipodepago);
+        if ($this->isColumnModified(AdmisionPeer::ADMISION_REFERENCIAPAGO)) $criteria->add(AdmisionPeer::ADMISION_REFERENCIAPAGO, $this->admision_referenciapago);
+        if ($this->isColumnModified(AdmisionPeer::ADMISION_FACTURADA)) $criteria->add(AdmisionPeer::ADMISION_FACTURADA, $this->admision_facturada);
+        if ($this->isColumnModified(AdmisionPeer::ADMISION_REGISTRADA)) $criteria->add(AdmisionPeer::ADMISION_REGISTRADA, $this->admision_registrada);
 
         return $criteria;
     }
@@ -1520,6 +1752,10 @@ abstract class BaseAdmision extends BaseObject implements Persistent
         $copyObj->setAdmisionStatus($this->getAdmisionStatus());
         $copyObj->setAdmisionTotal($this->getAdmisionTotal());
         $copyObj->setAdmisionPagadaen($this->getAdmisionPagadaen());
+        $copyObj->setAdmisionTipodepago($this->getAdmisionTipodepago());
+        $copyObj->setAdmisionReferenciapago($this->getAdmisionReferenciapago());
+        $copyObj->setAdmisionFacturada($this->getAdmisionFacturada());
+        $copyObj->setAdmisionRegistrada($this->getAdmisionRegistrada());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -2281,6 +2517,10 @@ abstract class BaseAdmision extends BaseObject implements Persistent
         $this->admision_status = null;
         $this->admision_total = null;
         $this->admision_pagadaen = null;
+        $this->admision_tipodepago = null;
+        $this->admision_referenciapago = null;
+        $this->admision_facturada = null;
+        $this->admision_registrada = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

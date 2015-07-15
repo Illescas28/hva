@@ -24,31 +24,44 @@ abstract class BaseCajachicaPeer
     const TM_CLASS = 'CajachicaTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 9;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 9;
 
     /** the column name for the idcajachica field */
     const IDCAJACHICA = 'cajachica.idcajachica';
 
-    /** the column name for the cajachica_nombre field */
-    const CAJACHICA_NOMBRE = 'cajachica.cajachica_nombre';
+    /** the column name for the idconceptocajachica field */
+    const IDCONCEPTOCAJACHICA = 'cajachica.idconceptocajachica';
 
-    /** the column name for the cajachica_descripcion field */
-    const CAJACHICA_DESCRIPCION = 'cajachica.cajachica_descripcion';
+    /** the column name for the cajachica_tipomovimiento field */
+    const CAJACHICA_TIPOMOVIMIENTO = 'cajachica.cajachica_tipomovimiento';
 
-    /** the column name for the cajachica_fechainicio field */
-    const CAJACHICA_FECHAINICIO = 'cajachica.cajachica_fechainicio';
+    /** the column name for the cajachica_cantidad field */
+    const CAJACHICA_CANTIDAD = 'cajachica.cajachica_cantidad';
 
-    /** the column name for the cajachica_fechafinal field */
-    const CAJACHICA_FECHAFINAL = 'cajachica.cajachica_fechafinal';
+    /** the column name for the cajachica_fecha field */
+    const CAJACHICA_FECHA = 'cajachica.cajachica_fecha';
 
-    /** the column name for the cajachica_total field */
-    const CAJACHICA_TOTAL = 'cajachica.cajachica_total';
+    /** the column name for the cajachica_balance field */
+    const CAJACHICA_BALANCE = 'cajachica.cajachica_balance';
+
+    /** the column name for the cajachica_comprobante field */
+    const CAJACHICA_COMPROBANTE = 'cajachica.cajachica_comprobante';
+
+    /** the column name for the cajachica_nota field */
+    const CAJACHICA_NOTA = 'cajachica.cajachica_nota';
+
+    /** the column name for the cajachica_pacientedoctor field */
+    const CAJACHICA_PACIENTEDOCTOR = 'cajachica.cajachica_pacientedoctor';
+
+    /** The enumerated values for the cajachica_tipomovimiento field */
+    const CAJACHICA_TIPOMOVIMIENTO_CARGO = 'cargo';
+    const CAJACHICA_TIPOMOVIMIENTO_ABONO = 'abono';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -69,12 +82,12 @@ abstract class BaseCajachicaPeer
      * e.g. CajachicaPeer::$fieldNames[CajachicaPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idcajachica', 'CajachicaNombre', 'CajachicaDescripcion', 'CajachicaFechainicio', 'CajachicaFechafinal', 'CajachicaTotal', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idcajachica', 'cajachicaNombre', 'cajachicaDescripcion', 'cajachicaFechainicio', 'cajachicaFechafinal', 'cajachicaTotal', ),
-        BasePeer::TYPE_COLNAME => array (CajachicaPeer::IDCAJACHICA, CajachicaPeer::CAJACHICA_NOMBRE, CajachicaPeer::CAJACHICA_DESCRIPCION, CajachicaPeer::CAJACHICA_FECHAINICIO, CajachicaPeer::CAJACHICA_FECHAFINAL, CajachicaPeer::CAJACHICA_TOTAL, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCAJACHICA', 'CAJACHICA_NOMBRE', 'CAJACHICA_DESCRIPCION', 'CAJACHICA_FECHAINICIO', 'CAJACHICA_FECHAFINAL', 'CAJACHICA_TOTAL', ),
-        BasePeer::TYPE_FIELDNAME => array ('idcajachica', 'cajachica_nombre', 'cajachica_descripcion', 'cajachica_fechainicio', 'cajachica_fechafinal', 'cajachica_total', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Idcajachica', 'Idconceptocajachica', 'CajachicaTipomovimiento', 'CajachicaCantidad', 'CajachicaFecha', 'CajachicaBalance', 'CajachicaComprobante', 'CajachicaNota', 'CajachicaPacientedoctor', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idcajachica', 'idconceptocajachica', 'cajachicaTipomovimiento', 'cajachicaCantidad', 'cajachicaFecha', 'cajachicaBalance', 'cajachicaComprobante', 'cajachicaNota', 'cajachicaPacientedoctor', ),
+        BasePeer::TYPE_COLNAME => array (CajachicaPeer::IDCAJACHICA, CajachicaPeer::IDCONCEPTOCAJACHICA, CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO, CajachicaPeer::CAJACHICA_CANTIDAD, CajachicaPeer::CAJACHICA_FECHA, CajachicaPeer::CAJACHICA_BALANCE, CajachicaPeer::CAJACHICA_COMPROBANTE, CajachicaPeer::CAJACHICA_NOTA, CajachicaPeer::CAJACHICA_PACIENTEDOCTOR, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCAJACHICA', 'IDCONCEPTOCAJACHICA', 'CAJACHICA_TIPOMOVIMIENTO', 'CAJACHICA_CANTIDAD', 'CAJACHICA_FECHA', 'CAJACHICA_BALANCE', 'CAJACHICA_COMPROBANTE', 'CAJACHICA_NOTA', 'CAJACHICA_PACIENTEDOCTOR', ),
+        BasePeer::TYPE_FIELDNAME => array ('idcajachica', 'idconceptocajachica', 'cajachica_tipomovimiento', 'cajachica_cantidad', 'cajachica_fecha', 'cajachica_balance', 'cajachica_comprobante', 'cajachica_nota', 'cajachica_pacientedoctor', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -84,12 +97,20 @@ abstract class BaseCajachicaPeer
      * e.g. CajachicaPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idcajachica' => 0, 'CajachicaNombre' => 1, 'CajachicaDescripcion' => 2, 'CajachicaFechainicio' => 3, 'CajachicaFechafinal' => 4, 'CajachicaTotal' => 5, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idcajachica' => 0, 'cajachicaNombre' => 1, 'cajachicaDescripcion' => 2, 'cajachicaFechainicio' => 3, 'cajachicaFechafinal' => 4, 'cajachicaTotal' => 5, ),
-        BasePeer::TYPE_COLNAME => array (CajachicaPeer::IDCAJACHICA => 0, CajachicaPeer::CAJACHICA_NOMBRE => 1, CajachicaPeer::CAJACHICA_DESCRIPCION => 2, CajachicaPeer::CAJACHICA_FECHAINICIO => 3, CajachicaPeer::CAJACHICA_FECHAFINAL => 4, CajachicaPeer::CAJACHICA_TOTAL => 5, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCAJACHICA' => 0, 'CAJACHICA_NOMBRE' => 1, 'CAJACHICA_DESCRIPCION' => 2, 'CAJACHICA_FECHAINICIO' => 3, 'CAJACHICA_FECHAFINAL' => 4, 'CAJACHICA_TOTAL' => 5, ),
-        BasePeer::TYPE_FIELDNAME => array ('idcajachica' => 0, 'cajachica_nombre' => 1, 'cajachica_descripcion' => 2, 'cajachica_fechainicio' => 3, 'cajachica_fechafinal' => 4, 'cajachica_total' => 5, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Idcajachica' => 0, 'Idconceptocajachica' => 1, 'CajachicaTipomovimiento' => 2, 'CajachicaCantidad' => 3, 'CajachicaFecha' => 4, 'CajachicaBalance' => 5, 'CajachicaComprobante' => 6, 'CajachicaNota' => 7, 'CajachicaPacientedoctor' => 8, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idcajachica' => 0, 'idconceptocajachica' => 1, 'cajachicaTipomovimiento' => 2, 'cajachicaCantidad' => 3, 'cajachicaFecha' => 4, 'cajachicaBalance' => 5, 'cajachicaComprobante' => 6, 'cajachicaNota' => 7, 'cajachicaPacientedoctor' => 8, ),
+        BasePeer::TYPE_COLNAME => array (CajachicaPeer::IDCAJACHICA => 0, CajachicaPeer::IDCONCEPTOCAJACHICA => 1, CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO => 2, CajachicaPeer::CAJACHICA_CANTIDAD => 3, CajachicaPeer::CAJACHICA_FECHA => 4, CajachicaPeer::CAJACHICA_BALANCE => 5, CajachicaPeer::CAJACHICA_COMPROBANTE => 6, CajachicaPeer::CAJACHICA_NOTA => 7, CajachicaPeer::CAJACHICA_PACIENTEDOCTOR => 8, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCAJACHICA' => 0, 'IDCONCEPTOCAJACHICA' => 1, 'CAJACHICA_TIPOMOVIMIENTO' => 2, 'CAJACHICA_CANTIDAD' => 3, 'CAJACHICA_FECHA' => 4, 'CAJACHICA_BALANCE' => 5, 'CAJACHICA_COMPROBANTE' => 6, 'CAJACHICA_NOTA' => 7, 'CAJACHICA_PACIENTEDOCTOR' => 8, ),
+        BasePeer::TYPE_FIELDNAME => array ('idcajachica' => 0, 'idconceptocajachica' => 1, 'cajachica_tipomovimiento' => 2, 'cajachica_cantidad' => 3, 'cajachica_fecha' => 4, 'cajachica_balance' => 5, 'cajachica_comprobante' => 6, 'cajachica_nota' => 7, 'cajachica_pacientedoctor' => 8, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+    );
+
+    /** The enumerated values for this table */
+    protected static $enumValueSets = array(
+        CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO => array(
+            CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO_CARGO,
+            CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO_ABONO,
+        ),
     );
 
     /**
@@ -132,6 +153,51 @@ abstract class BaseCajachicaPeer
     }
 
     /**
+     * Gets the list of values for all ENUM columns
+     * @return array
+     */
+    public static function getValueSets()
+    {
+      return CajachicaPeer::$enumValueSets;
+    }
+
+    /**
+     * Gets the list of values for an ENUM column
+     *
+     * @param string $colname The ENUM column name.
+     *
+     * @return array list of possible values for the column
+     */
+    public static function getValueSet($colname)
+    {
+        $valueSets = CajachicaPeer::getValueSets();
+
+        if (!isset($valueSets[$colname])) {
+            throw new PropelException(sprintf('Column "%s" has no ValueSet.', $colname));
+        }
+
+        return $valueSets[$colname];
+    }
+
+    /**
+     * Gets the SQL value for the ENUM column value
+     *
+     * @param string $colname ENUM column name.
+     * @param string $enumVal ENUM value.
+     *
+     * @return int SQL value
+     */
+    public static function getSqlValueForEnum($colname, $enumVal)
+    {
+        $values = CajachicaPeer::getValueSet($colname);
+        if (!in_array($enumVal, $values)) {
+            throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $colname));
+        }
+
+        return array_search($enumVal, $values);
+    }
+
+    /**
      * Convenience method which changes table.column to alias.column.
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
@@ -164,18 +230,24 @@ abstract class BaseCajachicaPeer
     {
         if (null === $alias) {
             $criteria->addSelectColumn(CajachicaPeer::IDCAJACHICA);
-            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_NOMBRE);
-            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_DESCRIPCION);
-            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_FECHAINICIO);
-            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_FECHAFINAL);
-            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_TOTAL);
+            $criteria->addSelectColumn(CajachicaPeer::IDCONCEPTOCAJACHICA);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_CANTIDAD);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_FECHA);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_BALANCE);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_COMPROBANTE);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_NOTA);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_PACIENTEDOCTOR);
         } else {
             $criteria->addSelectColumn($alias . '.idcajachica');
-            $criteria->addSelectColumn($alias . '.cajachica_nombre');
-            $criteria->addSelectColumn($alias . '.cajachica_descripcion');
-            $criteria->addSelectColumn($alias . '.cajachica_fechainicio');
-            $criteria->addSelectColumn($alias . '.cajachica_fechafinal');
-            $criteria->addSelectColumn($alias . '.cajachica_total');
+            $criteria->addSelectColumn($alias . '.idconceptocajachica');
+            $criteria->addSelectColumn($alias . '.cajachica_tipomovimiento');
+            $criteria->addSelectColumn($alias . '.cajachica_cantidad');
+            $criteria->addSelectColumn($alias . '.cajachica_fecha');
+            $criteria->addSelectColumn($alias . '.cajachica_balance');
+            $criteria->addSelectColumn($alias . '.cajachica_comprobante');
+            $criteria->addSelectColumn($alias . '.cajachica_nota');
+            $criteria->addSelectColumn($alias . '.cajachica_pacientedoctor');
         }
     }
 
@@ -380,12 +452,6 @@ abstract class BaseCajachicaPeer
      */
     public static function clearRelatedInstancePool()
     {
-        // Invalidate objects in CajachicadetallePeer instance pool,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        CajachicadetallePeer::clearInstancePool();
-        // Invalidate objects in VentaPeer instance pool,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        VentaPeer::clearInstancePool();
     }
 
     /**
@@ -480,6 +546,244 @@ abstract class BaseCajachicaPeer
         }
 
         return array($obj, $col);
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining the related Conceptocajachica table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinConceptocajachica(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(CajachicaPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            CajachicaPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(CajachicaPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(CajachicaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(CajachicaPeer::IDCONCEPTOCAJACHICA, ConceptocajachicaPeer::IDCONCEPTOCAJACHICA, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
+     * Selects a collection of Cajachica objects pre-filled with their Conceptocajachica objects.
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Cajachica objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinConceptocajachica(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(CajachicaPeer::DATABASE_NAME);
+        }
+
+        CajachicaPeer::addSelectColumns($criteria);
+        $startcol = CajachicaPeer::NUM_HYDRATE_COLUMNS;
+        ConceptocajachicaPeer::addSelectColumns($criteria);
+
+        $criteria->addJoin(CajachicaPeer::IDCONCEPTOCAJACHICA, ConceptocajachicaPeer::IDCONCEPTOCAJACHICA, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = CajachicaPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = CajachicaPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+
+                $cls = CajachicaPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                CajachicaPeer::addInstanceToPool($obj1, $key1);
+            } // if $obj1 already loaded
+
+            $key2 = ConceptocajachicaPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            if ($key2 !== null) {
+                $obj2 = ConceptocajachicaPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = ConceptocajachicaPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol);
+                    ConceptocajachicaPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 already loaded
+
+                // Add the $obj1 (Cajachica) to $obj2 (Conceptocajachica)
+                $obj2->addCajachica($obj1);
+
+            } // if joined row was not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining all related tables
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(CajachicaPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            CajachicaPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(CajachicaPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(CajachicaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(CajachicaPeer::IDCONCEPTOCAJACHICA, ConceptocajachicaPeer::IDCONCEPTOCAJACHICA, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+    /**
+     * Selects a collection of Cajachica objects pre-filled with all related objects.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Cajachica objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(CajachicaPeer::DATABASE_NAME);
+        }
+
+        CajachicaPeer::addSelectColumns($criteria);
+        $startcol2 = CajachicaPeer::NUM_HYDRATE_COLUMNS;
+
+        ConceptocajachicaPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + ConceptocajachicaPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(CajachicaPeer::IDCONCEPTOCAJACHICA, ConceptocajachicaPeer::IDCONCEPTOCAJACHICA, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = CajachicaPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = CajachicaPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = CajachicaPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                CajachicaPeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+            // Add objects for joined Conceptocajachica rows
+
+            $key2 = ConceptocajachicaPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            if ($key2 !== null) {
+                $obj2 = ConceptocajachicaPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = ConceptocajachicaPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    ConceptocajachicaPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 loaded
+
+                // Add the $obj1 (Cajachica) to the collection in $obj2 (Conceptocajachica)
+                $obj2->addCajachica($obj1);
+            } // if joined row not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
     }
 
     /**
@@ -615,7 +919,6 @@ abstract class BaseCajachicaPeer
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            $affectedRows += CajachicaPeer::doOnDeleteCascade(new Criteria(CajachicaPeer::DATABASE_NAME), $con);
             $affectedRows += BasePeer::doDeleteAll(CajachicaPeer::TABLE_NAME, $con, CajachicaPeer::DATABASE_NAME);
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
@@ -649,14 +952,24 @@ abstract class BaseCajachicaPeer
         }
 
         if ($values instanceof Criteria) {
+            // invalidate the cache for all objects of this type, since we have no
+            // way of knowing (without running a query) what objects should be invalidated
+            // from the cache based on this Criteria.
+            CajachicaPeer::clearInstancePool();
             // rename for clarity
             $criteria = clone $values;
         } elseif ($values instanceof Cajachica) { // it's a model object
+            // invalidate the cache for this single object
+            CajachicaPeer::removeInstanceFromPool($values);
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(CajachicaPeer::DATABASE_NAME);
             $criteria->add(CajachicaPeer::IDCAJACHICA, (array) $values, Criteria::IN);
+            // invalidate the cache for this object(s)
+            foreach ((array) $values as $singleval) {
+                CajachicaPeer::removeInstanceFromPool($singleval);
+            }
         }
 
         // Set the correct dbName
@@ -669,23 +982,6 @@ abstract class BaseCajachicaPeer
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
 
-            // cloning the Criteria in case it's modified by doSelect() or doSelectStmt()
-            $c = clone $criteria;
-            $affectedRows += CajachicaPeer::doOnDeleteCascade($c, $con);
-
-            // Because this db requires some delete cascade/set null emulation, we have to
-            // clear the cached instance *after* the emulation has happened (since
-            // instances get re-added by the select statement contained therein).
-            if ($values instanceof Criteria) {
-                CajachicaPeer::clearInstancePool();
-            } elseif ($values instanceof Cajachica) { // it's a model object
-                CajachicaPeer::removeInstanceFromPool($values);
-            } else { // it's a primary key, or an array of pks
-                foreach ((array) $values as $singleval) {
-                    CajachicaPeer::removeInstanceFromPool($singleval);
-                }
-            }
-
             $affectedRows += BasePeer::doDelete($criteria, $con);
             CajachicaPeer::clearRelatedInstancePool();
             $con->commit();
@@ -695,45 +991,6 @@ abstract class BaseCajachicaPeer
             $con->rollBack();
             throw $e;
         }
-    }
-
-    /**
-     * This is a method for emulating ON DELETE CASCADE for DBs that don't support this
-     * feature (like MySQL or SQLite).
-     *
-     * This method is not very speedy because it must perform a query first to get
-     * the implicated records and then perform the deletes by calling those Peer classes.
-     *
-     * This method should be used within a transaction if possible.
-     *
-     * @param      Criteria $criteria
-     * @param      PropelPDO $con
-     * @return int The number of affected rows (if supported by underlying database driver).
-     */
-    protected static function doOnDeleteCascade(Criteria $criteria, PropelPDO $con)
-    {
-        // initialize var to track total num of affected rows
-        $affectedRows = 0;
-
-        // first find the objects that are implicated by the $criteria
-        $objects = CajachicaPeer::doSelect($criteria, $con);
-        foreach ($objects as $obj) {
-
-
-            // delete related Cajachicadetalle objects
-            $criteria = new Criteria(CajachicadetallePeer::DATABASE_NAME);
-
-            $criteria->add(CajachicadetallePeer::IDCAJACHICA, $obj->getIdcajachica());
-            $affectedRows += CajachicadetallePeer::doDelete($criteria, $con);
-
-            // delete related Venta objects
-            $criteria = new Criteria(VentaPeer::DATABASE_NAME);
-
-            $criteria->add(VentaPeer::IDCAJACHICA, $obj->getIdcajachica());
-            $affectedRows += VentaPeer::doDelete($criteria, $con);
-        }
-
-        return $affectedRows;
     }
 
     /**

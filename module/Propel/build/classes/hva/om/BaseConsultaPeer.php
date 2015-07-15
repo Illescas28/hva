@@ -24,13 +24,13 @@ abstract class BaseConsultaPeer
     const TM_CLASS = 'ConsultaTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 14;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 10;
+    const NUM_HYDRATE_COLUMNS = 14;
 
     /** the column name for the idconsulta field */
     const IDCONSULTA = 'consulta.idconsulta';
@@ -44,11 +44,11 @@ abstract class BaseConsultaPeer
     /** the column name for the idconsultorio field */
     const IDCONSULTORIO = 'consulta.idconsultorio';
 
-    /** the column name for the consulta_fechaadmision field */
-    const CONSULTA_FECHAADMISION = 'consulta.consulta_fechaadmision';
+    /** the column name for the consulta_fecha field */
+    const CONSULTA_FECHA = 'consulta.consulta_fecha';
 
-    /** the column name for the consulta_fechasalida field */
-    const CONSULTA_FECHASALIDA = 'consulta.consulta_fechasalida';
+    /** the column name for the consulta_hora field */
+    const CONSULTA_HORA = 'consulta.consulta_hora';
 
     /** the column name for the consulta_diagnostico field */
     const CONSULTA_DIAGNOSTICO = 'consulta.consulta_diagnostico';
@@ -62,10 +62,28 @@ abstract class BaseConsultaPeer
     /** the column name for the consulta_total field */
     const CONSULTA_TOTAL = 'consulta.consulta_total';
 
+    /** the column name for the consulta_tipodepago field */
+    const CONSULTA_TIPODEPAGO = 'consulta.consulta_tipodepago';
+
+    /** the column name for the consulta_referenciapago field */
+    const CONSULTA_REFERENCIAPAGO = 'consulta.consulta_referenciapago';
+
+    /** the column name for the consulta_facturada field */
+    const CONSULTA_FACTURADA = 'consulta.consulta_facturada';
+
+    /** the column name for the consulta_registrada field */
+    const CONSULTA_REGISTRADA = 'consulta.consulta_registrada';
+
     /** The enumerated values for the consulta_status field */
     const CONSULTA_STATUS_PAGADA = 'pagada';
     const CONSULTA_STATUS_NO_PAGADA = 'no pagada';
     const CONSULTA_STATUS_PENDIENTE = 'pendiente';
+
+    /** The enumerated values for the consulta_tipodepago field */
+    const CONSULTA_TIPODEPAGO_EFECTIVO = 'efectivo';
+    const CONSULTA_TIPODEPAGO_TARJETA_DEBITO = 'tarjeta debito';
+    const CONSULTA_TIPODEPAGO_TARJETA_CREDITO = 'tarjeta credito';
+    const CONSULTA_TIPODEPAGO_CHEQUE = 'cheque';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -86,12 +104,12 @@ abstract class BaseConsultaPeer
      * e.g. ConsultaPeer::$fieldNames[ConsultaPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idconsulta', 'Idpaciente', 'Idmedico', 'Idconsultorio', 'ConsultaFechaadmision', 'ConsultaFechasalida', 'ConsultaDiagnostico', 'ConsultaObservaciones', 'ConsultaStatus', 'ConsultaTotal', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsulta', 'idpaciente', 'idmedico', 'idconsultorio', 'consultaFechaadmision', 'consultaFechasalida', 'consultaDiagnostico', 'consultaObservaciones', 'consultaStatus', 'consultaTotal', ),
-        BasePeer::TYPE_COLNAME => array (ConsultaPeer::IDCONSULTA, ConsultaPeer::IDPACIENTE, ConsultaPeer::IDMEDICO, ConsultaPeer::IDCONSULTORIO, ConsultaPeer::CONSULTA_FECHAADMISION, ConsultaPeer::CONSULTA_FECHASALIDA, ConsultaPeer::CONSULTA_DIAGNOSTICO, ConsultaPeer::CONSULTA_OBSERVACIONES, ConsultaPeer::CONSULTA_STATUS, ConsultaPeer::CONSULTA_TOTAL, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTA', 'IDPACIENTE', 'IDMEDICO', 'IDCONSULTORIO', 'CONSULTA_FECHAADMISION', 'CONSULTA_FECHASALIDA', 'CONSULTA_DIAGNOSTICO', 'CONSULTA_OBSERVACIONES', 'CONSULTA_STATUS', 'CONSULTA_TOTAL', ),
-        BasePeer::TYPE_FIELDNAME => array ('idconsulta', 'idpaciente', 'idmedico', 'idconsultorio', 'consulta_fechaadmision', 'consulta_fechasalida', 'consulta_diagnostico', 'consulta_observaciones', 'consulta_status', 'consulta_total', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        BasePeer::TYPE_PHPNAME => array ('Idconsulta', 'Idpaciente', 'Idmedico', 'Idconsultorio', 'ConsultaFecha', 'ConsultaHora', 'ConsultaDiagnostico', 'ConsultaObservaciones', 'ConsultaStatus', 'ConsultaTotal', 'ConsultaTipodepago', 'ConsultaReferenciapago', 'ConsultaFacturada', 'ConsultaRegistrada', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsulta', 'idpaciente', 'idmedico', 'idconsultorio', 'consultaFecha', 'consultaHora', 'consultaDiagnostico', 'consultaObservaciones', 'consultaStatus', 'consultaTotal', 'consultaTipodepago', 'consultaReferenciapago', 'consultaFacturada', 'consultaRegistrada', ),
+        BasePeer::TYPE_COLNAME => array (ConsultaPeer::IDCONSULTA, ConsultaPeer::IDPACIENTE, ConsultaPeer::IDMEDICO, ConsultaPeer::IDCONSULTORIO, ConsultaPeer::CONSULTA_FECHA, ConsultaPeer::CONSULTA_HORA, ConsultaPeer::CONSULTA_DIAGNOSTICO, ConsultaPeer::CONSULTA_OBSERVACIONES, ConsultaPeer::CONSULTA_STATUS, ConsultaPeer::CONSULTA_TOTAL, ConsultaPeer::CONSULTA_TIPODEPAGO, ConsultaPeer::CONSULTA_REFERENCIAPAGO, ConsultaPeer::CONSULTA_FACTURADA, ConsultaPeer::CONSULTA_REGISTRADA, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTA', 'IDPACIENTE', 'IDMEDICO', 'IDCONSULTORIO', 'CONSULTA_FECHA', 'CONSULTA_HORA', 'CONSULTA_DIAGNOSTICO', 'CONSULTA_OBSERVACIONES', 'CONSULTA_STATUS', 'CONSULTA_TOTAL', 'CONSULTA_TIPODEPAGO', 'CONSULTA_REFERENCIAPAGO', 'CONSULTA_FACTURADA', 'CONSULTA_REGISTRADA', ),
+        BasePeer::TYPE_FIELDNAME => array ('idconsulta', 'idpaciente', 'idmedico', 'idconsultorio', 'consulta_fecha', 'consulta_hora', 'consulta_diagnostico', 'consulta_observaciones', 'consulta_status', 'consulta_total', 'consulta_tipodepago', 'consulta_referenciapago', 'consulta_facturada', 'consulta_registrada', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -101,12 +119,12 @@ abstract class BaseConsultaPeer
      * e.g. ConsultaPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idconsulta' => 0, 'Idpaciente' => 1, 'Idmedico' => 2, 'Idconsultorio' => 3, 'ConsultaFechaadmision' => 4, 'ConsultaFechasalida' => 5, 'ConsultaDiagnostico' => 6, 'ConsultaObservaciones' => 7, 'ConsultaStatus' => 8, 'ConsultaTotal' => 9, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsulta' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idconsultorio' => 3, 'consultaFechaadmision' => 4, 'consultaFechasalida' => 5, 'consultaDiagnostico' => 6, 'consultaObservaciones' => 7, 'consultaStatus' => 8, 'consultaTotal' => 9, ),
-        BasePeer::TYPE_COLNAME => array (ConsultaPeer::IDCONSULTA => 0, ConsultaPeer::IDPACIENTE => 1, ConsultaPeer::IDMEDICO => 2, ConsultaPeer::IDCONSULTORIO => 3, ConsultaPeer::CONSULTA_FECHAADMISION => 4, ConsultaPeer::CONSULTA_FECHASALIDA => 5, ConsultaPeer::CONSULTA_DIAGNOSTICO => 6, ConsultaPeer::CONSULTA_OBSERVACIONES => 7, ConsultaPeer::CONSULTA_STATUS => 8, ConsultaPeer::CONSULTA_TOTAL => 9, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTA' => 0, 'IDPACIENTE' => 1, 'IDMEDICO' => 2, 'IDCONSULTORIO' => 3, 'CONSULTA_FECHAADMISION' => 4, 'CONSULTA_FECHASALIDA' => 5, 'CONSULTA_DIAGNOSTICO' => 6, 'CONSULTA_OBSERVACIONES' => 7, 'CONSULTA_STATUS' => 8, 'CONSULTA_TOTAL' => 9, ),
-        BasePeer::TYPE_FIELDNAME => array ('idconsulta' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idconsultorio' => 3, 'consulta_fechaadmision' => 4, 'consulta_fechasalida' => 5, 'consulta_diagnostico' => 6, 'consulta_observaciones' => 7, 'consulta_status' => 8, 'consulta_total' => 9, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        BasePeer::TYPE_PHPNAME => array ('Idconsulta' => 0, 'Idpaciente' => 1, 'Idmedico' => 2, 'Idconsultorio' => 3, 'ConsultaFecha' => 4, 'ConsultaHora' => 5, 'ConsultaDiagnostico' => 6, 'ConsultaObservaciones' => 7, 'ConsultaStatus' => 8, 'ConsultaTotal' => 9, 'ConsultaTipodepago' => 10, 'ConsultaReferenciapago' => 11, 'ConsultaFacturada' => 12, 'ConsultaRegistrada' => 13, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsulta' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idconsultorio' => 3, 'consultaFecha' => 4, 'consultaHora' => 5, 'consultaDiagnostico' => 6, 'consultaObservaciones' => 7, 'consultaStatus' => 8, 'consultaTotal' => 9, 'consultaTipodepago' => 10, 'consultaReferenciapago' => 11, 'consultaFacturada' => 12, 'consultaRegistrada' => 13, ),
+        BasePeer::TYPE_COLNAME => array (ConsultaPeer::IDCONSULTA => 0, ConsultaPeer::IDPACIENTE => 1, ConsultaPeer::IDMEDICO => 2, ConsultaPeer::IDCONSULTORIO => 3, ConsultaPeer::CONSULTA_FECHA => 4, ConsultaPeer::CONSULTA_HORA => 5, ConsultaPeer::CONSULTA_DIAGNOSTICO => 6, ConsultaPeer::CONSULTA_OBSERVACIONES => 7, ConsultaPeer::CONSULTA_STATUS => 8, ConsultaPeer::CONSULTA_TOTAL => 9, ConsultaPeer::CONSULTA_TIPODEPAGO => 10, ConsultaPeer::CONSULTA_REFERENCIAPAGO => 11, ConsultaPeer::CONSULTA_FACTURADA => 12, ConsultaPeer::CONSULTA_REGISTRADA => 13, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTA' => 0, 'IDPACIENTE' => 1, 'IDMEDICO' => 2, 'IDCONSULTORIO' => 3, 'CONSULTA_FECHA' => 4, 'CONSULTA_HORA' => 5, 'CONSULTA_DIAGNOSTICO' => 6, 'CONSULTA_OBSERVACIONES' => 7, 'CONSULTA_STATUS' => 8, 'CONSULTA_TOTAL' => 9, 'CONSULTA_TIPODEPAGO' => 10, 'CONSULTA_REFERENCIAPAGO' => 11, 'CONSULTA_FACTURADA' => 12, 'CONSULTA_REGISTRADA' => 13, ),
+        BasePeer::TYPE_FIELDNAME => array ('idconsulta' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idconsultorio' => 3, 'consulta_fecha' => 4, 'consulta_hora' => 5, 'consulta_diagnostico' => 6, 'consulta_observaciones' => 7, 'consulta_status' => 8, 'consulta_total' => 9, 'consulta_tipodepago' => 10, 'consulta_referenciapago' => 11, 'consulta_facturada' => 12, 'consulta_registrada' => 13, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /** The enumerated values for this table */
@@ -115,6 +133,12 @@ abstract class BaseConsultaPeer
             ConsultaPeer::CONSULTA_STATUS_PAGADA,
             ConsultaPeer::CONSULTA_STATUS_NO_PAGADA,
             ConsultaPeer::CONSULTA_STATUS_PENDIENTE,
+        ),
+        ConsultaPeer::CONSULTA_TIPODEPAGO => array(
+            ConsultaPeer::CONSULTA_TIPODEPAGO_EFECTIVO,
+            ConsultaPeer::CONSULTA_TIPODEPAGO_TARJETA_DEBITO,
+            ConsultaPeer::CONSULTA_TIPODEPAGO_TARJETA_CREDITO,
+            ConsultaPeer::CONSULTA_TIPODEPAGO_CHEQUE,
         ),
     );
 
@@ -238,23 +262,31 @@ abstract class BaseConsultaPeer
             $criteria->addSelectColumn(ConsultaPeer::IDPACIENTE);
             $criteria->addSelectColumn(ConsultaPeer::IDMEDICO);
             $criteria->addSelectColumn(ConsultaPeer::IDCONSULTORIO);
-            $criteria->addSelectColumn(ConsultaPeer::CONSULTA_FECHAADMISION);
-            $criteria->addSelectColumn(ConsultaPeer::CONSULTA_FECHASALIDA);
+            $criteria->addSelectColumn(ConsultaPeer::CONSULTA_FECHA);
+            $criteria->addSelectColumn(ConsultaPeer::CONSULTA_HORA);
             $criteria->addSelectColumn(ConsultaPeer::CONSULTA_DIAGNOSTICO);
             $criteria->addSelectColumn(ConsultaPeer::CONSULTA_OBSERVACIONES);
             $criteria->addSelectColumn(ConsultaPeer::CONSULTA_STATUS);
             $criteria->addSelectColumn(ConsultaPeer::CONSULTA_TOTAL);
+            $criteria->addSelectColumn(ConsultaPeer::CONSULTA_TIPODEPAGO);
+            $criteria->addSelectColumn(ConsultaPeer::CONSULTA_REFERENCIAPAGO);
+            $criteria->addSelectColumn(ConsultaPeer::CONSULTA_FACTURADA);
+            $criteria->addSelectColumn(ConsultaPeer::CONSULTA_REGISTRADA);
         } else {
             $criteria->addSelectColumn($alias . '.idconsulta');
             $criteria->addSelectColumn($alias . '.idpaciente');
             $criteria->addSelectColumn($alias . '.idmedico');
             $criteria->addSelectColumn($alias . '.idconsultorio');
-            $criteria->addSelectColumn($alias . '.consulta_fechaadmision');
-            $criteria->addSelectColumn($alias . '.consulta_fechasalida');
+            $criteria->addSelectColumn($alias . '.consulta_fecha');
+            $criteria->addSelectColumn($alias . '.consulta_hora');
             $criteria->addSelectColumn($alias . '.consulta_diagnostico');
             $criteria->addSelectColumn($alias . '.consulta_observaciones');
             $criteria->addSelectColumn($alias . '.consulta_status');
             $criteria->addSelectColumn($alias . '.consulta_total');
+            $criteria->addSelectColumn($alias . '.consulta_tipodepago');
+            $criteria->addSelectColumn($alias . '.consulta_referenciapago');
+            $criteria->addSelectColumn($alias . '.consulta_facturada');
+            $criteria->addSelectColumn($alias . '.consulta_registrada');
         }
     }
 

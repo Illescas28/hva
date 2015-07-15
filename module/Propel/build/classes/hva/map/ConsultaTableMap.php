@@ -42,8 +42,8 @@ class ConsultaTableMap extends TableMap
         $this->addForeignKey('idpaciente', 'Idpaciente', 'INTEGER', 'paciente', 'idpaciente', true, null, null);
         $this->addForeignKey('idmedico', 'Idmedico', 'INTEGER', 'medico', 'idmedico', true, null, null);
         $this->addForeignKey('idconsultorio', 'Idconsultorio', 'INTEGER', 'consultorio', 'idconsultorio', true, null, null);
-        $this->addColumn('consulta_fechaadmision', 'ConsultaFechaadmision', 'TIMESTAMP', true, null, null);
-        $this->addColumn('consulta_fechasalida', 'ConsultaFechasalida', 'TIMESTAMP', false, null, null);
+        $this->addColumn('consulta_fecha', 'ConsultaFecha', 'DATE', true, null, null);
+        $this->addColumn('consulta_hora', 'ConsultaHora', 'TIME', true, null, null);
         $this->addColumn('consulta_diagnostico', 'ConsultaDiagnostico', 'LONGVARCHAR', false, null, null);
         $this->addColumn('consulta_observaciones', 'ConsultaObservaciones', 'LONGVARCHAR', false, null, null);
         $this->addColumn('consulta_status', 'ConsultaStatus', 'CHAR', false, null, 'pendiente');
@@ -53,6 +53,16 @@ class ConsultaTableMap extends TableMap
   2 => 'pendiente',
 ));
         $this->addColumn('consulta_total', 'ConsultaTotal', 'DECIMAL', false, 10, null);
+        $this->addColumn('consulta_tipodepago', 'ConsultaTipodepago', 'CHAR', false, null, null);
+        $this->getColumn('consulta_tipodepago', false)->setValueSet(array (
+  0 => 'efectivo',
+  1 => 'tarjeta debito',
+  2 => 'tarjeta credito',
+  3 => 'cheque',
+));
+        $this->addColumn('consulta_referenciapago', 'ConsultaReferenciapago', 'VARCHAR', false, 45, null);
+        $this->addColumn('consulta_facturada', 'ConsultaFacturada', 'BOOLEAN', false, 1, null);
+        $this->addColumn('consulta_registrada', 'ConsultaRegistrada', 'BOOLEAN', false, 1, null);
         // validators
     } // initialize()
 

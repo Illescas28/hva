@@ -24,13 +24,13 @@ abstract class BaseEmpleadoPeer
     const TM_CLASS = 'EmpleadoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 9;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 9;
 
     /** the column name for the idempleado field */
     const IDEMPLEADO = 'empleado.idempleado';
@@ -56,6 +56,9 @@ abstract class BaseEmpleadoPeer
     /** the column name for the empleado_email field */
     const EMPLEADO_EMAIL = 'empleado.empleado_email';
 
+    /** the column name for the empleado_imagen field */
+    const EMPLEADO_IMAGEN = 'empleado.empleado_imagen';
+
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
@@ -75,12 +78,12 @@ abstract class BaseEmpleadoPeer
      * e.g. EmpleadoPeer::$fieldNames[EmpleadoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idempleado', 'Idrol', 'EmpleadoNombre', 'EmpleadoApellidopaterno', 'EmpleadoApellidomaterno', 'EmpleadoNombreusuario', 'EmpleadoPassword', 'EmpleadoEmail', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idempleado', 'idrol', 'empleadoNombre', 'empleadoApellidopaterno', 'empleadoApellidomaterno', 'empleadoNombreusuario', 'empleadoPassword', 'empleadoEmail', ),
-        BasePeer::TYPE_COLNAME => array (EmpleadoPeer::IDEMPLEADO, EmpleadoPeer::IDROL, EmpleadoPeer::EMPLEADO_NOMBRE, EmpleadoPeer::EMPLEADO_APELLIDOPATERNO, EmpleadoPeer::EMPLEADO_APELLIDOMATERNO, EmpleadoPeer::EMPLEADO_NOMBREUSUARIO, EmpleadoPeer::EMPLEADO_PASSWORD, EmpleadoPeer::EMPLEADO_EMAIL, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDEMPLEADO', 'IDROL', 'EMPLEADO_NOMBRE', 'EMPLEADO_APELLIDOPATERNO', 'EMPLEADO_APELLIDOMATERNO', 'EMPLEADO_NOMBREUSUARIO', 'EMPLEADO_PASSWORD', 'EMPLEADO_EMAIL', ),
-        BasePeer::TYPE_FIELDNAME => array ('idempleado', 'idrol', 'empleado_nombre', 'empleado_apellidopaterno', 'empleado_apellidomaterno', 'empleado_nombreusuario', 'empleado_password', 'empleado_email', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+        BasePeer::TYPE_PHPNAME => array ('Idempleado', 'Idrol', 'EmpleadoNombre', 'EmpleadoApellidopaterno', 'EmpleadoApellidomaterno', 'EmpleadoNombreusuario', 'EmpleadoPassword', 'EmpleadoEmail', 'EmpleadoImagen', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idempleado', 'idrol', 'empleadoNombre', 'empleadoApellidopaterno', 'empleadoApellidomaterno', 'empleadoNombreusuario', 'empleadoPassword', 'empleadoEmail', 'empleadoImagen', ),
+        BasePeer::TYPE_COLNAME => array (EmpleadoPeer::IDEMPLEADO, EmpleadoPeer::IDROL, EmpleadoPeer::EMPLEADO_NOMBRE, EmpleadoPeer::EMPLEADO_APELLIDOPATERNO, EmpleadoPeer::EMPLEADO_APELLIDOMATERNO, EmpleadoPeer::EMPLEADO_NOMBREUSUARIO, EmpleadoPeer::EMPLEADO_PASSWORD, EmpleadoPeer::EMPLEADO_EMAIL, EmpleadoPeer::EMPLEADO_IMAGEN, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDEMPLEADO', 'IDROL', 'EMPLEADO_NOMBRE', 'EMPLEADO_APELLIDOPATERNO', 'EMPLEADO_APELLIDOMATERNO', 'EMPLEADO_NOMBREUSUARIO', 'EMPLEADO_PASSWORD', 'EMPLEADO_EMAIL', 'EMPLEADO_IMAGEN', ),
+        BasePeer::TYPE_FIELDNAME => array ('idempleado', 'idrol', 'empleado_nombre', 'empleado_apellidopaterno', 'empleado_apellidomaterno', 'empleado_nombreusuario', 'empleado_password', 'empleado_email', 'empleado_imagen', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -90,12 +93,12 @@ abstract class BaseEmpleadoPeer
      * e.g. EmpleadoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idempleado' => 0, 'Idrol' => 1, 'EmpleadoNombre' => 2, 'EmpleadoApellidopaterno' => 3, 'EmpleadoApellidomaterno' => 4, 'EmpleadoNombreusuario' => 5, 'EmpleadoPassword' => 6, 'EmpleadoEmail' => 7, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idempleado' => 0, 'idrol' => 1, 'empleadoNombre' => 2, 'empleadoApellidopaterno' => 3, 'empleadoApellidomaterno' => 4, 'empleadoNombreusuario' => 5, 'empleadoPassword' => 6, 'empleadoEmail' => 7, ),
-        BasePeer::TYPE_COLNAME => array (EmpleadoPeer::IDEMPLEADO => 0, EmpleadoPeer::IDROL => 1, EmpleadoPeer::EMPLEADO_NOMBRE => 2, EmpleadoPeer::EMPLEADO_APELLIDOPATERNO => 3, EmpleadoPeer::EMPLEADO_APELLIDOMATERNO => 4, EmpleadoPeer::EMPLEADO_NOMBREUSUARIO => 5, EmpleadoPeer::EMPLEADO_PASSWORD => 6, EmpleadoPeer::EMPLEADO_EMAIL => 7, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDEMPLEADO' => 0, 'IDROL' => 1, 'EMPLEADO_NOMBRE' => 2, 'EMPLEADO_APELLIDOPATERNO' => 3, 'EMPLEADO_APELLIDOMATERNO' => 4, 'EMPLEADO_NOMBREUSUARIO' => 5, 'EMPLEADO_PASSWORD' => 6, 'EMPLEADO_EMAIL' => 7, ),
-        BasePeer::TYPE_FIELDNAME => array ('idempleado' => 0, 'idrol' => 1, 'empleado_nombre' => 2, 'empleado_apellidopaterno' => 3, 'empleado_apellidomaterno' => 4, 'empleado_nombreusuario' => 5, 'empleado_password' => 6, 'empleado_email' => 7, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+        BasePeer::TYPE_PHPNAME => array ('Idempleado' => 0, 'Idrol' => 1, 'EmpleadoNombre' => 2, 'EmpleadoApellidopaterno' => 3, 'EmpleadoApellidomaterno' => 4, 'EmpleadoNombreusuario' => 5, 'EmpleadoPassword' => 6, 'EmpleadoEmail' => 7, 'EmpleadoImagen' => 8, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idempleado' => 0, 'idrol' => 1, 'empleadoNombre' => 2, 'empleadoApellidopaterno' => 3, 'empleadoApellidomaterno' => 4, 'empleadoNombreusuario' => 5, 'empleadoPassword' => 6, 'empleadoEmail' => 7, 'empleadoImagen' => 8, ),
+        BasePeer::TYPE_COLNAME => array (EmpleadoPeer::IDEMPLEADO => 0, EmpleadoPeer::IDROL => 1, EmpleadoPeer::EMPLEADO_NOMBRE => 2, EmpleadoPeer::EMPLEADO_APELLIDOPATERNO => 3, EmpleadoPeer::EMPLEADO_APELLIDOMATERNO => 4, EmpleadoPeer::EMPLEADO_NOMBREUSUARIO => 5, EmpleadoPeer::EMPLEADO_PASSWORD => 6, EmpleadoPeer::EMPLEADO_EMAIL => 7, EmpleadoPeer::EMPLEADO_IMAGEN => 8, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDEMPLEADO' => 0, 'IDROL' => 1, 'EMPLEADO_NOMBRE' => 2, 'EMPLEADO_APELLIDOPATERNO' => 3, 'EMPLEADO_APELLIDOMATERNO' => 4, 'EMPLEADO_NOMBREUSUARIO' => 5, 'EMPLEADO_PASSWORD' => 6, 'EMPLEADO_EMAIL' => 7, 'EMPLEADO_IMAGEN' => 8, ),
+        BasePeer::TYPE_FIELDNAME => array ('idempleado' => 0, 'idrol' => 1, 'empleado_nombre' => 2, 'empleado_apellidopaterno' => 3, 'empleado_apellidomaterno' => 4, 'empleado_nombreusuario' => 5, 'empleado_password' => 6, 'empleado_email' => 7, 'empleado_imagen' => 8, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -177,6 +180,7 @@ abstract class BaseEmpleadoPeer
             $criteria->addSelectColumn(EmpleadoPeer::EMPLEADO_NOMBREUSUARIO);
             $criteria->addSelectColumn(EmpleadoPeer::EMPLEADO_PASSWORD);
             $criteria->addSelectColumn(EmpleadoPeer::EMPLEADO_EMAIL);
+            $criteria->addSelectColumn(EmpleadoPeer::EMPLEADO_IMAGEN);
         } else {
             $criteria->addSelectColumn($alias . '.idempleado');
             $criteria->addSelectColumn($alias . '.idrol');
@@ -186,6 +190,7 @@ abstract class BaseEmpleadoPeer
             $criteria->addSelectColumn($alias . '.empleado_nombreusuario');
             $criteria->addSelectColumn($alias . '.empleado_password');
             $criteria->addSelectColumn($alias . '.empleado_email');
+            $criteria->addSelectColumn($alias . '.empleado_imagen');
         }
     }
 

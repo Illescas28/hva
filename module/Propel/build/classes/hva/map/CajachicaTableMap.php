@@ -39,11 +39,18 @@ class CajachicaTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idcajachica', 'Idcajachica', 'INTEGER', true, null, null);
-        $this->addColumn('cajachica_nombre', 'CajachicaNombre', 'VARCHAR', true, 45, null);
-        $this->addColumn('cajachica_descripcion', 'CajachicaDescripcion', 'VARCHAR', false, 45, null);
-        $this->addColumn('cajachica_fechainicio', 'CajachicaFechainicio', 'DATE', true, null, null);
-        $this->addColumn('cajachica_fechafinal', 'CajachicaFechafinal', 'DATE', false, null, null);
-        $this->addColumn('cajachica_total', 'CajachicaTotal', 'DECIMAL', false, 10, null);
+        $this->addForeignKey('idconceptocajachica', 'Idconceptocajachica', 'INTEGER', 'conceptocajachica', 'idconceptocajachica', true, null, null);
+        $this->addColumn('cajachica_tipomovimiento', 'CajachicaTipomovimiento', 'CHAR', true, null, null);
+        $this->getColumn('cajachica_tipomovimiento', false)->setValueSet(array (
+  0 => 'cargo',
+  1 => 'abono',
+));
+        $this->addColumn('cajachica_cantidad', 'CajachicaCantidad', 'DECIMAL', false, 10, null);
+        $this->addColumn('cajachica_fecha', 'CajachicaFecha', 'DATE', true, null, null);
+        $this->addColumn('cajachica_balance', 'CajachicaBalance', 'DECIMAL', false, 10, null);
+        $this->addColumn('cajachica_comprobante', 'CajachicaComprobante', 'VARCHAR', false, 45, null);
+        $this->addColumn('cajachica_nota', 'CajachicaNota', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('cajachica_pacientedoctor', 'CajachicaPacientedoctor', 'VARCHAR', false, 255, null);
         // validators
     } // initialize()
 
@@ -52,8 +59,7 @@ class CajachicaTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Cajachicadetalle', 'Cajachicadetalle', RelationMap::ONE_TO_MANY, array('idcajachica' => 'idcajachica', ), 'CASCADE', 'CASCADE', 'Cajachicadetalles');
-        $this->addRelation('Venta', 'Venta', RelationMap::ONE_TO_MANY, array('idcajachica' => 'idcajachica', ), 'CASCADE', 'CASCADE', 'Ventas');
+        $this->addRelation('Conceptocajachica', 'Conceptocajachica', RelationMap::MANY_TO_ONE, array('idconceptocajachica' => 'idconceptocajachica', ), 'CASCADE', 'CASCADE');
     } // buildRelations()
 
 } // CajachicaTableMap

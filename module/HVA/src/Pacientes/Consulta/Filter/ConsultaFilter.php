@@ -45,7 +45,7 @@ class ConsultaFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'consulta_fechaadmision',
+                'name'     => 'consulta_fecha',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -53,8 +53,8 @@ class ConsultaFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'consulta_fechasalida',
-                'required' => false,
+                'name'     => 'consulta_hora',
+                'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
@@ -86,6 +86,38 @@ class ConsultaFilter implements InputFilterAwareInterface
             ));
             $inputFilter->add(array(
                 'name'     => 'consulta_total',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'consulta_tipodepago',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'consulta_referenciapago',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'consulta_facturada',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'consulta_registrada',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),

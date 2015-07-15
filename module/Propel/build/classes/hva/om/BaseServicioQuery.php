@@ -9,14 +9,12 @@
  * @method ServicioQuery orderByIdservicio($order = Criteria::ASC) Order by the idservicio column
  * @method ServicioQuery orderByServicioNombre($order = Criteria::ASC) Order by the servicio_nombre column
  * @method ServicioQuery orderByServicioDescripcion($order = Criteria::ASC) Order by the servicio_descripcion column
- * @method ServicioQuery orderByServicioCosto($order = Criteria::ASC) Order by the servicio_costo column
  * @method ServicioQuery orderByServicioPrecio($order = Criteria::ASC) Order by the servicio_precio column
  * @method ServicioQuery orderByServicioIva($order = Criteria::ASC) Order by the servicio_iva column
  *
  * @method ServicioQuery groupByIdservicio() Group by the idservicio column
  * @method ServicioQuery groupByServicioNombre() Group by the servicio_nombre column
  * @method ServicioQuery groupByServicioDescripcion() Group by the servicio_descripcion column
- * @method ServicioQuery groupByServicioCosto() Group by the servicio_costo column
  * @method ServicioQuery groupByServicioPrecio() Group by the servicio_precio column
  * @method ServicioQuery groupByServicioIva() Group by the servicio_iva column
  *
@@ -41,14 +39,12 @@
  *
  * @method Servicio findOneByServicioNombre(string $servicio_nombre) Return the first Servicio filtered by the servicio_nombre column
  * @method Servicio findOneByServicioDescripcion(string $servicio_descripcion) Return the first Servicio filtered by the servicio_descripcion column
- * @method Servicio findOneByServicioCosto(string $servicio_costo) Return the first Servicio filtered by the servicio_costo column
  * @method Servicio findOneByServicioPrecio(string $servicio_precio) Return the first Servicio filtered by the servicio_precio column
  * @method Servicio findOneByServicioIva(string $servicio_iva) Return the first Servicio filtered by the servicio_iva column
  *
  * @method array findByIdservicio(int $idservicio) Return Servicio objects filtered by the idservicio column
  * @method array findByServicioNombre(string $servicio_nombre) Return Servicio objects filtered by the servicio_nombre column
  * @method array findByServicioDescripcion(string $servicio_descripcion) Return Servicio objects filtered by the servicio_descripcion column
- * @method array findByServicioCosto(string $servicio_costo) Return Servicio objects filtered by the servicio_costo column
  * @method array findByServicioPrecio(string $servicio_precio) Return Servicio objects filtered by the servicio_precio column
  * @method array findByServicioIva(string $servicio_iva) Return Servicio objects filtered by the servicio_iva column
  *
@@ -158,7 +154,7 @@ abstract class BaseServicioQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idservicio`, `servicio_nombre`, `servicio_descripcion`, `servicio_costo`, `servicio_precio`, `servicio_iva` FROM `servicio` WHERE `idservicio` = :p0';
+        $sql = 'SELECT `idservicio`, `servicio_nombre`, `servicio_descripcion`, `servicio_precio`, `servicio_iva` FROM `servicio` WHERE `idservicio` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -348,48 +344,6 @@ abstract class BaseServicioQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the servicio_costo column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByServicioCosto(1234); // WHERE servicio_costo = 1234
-     * $query->filterByServicioCosto(array(12, 34)); // WHERE servicio_costo IN (12, 34)
-     * $query->filterByServicioCosto(array('min' => 12)); // WHERE servicio_costo >= 12
-     * $query->filterByServicioCosto(array('max' => 12)); // WHERE servicio_costo <= 12
-     * </code>
-     *
-     * @param     mixed $servicioCosto The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ServicioQuery The current query, for fluid interface
-     */
-    public function filterByServicioCosto($servicioCosto = null, $comparison = null)
-    {
-        if (is_array($servicioCosto)) {
-            $useMinMax = false;
-            if (isset($servicioCosto['min'])) {
-                $this->addUsingAlias(ServicioPeer::SERVICIO_COSTO, $servicioCosto['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($servicioCosto['max'])) {
-                $this->addUsingAlias(ServicioPeer::SERVICIO_COSTO, $servicioCosto['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ServicioPeer::SERVICIO_COSTO, $servicioCosto, $comparison);
-    }
-
-    /**
      * Filter the query on the servicio_precio column
      *
      * Example usage:
@@ -436,37 +390,24 @@ abstract class BaseServicioQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByServicioIva(1234); // WHERE servicio_iva = 1234
-     * $query->filterByServicioIva(array(12, 34)); // WHERE servicio_iva IN (12, 34)
-     * $query->filterByServicioIva(array('min' => 12)); // WHERE servicio_iva >= 12
-     * $query->filterByServicioIva(array('max' => 12)); // WHERE servicio_iva <= 12
+     * $query->filterByServicioIva('fooValue');   // WHERE servicio_iva = 'fooValue'
+     * $query->filterByServicioIva('%fooValue%'); // WHERE servicio_iva LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $servicioIva The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $servicioIva The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ServicioQuery The current query, for fluid interface
      */
     public function filterByServicioIva($servicioIva = null, $comparison = null)
     {
-        if (is_array($servicioIva)) {
-            $useMinMax = false;
-            if (isset($servicioIva['min'])) {
-                $this->addUsingAlias(ServicioPeer::SERVICIO_IVA, $servicioIva['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($servicioIva['max'])) {
-                $this->addUsingAlias(ServicioPeer::SERVICIO_IVA, $servicioIva['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($servicioIva)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $servicioIva)) {
+                $servicioIva = str_replace('*', '%', $servicioIva);
+                $comparison = Criteria::LIKE;
             }
         }
 

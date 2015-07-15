@@ -15,6 +15,7 @@
     <!--Import materialize.css-->
     <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
         ->prependStylesheet($this->basePath('css/jquery-ui.css'))
+        ->prependStylesheet($this->basePath('css/lolliclock.css'))
         ->prependStylesheet($this->basePath('css/style.css'))
         ->prependStylesheet($this->basePath('css/materialize.css'))
         ->prependStylesheet($this->basePath('css/token_input/token-input.css'));
@@ -27,6 +28,7 @@
         
         ->prependFile($this->basePath('js/jquery.tokeninput.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery-ui-1-10-1.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/lolliclock.js'), 'text/javascript')
         ->prependFile($this->basePath('js/formcache.min.js'), 'text/javascript')
         ->prependFile($this->basePath('js/filterTable.js'), 'text/javascript')
         ->prependFile($this->basePath('js/tablesorter.js'), 'text/javascript')
@@ -47,21 +49,21 @@
             <ul>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_pacientes'>Pacientes <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_productos'>Productos<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
-                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_catalogos'>Catalogos <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
-                <li><a id="navbar_caja">Caja</a></li>
-                <li><a>almacen</a></li>
-                <li><a>Farmacia</a></li>
-                <li><a>Admisión</a></li>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_compras'>Compras<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
-                <li><a>Inventario</a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_almacen'>Almacen <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_bancos'>Bancos <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_caja'>Caja<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>  
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_catalogos'>Catalogos <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_empleados'>Empleados <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+
             </ul>
         </div>
         <div class="col s2" id="navbar_profile-container">
             <a href="javascript:void(0)" id="navbar_profile" data-activates='dropdown_profile'>
                 <div class="row" style="margin-bottom: 9px;">
                     <div class="col s4" style="margin-top: 15px;">
-                        <?php if(file_exists($_SERVER["DOCUMENT_ROOT"]."/img/profile/img_profile_".$_SESSION["empleado_session"]["empleado_info"]["idempleado"].".png")) :?>
-                            <img style="height: 32px;" class="responsive-img circle" src="/img/profile/img_profile_<?php echo $_SESSION["empleado_session"]["empleado_info"]["idempleado"]?>.png">
+                        <?php if(!is_null($_SESSION["empleado_session"]["empleado_info"]["empleado_imagen"])) :?>
+                            <img style="height: 32px; width: 100%" class="responsive-img circle" src="<?php echo $_SESSION["empleado_session"]["empleado_info"]["empleado_imagen"]?>">
                         <?php else :?>
                             <img class="responsive-img circle" src="/img/profile/default_user.jpg">
                         <?php endif;?>
@@ -88,9 +90,9 @@
 
 <!-- Dropdown Catalogos -->
 <ul id='dropdown_catalogos' class='dropdown-content'>
-    <li><a href="#!">Productos</a></li>
+    <li style="min-width: 150px"><a href="/catalogos/articulo">Productos</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Bancos</a></li>
+    <li><a href="/catalogos/proveedor">Proveedores</a></li>
     <li class="divider"></li>
     <li><a href="#!">Cuartos</a></li>
     <li class="divider"></li>
@@ -101,8 +103,6 @@
     <li><a href="#!">Lugares</a></li>
     <li class="divider"></li>
     <li><a href="#!">Medicos</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Proveedores</a></li>
     <li class="divider"></li>
     <li><a href="#!">Servicios</a></li>
     <li class="divider"></li>
@@ -151,18 +151,61 @@
 </ul>
 <!-- Dropdown  Compras -->
 <ul id='dropdown_compras' class='dropdown-content'>
-    <li><a href="/compras">Mis compras</a></li>
+    <li><a href="/compras">Compras</a></li>
     <li class="divider"></li>
     <li><a href="/compras/nuevo">Nueva compra</a></li>
     <li class="divider"></li>
     <li><a href="#!">Reporte de compras</a></li>
+</ul>
+<!-- Dropdown  Almacen -->
+<ul id='dropdown_almacen' class='dropdown-content'>
+    <li><a href="/catalogos/lugar">Almacenes</a></li>
+    <li class="divider"></li>
+    <li><a href="/catalogos/lugar/nuevo">Nuevo almacen</a></li>
+    <li class="divider"></li>
+    <li><a href="/almacen/transferencias">Transferencias</a></li>
+    <li class="divider"></li>
+    <li><a href="/almacen/transferencias/nuevo">Nueva transferencia</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Reporte de almacenes</a></li>
+</ul>
+<!-- Dropdown  bancos -->
+<ul id='dropdown_bancos' class='dropdown-content'>
+    <li><a href="/bancos/concepto">Conceptos</a></li>
+    <li class="divider"></li>
+    <li><a href="/bancos/concepto/nuevo">Nuevo concepto</a></li>
+    <li class="divider"></li>
+    <li><a href="#">Movimientos</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Reporte de bancos</a></li>
+</ul>
+<!-- Dropdown  Almacen -->
+<ul id='dropdown_caja' class='dropdown-content'>
+    <li><a href="/cajachica/concepto">Conceptos</a></li>
+    <li class="divider"></li>
+    <li><a href="/cajachica/concepto/nuevo">Nuevo concepto</a></li>
+    <li class="divider"></li>
+    <li><a href="#">Movimientos</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Reporte de caja</a></li>
+</ul>
+<!-- Dropdown  Empleados -->
+<ul id='dropdown_empleados' class='dropdown-content'>
+    <li><a href="/empleados">Empleados</a></li>
+    <li class="divider"></li>
+    <li><a href="/empleados/nuevo">Nuevo empleado</a></li>
+    <li class="divider"></li>
+    <li><a href="/empleados/roles">Roles</a></li>
+    <li class="divider"></li>
+    <li><a href="/empleados/roles/nuevo">Nuevo Rol</a></li>
+    <li><a href="#!">Reporte de empleados</a></li>
 </ul>
 
 <ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
     <li><a href="#!">Ver Perfil</a></li>
     <li class="divider"></li>
     <li>
-        <a href="/out">Cerrar sesión</a>
+        <a href="/auth/out">Cerrar sesión</a>
     </li>
 </ul>
 
