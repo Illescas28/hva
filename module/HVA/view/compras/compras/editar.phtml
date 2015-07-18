@@ -143,7 +143,7 @@
     <div class="col s6">
         <fieldset style="position: relative" id="pdf-container">
             <legend>Factura PDF</legend>
-            <?php if(is_null($orden['facturapdf'])) :?>
+            <?php if(is_null($orden['facturapdf']) || empty($orden['facturapdf'])) :?>
                 <div class="file-field input-field">
                     <input class="file-path validate" type="text"/>
                     <div class="btn">

@@ -303,7 +303,7 @@
   <table name="conceptobanco" phpName="Conceptobanco" idMethod="native">
     <column name="idbancotransaccion" phpName="Idbancotransaccion" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="bancotransaccion_nombre" phpName="BancotransaccionNombre" type="VARCHAR" size="255" required="true"/>
-    <column name="bancotransaccion_descripcion" phpName="BancotransaccionDescripcion" type="LONGVARCHAR" required="true"/>
+    <column name="bancotransaccion_descripcion" phpName="BancotransaccionDescripcion" type="LONGVARCHAR" required="false"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -311,7 +311,7 @@
   <table name="conceptocajachica" phpName="Conceptocajachica" idMethod="native">
     <column name="idconceptocajachica" phpName="Idconceptocajachica" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="conceptocajachica_nombre" phpName="ConceptocajachicaNombre" type="VARCHAR" size="45" required="true"/>
-    <column name="conceptocajachica_descripcion" phpName="ConceptocajachicaDescripcion" type="LONGVARCHAR" required="true"/>
+    <column name="conceptocajachica_descripcion" phpName="ConceptocajachicaDescripcion" type="LONGVARCHAR" required="false"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

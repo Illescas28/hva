@@ -40,7 +40,7 @@ class ConceptocajachicaTableMap extends TableMap
         // columns
         $this->addPrimaryKey('idconceptocajachica', 'Idconceptocajachica', 'INTEGER', true, null, null);
         $this->addColumn('conceptocajachica_nombre', 'ConceptocajachicaNombre', 'VARCHAR', true, 45, null);
-        $this->addColumn('conceptocajachica_descripcion', 'ConceptocajachicaDescripcion', 'LONGVARCHAR', true, null, null);
+        $this->addColumn('conceptocajachica_descripcion', 'ConceptocajachicaDescripcion', 'LONGVARCHAR', false, null, null);
         // validators
     } // initialize()
 

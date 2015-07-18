@@ -384,7 +384,7 @@ CREATE TABLE `conceptobanco`
 (
     `idbancotransaccion` INTEGER NOT NULL AUTO_INCREMENT,
     `bancotransaccion_nombre` VARCHAR(255) NOT NULL,
-    `bancotransaccion_descripcion` TEXT NOT NULL,
+    `bancotransaccion_descripcion` TEXT,
     PRIMARY KEY (`idbancotransaccion`)
 ) ENGINE=InnoDB;
 
@@ -398,7 +398,7 @@ CREATE TABLE `conceptocajachica`
 (
     `idconceptocajachica` INTEGER NOT NULL AUTO_INCREMENT,
     `conceptocajachica_nombre` VARCHAR(45) NOT NULL,
-    `conceptocajachica_descripcion` TEXT NOT NULL,
+    `conceptocajachica_descripcion` TEXT,
     PRIMARY KEY (`idconceptocajachica`)
 ) ENGINE=InnoDB;
 
