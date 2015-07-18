@@ -230,10 +230,12 @@ class ComprasController extends AbstractActionController {
                                    ->setOrdencompradetalleImporte($item_importe);
                 
                 if(!empty($item['ordencompradetalle_caducidad'])){
+                    
                     $caducidad = \DateTime::createFromFormat('m/Y', $item['ordencompradetalle_caducidad']);
+
                     $caducidad = $caducidad->format('Y-m-d');
                     
-                    $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);
+                    $ordenCompraDetalle->setOrdencompradetalleCaducidad($caducidad);
                 }
                 
                 $ordenCompraDetalle->save();

@@ -34,7 +34,7 @@ class ConceptoFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'conceptocajachica_descripcion',
-                'required' => true,
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),

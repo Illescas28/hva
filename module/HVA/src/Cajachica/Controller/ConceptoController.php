@@ -165,6 +165,78 @@ class ConceptoController extends AbstractActionController
 
     }
     
+    public function movimientosAction(){
+        
+        $collection = \CajachicaQuery::create()->joinConceptocajachica()->orderBy('idcajachica', 'desc')->withColumn('conceptocajachica_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        
+       
+        return new ViewModel(array(
+            'collection'   => $collection,
+            'flashMessages' => $this->flashMessenger()->getMessages(),
+        ));
+        
+        
+    }
+    
+    public function getconceptosAction(){
+        
+        $collection = \ConceptocajachicaQuery::create()->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        
+        $conceptos_autcomplete = array();
+        
+        foreach ($collection as $entity){
+            $tmp['value'] = $entity["idconceptocajachica"];
+            $tmp['label'] = $entity["conceptocajachica_nombre"];
+            $conceptos_autcomplete[] = $tmp;
+        }
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($conceptos_autcomplete));
+        
+    }
+    
+    
+    public function nuevomovimientoAction(){
+        
+      $request = $this->request;
+      
+      if($request->isPost()){
+          
+          $post_data = $request->getPost();
+          
+          //Creamos nuestro movimiento
+          
+          
+          
+          
+          
+//           //Cachamos el valor desde nuestro params
+//        $id = (int) $this->params()->fromRoute('id');
+//        //Verificamos que el Id lugar que se quiere modificar exista
+//        if(!\ConceptocajachicaQuery::create()->filterByIdconceptocajachica($id)->exists()){
+//            $id =0;
+//        }
+//        //Si es incorrecto redireccionavos al action nuevo
+//        if (!$id) {
+//            return $this->redirect()->toRoute('cajachica-concepto', array(
+//                'action' => 'nuevo'
+//            ));
+//        }
+//        
+//            //Instanciamos nuestro lugar
+//            $entity = \ConceptocajachicaQuery::create()->findPk($id);
+//            
+//            $entity->delete();
+//            
+//            //Agregamos un mensaje
+//            $this->flashMessenger()->addMessage('Concepto eliminado exitosamente!');
+//
+//            //Redireccionamos a nuestro list
+//            return $this->redirect()->toRoute('cajachica-concepto');
+          
+          echo '<pre>';var_dump($post_data); echo '<pre>';exit();
+      }
+        
+    }
+    
     
 
     

@@ -51,7 +51,7 @@
             
             
             $orden_factura = $compra->getOrdencompraFacturapdf();
-            if(is_null($orden_factura)){
+            if(is_null($orden_factura) || empty($orden_factura)){
                 $orden_factura = 'N/D';
             }else{
                 $orden_factura = '<a target="_blank" href="'.$orden_factura.'"><img id="orden_facturapdf" src="/img/compras/pdf_default.png"><a>';
