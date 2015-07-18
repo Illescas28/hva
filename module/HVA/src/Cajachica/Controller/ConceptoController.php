@@ -196,7 +196,16 @@ class ConceptoController extends AbstractActionController
     
     public function nuevomovimientoAction(){
         
-       echo '<pre>';var_dump('entro'); echo '</pre>';exit();
+      $request = $this->request;
+      
+      if($request->isPost()){
+          
+          $post_data = $request->getPost();
+          
+          //Creamos nuestro movimiento
+          
+          echo '<pre>';var_dump($post_data); echo '<pre>';exit();
+      }
         
     }
     

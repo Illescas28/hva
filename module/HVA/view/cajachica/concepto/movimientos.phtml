@@ -3,6 +3,17 @@
         left: initial;
         position: initial;
     }
+    
+    #movmiento_mensaje{
+        position: relative;
+        display: none;
+    }
+    
+    #movmiento_mensaje a{
+        position: absolute;
+        right: 12px;
+        top: 12px;
+    }
 </style>
 <link href="/css/multiple.css" rel="stylesheet"/>
 <script src="/js/movimientos.js"></script>
@@ -73,14 +84,13 @@
     </fieldset>
 </div>
 <p style="color: rgb(158, 158, 158); margin-bottom: 40px;">(*) Campos obligatorios</p>
+<div id="movmiento_mensaje" class="card-panel #00086E-text green accent-2">Moviento generado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
 <div class="row" >
     <div class="col s6" style="top: -26px;">
         <fieldset>
             <legend>Filtros</legend>
             <label>Por concepto</label>
             <select multiple="multiple" class="browser-default" id="concepto_filter">
-                <option value="1">INICIO</option>
-                <option value="31">Agua</option>
             </select>
         </fieldset>
     </div>
@@ -99,7 +109,7 @@
                 <th>Concepto</th>
                 <th>Ingreso</th>
                 <th>Egreso</th>
-                <th>Balance</th>
+                <!--<th>Balance</th>-->
                 <th>Comprobante</th>
                 <th>Paciente/Doctor</th>
                 <th>Nota</th>
@@ -120,7 +130,7 @@
                      <td> - </td>
                     <td><?php echo $entity['cajachica_cantidad']?></td> 
                 <?php endif;?>
-                <td><?php echo $entity['cajachica_balance']?></td>   
+                <!--<td><?php //echo $entity['cajachica_balance']?></td>-->   
                 <td><?php echo $entity['cajachica_comprobante']?></td>        
                 <td><?php echo $entity['cajachica_pacientedoctor']?></td>
                 <td><?php echo $entity['cajachica_nota']?></td>
@@ -130,6 +140,11 @@
             </tr>
             <?php endforeach;?>
         </table>
+        <div class="row">
+            <div class="col s12 ordertotal-container">
+                <p style="font-size: 16px; float: right; padding-right: 24px;">Balance: <span id="balance">0.00</span>
+            </div>
+        </div>
     </div>
 </div>
 </div>        
@@ -141,13 +156,7 @@ $(document).ready(function() {
     
     
 
-    $("select#concepto_filter").multipleSelect({
-        selectAll:true,
-        allSelected:'Todos los conceptos',
-        selectAllText:'Todos los conceptos',
-    });
     
-    $("select#concepto_filter").multipleSelect("checkAll");
 
    
    

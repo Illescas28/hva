@@ -54,6 +54,20 @@
                                  event.preventDefault();
                             }
                        });
+                       
+                       $.each(conceptos,function(index,element){
+                           //Inicilizamos el filtro de los conceptos
+                            $container.find('select#concepto_filter').append('<option value="'+element.value+'">'+element.label+'</option>');
+                       });
+                       
+                       $("select#concepto_filter").multipleSelect({
+                            selectAll:true,
+                            allSelected:'Todos los conceptos',
+                            selectAllText:'Todos los conceptos',
+                        });
+
+                        $("select#concepto_filter").multipleSelect("checkAll");
+                       
                    }
             );
     
@@ -86,7 +100,7 @@
                         dataType: 'json',
                         async: false,
                         data: movimiento,
-                        url:'/cajachica/concepto/movimientos/nuevomovimiento',
+                        url:'/cajachica/movimientos/nuevomovimiento ',
                         success: function (data) {
                             console.log(data);
                         }
