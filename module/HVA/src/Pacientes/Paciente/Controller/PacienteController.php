@@ -319,6 +319,67 @@ class PacienteController extends AbstractActionController
         }
         // End Eliminar cargoadmision
 
+        // Start Ver admisionanticipo
+        if($request->getPost()->ver_admisionanticipo == "true"){
+
+            $admisionanticipoQuery = \AdmisionanticipoQuery::create()->find();
+            if($admisionanticipoQuery->getArrayCopy()){
+                $admisionanticipoArray = array();
+                foreach($admisionanticipoQuery as $admisionanticipoEntity){
+                        $admisionanticipo = array(
+                            'idadmisionanticipo' => $admisionanticipoEntity->getIdadmisionanticipo(),
+                            'idadmision' => $admisionanticipoEntity->getIdadmision(),
+                            'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
+                            'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
+                            'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionAnticipoNota()
+                        );
+                        array_push($admisionanticipoArray, $admisionanticipo);
+                }
+            }
+            return new JsonModel(array(
+                'admisionanticipoArray' => $admisionanticipoArray,
+            ));
+        }
+        // End Ver admisionanticipo
+        // Start Eliminar admisionanticipo
+        if($request->getPost()->eliminar_admisionanticipo == "true"){
+            if(\AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->exists()){
+
+                $admisionanticipoEliminado = \AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->findOne();
+                $admisionanticipoEliminadoArray = array();
+                if($admisionanticipoEliminado->getIdservicio() != null){
+                    $admisionanticipoEliminado = array(
+                        'idadmisionanticipo' => $admisionanticipoEliminado->getIdadmisionanticipo(),
+                        'idadmision' => $admisionanticipoEliminado->getIdadmision(),
+                        'admisionanticipo_fecha' => $admisionanticipoEliminado->getAdmisionanticipoFecha(),
+                        'admisionanticipo_cantidad' => $admisionanticipoEliminado->getAdmisionanticipoCantidad(),
+                        'admisionanticipo_nota' => $admisionanticipoEliminado->getAdmisionanticipoNota(),
+                    );
+                    array_push($admisionanticipoEliminadoArray, $admisionanticipoEliminado);
+                }
+                \AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->delete();
+
+                $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
+                if($cargoadmisionQuery->getArrayCopy()){
+                    $cargoadmisionArray = array();
+                    foreach($cargoadmisionQuery as $cargoadmisionEntity){
+                        if($cargoadmisionEntity->getIdservicio() != null){
+                            $cargoadmision = array(
+                                'subtotal' => $cargoadmisionEntity->getCargoadmisionMonto(),
+                            );
+                            array_push($cargoadmisionArray, $cargoadmision);
+                        }
+                    }
+                }
+
+                return new JsonModel(array(
+                    'cargoadmisionArray' => $cargoadmisionArray,
+                    'admisionanticipoEliminadoArray' => $admisionanticipoEliminadoArray,
+                ));
+            }
+        }
+        // End Eliminar admisionanticipo
+
         // Start Eliminar cargoconsulta
         if($request->getPost()->idcargoconsulta){
             if($request->getPost()->eliminar_cargoconsulta_tipo == 'articulo'){
@@ -668,11 +729,12 @@ class PacienteController extends AbstractActionController
             if($request->getPost()->cargoadmisionarticulo_by != null){
 
                 if($request->getPost()->cargoadmisionarticulo_by == 'nombre'){
-                    if($request->getPost()->busquedaArticulo != null){
+
+                    if($request->getPost()->busquedaAdmisionArticulo != null){
                         $ordencompradetalleQuery = \OrdencompradetalleQuery::create()
                             ->useArticulovarianteQuery()
                             ->useArticuloQuery()
-                            ->filterBy(BasePeer::translateFieldname('articulo', 'articulo_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaArticulo.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('articulo', 'articulo_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionArticulo.'%', \Criteria::LIKE)
                             ->endUse()
                             ->endUse()
                             ->find();
@@ -681,10 +743,10 @@ class PacienteController extends AbstractActionController
                     }
                 }
                 if($request->getPost()->cargoadmisionarticulo_by == 'código de barras'){
-                    if($request->getPost()->busquedaArticulo != null){
+                    if($request->getPost()->busquedaAdmisionArticulo != null){
                         $ordencompradetalleQuery = \OrdencompradetalleQuery::create()
                             ->useArticulovarianteQuery()
-                            ->filterBy(BasePeer::translateFieldname('articulovariante', 'articulovariante_codigobarras', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaArticulo.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('articulovariante', 'articulovariante_codigobarras', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionArticulo.'%', \Criteria::LIKE)
                             ->endUse()
                             ->find();
                     }else{
@@ -692,11 +754,11 @@ class PacienteController extends AbstractActionController
                     }
                 }
                 if($request->getPost()->cargoadmisionarticulo_by == 'proveedor'){
-                    if($request->getPost()->busquedaArticulo != null){
+                    if($request->getPost()->busquedaAdmisionArticulo != null){
                         $ordencompradetalleQuery = \OrdencompradetalleQuery::create()
                             ->useOrdencompraQuery()
                             ->useProveedorQuery()
-                            ->filterBy(BasePeer::translateFieldname('proveedor', 'proveedor_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaArticulo.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('proveedor', 'proveedor_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionArticulo.'%', \Criteria::LIKE)
                             ->endUse()
                             ->endUse()
                             ->find();
@@ -749,10 +811,11 @@ class PacienteController extends AbstractActionController
             if($request->getPost()->cargoadmisionservicio_by != null){
 
                 if($request->getPost()->cargoadmisionservicio_by == 'nombre'){
-                    if($request->getPost()->busquedaServicio != null){
+                    if($request->getPost()->busquedaAdmisionServicio != null){
                         $servicioQuery = \ServicioQuery::create()
-                            ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
                             ->find();
+
                     }else{
                         $servicioQuery = \ServicioQuery::create()->find();
                     }
@@ -771,6 +834,8 @@ class PacienteController extends AbstractActionController
                         );
                         array_push($servicioArray, $servicio);
                     }
+                }else{
+                    $servicioArray = null;
                 }
 
                 return new JsonModel(array(
@@ -798,6 +863,10 @@ class PacienteController extends AbstractActionController
                     }
                     //Guardamos en nuestra base de datos
                     $consulta->save();
+
+                    $consultorio = $consulta->getConsultorio();
+                    $consultorio->setConsultorioEnuso(1);
+                    $consultorio->save();
 
                     $consultaArray = \ConsultaQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->findOne()->toArray(BasePeer::TYPE_FIELDNAME);
 
@@ -957,6 +1026,10 @@ class PacienteController extends AbstractActionController
                     //Guardamos en nuestra base de datos
                     $admision->save();
 
+                    $cuarto = $admision->getCuarto();
+                    $cuarto->setCuartoEnuso(1);
+                    $cuarto->save();
+
                     $admisionArray = \AdmisionQuery::create()->filterByIdadmision($admision->getIdadmision())->findOne()->toArray(BasePeer::TYPE_FIELDNAME);
 
                     return new JsonModel(array(
@@ -997,7 +1070,7 @@ class PacienteController extends AbstractActionController
 
                         //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Admision
                         foreach ($cargoadmisionForm->getData() as $cargoadmisionKey => $cargoadmisionValue){
-                            if($cargoadmisionKey != 'cargoadmisionarticulo_by' && $cargoadmisionKey != 'cargoadmisionservicio_by' && $cargoadmisionKey != 'busquedaArticulo' && $cargoadmisionKey != 'busquedaServicio'){
+                            if($cargoadmisionKey != 'cargoadmisionarticulo_by' && $cargoadmisionKey != 'cargoadmisionservicio_by' && $cargoadmisionKey != 'busquedaAdmisionArticulo' && $cargoadmisionKey != 'busquedaAdmisionServicio'){
                                 $cargoadmision->setByName($cargoadmisionKey, $cargoadmisionValue, \BasePeer::TYPE_FIELDNAME);
                             }
                         }
@@ -1056,7 +1129,7 @@ class PacienteController extends AbstractActionController
 
                         //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Admision
                         foreach ($cargoadmisionForm->getData() as $cargoadmisionKey => $cargoadmisionValue){
-                            if($cargoadmisionKey != 'cargoadmisionarticulo_by' && $cargoadmisionKey != 'cargoadmisionservicio_by' && $cargoadmisionKey != 'busquedaArticulo' && $cargoadmisionKey != 'busquedaServicio'){
+                            if($cargoadmisionKey != 'cargoadmisionarticulo_by' && $cargoadmisionKey != 'cargoadmisionservicio_by' && $cargoadmisionKey != 'busquedaAdmisionArticulo' && $cargoadmisionKey != 'busquedaAdmisionServicio'){
                                 $cargoadmision->setByName($cargoadmisionKey, $cargoadmisionValue, \BasePeer::TYPE_FIELDNAME);
                             }
                         }

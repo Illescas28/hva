@@ -44,18 +44,14 @@ class ServicioForm extends Form
         ));
         $this->add(array(
             'name' => 'servicio_iva',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'Float',
-                    'options' => array(
-                        'min' => 0,
-                        'locale' => 'es_MX',
-                    ),
-                ),
-            ),
+            'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'IVA'
+                'label' => 'Status',
+                'empty_option' => 'Seleccione impuesto',
+                'value_options' => array('0' => '0','16' => '16','exento' => 'exento'),
+            ),
+            'attributes' => array(
+                'id' => 'servicio_iva'
             )
         ));
     }

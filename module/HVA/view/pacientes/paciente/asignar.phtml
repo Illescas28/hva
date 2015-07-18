@@ -555,8 +555,8 @@ $this->headTitle($title);
                             <div id="busquedaCargoadmisionArticulo" class="col s5">
                                 <div class="input-field col s4 left" id="search-container">
                                     <i class="mdi-action-search prefix"></i>
-                                    <?php echo $this->formText($cargoadmisionForm->get('busquedaArticulo')); ?>
-                                    <?php echo $this->formLabel($cargoadmisionForm->get('busquedaArticulo')); ?>
+                                    <?php echo $this->formText($cargoadmisionForm->get('busquedaAdmisionArticulo')); ?>
+                                    <?php echo $this->formLabel($cargoadmisionForm->get('busquedaAdmisionArticulo')); ?>
                                 </div>
                                 <div class="col s4">
                                     <div class="input-field">
@@ -660,8 +660,8 @@ $this->headTitle($title);
                             <div id="busquedaCargoadmisionServicio" class="col s6">
                                 <div class="input-field col s4 left" id="search-container">
                                     <i class="mdi-action-search prefix"></i>
-                                    <?php echo $this->formText($cargoadmisionForm->get('busquedaServicio')); ?>
-                                    <?php echo $this->formLabel($cargoadmisionForm->get('busquedaServicio')); ?>
+                                    <?php echo $this->formText($cargoadmisionForm->get('busquedaAdmisionServicio')); ?>
+                                    <?php echo $this->formLabel($cargoadmisionForm->get('busquedaAdmisionServicio')); ?>
                                 </div>
                                 <div class="col s4">
                                     <div class="input-field">
@@ -801,6 +801,8 @@ $(document).ready(function() {
     $("#consulta_fecha").datepicker();
     $("#admision_fechaadmision").datepicker();
     $('.modal-trigger').leanModal();
+    // timepicki
+    //$('#consulta_hora').timepicki();
     // lolliclock
     $('#consulta_hora').lolliclock({autoclose:true});
 
@@ -832,35 +834,34 @@ $('.red-text').hide();
 $("#guardarConsulta").click(function() {
     // Al utilizar el reloj, se crea la clase lolliclock... eliminamos la clase lolliclock-clickable de nuestro body
     $('body').removeClass('lolliclock-clickable');
-
     <?php
-    /*
-     var divPreAutoloader = document.createElement('div')
-    divPreAutoloader.setAttribute ( 'id', 'divPreAutoloader' );
-    divPreAutoloader.className = "preloader-wrapper medium active";
-    var divSpinner = document.createElement('div')
-    divSpinner.className = "spinner-layer spinner-blue-only";
-    var divCircleClipperLeft = document.createElement('div')
-    divCircleClipperLeft.className = "circle-clipper left";
-    var divCircleLeft = document.createElement('div')
-    divCircleLeft.className = "circle";
-    var divGapPatch = document.createElement('div')
-    divGapPatch.className = "gap-patch";
-    var divCircleGap = document.createElement('div')
-    divCircleGap.className = "circle";
-    var divCircleClipperRight = document.createElement('div')
-    divCircleClipperRight.className = "circle-clipper right";
-    var divCircleRight = document.createElement('div')
-    divCircleRight.className = "circle";
-    divCircleClipperRight.appendChild(divCircleLeft)
-    divSpinner.appendChild(divCircleClipperRight)
-    divGapPatch.appendChild(divCircleGap)
-    divSpinner.appendChild(divGapPatch)
-    divCircleClipper.appendChild(divCircleLeft)
-    divSpinner.appendChild(divCircleClipper)
-    divPreAutoloader.appendChild(divSpinner)
-     */
-     ?>
+        /*
+         var divPreAutoloader = document.createElement('div')
+        divPreAutoloader.setAttribute ( 'id', 'divPreAutoloader' );
+        divPreAutoloader.className = "preloader-wrapper medium active";
+        var divSpinner = document.createElement('div')
+        divSpinner.className = "spinner-layer spinner-blue-only";
+        var divCircleClipperLeft = document.createElement('div')
+        divCircleClipperLeft.className = "circle-clipper left";
+        var divCircleLeft = document.createElement('div')
+        divCircleLeft.className = "circle";
+        var divGapPatch = document.createElement('div')
+        divGapPatch.className = "gap-patch";
+        var divCircleGap = document.createElement('div')
+        divCircleGap.className = "circle";
+        var divCircleClipperRight = document.createElement('div')
+        divCircleClipperRight.className = "circle-clipper right";
+        var divCircleRight = document.createElement('div')
+        divCircleRight.className = "circle";
+        divCircleClipperRight.appendChild(divCircleLeft)
+        divSpinner.appendChild(divCircleClipperRight)
+        divGapPatch.appendChild(divCircleGap)
+        divSpinner.appendChild(divGapPatch)
+        divCircleClipper.appendChild(divCircleLeft)
+        divSpinner.appendChild(divCircleClipper)
+        divPreAutoloader.appendChild(divSpinner)
+         */
+         ?>
 
     //Obtenemos el valor del selector de medicos
     var idmedico = $("select#idmedico").val();
@@ -2434,11 +2435,33 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
             }
             if(j == 7){
 
+                var link1 = document.createElement("a");
+                link1.className = "modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'VisualizarConsulta' );
+                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var vista = document.createElement("i");
+                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
+
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped modal-trigger";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'EliminarConsulta' );
+                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                link1.appendChild(vista);
+                celda.appendChild(link1);
+                link3.appendChild(eliminar);
+                celda.appendChild(link3);
+                hilera.appendChild(celda);
+                <!-- Modal Trigger -->
+
                 <!-- View Modal Structure -->
                 var divcargosConsulta = document.getElementById('cargosConsulta')
                 var divViewModalCargoconsulta = document.createElement('div')
-                divViewModalCargoconsulta.setAttribute ( 'id', 'view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
                 divViewModalCargoconsulta.className = "modal bottom-sheet";
+                divViewModalCargoconsulta.setAttribute ( 'id', 'view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
                 var h4 = document.createElement('h4')
                 var texth4 = document.createTextNode("Cargo-consulta");
                 h4.appendChild(texth4);
@@ -2569,8 +2592,8 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                 <!-- Start Delete Structure -->
                 var divcargosConsultaDelete = document.getElementById('cargosConsulta')
                 var divDeleteModalCargoconsultaDelete = document.createElement('div')
-                divDeleteModalCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
                 divDeleteModalCargoconsultaDelete.className = "modal";
+                divDeleteModalCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
                 var divDeleteModalContentCargoconsultaDelete = document.createElement('div')
                 divDeleteModalContentCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta');
                 divDeleteModalContentCargoconsultaDelete.className = "modal-content";
@@ -2734,28 +2757,6 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                 divDeleteModalCargoconsultaDelete.appendChild(divDeleteModalFooterDelete);
                 divcargosConsultaDelete.appendChild(divDeleteModalCargoconsultaDelete);
                 <!-- End Delete Modal Structure -->
-
-                var link1 = document.createElement("a");
-                link1.className = "modal-trigger";
-                link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var vista = document.createElement("i");
-                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
-
-                var link3 = document.createElement("a");
-                link3.className = "tooltipped modal-trigger";
-                link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var eliminar = document.createElement("i");
-                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                link1.appendChild(vista);
-                celda.appendChild(link1);
-                link3.appendChild(eliminar);
-                celda.appendChild(link3);
-                hilera.appendChild(celda);
-
             }
         }
 
@@ -2925,11 +2926,32 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
             }
             if(j == 7){
 
+                var link1 = document.createElement("a");
+                link1.className = "modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'VisualizarConsulta' );
+                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var vista = document.createElement("i");
+                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
+
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped modal-trigger";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'EliminarConsulta' );
+                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                link1.appendChild(vista);
+                celda.appendChild(link1);
+                link3.appendChild(eliminar);
+                celda.appendChild(link3);
+                hilera.appendChild(celda);
+
                 <!-- View Modal Structure -->
                 var divcargosConsulta = document.getElementById('cargosConsulta')
                 var divViewModalCargoconsulta = document.createElement('div')
-                divViewModalCargoconsulta.setAttribute ( 'id', 'view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
                 divViewModalCargoconsulta.className = "modal bottom-sheet";
+                divViewModalCargoconsulta.setAttribute ( 'id', 'view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
                 var h4 = document.createElement('h4')
                 var texth4 = document.createTextNode("Cargo-consulta");
                 h4.appendChild(texth4);
@@ -3060,8 +3082,8 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 <!-- Start Delete Structure -->
                 var divcargosConsultaDelete = document.getElementById('cargosConsulta')
                 var divDeleteModalCargoconsultaDelete = document.createElement('div')
-                divDeleteModalCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
                 divDeleteModalCargoconsultaDelete.className = "modal";
+                divDeleteModalCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"]);
                 var divDeleteModalContentCargoconsultaDelete = document.createElement('div')
                 divDeleteModalContentCargoconsultaDelete.setAttribute ( 'id', 'delete-modal-cargoconsulta');
                 divDeleteModalContentCargoconsultaDelete.className = "modal-content";
@@ -3225,27 +3247,6 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 divDeleteModalCargoconsultaDelete.appendChild(divDeleteModalFooterDelete);
                 divcargosConsultaDelete.appendChild(divDeleteModalCargoconsultaDelete);
                 <!-- End Delete Modal Structure -->
-
-                var link1 = document.createElement("a");
-                link1.className = "modal-trigger";
-                link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var vista = document.createElement("i");
-                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
-
-                var link3 = document.createElement("a");
-                link3.className = "tooltipped modal-trigger";
-                link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                var eliminar = document.createElement("i");
-                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                link1.appendChild(vista);
-                celda.appendChild(link1);
-                link3.appendChild(eliminar);
-                celda.appendChild(link3);
-                hilera.appendChild(celda);
 
             }
         }
@@ -3619,7 +3620,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                 var link1 = document.createElement("a");
                 link1.className = "modal-trigger";
                 link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'data-tooltip', 'VisualizarConsulta' );
                 link1.setAttribute ( 'href', '#view-modal-cargoconsulta-servicio-'+cargoconsultaArray[i]["idcargoconsulta"] );
                 var vista = document.createElement("i");
                 vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
@@ -3627,7 +3628,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                 var link3 = document.createElement("a");
                 link3.className = "tooltipped modal-trigger";
                 link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'data-tooltip', 'EliminarConsulta' );
                 link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-servicio-'+cargoconsultaArray[i]["idcargoconsulta"] );
                 var eliminar = document.createElement("i");
                 eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
@@ -4077,7 +4078,7 @@ function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
                 var link1 = document.createElement("a");
                 link1.className = "modal-trigger";
                 link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'data-tooltip', 'VisualizarConsulta' );
                 link1.setAttribute ( 'href', '#view-modal-cargoconsulta-servicio-'+cargoconsultaArray[i]["idcargoconsulta"] );
                 var vista = document.createElement("i");
                 vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
@@ -4085,7 +4086,7 @@ function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
                 var link3 = document.createElement("a");
                 link3.className = "tooltipped modal-trigger";
                 link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'data-tooltip', 'EliminarConsulta' );
                 link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-servicio-'+cargoconsultaArray[i]["idcargoconsulta"] );
                 var eliminar = document.createElement("i");
                 eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
@@ -4187,7 +4188,7 @@ $("#guardarAdmision").click(function() {
 $("#buscarCargoadmisionArticulo").click(function() {
 
     //Obtenemos el valor del selector de lugarinventario
-    var busquedaArticulo = $("input#busquedaArticulo").val();
+    var busquedaAdmisionArticulo = $("input#busquedaAdmisionArticulo").val();
 
     //Obtenemos el valor del selector de lugarinventario
     var cargoadmisionarticulo_by = $("select#cargoadmisionarticulo_by").val();
@@ -4204,7 +4205,7 @@ $("#buscarCargoadmisionArticulo").click(function() {
     }
 
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'cargoadmisionarticulo_by=' + cargoadmisionarticulo_by + '&busquedaArticulo=' + busquedaArticulo ;
+    var dataString = 'cargoadmisionarticulo_by=' + cargoadmisionarticulo_by + '&busquedaAdmisionArticulo=' + busquedaAdmisionArticulo ;
 
     $.ajax({
         type: "POST",
@@ -4373,7 +4374,7 @@ $("#buscarCargoadmisionArticulo").click(function() {
 $("#buscarCargoadmisionServicio").click(function() {
 
     //Obtenemos el valor del selector de lugarinventario
-    var busquedaServicio = $("input#busquedaServicio").val();
+    var busquedaAdmisionServicio = $("input#busquedaAdmisionServicio").val();
 
     //Obtenemos el valor del selector de lugarinventario
     var cargoadmisionservicio_by = $("select#cargoadmisionservicio_by").val();
@@ -4390,7 +4391,7 @@ $("#buscarCargoadmisionServicio").click(function() {
     }
 
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'cargoadmisionservicio_by=' + cargoadmisionservicio_by + '&busquedaServicio=' + busquedaServicio ;
+    var dataString = 'cargoadmisionservicio_by=' + cargoadmisionservicio_by + '&busquedaAdmisionServicio=' + busquedaAdmisionServicio ;
 
     $.ajax({
         type: "POST",
@@ -5025,7 +5026,7 @@ function tablaCargoadmisionServicioAgregadoModal(cargoadmisionArray) {
 function buscarCargoadmisionArticulo(idordencompradetalle){
 
     //Obtenemos el valor del selector de lugarinventario
-    var busquedaArticulo = $("input#busquedaArticulo").val();
+    var busquedaAdmisionArticulo = $("input#busquedaAdmisionArticulo").val();
 
     //Obtenemos el valor del selector de lugarinventario
     var cargoadmisionarticulo_by = $("select#cargoadmisionarticulo_by").val();
@@ -5042,7 +5043,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
     }
 
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'cargoadmisionarticulo_by=' + cargoadmisionarticulo_by + '&busquedaArticulo=' + busquedaArticulo ;
+    var dataString = 'cargoadmisionarticulo_by=' + cargoadmisionarticulo_by + '&busquedaAdmisionArticulo=' + busquedaAdmisionArticulo ;
 
     $.ajax({
         type: "POST",
@@ -5337,7 +5338,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
 function buscarCargoadmisionServicio(idservicio){
 
     //Obtenemos el valor del selector de lugarinventario
-    var busquedaServicio = $("input#busquedaServicio").val();
+    var busquedaAdmisionServicio = $("input#busquedaAdmisionServicio").val();
 
     //Obtenemos el valor del selector de lugarinventario
     var cargoadmisionservicio_by = $("select#cargoadmisionservicio_by").val();
@@ -5354,7 +5355,7 @@ function buscarCargoadmisionServicio(idservicio){
     }
 
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'cargoadmisionservicio_by=' + cargoadmisionservicio_by + '&busquedaServicio=' + busquedaServicio ;
+    var dataString = 'cargoadmisionservicio_by=' + cargoadmisionservicio_by + '&busquedaAdmisionServicio=' + busquedaAdmisionServicio ;
 
     $.ajax({
         type: "POST",
@@ -7621,14 +7622,15 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var divStatus = document.createElement('div');
         divStatus.className = "col s3";
         var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
-        var editar = document.createElement("i");
-        editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-        editar.setAttribute ( 'id', 'pagarAnticipoAdmision' );
+        var verAdmisionanticipo = document.createElement("i");
+        verAdmisionanticipo.className = "modal-trigger blue-text text-darken-2 tiny mdi-action-assignment pointer";
+        verAdmisionanticipo.setAttribute ( 'id', 'verAdmisionanticipo' );
+        verAdmisionanticipo.setAttribute ( 'href', 'verAdmisionanticipo' );
         var textoAnticipo = document.createTextNode("Anticipo: "+anticipoCantidad+" MXN");
         var textoStatus = document.createTextNode("Status: "+status);
         divSubTotal.appendChild(textoSubTotal);
         divAnticipo.appendChild(textoAnticipo);
-        divAnticipo.appendChild(editar);
+        divAnticipo.appendChild(verAdmisionanticipo);
         divStatus.appendChild(textoStatus);
         divTotalSuperior.appendChild(divSubTotal);
         divTotalSuperior.appendChild(divAnticipo);
@@ -7724,6 +7726,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                 $.each( admisionanticipoEntity, function( key, value ) {
                     admisionanticipoArray.push({
                         "idadmisionanticipo" : value.idadmisionanticipo,
+                        "idadmision" : value.idadmision,
                         "admisionanticipo_fecha" : value.admisionanticipo_fecha,
                         "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
                         "admisionanticipo_nota" : value.admisionanticipo_nota,
@@ -7731,7 +7734,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                 });
 
                 // Creamos nuestra tabla de colecciones -> será en un modal!!!
-                generaTablaAnticipo(admisionanticipoArray);
+                generaTablaAdmisionanticipo(admisionanticipoArray);
             },
             error: function(data){
                 alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
@@ -7749,14 +7752,51 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
             var pagoAdmision = $("input#divMetodoDePago").val();
         }
     });
+    // Si dan clic en verAdmisionanticipo
+    $('#verAdmisionanticipo').click(function(){
+
+        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+        var dataString = 'ver_admisionanticipo=true';
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                admisionanticipoArray = []
+                var admisionanticipoEntity = data.admisionanticipoArray
+                if(admisionanticipoEntity){
+                    $.each( admisionanticipoEntity, function( key, value ) {
+                        admisionanticipoArray.push({
+                            "idadmisionanticipo" : value.idadmisionanticipo,
+                            "idadmision" : value.idadmision,
+                            "admisionanticipo_fecha" : value.admisionanticipo_fecha,
+                            "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
+                            "admisionanticipo_nota" : value.admisionanticipo_nota,
+                        });
+                    });
+                }
+
+                generaTablaAdmisionanticipo(admisionanticipoArray)
+            },
+            error: function(){
+                alert("Error al intentar visualizar anticipos")
+            }
+        });
+        return false;
+
+    });
 }
 
-function generaTablaAnticipo(admisionanticipoArray) {
+function generaTablaAdmisionanticipo(admisionanticipoArray) {
 
-    // Crearemos la tabla en un modal!!!
-
-    var divTabla   = document.createElement("tablaAnticipo");
-    divTabla.innerHTML = divTabla;
+    // Crearemos la tabla en un modal, el cual colgaremos del id = cargosAdmision!!!
+    $('#verAdmisionanticipo').openModal();
+    var divcargosAdmision   = document.getElementById("cargosAdmision");
+    var divTabla = document.createElement('div')
+    divTabla.setAttribute ( 'id', 'verAdmisionanticipo');
+    divTabla.className = "modal bottom-sheet";
     // Crea un elemento <table> y un elemento <thead> y <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -7802,29 +7842,21 @@ function generaTablaAnticipo(admisionanticipoArray) {
             var celda = document.createElement("td");
 
             if(j == 0){
-                var textoCelda = document.createTextNode(admisionanticipoArray[i]["servicio_nombre"]);
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_fecha"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 1){
-                var textoCelda = document.createTextNode(admisionanticipoArray[i]["servicio_descripcion"]);
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 2){
-                var textoCelda = document.createTextNode(admisionanticipoArray[i]["servicio_precio"]);
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 3){
-                var link1 = document.createElement("a");
-                link1.className = "tooltipped modal-trigger";
-                link1.setAttribute ( 'data-position', 'left' );
-                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                link1.setAttribute ( 'href', '#view-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
-                var vista = document.createElement("i");
-                vista.className = "green-text text-darken-2 tiny mdi-image-remove-red-eye pointer";
-
                 var link2 = document.createElement("a");
                 link2.className = "tooltipped";
                 link2.setAttribute ( 'data-position', 'right' );
@@ -7840,25 +7872,240 @@ function generaTablaAnticipo(admisionanticipoArray) {
                 link3.setAttribute ( 'href', '#delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
                 var eliminar = document.createElement("i");
                 eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                celda.appendChild(link1);
-                celda.appendChild(vista);
+                link2.appendChild(editar);
                 celda.appendChild(link2);
-                celda.appendChild(editar);
+                link3.appendChild(eliminar);
                 celda.appendChild(link3);
-                celda.appendChild(eliminar);
                 hilera.appendChild(celda);
+
+                <!-- Edit Modal Structure -->
+                var divcargosAdmision = document.getElementById('cargosAdmision')
+                var divEditModalCargoadmision = document.createElement('div')
+                divEditModalCargoadmision.setAttribute ( 'id', 'edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                divEditModalCargoadmision.className = "modal bottom-sheet";
+                var h4 = document.createElement('h4')
+                var texth4 = document.createTextNode("Editar-anticipo");
+                h4.appendChild(texth4);
+                var br = document.createElement('br')
+                var divRow = document.createElement('div')
+                divRow.className = "row";
+                var fieldset = document.createElement('fieldset')
+                var legend = document.createElement('legend')
+                var textlegend = document.createTextNode("Datos generales");
+                legend.appendChild(textlegend);
+                var divCol1 = document.createElement('div')
+                divCol1.className = "col s4";
+                var divLabelContainer1 = document.createElement('div')
+                divLabelContainer1.className = "label-container";
+                var label1 = document.createElement('label')
+                var textlabel1 = document.createTextNode("Cantidad:");
+                label1.appendChild(textlabel1);
+                var p1 = document.createElement('p')
+                var textp1 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                p1.appendChild(textp1);
+                divLabelContainer1.appendChild(label1);
+                divLabelContainer1.appendChild(p1);
+                divCol1.appendChild(divLabelContainer1);
+                var divCol2 = document.createElement('div')
+                divCol2.className = "col s4";
+                var divLabelContainer2 = document.createElement('div')
+                divLabelContainer2.className = "label-container";
+                var label2 = document.createElement('label')
+                var textlabel2 = document.createTextNode("Nota:");
+                label2.appendChild(textlabel2);
+                var p2 = document.createElement('p')
+                var textp2 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
+                p2.appendChild(textp2);
+                divLabelContainer2.appendChild(label2);
+                divLabelContainer2.appendChild(p2);
+                divCol2.appendChild(divLabelContainer2);
+                fieldset.appendChild(divCol1);
+                fieldset.appendChild(divCol2);
+                fieldset.appendChild(legend);
+                divRow.appendChild(fieldset);
+                var divEditModalFooter = document.createElement('div')
+                divEditModalFooter.className = "modal-footer";
+                var linkCerrar = document.createElement('a')
+                linkCerrar.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                var iconCerrar = document.createElement('i')
+                iconCerrar.className = "mdi-navigation-close left";
+                var textoIconCerrar = document.createTextNode('Cerrar');
+                iconCerrar.appendChild(textoIconCerrar);
+                linkCerrar.appendChild(iconCerrar);
+                divEditModalFooter.appendChild(linkCerrar);
+                divEditModalCargoadmision.appendChild(br);
+                divEditModalCargoadmision.appendChild(h4);
+                divEditModalCargoadmision.appendChild(divRow);
+                divEditModalCargoadmision.appendChild(divEditModalFooter);
+                divcargosAdmision.appendChild(divEditModalCargoadmision);
+                <!-- End Edit Modal Structure -->
+
+                <!-- Start Delete Structure -->
+                var divcargosAdmisionDelete = document.getElementById('cargosAdmision')
+                var divDeleteModalCargoadmisionDelete = document.createElement('div')
+                divDeleteModalCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                divDeleteModalCargoadmisionDelete.className = "modal";
+                var divDeleteModalContentCargoadmisionDelete = document.createElement('div')
+                divDeleteModalContentCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo');
+                divDeleteModalContentCargoadmisionDelete.className = "modal-content";
+
+                var divRowDelete = document.createElement('div')
+                divRowDelete.setAttribute ( 'id', 'delete-modal-header-container');
+                divRowDelete.className = "row";
+                var divRowAtencionDelete = document.createElement('div')
+                divRowAtencionDelete.className = "col s4 offset-s4";
+                var h4Delete = document.createElement('h4')
+                var iDelete = document.createElement('i')
+                iDelete.className = "mdi-alert-warning";
+                var textoiDelete = document.createTextNode("ATENCION");
+                iDelete.appendChild(textoiDelete);
+                h4Delete.appendChild(iDelete);
+                divRowAtencionDelete.appendChild(h4Delete);
+                divRowDelete.appendChild(divRowAtencionDelete);
+                divDeleteModalContentCargoadmisionDelete.appendChild(divRowDelete)
+
+                var divRow2Delete = document.createElement('div')
+                divRow2Delete.className = "row";
+                var fieldsetDelete = document.createElement('fieldset')
+                var legendDelete = document.createElement('legend')
+                var textlegendDelete = document.createTextNode("Datos generales");
+                legendDelete.appendChild(textlegendDelete);
+                var divCol1Delete = document.createElement('div')
+                divCol1Delete.className = "col s4";
+                var divLabelContainer1Delete = document.createElement('div')
+                divLabelContainer1Delete.className = "label-container";
+                var label1Delete = document.createElement('label')
+                var textlabel1Delete = document.createTextNode("Cantidad:");
+                label1Delete.appendChild(textlabel1Delete);
+                var p1Delete = document.createElement('p')
+                var textp1Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                p1Delete.appendChild(textp1Delete);
+                divLabelContainer1Delete.appendChild(label1Delete);
+                divLabelContainer1Delete.appendChild(p1Delete);
+                divCol1Delete.appendChild(divLabelContainer1Delete);
+                var divCol2Delete = document.createElement('div')
+                divCol2Delete.className = "col s4";
+                var divLabelContainer2Delete = document.createElement('div')
+                divLabelContainer2Delete.className = "label-container";
+                var label2Delete = document.createElement('label')
+                var textlabel2Delete = document.createTextNode("Nota:");
+                label2Delete.appendChild(textlabel2Delete);
+                var p2Delete = document.createElement('p')
+                var textp2Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
+                p2Delete.appendChild(textp2Delete);
+                divLabelContainer2Delete.appendChild(label2Delete);
+                divLabelContainer2Delete.appendChild(p2Delete);
+                divCol2Delete.appendChild(divLabelContainer2Delete);
+                fieldsetDelete.appendChild(divCol1Delete);
+                fieldsetDelete.appendChild(divCol2Delete);
+                fieldsetDelete.appendChild(legendDelete);
+                divRow2Delete.appendChild(fieldsetDelete);
+                divDeleteModalContentCargoadmisionDelete.appendChild(divRow2Delete)
+
+                var divRow3Delete = document.createElement('div')
+                divRow3Delete.className = "row";
+                var divRowPreguntaDelete = document.createElement('div')
+                divRowPreguntaDelete.className = "col s12";
+                var h5Delete = document.createElement('h5')
+                var textoi2Delete = document.createTextNode("¿Estás seguro que deseas eliminar el cargo?");
+                h5Delete.appendChild(textoi2Delete);
+                divRowPreguntaDelete.appendChild(h5Delete);
+                divRow3Delete.appendChild(divRowPreguntaDelete);
+                divDeleteModalContentCargoadmisionDelete.appendChild(divRow3Delete)
+
+                divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalContentCargoadmisionDelete);
+
+                var divDeleteModalFooterDelete = document.createElement('div')
+                divDeleteModalFooterDelete.className = "modal-footer";
+                var linkCerrarDelete = document.createElement('a')
+                linkCerrarDelete.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                var iconCerrarDelete = document.createElement('i')
+                iconCerrarDelete.className = "mdi-navigation-close left";
+                var textoIconCerrarDelete = document.createTextNode('Cerrar');
+                iconCerrarDelete.appendChild(textoIconCerrarDelete);
+                linkCerrarDelete.appendChild(iconCerrarDelete);
+                var linkEliminarDelete = document.createElement('a')
+                linkEliminarDelete.setAttribute ( 'id', 'eliminarAdmisionanticipo'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                linkEliminarDelete.className = "waves-effect waves-light btn eliminar";
+                var iconEliminarDelete = document.createElement('i')
+                iconEliminarDelete.className = "mdi-action-delete left";
+                var textoIconEliminarDelete = document.createTextNode('Eliminar');
+                iconEliminarDelete.appendChild(textoIconEliminarDelete);
+                linkEliminarDelete.appendChild(iconEliminarDelete);
+
+                divDeleteModalFooterDelete.appendChild(linkCerrarDelete);
+                divDeleteModalFooterDelete.appendChild(linkEliminarDelete);
+                divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalFooterDelete);
+                divcargosAdmisionDelete.appendChild(divDeleteModalCargoadmisionDelete);
+                <!-- End Delete Modal Structure -->
             }
         }
 
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
         tblBody.appendChild(hilera);
+
+        var idadmisionanticipo = admisionanticipoArray[i]["idadmisionanticipo"]
+        var idadmision = admisionanticipoArray[i]["idadmision"]
+        var cantidad = admisionanticipoArray[i]["admisionanticipo_cantidad"]
+
     }
 
     // posiciona el <tbody> debajo del elemento <table>
     tabla.appendChild(tblBody);
 
-    // appends <table> into <div>
-    divTabla.appendChild(tabla);
+    // appends <table> into <body>
+    divTable.appendChild(tabla);
+    divcargosAdmision.appendChild(divTabla);
+
+    // Si dan clic en eliminarAnticipoadmision-id
+    $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
+
+        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+        var dataString = 'eliminar_admisionanticipo=true'+'&idadmisionanticipo=' + idadmisionanticipo + '&idadmision=' + idadmision + '&cantidad=' + cantidad;
+
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                alert("Se eliminó exitosamente el anticipo por la cantidad de: "+cantidad+" MXN")
+
+                admisionanticipoArray = []
+                var admisionanticipoEntity = data.admisionanticipoArray
+                if(admisionanticipoEntity){
+                    $.each( admisionanticipoEntity, function( key, value ) {
+                        admisionanticipoArray.push({
+                            "idadmisionanticipo" : value.idadmisionanticipo,
+                            "idadmision" : value.idadmision,
+                            "admisionanticipo_fecha" : value.admisionanticipo_fecha,
+                            "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
+                            "admisionanticipo_nota" : value.admisionanticipo_nota
+                        });
+                    });
+                }
+
+                tablaCargoadmisionArticuloEliminado(cargoadmisionArray)
+                tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray)
+                cargoadmisionEliminadoArray = []
+                var cargoadmisionEliminado = data.cargoadmisionEliminadoArray
+                if(cargoadmisionEliminado){
+                    $.each( cargoadmisionEliminado, function( key, value ) {
+                        cargoadmisionEliminadoArray.push({
+                            "subtotal" : value.subtotal
+                        });
+                    });
+                }
+                subTotalResponse(status, -(cargoadmisionEliminadoArray[0]['subtotal']), null, 'admision')
+            },
+            error: function(){
+                alert("Error al intentar eliminar el anticipo por la cantidad de: "+cantidad+" MXN")
+            }
+        });
+        return false;
+
+    });
 }
 
 function anticipoAdmision() {
@@ -7873,26 +8120,4 @@ function pagoAdmision() {
         $('#anticipoAdmision').addClass('hiddendiv')
     }
 }
-
-// Esta función no está en uso
-function anticipoTotalStatus(cargoconsultaArray){
-    var divRow   = document.createElement("div");
-    divRow.className = "row";
-    var divCols9   = document.createElement("div");
-    divCols9.className = "col s9";
-    var spanTotal   = document.createElement("span");
-    spanTotal.className = "left";
-    var spanAnticipo   = document.createElement("span");
-    spanAnticipo.style = "margin-left: 40px;";
-    var spanStatus   = document.createElement("span");
-    spanStatus.style = "margin-left: 40px;";
-    var divCols3   = document.createElement("div");
-    divCols3.className = "col s3";
-    var a = document.createElement("a");
-    a.className = "tooltipped right";
-    a.setAttribute ( 'data-position', 'right' );
-    a.setAttribute ( 'data-tooltip', 'Editar' );
-    a.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-}
-
 </script>
