@@ -204,6 +204,34 @@ class ConceptoController extends AbstractActionController
           
           //Creamos nuestro movimiento
           
+          
+          
+          
+          
+//           //Cachamos el valor desde nuestro params
+//        $id = (int) $this->params()->fromRoute('id');
+//        //Verificamos que el Id lugar que se quiere modificar exista
+//        if(!\ConceptocajachicaQuery::create()->filterByIdconceptocajachica($id)->exists()){
+//            $id =0;
+//        }
+//        //Si es incorrecto redireccionavos al action nuevo
+//        if (!$id) {
+//            return $this->redirect()->toRoute('cajachica-concepto', array(
+//                'action' => 'nuevo'
+//            ));
+//        }
+//        
+//            //Instanciamos nuestro lugar
+//            $entity = \ConceptocajachicaQuery::create()->findPk($id);
+//            
+//            $entity->delete();
+//            
+//            //Agregamos un mensaje
+//            $this->flashMessenger()->addMessage('Concepto eliminado exitosamente!');
+//
+//            //Redireccionamos a nuestro list
+//            return $this->redirect()->toRoute('cajachica-concepto');
+          
           echo '<pre>';var_dump($post_data); echo '<pre>';exit();
       }
         
