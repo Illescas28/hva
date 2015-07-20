@@ -169,8 +169,14 @@ class ConceptoController extends AbstractActionController
         
         $collection = \CajachicaQuery::create()->joinConceptocajachica()->orderBy('idcajachica', 'desc')->withColumn('conceptocajachica_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
         
+        $current_balance = 0.00;
+        if(\CajachicaQuery::create()->exists()){
+            $cajachica = \CajachicaQuery::create()->orderByIdcajachica('asc')->findOne();
+            $current_balance = $cajachica->getCajachicaBalance();
+        }
        
         return new ViewModel(array(
+            'current_balance' => $current_balance,
             'collection'   => $collection,
             'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
@@ -202,38 +208,109 @@ class ConceptoController extends AbstractActionController
           
           $post_data = $request->getPost();
           
+          $fecha = \DateTime::createFromFormat('d/m/Y', $post_data['cajachica_fecha']);
+            
           //Creamos nuestro movimiento
+          $cajachica = new \Cajachica();
+          $cajachica->setCajachicaFecha($fecha->format('Y-m-d'))
+                    ->setIdconceptocajachica($post_data['idconcepto'])
+                    ->setCajachicaTipomovimiento($post_data['cajachica_tipomoviento'])
+                    ->setCajachicaCantidad($post_data['cajachica_cantidad'])
+                    ->setCajachicaComprobante($post_data['cajachica_comprobante'])
+                    ->setCajachicaPacientedoctor($post_data['cajachica_pacientedoctor'])
+                    ->setCajachicaNota($post_data['cajachica_nota']);
+   
           
+           
+          //Ya existe un movimiento?
+          if(\CajachicaQuery::create()->exists()){
+             
+              //Modificamos el balance de nuestra caja
+              $first_row = \CajachicaQuery::create()->orderByIdcajachica('asc')->findOne();
+              $current_balance = $first_row->getCajachicaBalance();
+              if($post_data['cajachica_tipomoviento'] == 'cargo'){
+                  $new_balance = $current_balance + $post_data['cajachica_cantidad'];
+              }else{
+                  $new_balance = $current_balance - $post_data['cajachica_cantidad'];
+              }
+              $first_row->setCajachicaBalance($new_balance);
+              $first_row->save();   
+          }else{
+              $cajachica->setCajachicaBalance($post_data['cajachica_cantidad']);
+          }
           
-          
-          
-          
-//           //Cachamos el valor desde nuestro params
-//        $id = (int) $this->params()->fromRoute('id');
-//        //Verificamos que el Id lugar que se quiere modificar exista
-//        if(!\ConceptocajachicaQuery::create()->filterByIdconceptocajachica($id)->exists()){
-//            $id =0;
-//        }
-//        //Si es incorrecto redireccionavos al action nuevo
-//        if (!$id) {
-//            return $this->redirect()->toRoute('cajachica-concepto', array(
-//                'action' => 'nuevo'
-//            ));
-//        }
-//        
-//            //Instanciamos nuestro lugar
-//            $entity = \ConceptocajachicaQuery::create()->findPk($id);
-//            
-//            $entity->delete();
-//            
-//            //Agregamos un mensaje
-//            $this->flashMessenger()->addMessage('Concepto eliminado exitosamente!');
-//
-//            //Redireccionamos a nuestro list
-//            return $this->redirect()->toRoute('cajachica-concepto');
-          
-          echo '<pre>';var_dump($post_data); echo '<pre>';exit();
+          $cajachica->save();
+
+          if(!$cajachica->isPrimaryKeyNull()){
+              return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('id' => $cajachica->getIdcajachica(),'fecha' => $cajachica->getCajachicaFecha('d-m-Y') ))));
+          }else{
+              return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false)));
+          }
       }
+        
+    }
+    
+    public function eliminarmovmientoAction(){
+        
+        $request = $this->request;
+        
+        if($request->isPost()){
+            $post_data = $request->getPost();
+            
+            $id = $post_data['id'];
+            
+            $movmiento = \CajachicaQuery::create()->findPk($id);
+            $movmiento_array = $movmiento->toArray(\BasePeer::TYPE_FIELDNAME);
+
+            //Recalculamos el balance
+            $first_row = \CajachicaQuery::create()->orderByIdcajachica('asc')->findOne();
+            $first_row_array = $first_row->toArray();
+            
+            //Si estamos eliminando el registro que tiene el balance
+            if($first_row->getIdcajachica() == $id){ 
+                
+                //Le ponemos el balance al siguiente registro s lo hay
+                $movmiento->delete();
+                if(\CajachicaQuery::create()->exists()){
+                    $first_row = \CajachicaQuery::create()->orderByIdcajachica('asc')->findOne();
+                    $first_row->setCajachicaBalance($first_row_array["CajachicaBalance"]);
+                    $first_row->save();
+                    
+                }
+                 
+            }else{
+                //De lo contrario solo eliminmos
+                $movmiento->delete();
+            }
+
+            //Recalculamos el balance
+            if(\CajachicaQuery::create()->exists()){
+                 $first_row = \CajachicaQuery::create()->orderByIdcajachica('asc')->findOne();
+                
+                 $current_balance = $first_row->getCajachicaBalance();
+                 
+                if($movmiento_array["cajachica_tipomovimiento"] == 'cargo'){
+                   
+                    $new_balance = $current_balance - $movmiento_array['cajachica_cantidad'];
+
+                }else{
+                    $new_balance = $current_balance + $movmiento_array['cajachica_cantidad'];
+                }
+                
+                $first_row->setCajachicaBalance($new_balance);
+                $first_row->save();
+                return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('new_balance' => $new_balance))));
+            }else{
+                return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true,'data' => array('new_balance' => 0))));
+            }
+
+        }
+        
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true);
+        $viewModel->setTemplate('hva/modal/eliminar');
+        $viewModel->setVariable('message', 'Esta seguro que desea eliminar este movimiento?');
+        return $viewModel;
         
     }
     

@@ -18,9 +18,18 @@
     .movmiento_vacio{
         text-align: center;
     }
+    
+    .ui-datepicker .ui-datepicker-title select{
+        display: inline-block;
+    }
+    
+    div#ui-datepicker-div{
+        padding: 0;
+        border: 0;
+    }
 </style>
 <link href="/css/multiple.css" rel="stylesheet"/>
-<script src="/js/movimientos.js"></script>
+<script src="/js/movimientos_bancos.js"></script>
 <script src="/js/multiple.js"></script>
 <script src="/js/accounting.js"></script>
 <?php
@@ -29,19 +38,19 @@
     $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
-<div id="cajachica-movimientos-contaiener">
+<div id="bancos-movimientos-contaiener">
 <div class="row">
-    <fieldset>
+    <fieldset>  
         <legend>Nuevo movimiento</legend>
         <div class="row">
             <div class="col s3">
                 <div class="input-field">
-                    <input name="cajachica_fecha" type="text" value="13/01/2014" disabled>
+                    <input name="banco_fecha" type="text" value="13/01/2014" disabled>
                     <label>Fecha</label>
                 </div>
             </div>
             <div class="col s3">
-                <select name="cajachica_tipomoviento">
+                <select name="banco_tipomoviento">
                     <option value="" disabled selected>Tipo de movimiento *</option>
                     <option value="cargo">Cargo</option>
                     <option value="abono">Abono</option>
@@ -51,38 +60,32 @@
             <div class="col s8">
                 <div class="input-field">
                     <input name="idconcepto" type="hidden">
-                    <input name="cajachica_concepto" type="text">
+                    <input name="banco_concepto" type="text">
                     <label>Concepto *</label>
                 </div>
-                <p id="cajachica_concepto" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+                <p id="banco_concepto" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>   
             <div class="col s4">
                 <div class="input-field">
-                    <input name="cajachica_cantidad" type="text">
+                    <input name="banco_cantidad" type="text">
                     <label>Cantidad *</label>
                 </div>
-                <p id="cajachica_cantidad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+                <p id="banco_cantidad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
             <div class="col s6">
                 <div class="input-field">
-                    <input name="cajachica_comprobante" type="text">
+                    <input name="banco_comprobante" type="text">
                     <label>Comprobante</label>
                 </div>
             </div>
-            <div class="col s6">
-                <div class="input-field">
-                    <input name="cajachica_pacientedoctor" type="text"  >
-                    <label>Paciente/Doctor</label>
-                </div>           
-            </div>
             <div class="col s8">
                 <div class="input-field">
-                    <input name="cajachica_nota" type="text"  >
+                    <input name="banco_nota" type="text"  >
                     <label>Nota</label>
                 </div>           
             </div>
             <div class="col s4" style="padding-top: 30px;">
-                <button id="cajachica_guardar" style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                <button id="banco_guardar" style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
                     <i class="mdi-content-save left"></i>
                 </button>         
             </div>
@@ -96,9 +99,26 @@
     <div class="col s6" style="top: -26px;">
         <fieldset>
             <legend>Filtros</legend>
-            <label>Por concepto</label>
-            <select multiple="multiple" class="browser-default" id="concepto_filter">
-            </select>
+            <div class="row">
+                <div class="col s12">
+                    <label>Por concepto</label>
+                    <select multiple="multiple" class="browser-default" id="concepto_filter">
+                    </select>
+                </div>
+            </div>
+            
+                <div class="row">
+                    <div class="col s6">
+                        <label>Desde</label>
+                        <input type="text" id="fecha_filter_from">
+                    </div>
+                    <label>Hasta</label>
+                    <div class="col s6">
+                        <input type="text" id="fecha_filter_to">
+                    </div>
+                </div>
+            </div>
+
         </fieldset>
     </div>
 
@@ -110,7 +130,7 @@
 </div>
 <div class="row">
     <div class="col s12">
-        <table id="cajachica-table" class="table-inputs bordered">
+        <table id="banco-table" class="table-inputs bordered">
             <thead>
                 <th>Fecha</th>
                 <th>Concepto</th>
@@ -118,34 +138,32 @@
                 <th>Egreso</th>
                 <!--<th>Balance</th>-->
                 <th>Comprobante</th>
-                <th>Paciente/Doctor</th>
                 <th>Nota</th>
                 <th>Opciones</th>
             </thead>
             <tbody>
             <?php foreach ($collection as $entity) :?>
             <?php 
-                $fecha = new DateTime($entity['cajachica_fecha']);
+                $fecha = new DateTime($entity['banco_fecha']);
                 $fecha = $fecha->format('d-m-Y');
             ?>
-            <tr id="<?php echo $entity['idcajachica']?>">
+            <tr id="<?php echo $entity['idconceptobanco']?>">
                 <td><?php echo $fecha?></td>
-                <td><?php echo $entity['conceptocajachica_nombre']?></td>
-                <?php  if($entity['cajachica_tipomovimiento'] == 'cargo') :  ?>
-                     <td><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td>
+                <td><?php echo $entity['bancotransaccion_nombre']?></td>
+                <?php  if($entity['banco_tipomovimiento'] == 'cargo') :  ?>
+                     <td><?php echo money_format('%(#10n', $entity['banco_cantidad'])?></td>
                      <td class="movmiento_vacio"> ---- </td>
                 <?php else :?>
                      <td class="movmiento_vacio"> ---- </td>
-                    <td><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td> 
+                    <td><?php echo money_format('%(#10n', $entity['banco_cantidad'])?></td> 
                 <?php endif;?>
-                <!--<td><?php //echo $entity['cajachica_balance']?></td>-->   
-                <td><?php echo $entity['cajachica_comprobante']?></td>        
-                <td><?php echo $entity['cajachica_pacientedoctor']?></td>
-                <td><?php echo $entity['cajachica_nota']?></td>
+                <!--<td><?php //echo $entity['banco_balance']?></td>-->   
+                <td><?php echo $entity['banco_comprobante']?></td>        
+                <td><?php echo $entity['banco_nota']?></td>
                 <td>
-                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/cajachica/concepto/editar/".$entity['idconceptocajachica']?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/banco/concepto/editar/".$entity['idconceptobanco']?>'><i class="tiny mdi-action-assignment"></i></a>
                     &nbsp;&nbsp;    
-                    <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idcajachica']?>'><i class="tiny mdi-action-delete"></i></a>
+                    <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idbanco']?>'><i class="tiny mdi-action-delete"></i></a>
                 </td>
             </tr>
             <?php endforeach;?>
@@ -162,16 +180,10 @@
 <script>
 $(document).ready(function() {
     
-    $('#cajachica-movimientos-contaiener').movimientos();
+    $('#bancos-movimientos-contaiener').movimientosbancos();
+    $("#banco-table").tablesorter({headers:{6:{sorter:false}}});
+    $("#banco-table").filterTable({inputSelector: '#search-container input',minRows:1});
     
-    
-    
-
-    
-
-   
-   
-   
     
 
 });

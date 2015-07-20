@@ -151,7 +151,7 @@
     <column name="banco_fecha" phpName="BancoFecha" type="VARCHAR" size="100" required="true"/>
     <column name="banco_tipomovimiento" phpName="BancoTipomovimiento" type="CHAR" sqlType="enum('cargo','abono')" required="true"/>
     <column name="banco_cantidad" phpName="BancoCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
-    <column name="banco_balance" phpName="BancoBalance" type="DECIMAL" size="10" scale="2" required="true" defaultValue="0.00"/>
+    <column name="banco_balance" phpName="BancoBalance" type="DECIMAL" size="10" scale="2" required="false" defaultValue="0.00"/>
     <column name="banco_comprobante" phpName="BancoComprobante" type="VARCHAR" size="255" required="false"/>
     <column name="banco_nota" phpName="BancoNota" type="LONGVARCHAR" required="false"/>
     <foreign-key foreignTable="conceptobanco" name="idconceptobanco_banco" onDelete="CASCADE" onUpdate="CASCADE">

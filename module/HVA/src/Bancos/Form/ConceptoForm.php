@@ -24,7 +24,7 @@ class ConceptoForm extends Form
             'name' => 'bancotransaccion_descripcion',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Descripción *',
+                'label' => 'Descripción ',
             ),
         ));
 
