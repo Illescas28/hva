@@ -517,7 +517,7 @@ return array(
                         'action'     => 'movimientos',
                     ),
                     'constraints' => array(
-                        'action' => 'movimientos|getconceptos|nuevomovimiento',
+                        'action' => 'movimientos|getconceptos|nuevomovimiento|eliminarmovmiento',
                     ),
                 ),
             ),

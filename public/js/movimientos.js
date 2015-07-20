@@ -34,7 +34,6 @@
        
        
        plugin.init = function(){
-           
            //Inicialiazamos la fecha
            var Objfecha = new Date();
            var fecha = Objfecha.getDate() + '/' + (Objfecha.getMonth() + 1) +'/' + Objfecha.getFullYear();
@@ -88,10 +87,7 @@
                     var movimiento = new Object();
                     //Guardamos nuestros datos 
                     $.each($container.find('input,select'),function(index,element){
-                        if($(element).val() != ''){
-                            movimiento[$(element).attr('name')] = $(element).val();
-                        }
-                        
+                        movimiento[$(element).attr('name')] = $(element).val();                        
                     });
                     
                     //Hacemos la peticion ajax
@@ -101,14 +97,82 @@
                         async: false,
                         data: movimiento,
                         url:'/cajachica/movimientos/nuevomovimiento ',
-                        success: function (data) {
-                            console.log(data);
+                        success: function (response) {
+                            console.log(response);
+                            if(response.response == true){
+                                var tr = $('<tr>').attr('id',response.data.id);
+                                tr.append('<td>'+response.data.fecha+'</td>');
+                                tr.append('<td>'+$container.find('input[name=cajachica_concepto]').val()+'</td>');
+                                if($container.find('select[name=cajachica_tipomoviento]').val() == 'cargo'){
+                                    tr.append('<td>'+accounting.formatMoney($container.find('input[name=cajachica_cantidad]').val())+'</td>');
+                                    tr.append('<td class="movmiento_vacio" > ---- </td>');
+                                }else{
+                                    tr.append('<td class="movmiento_vacio" > ---- </td>');
+                                    tr.append('<td>'+accounting.formatMoney($container.find('input[name=cajachica_cantidad]').val())+'</td>');      
+                                }
+                                tr.append('<td>'+$container.find('input[name=cajachica_comprobante]').val()+'</td>');
+                                tr.append('<td>'+$container.find('input[name=cajachica_pacientedoctor]').val()+'</td>');
+                                tr.append('<td>'+$container.find('input[name=cajachica_nota]').val()+'</td>');
+                                var td_opciones = $('<td>');
+                                td_opciones.append('<a class="tooltipped" href="/cajachica/concepto/editar/3" data-tooltip="Editar" data-position="right"><i class="tiny mdi-action-assignment"></i></a>');
+                                td_opciones.append('<a style="margin-left: 10px;" class="tooltipped modal-trigger" href="#delete-modal-8" data-tooltip="Eliminar" data-position="right"><i class="tiny mdi-action-delete"></i></a>');
+                                
+                                
+                                
+                                //Adjuntamos el evento eliminar movmiento
+                                td_opciones.find('i.mdi-action-delete').on('click',function(){
+                                    var id = response.data.id;
+                                    eliminarMovmiento(id);
+                                });
+                                
+                                tr.append(td_opciones);
+                                
+                                //Mostramos el mensaje de exito
+                                $('#movmiento_mensaje').show();
+                                
+                                //Insertamos la fila
+                                $container.find('tbody').prepend(tr);
+                                
+                                //Recalculamos el balance;
+                                var cantidad = parseFloat($container.find('input[name=cajachica_cantidad]').val());
+
+                                var current_balance = accounting.unformat($container.find('#balance').text());
+                                
+                                if($container.find('select[name=cajachica_tipomoviento]').val() == 'cargo'){
+                                    var new_balance = current_balance + cantidad
+                                }else{
+                                    var new_balance = current_balance - cantidad ;
+                                }
+                                
+                                $container.find('#balance').text(accounting.formatMoney(new_balance));
+
+                                $container.find('input:not(input[name=cajachica_fecha]):not(input.select-dropdown)').val('');
+                                
+                                
+                                
+                            }
                         }
                         
                     });
 
                 }
             });
+            
+            //Evento de cerrar de notificacion
+            $('#movmiento_mensaje a').on('click',function(){
+                $('#movmiento_mensaje').hide();
+            });
+            $('#movmiento_mensaje_eliminar a').on('click',function(){
+                $('#movmiento_mensaje_eliminar').hide();
+            });
+            
+            //Evento eliminar movimiento
+            $container.find('i.mdi-action-delete').on('click',function(){
+                var id = $(this).closest('tr').attr('id');
+                eliminarMovmiento(id);
+            });
+                
+            
 
        }
 
@@ -137,6 +201,43 @@
             return isValid;
                 
        };
+       
+       var eliminarMovmiento = function(id){
+           
+           $.ajax({
+            async:false,
+            method:'GET',
+            url:'/cajachica/movimientos/eliminarmovmiento',
+            success: function (modalHTML) {
+                var source = $('<div id="active_modal">' + modalHTML + '</div>');
+                $container.find('table').after(source);
+                //Evento eliminar
+                source.find('a.eliminar').on('click',function(){
+                    $.ajax({
+                        dataType: 'json',
+                        async:false,
+                        method:'POST',
+                        data:{id:id},
+                        url:'/cajachica/movimientos/eliminarmovmiento',
+                        success:function(data){
+                            if(data.response == true){
+                                $('#active_modal').children('.modal').closeModal();
+                                $container.find('#balance').text(accounting.formatMoney(data.data.new_balance));
+                                //Eliminamos el row
+                                $('#active_modal').remove();
+                                $container.find('tr#'+id).remove();
+                                $('#movmiento_mensaje_eliminar').show();
+                            }
+                        }
+                    });
+                });
+                $('#active_modal').children('.modal').openModal();
+            }
+            
+        });
+        
+        
+       }
        
        var onlyNumbers = function(e){
              -1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault();

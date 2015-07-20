@@ -4,21 +4,27 @@
         position: initial;
     }
     
-    #movmiento_mensaje{
+    #movmiento_mensaje, #movmiento_mensaje_eliminar{
         position: relative;
         display: none;
     }
     
-    #movmiento_mensaje a{
+    #movmiento_mensaje a,#movmiento_mensaje_eliminar a{
         position: absolute;
         right: 12px;
         top: 12px;
+    }
+    
+    .movmiento_vacio{
+        text-align: center;
     }
 </style>
 <link href="/css/multiple.css" rel="stylesheet"/>
 <script src="/js/movimientos.js"></script>
 <script src="/js/multiple.js"></script>
+<script src="/js/accounting.js"></script>
 <?php
+    setlocale(LC_MONETARY, 'en_US');
     $title = 'Movimientos';
     $this->headTitle($title);
 ?>
@@ -85,6 +91,7 @@
 </div>
 <p style="color: rgb(158, 158, 158); margin-bottom: 40px;">(*) Campos obligatorios</p>
 <div id="movmiento_mensaje" class="card-panel #00086E-text green accent-2">Moviento generado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
+<div id="movmiento_mensaje_eliminar" class="card-panel #00086E-text green accent-2">Moviento eliminado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
 <div class="row" >
     <div class="col s6" style="top: -26px;">
         <fieldset>
@@ -115,6 +122,7 @@
                 <th>Nota</th>
                 <th>Opciones</th>
             </thead>
+            <tbody>
             <?php foreach ($collection as $entity) :?>
             <?php 
                 $fecha = new DateTime($entity['cajachica_fecha']);
@@ -124,25 +132,28 @@
                 <td><?php echo $fecha?></td>
                 <td><?php echo $entity['conceptocajachica_nombre']?></td>
                 <?php  if($entity['cajachica_tipomovimiento'] == 'cargo') :  ?>
-                     <td><?php echo $entity['cajachica_cantidad']?></td>
-                     <td> - </td>
+                     <td><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td>
+                     <td class="movmiento_vacio"> ---- </td>
                 <?php else :?>
-                     <td> - </td>
-                    <td><?php echo $entity['cajachica_cantidad']?></td> 
+                     <td class="movmiento_vacio"> ---- </td>
+                    <td><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td> 
                 <?php endif;?>
                 <!--<td><?php //echo $entity['cajachica_balance']?></td>-->   
                 <td><?php echo $entity['cajachica_comprobante']?></td>        
                 <td><?php echo $entity['cajachica_pacientedoctor']?></td>
                 <td><?php echo $entity['cajachica_nota']?></td>
-                <td>   
+                <td>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/cajachica/concepto/editar/".$entity['idconceptocajachica']?>'><i class="tiny mdi-action-assignment"></i></a>
+                    &nbsp;&nbsp;    
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idcajachica']?>'><i class="tiny mdi-action-delete"></i></a>
                 </td>
             </tr>
             <?php endforeach;?>
+            </tbody>
         </table>
         <div class="row">
             <div class="col s12 ordertotal-container">
-                <p style="font-size: 16px; float: right; padding-right: 24px;">Balance: <span id="balance">0.00</span>
+                <p style="font-size: 16px; float: right; padding-right: 24px;">Balance: <span id="balance"><?php echo money_format('%(#10n', $current_balance)?></span>
             </div>
         </div>
     </div>
