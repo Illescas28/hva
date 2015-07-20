@@ -1,18 +1,18 @@
 (function($){
  
 
-    $.fn.movimientos = function( data ) {
+    $.fn.movimientosbancos = function( data ) {
         
         var _this = $(this);
-        plugin = _this.data('movimientos');
+        plugin = _this.data('movimientosbancos');
         if (!plugin) {
-            plugin = new $.movimientos(this, data);
-            _this.data('movimientos', plugin);
+            plugin = new $.movimientosbancos(this, data);
+            _this.data('movimientosbancos', plugin);
             return plugin;
         }
     }
     
-    $.movimientos = function(container, options){
+    $.movimientosbancos = function(container, options){
         
         var plugin = this;
         
@@ -34,18 +34,19 @@
        
        
        plugin.init = function(){
+
            //Inicialiazamos la fecha
            var Objfecha = new Date();
            var fecha = Objfecha.getDate() + '/' + (Objfecha.getMonth() + 1) +'/' + Objfecha.getFullYear();
            
-           $container.find('input[name=cajachica_fecha]').val(fecha);
+           $container.find('input[name=banco_fecha]').val(fecha);
            
            //Inicializamos el componente autcomplete de conceptos
            $.getJSON(
-                   '/cajachica/movimientos/getconceptos',
+                   '/bancos/movimientos/getconceptos',
                    function(data){
                        conceptos = data;
-                       $container.find('input[name=cajachica_concepto]').autocomplete({
+                       $container.find('input[name=banco_concepto]').autocomplete({
                             source:conceptos,
                             select: function( event, ui ) {
                                  $container.find('input[name=idconcepto]').val(ui.item.value);
@@ -73,15 +74,29 @@
                    }
             );
     
-            //Incializamos el select de tipo de movimiento
-            $container.find('select[name=cajachica_tipomoviento]').material_select();
-            
-            //Incializamos el input cantidad
-            $container.find('input[name=cajachica_cantidad]').on('keydown',onlyNumbers);
+            //Inicializamos los calendarios
+            $container.find('#fecha_filter_from').datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true,
+                onClose: function(dateText, inst){
+                    filterByDate();
+                }
+            });
+            $container.find('#fecha_filter_to').datepicker();
             
     
+            //Incializamos el select de tipo de movimiento
+            $container.find('select[name=banco_tipomoviento]').material_select();
+            
+            //Incializamos el input cantidad
+            $container.find('input[name=banco_cantidad]').on('keydown',onlyNumbers);
+            
+            //Inicializamos el ordenamiento 
+            $container.find("#banco-table").tablesorter();
+
             //Incializamos evento guardar
-            $container.find('#cajachica_guardar').on('click',function(){
+            $container.find('#banco_guardar').on('click',function(){
                 var isValid = validateForm();
                 
                 /*Si el formulario es valido, guardamos*/
@@ -99,24 +114,23 @@
                         dataType: 'json',
                         async: false,
                         data: movimiento,
-                        url:'/cajachica/movimientos/nuevomovimiento ',
+                        url:'/bancos/movimientos/nuevomovimiento',
                         success: function (response) {
                             if(response.response == true){
-                                var tr = $('<tr>').attr('id',response.data.id);
+                                var tr = $('<tr>').attr('id',$('input[name=idconcepto]'));
                                 tr.append('<td>'+response.data.fecha+'</td>');
-                                tr.append('<td>'+$container.find('input[name=cajachica_concepto]').val()+'</td>');
-                                if($container.find('select[name=cajachica_tipomoviento]').val() == 'cargo'){
-                                    tr.append('<td>'+accounting.formatMoney($container.find('input[name=cajachica_cantidad]').val())+'</td>');
+                                tr.append('<td>'+$container.find('input[name=banco_concepto]').val()+'</td>');
+                                if($container.find('select[name=banco_tipomoviento]').val() == 'cargo'){
+                                    tr.append('<td>'+accounting.formatMoney($container.find('input[name=banco_cantidad]').val())+'</td>');
                                     tr.append('<td class="movmiento_vacio" > ---- </td>');
                                 }else{
                                     tr.append('<td class="movmiento_vacio" > ---- </td>');
-                                    tr.append('<td>'+accounting.formatMoney($container.find('input[name=cajachica_cantidad]').val())+'</td>');      
+                                    tr.append('<td>'+accounting.formatMoney($container.find('input[name=banco_cantidad]').val())+'</td>');      
                                 }
-                                tr.append('<td>'+$container.find('input[name=cajachica_comprobante]').val()+'</td>');
-                                tr.append('<td>'+$container.find('input[name=cajachica_pacientedoctor]').val()+'</td>');
-                                tr.append('<td>'+$container.find('input[name=cajachica_nota]').val()+'</td>');
+                                tr.append('<td>'+$container.find('input[name=banco_comprobante]').val()+'</td>');
+                                tr.append('<td>'+$container.find('input[name=banco_nota]').val()+'</td>');
                                 var td_opciones = $('<td>');
-                                td_opciones.append('<a class="tooltipped" href="/cajachica/concepto/editar/3" data-tooltip="Editar" data-position="right"><i class="tiny mdi-action-assignment"></i></a>');
+                                td_opciones.append('<a class="tooltipped" href="/banco/concepto/editar/3" data-tooltip="Editar" data-position="right"><i class="tiny mdi-action-assignment"></i></a>');
                                 td_opciones.append('<a style="margin-left: 10px;" class="tooltipped modal-trigger" href="#delete-modal-8" data-tooltip="Eliminar" data-position="right"><i class="tiny mdi-action-delete"></i></a>');
                                 
                                 
@@ -136,11 +150,11 @@
                                 $container.find('tbody').prepend(tr);
                                 
                                 //Recalculamos el balance;
-                                var cantidad = parseFloat($container.find('input[name=cajachica_cantidad]').val());
+                                var cantidad = parseFloat($container.find('input[name=banco_cantidad]').val());
 
                                 var current_balance = accounting.unformat($container.find('#balance').text());
                                 
-                                if($container.find('select[name=cajachica_tipomoviento]').val() == 'cargo'){
+                                if($container.find('select[name=banco_tipomoviento]').val() == 'cargo'){
                                     var new_balance = current_balance + cantidad
                                 }else{
                                     var new_balance = current_balance - cantidad ;
@@ -148,7 +162,7 @@
                                 
                                 $container.find('#balance').text(accounting.formatMoney(new_balance));
 
-                                $container.find('input:not(input[name=cajachica_fecha]):not(input.select-dropdown)').val('');
+                                $container.find('input:not(input[name=banco_fecha]):not(input.select-dropdown)').val('');
                                 
                                 
                                 
@@ -182,6 +196,12 @@
         * Private methods
         */
        
+       var filterByDate = function(){
+           
+           var from = $container.find('#fecha_filter_from').val();
+           var to = $container.find('#fecha_filter_from').val();
+       }
+       
        var filterByConcepto = function(){
            var selected =  $("select#concepto_filter").multipleSelect('getSelects');
            $container.find('tbody').children('tr').hide();
@@ -191,23 +211,23 @@
                } 
            });  
        }
-       
+        
        var validateForm = function(){
                
             var isValid = true;
             $container.find('p.input-error-show').remove();
             
-            if($container.find('select[name=cajachica_tipomoviento]').val() == '' || $container.find('select[name=cajachica_tipomoviento]').val() == null){
+            if($container.find('select[name=banco_tipomoviento]').val() == '' || $container.find('select[name=banco_tipomoviento]').val() == null){
                 isValid = false;
-                $container.find('select[name=cajachica_tipomoviento]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+                $container.find('select[name=banco_tipomoviento]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
             }
-            if($container.find('input[name=cajachica_concepto]').val() == '' ){
+            if($container.find('input[name=banco_concepto]').val() == '' ){
                 isValid = false;
-                $container.find('input[name=cajachica_concepto]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+                $container.find('input[name=banco_concepto]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
             }
-            if($container.find('input[name=cajachica_cantidad]').val() == '' ){
+            if($container.find('input[name=banco_cantidad]').val() == '' ){
                 isValid = false;
-                $container.find('input[name=cajachica_cantidad]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+                $container.find('input[name=banco_cantidad]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
             }
             
             return isValid;
@@ -219,7 +239,7 @@
            $.ajax({
             async:false,
             method:'GET',
-            url:'/cajachica/movimientos/eliminarmovmiento',
+            url:'/bancos/movimientos/eliminarmovmiento',
             success: function (modalHTML) {
                 var source = $('<div id="active_modal">' + modalHTML + '</div>');
                 $container.find('table').after(source);
@@ -230,7 +250,7 @@
                         async:false,
                         method:'POST',
                         data:{id:id},
-                        url:'/cajachica/movimientos/eliminarmovmiento',
+                        url:'/bancos/movimientos/eliminarmovmiento',
                         success:function(data){
                             if(data.response == true){
                                 $('#active_modal').children('.modal').closeModal();

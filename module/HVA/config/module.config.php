@@ -542,6 +542,19 @@ return array(
                     ),
                 ),
             ),
+            'bancos-movimientos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/bancos/movimientos[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Bancos\Controller\Movimientos',
+                        'action'     => 'index',
+                    ),
+                    'constraints' => array(
+                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento',
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -624,6 +637,7 @@ return array(
             'Cajachica\Controller\Concepto'                                     => 'Cajachica\Controller\ConceptoController',
             //Modulo Bancos
             'Bancos\Controller\Concepto'                                        => 'Bancos\Controller\ConceptoController',
+            'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController'
             ),
     ),
     'view_manager' => array(
