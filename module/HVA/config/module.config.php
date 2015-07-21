@@ -551,7 +551,7 @@ return array(
                         'action'     => 'index',
                     ),
                     'constraints' => array(
-                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento',
+                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento',
                     ),
                 ),
             ),

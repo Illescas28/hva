@@ -83,7 +83,7 @@ class MovimientosController extends AbstractActionController
           $banco->save();
 
           if(!$banco->isPrimaryKeyNull()){
-              return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('id' => $banco->getIdbanco(),'fecha' => $banco->getBancoFecha('d-m-Y') ))));
+              return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('id' => $banco->getIdbanco(),'fecha' => $banco->getBancoFecha('d-m-Y'),'fecha_js' => $banco->getBancoFecha('m/d/Y')))));
           }else{
               return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false)));
           }
@@ -152,6 +152,76 @@ class MovimientosController extends AbstractActionController
         $viewModel->setTemplate('hva/modal/eliminar');
         $viewModel->setVariable('message', 'Esta seguro que desea eliminar este movimiento?');
         return $viewModel;
+        
+    }
+    
+    public function editarmovmientoAction(){
+        $request = $this->request;
+        if($request->isPost()){
+            
+            $post_data = $request->getPost();
+
+             $id = $post_data['idbanco'];
+             
+             $banco = \BancoQuery::create()->findOneByIdbanco($id);
+             $banco_old = $banco->toArray(\BasePeer::TYPE_FIELDNAME);
+             
+             $banco_fecha = \DateTime::createFromFormat('d-m-Y', $post_data['banco_fecha']);
+
+             $banco->setIdconceptobanco($post_data['idconcepto'])
+                   ->setBancoFecha($banco_fecha->format('Y-m-d'))
+                   ->setBancoTipomovimiento($post_data["banco_tipomoviento"])
+                   ->setBancoCantidad($post_data['banco_cantidad'])
+                   ->setBancoComprobante($post_data['banco_comprobante'])
+                   ->setBancoNota($post_data['banco_nota']);
+             
+             $banco->save();
+             
+             //Actualizamos nustro balance
+             $first_row = \BancoQuery::create()->orderByIdbanco('asc')->findOne();
+             $current_balance = $first_row->getBancoBalance();
+             if($banco_old['banco_tipomovimiento'] == 'cargo'){
+                 $reset_balance =  $current_balance - $banco_old['banco_cantidad'];
+                 $newbalance = $reset_balance + $banco->getBancoCantidad();
+             }else{
+                 $reset_balance =  $current_balance + $banco_old['banco_cantidad'];
+                 $newbalance = $reset_balance - $banco->getBancoCantidad();
+             }
+             $first_row->setBancoBalance($newbalance);
+             $first_row->save();
+
+             
+             $banco = \BancoQuery::create()->joinConceptobanco()->withColumn('bancotransaccion_nombre')->findOneByIdbanco($id);
+             $banco_array = $banco->toArray(\BasePeer::TYPE_FIELDNAME);
+             
+             $banco_array['new_balance'] = $newbalance;
+             $banco_array['banco_fecha'] = $banco_fecha->format('d-m-Y');
+             $banco_array['banco_fecha_js'] = $banco_fecha->format('m/d/Y');
+             $banco_array['bancotransaccion_nombre'] = $banco->getConceptobanco()->getBancotransaccionNombre();
+             
+              
+             return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'banco' => $banco_array)));
+             
+            
+        }
+        
+        if($this->params()->fromQuery('id')){
+            
+            $id = $this->params()->fromQuery('id');
+            
+            $banco = \BancoQuery::create()->joinConceptobanco()->withColumn('bancotransaccion_nombre')->findOneByIdbanco($id)->toArray(\BasePeer::TYPE_FIELDNAME);
+           
+            $dateJS = new \DateTime($banco['banco_fecha']);
+            
+            $banco['banco_fecha'] = $dateJS->format('d-m-Y');
+            //echo '<pre>';var_dump($banco); echo '<pre>';exit();
+            $viewModel = new ViewModel();
+            $viewModel->setTerminal(true);
+            $viewModel->setVariable('banco', $banco);
+            return $viewModel;
+            
+        }
+        
         
     }
     
