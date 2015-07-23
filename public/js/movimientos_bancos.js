@@ -98,9 +98,6 @@
             
             //Incializamos el input cantidad
             $container.find('input[name=banco_cantidad]').on('keydown',onlyNumbers);
-            
-            //Inicializamos el ordenamiento 
-            $container.find("#banco-table").tablesorter();
 
             //Incializamos evento guardar
             $container.find('#banco_guardar').on('click',function(){
@@ -194,6 +191,10 @@
             });
             $('#movmiento_mensaje_eliminar a').on('click',function(){
                 $('#movmiento_mensaje_eliminar').hide();
+            });
+            
+            $('#movmiento_mensaje_editar a').on('click',function(){
+                $('#movmiento_mensaje_editar').hide();
             });
             
             //Evento eliminar movimiento

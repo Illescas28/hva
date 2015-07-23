@@ -167,7 +167,7 @@ class ConceptoController extends AbstractActionController
     
     public function movimientosAction(){
         
-        $collection = \CajachicaQuery::create()->joinConceptocajachica()->orderBy('idcajachica', 'desc')->withColumn('conceptocajachica_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        $collection = \CajachicaQuery::create()->joinConceptocajachica()->orderBy('idcajachica', 'asc')->withColumn('conceptocajachica_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
         
         $current_balance = 0.00;
         if(\CajachicaQuery::create()->exists()){
@@ -242,7 +242,7 @@ class ConceptoController extends AbstractActionController
           $cajachica->save();
 
           if(!$cajachica->isPrimaryKeyNull()){
-              return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('id' => $cajachica->getIdcajachica(),'fecha' => $cajachica->getCajachicaFecha('d-m-Y') ))));
+              return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('idconceptocajachica' => $cajachica->getIdconceptocajachica() ,'id' => $cajachica->getIdcajachica(),'fecha' => $cajachica->getCajachicaFecha('d-m-Y'),'fecha_js' => $cajachica->getCajachicaFecha('m/d/Y') ))));
           }else{
               return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false)));
           }
@@ -311,6 +311,78 @@ class ConceptoController extends AbstractActionController
         $viewModel->setTemplate('hva/modal/eliminar');
         $viewModel->setVariable('message', 'Esta seguro que desea eliminar este movimiento?');
         return $viewModel;
+        
+    }
+    
+    
+        public function editarmovmientoAction(){
+        $request = $this->request;
+        if($request->isPost()){
+            
+            $post_data = $request->getPost();
+           
+             $id = $post_data['idcajachica'];
+             
+             $caja = \CajachicaQuery::create()->findOneByIdcajachica($id);
+             $caja_old = $caja->toArray(\BasePeer::TYPE_FIELDNAME);
+             
+             $caja_fecha = \DateTime::createFromFormat('d-m-Y', $post_data['cajachica_fecha']);
+
+             $caja->setIdconceptocajachica($post_data['idconcepto'])
+                   ->setCajachicaFecha($caja_fecha->format('Y-m-d'))
+                   ->setCajachicaTipomovimiento($post_data["cajachica_tipomoviento"])
+                   ->setCajachicaCantidad($post_data['cajachica_cantidad'])
+                   ->setCajachicaComprobante($post_data['cajachica_comprobante'])
+                   ->setCajachicaPacientedoctor($post_data['cajachica_pacientedoctor'])
+                   ->setCajachicaNota($post_data['cajachica_nota']);
+           
+             $caja->save();
+             
+             //Actualizamos nustro balance
+             $first_row = \CajachicaQuery::create()->orderByIdcajachica('asc')->findOne();
+             $current_balance = $first_row->getCajachicaBalance();
+             if($caja_old['cajachica_tipomovimiento'] == 'cargo'){
+                 $reset_balance =  $current_balance - $caja_old['cajachica_cantidad'];
+                 $newbalance = $reset_balance + $caja->getCajachicaCantidad();
+             }else{
+                 $reset_balance =  $current_balance + $caja_old['cajachica_cantidad'];
+                 $newbalance = $reset_balance - $caja->getCajachicaCantidad();
+             }
+             $first_row->setCajachicaBalance($newbalance);
+             $first_row->save();
+
+             
+             $caja = \CajachicaQuery::create()->joinConceptocajachica()->withColumn('conceptocajachica_nombre')->findOneByIdcajachica($id);
+             $caja_array = $caja->toArray(\BasePeer::TYPE_FIELDNAME);
+             
+             $caja_array['new_balance'] = $newbalance;
+             $caja_array['caja_fecha'] = $caja_fecha->format('d-m-Y');
+             $caja_array['caja_fecha_js'] = $caja_fecha->format('m/d/Y');
+             $caja_array['cajatransaccion_nombre'] = $caja->getConceptocajachica()->getConceptocajachicaNombre();
+             
+              
+             return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'caja' => $caja_array)));
+             
+            
+        }
+        
+        if($this->params()->fromQuery('id')){
+            
+            $id = $this->params()->fromQuery('id');
+            
+            $caja = \CajachicaQuery::create()->joinConceptocajachica()->withColumn('conceptocajachica_nombre')->findOneByIdcajachica($id)->toArray(\BasePeer::TYPE_FIELDNAME);
+
+            $dateJS = new \DateTime($caja['cajachica_fecha']);
+            
+            $caja['cajachica_fecha'] = $dateJS->format('d-m-Y');
+            //echo '<pre>';var_dump($caja); echo '<pre>';exit();
+            $viewModel = new ViewModel();
+            $viewModel->setTerminal(true);
+            $viewModel->setVariable('caja', $caja);
+            return $viewModel;
+            
+        }
+        
         
     }
     
