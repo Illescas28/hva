@@ -10,8 +10,7 @@ class MovimientosController extends AbstractActionController
     public function indexAction()
     {
         
-        $collection = \BancoQuery::create()->joinConceptobanco()->orderBy('idbanco', 'desc')->withColumn('bancotransaccion_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
-
+        $collection = \BancoQuery::create()->joinConceptobanco()->orderBy('idbanco', 'asc')->withColumn('bancotransaccion_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
         $current_balance = 0.00;
         if(\BancoQuery::create()->exists()){
             $bancos = \BancoQuery::create()->orderByIdbanco('asc')->findOne();

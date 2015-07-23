@@ -151,7 +151,7 @@
             ?>
             <tr id="<?php echo $entity['idbanco']?>">
                 <td data-time="<?php echo $fechaJS ?>"><?php echo $fecha?></td>
-                <td id="<?php echo $entity['idconceptobanco']?>"><?php echo $entity['bancotransaccion_nombre']?></td>
+                <td class="banco_concepto" id="<?php echo $entity['idconceptobanco']?>"><?php echo $entity['bancotransaccion_nombre']?></td>
                 <?php  if($entity['banco_tipomovimiento'] == 'cargo') :  ?>
                      <td><?php echo money_format('%(#10n', $entity['banco_cantidad'])?></td>
                      <td class="movmiento_vacio"> ---- </td>
