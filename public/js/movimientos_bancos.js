@@ -13,7 +13,7 @@
     }
     
     $.movimientosbancos = function(container, options){
-        
+       
         var plugin = this;
         
         /* 
@@ -64,9 +64,9 @@
                             selectAll:true,
                             allSelected:'Todos los conceptos',
                             selectAllText:'Todos los conceptos',
-                            onClick : filterByConcepto,
-                            onCheckAll:filterByConcepto,
-                            onUncheckAll:filterByConcepto,
+                            onClick : filterByDate,
+                            onCheckAll:filterByDate,
+                            onUncheckAll:filterByDate,
                         });
 
                         $("select#concepto_filter").multipleSelect("checkAll");
@@ -83,7 +83,14 @@
                     filterByDate();
                 }
             });
-            $container.find('#fecha_filter_to').datepicker();
+            $container.find('#fecha_filter_to').datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true,
+                onClose: function(dateText, inst){
+                    filterByDate();
+                }
+            });
             
     
             //Incializamos el select de tipo de movimiento
@@ -91,13 +98,10 @@
             
             //Incializamos el input cantidad
             $container.find('input[name=banco_cantidad]').on('keydown',onlyNumbers);
-            
-            //Inicializamos el ordenamiento 
-            $container.find("#banco-table").tablesorter();
 
             //Incializamos evento guardar
             $container.find('#banco_guardar').on('click',function(){
-                var isValid = validateForm();
+                var isValid = validateForm($container);
                 
                 /*Si el formulario es valido, guardamos*/
                 if(isValid){
@@ -116,10 +120,11 @@
                         data: movimiento,
                         url:'/bancos/movimientos/nuevomovimiento',
                         success: function (response) {
+                         
                             if(response.response == true){
-                                var tr = $('<tr>').attr('id',$('input[name=idconcepto]'));
+                                var tr = $('<tr>').attr('id',response.data.id).attr('data-time',response.data.fecha_js);
                                 tr.append('<td>'+response.data.fecha+'</td>');
-                                tr.append('<td>'+$container.find('input[name=banco_concepto]').val()+'</td>');
+                                tr.append('<td class="banco_concepto" id='+$('input[name=idconcepto]').val()+'>'+$container.find('input[name=banco_concepto]').val()+'</td>');
                                 if($container.find('select[name=banco_tipomoviento]').val() == 'cargo'){
                                     tr.append('<td>'+accounting.formatMoney($container.find('input[name=banco_cantidad]').val())+'</td>');
                                     tr.append('<td class="movmiento_vacio" > ---- </td>');
@@ -130,10 +135,16 @@
                                 tr.append('<td>'+$container.find('input[name=banco_comprobante]').val()+'</td>');
                                 tr.append('<td>'+$container.find('input[name=banco_nota]').val()+'</td>');
                                 var td_opciones = $('<td>');
-                                td_opciones.append('<a class="tooltipped" href="/banco/concepto/editar/3" data-tooltip="Editar" data-position="right"><i class="tiny mdi-action-assignment"></i></a>');
+                                td_opciones.append('<a class="tooltipped" href="#" data-tooltip="Editar" data-position="right"><i class="tiny mdi-action-assignment"></i></a>');
                                 td_opciones.append('<a style="margin-left: 10px;" class="tooltipped modal-trigger" href="#delete-modal-8" data-tooltip="Eliminar" data-position="right"><i class="tiny mdi-action-delete"></i></a>');
                                 
                                 
+                                
+                                //Adjuntamos el evento eliminar movmiento
+                                td_opciones.find('i.mdi-action-assignment').on('click',function(){
+                                    var id = response.data.id;
+                                    editarMovimiento(id);
+                                });
                                 
                                 //Adjuntamos el evento eliminar movmiento
                                 td_opciones.find('i.mdi-action-delete').on('click',function(){
@@ -147,7 +158,7 @@
                                 $('#movmiento_mensaje').show();
                                 
                                 //Insertamos la fila
-                                $container.find('tbody').prepend(tr);
+                                $container.find('tbody').append(tr);
                                 
                                 //Recalculamos el balance;
                                 var cantidad = parseFloat($container.find('input[name=banco_cantidad]').val());
@@ -182,10 +193,20 @@
                 $('#movmiento_mensaje_eliminar').hide();
             });
             
+            $('#movmiento_mensaje_editar a').on('click',function(){
+                $('#movmiento_mensaje_editar').hide();
+            });
+            
             //Evento eliminar movimiento
             $container.find('i.mdi-action-delete').on('click',function(){
                 var id = $(this).closest('tr').attr('id');
                 eliminarMovmiento(id);
+            });
+            
+            //Evento eliminar movimiento
+            $container.find('i.mdi-action-assignment').on('click',function(){
+                var id = $(this).closest('tr').attr('id');
+                editarMovimiento(id);
             });
                 
             
@@ -196,38 +217,157 @@
         * Private methods
         */
        
-       var filterByDate = function(){
-           
-           var from = $container.find('#fecha_filter_from').val();
-           var to = $container.find('#fecha_filter_from').val();
+       var editarMovimiento = function(id){
+           $.ajax({
+                async:false,
+                method:'GET',
+                url:'/bancos/movimientos/editarmovmiento',
+                data:{id:id},
+                success: function (modalHTML) {
+                    var source = $('<div id="active_modal">' + modalHTML + '</div>');
+                    $container.after(source);
+                    //Inicializamos el evento guardar
+                    source.find('a.guardar').on('click',function(){
+                        
+                        var isValid = validateForm(source);
+                        
+                        if(isValid){
+
+                            var movimiento = new Object();
+                            //Guardamos nuestros datos 
+                            $.each(source.find('input,select'),function(index,element){
+                                movimiento[$(element).attr('name')] = $(element).val();                        
+                            });
+
+                            //Hacemos la peticion ajax
+                            $.ajax({
+                                type: 'POST',
+                                dataType: 'json',
+                                async: false,
+                                data: movimiento,
+                                url:'/bancos/movimientos/editarmovmiento',
+                                success: function(data) {
+                                    if(data.response == true){
+                                        //Cerramos el modal
+                                        $('#active_modal').children('.modal').closeModal();
+                                        //Actualizamos nuestro row
+                                        $container.find('tr#'+data.banco.idbanco).children('td').eq(0).text(data.banco.banco_fecha).attr('data-time',data.banco.banco_fecha_js);
+                                        $container.find('tr#'+data.banco.idbanco).children('td').eq(1).text(data.banco.bancotransaccion_nombre).attr('id',data.banco.idconceptobanco);
+                                        if(data.banco.banco_tipomovimiento == 'cargo'){
+                                             $container.find('tr#'+data.banco.idbanco).children('td').eq(2).removeClass('movmiento_vacio').text(accounting.formatMoney(data.banco.banco_cantidad));
+                                             $container.find('tr#'+data.banco.idbanco).children('td').eq(3).addClass('movmiento_vacio').text(' ---- ');
+                                        }else{
+                                             $container.find('tr#'+data.banco.idbanco).children('td').eq(2).addClass('movmiento_vacio').text(' ---- ');
+                                            $container.find('tr#'+data.banco.idbanco).children('td').eq(3).removeClass('movmiento_vacio').text(accounting.formatMoney(data.banco.banco_cantidad));  
+                                        }
+                                        $container.find('tr#'+data.banco.idbanco).children('td').eq(4).text(data.banco.banco_comprobante);
+                                        $container.find('tr#'+data.banco.idbanco).children('td').eq(5).text(data.banco.banco_nota);
+
+                                         $container.find('#balance').text(accounting.formatMoney(data.banco.new_balance));
+                                        //Eliminamos el row
+                                        $('#active_modal').remove();
+                                        $('#movmiento_mensaje_editar').show();
+                                    }
+                                }
+                            });
+                        }
+
+                    });
+                }
+           });
+           $('#active_modal').children('.modal').openModal();
        }
        
-       var filterByConcepto = function(){
+       var filterByDate = function(){
+           $container.find('tbody').children('tr').show();
            var selected =  $("select#concepto_filter").multipleSelect('getSelects');
-           $container.find('tbody').children('tr').hide();
-           $container.find('tbody').children('tr').filter(function(index){
-               if($.inArray($(this).attr('id'),selected) >= 0){
-                   $(this).show();
-               } 
+            $container.find('td.banco_concepto').filter(function(index){
+                if($.inArray($(this).attr('id'),selected) == -1){
+                     $(this).closest('tr').hide();
+                 }
+            });
+           
+           var from = $container.find('#fecha_filter_from').val();
+           var to = $container.find('#fecha_filter_to').val();
+
+           //Si almenos colocaron el filtro from
+           if(from != '' && to == ''){
+               
+               $container.find('tbody').children('tr').show();
+               
+                from = $container.find('#fecha_filter_from').datepicker( "getDate" );
+                to = $container.find('#fecha_filter_to').datepicker( "getDate" );
+                
+                var selected =  $("select#concepto_filter").multipleSelect('getSelects');
+                $container.find('td.banco_concepto').filter(function(index){
+                    if($.inArray($(this).attr('id'),selected) == -1){
+                         $(this).closest('tr').hide();
+                     }
+                });
+                
+                
+                $container.find('tbody').children('tr:visible').filter(function(index){
+                    var datejs = new Date($(this).find('td:first-child').attr('data-time'));
+                    if(datejs.getTime() < from.getTime()){
+                        $(this).hide();
+                    }
+                });
+            }else if(from != '' && to != ''){
+                $container.find('tbody').children('tr').show();
+                
+                from = $container.find('#fecha_filter_from').datepicker( "getDate" );
+                to = $container.find('#fecha_filter_to').datepicker( "getDate" );
+                
+                var selected =  $("select#concepto_filter").multipleSelect('getSelects');
+                $container.find('td.banco_concepto').filter(function(index){
+                    if($.inArray($(this).attr('id'),selected) == -1){
+                         $(this).closest('tr').hide();
+                     }
+                });
+                
+                $container.find('tbody').children('tr:visible').filter(function(index){
+                    var datejs = new Date($(this).find('td:first-child').attr('data-time'));
+                    if(datejs.getTime() >= from.getTime() && datejs.getTime() <= to.getTime()){
+                        $(this).show();
+                    }else{
+                        $(this).hide();
+                    }
+                });
+            }
+                
+
+        }
+
+       var filterByConcepto = function(){
+           $container.find('tbody').children('tr').show();
+           var selected =  $("select#concepto_filter").multipleSelect('getSelects');
+           $container.find('td.banco_concepto').filter(function(index){
+               if($.inArray($(this).attr('id'),selected) == -1){
+                    $(this).closest('tr').hide();
+                }
            });  
        }
         
-       var validateForm = function(){
+       var validateForm = function(parent){
                
             var isValid = true;
-            $container.find('p.input-error-show').remove();
+            parent.find('p.input-error-show').remove();
             
-            if($container.find('select[name=banco_tipomoviento]').val() == '' || $container.find('select[name=banco_tipomoviento]').val() == null){
+            if(parent.find('select[name=banco_tipomoviento]').val() == '' || parent.find('select[name=banco_tipomoviento]').val() == null){
                 isValid = false;
-                $container.find('select[name=banco_tipomoviento]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+                parent.find('select[name=banco_tipomoviento]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
             }
-            if($container.find('input[name=banco_concepto]').val() == '' ){
+            if(parent.find('input[name=banco_concepto]').val() == '' ){
                 isValid = false;
-                $container.find('input[name=banco_concepto]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+                parent.find('input[name=banco_concepto]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
             }
-            if($container.find('input[name=banco_cantidad]').val() == '' ){
+            if(parent.find('input[name=banco_cantidad]').val() == '' ){
                 isValid = false;
-                $container.find('input[name=banco_cantidad]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+                parent.find('input[name=banco_cantidad]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+            }
+            if(parent.find('input[name=banco_fecha]').val() == '' ){
+                isValid = false;
+                parent.find('input[name=banco_fecha]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
             }
             
             return isValid;

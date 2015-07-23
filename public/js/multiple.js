@@ -545,7 +545,7 @@
         selectAllDelimiter: ['[', ']'],
         allSelected: 'All selected',
         minimumCountSelected: 3,
-        countSelected: '# of % selected',
+        countSelected: '# de % seleccionados',
         noMatchesFound: 'No matches found',
         multiple: false,
         multipleWidth: 80,

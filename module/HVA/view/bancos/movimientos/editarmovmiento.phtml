@@ -1,0 +1,146 @@
+<style>
+    #movimiento-edit-modal input[type=text]{
+        text-align: left;
+    }
+    
+    #movimiento-edit-modal{
+        height: 60%;
+        width: 80%;
+    }
+</style>
+<div id="movimiento-edit-modal" class="modal">
+    <div class="modal-content" id="edit-modal-container">
+        <div class="row">
+            <fieldset>  
+                <legend>Movimiento</legend>
+                <input name="idbanco" type="hidden" value="<?php echo $banco['idbanco']?>">
+                <div class="row">
+                    <div class="col s5">
+                        <div class="input-field">
+                            <input name="banco_fecha" type="text" value="<?php echo $banco['banco_fecha']?>">
+                            <label>Fecha *</label>
+                        </div>
+                    </div>
+                    <div class="col s5">
+                        <select name="banco_tipomoviento">
+                            <option value="" disabled selected>Tipo de movimiento *</option>
+                            <option value="cargo">Cargo</option>
+                            <option value="abono">Abono</option>
+                        </select>
+
+                    </div>
+                        <div class="input-field col s8">
+                            <input name="idconcepto" type="hidden">
+                            <input name="banco_concepto" type="text">
+                            <label for="banco_concepto" >Concepto *</label>
+                        </div>
+                        <p id="banco_concepto" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+    
+                    <div class="col s4">
+                        <div class="input-field">
+                            <input name="banco_cantidad" type="text" value="<?php echo $banco['banco_cantidad']?>">
+                            <label>Cantidad *</label>
+                        </div>
+                        <p id="banco_cantidad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field">
+                            <input name="banco_comprobante" type="text" value="<?php echo $banco['banco_comprobante']?>">
+                            <label>Comprobante</label>
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field">
+                            <input name="banco_nota" type="text" value="<?php echo $banco['banco_nota']?>">
+                            <label>Nota</label>
+                        </div>           
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+        <a href="#!" class="waves-effect waves-light btn guardar"><i class="mdi-content-save left"></i>Guardar</a>       
+    </div>
+</div>
+<script>
+
+    $(document).ready(function(){
+        
+        var $container = $('#movimiento-edit-modal');
+        //Encapsulamos
+        
+        //Incializamos el select de tipo de movimiento
+        $container.find('select[name=banco_tipomoviento]').val('<?php echo $banco['banco_tipomovimiento']?>');
+        $container.find('select[name=banco_tipomoviento]').material_select();
+         
+        //Inicializamos el componente autcomplete de conceptos
+        $container.find('input[name=idconcepto]').val('<?php echo $banco['idconceptobanco']?>');
+        $.getJSON(
+            '/bancos/movimientos/getconceptos',
+            function(data){
+                var conceptos = data;
+                $container.find('input[name=banco_concepto]').autocomplete({
+                     source:conceptos,
+                     select: function( event, ui ) {
+                          $container.find('input[name=idconcepto]').val(ui.item.value);
+                          $(this).val(ui.item.label);
+                          event.preventDefault();
+                     }
+                });
+            }
+         );
+         $container.find('input[name=banco_concepto]').val('<?php echo $banco['bancotransaccion_nombre']?>');
+        
+        //Inicializamos nuestra fecha
+        $container.find('input[name=banco_fecha]').datepicker({
+            dateFormat: "dd-mm-yy"
+        });
+        
+
+        //Incializamos el input cantidad
+        $container.find('input[name=banco_cantidad]').on('keydown',function(e){
+             -1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault();
+
+        }); 
+ 
+        //Private functions
+//        var validateForm = function(){
+//               
+//            var isValid = true;
+//            $container.find('p.input-error-show').remove();
+//            
+//            if($container.find('select[name=banco_tipomoviento]').val() == '' || $container.find('select[name=banco_tipomoviento]').val() == null){
+//                isValid = false;
+//                $container.find('select[name=banco_tipomoviento]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+//            }
+//            if($container.find('input[name=banco_concepto]').val() == '' ){
+//                isValid = false;
+//                $container.find('input[name=banco_concepto]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+//            }
+//            if($container.find('input[name=banco_cantidad]').val() == '' ){
+//                isValid = false;
+//                $container.find('input[name=banco_cantidad]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+//            }
+//            if($container.find('input[name=banco_fecha]').val() == '' ){
+//                isValid = false;
+//                $container.find('input[name=banco_fecha]').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>'); 
+//            }
+//            
+//            
+//            return isValid;
+//                
+//       };
+       
+       
+       $container.find('input[type=text]').filter(function(){
+            if($(this).val() != ''){
+                $(this).siblings('label').addClass('active');
+            }
+        });
+        
+
+    });
+
+</script>

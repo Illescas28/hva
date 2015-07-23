@@ -511,13 +511,13 @@ return array(
             'cajachica-movimientos' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/cajachica/movimientos[/:action][/:id]',
+                    'route'    => '/cajachica/movimientos[/:action]',
                     'defaults' => array(
                         'controller' => 'Cajachica\Controller\Concepto',
                         'action'     => 'movimientos',
                     ),
                     'constraints' => array(
-                        'action' => 'movimientos|getconceptos|nuevomovimiento|eliminarmovmiento',
+                        'action' => 'movimientos|getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento',
                     ),
                 ),
             ),
@@ -551,7 +551,7 @@ return array(
                         'action'     => 'index',
                     ),
                     'constraints' => array(
-                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento',
+                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento',
                     ),
                 ),
             ),

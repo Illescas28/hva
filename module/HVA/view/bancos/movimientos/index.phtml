@@ -4,12 +4,12 @@
         position: initial;
     }
     
-    #movmiento_mensaje, #movmiento_mensaje_eliminar{
+    #movmiento_mensaje, #movmiento_mensaje_eliminar, #movmiento_mensaje_editar{
         position: relative;
         display: none;
     }
     
-    #movmiento_mensaje a,#movmiento_mensaje_eliminar a{
+    #movmiento_mensaje a,#movmiento_mensaje_eliminar a, #movmiento_mensaje_editar a{
         position: absolute;
         right: 12px;
         top: 12px;
@@ -95,7 +95,8 @@
 <p style="color: rgb(158, 158, 158); margin-bottom: 40px;">(*) Campos obligatorios</p>
 <div id="movmiento_mensaje" class="card-panel #00086E-text green accent-2">Moviento generado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
 <div id="movmiento_mensaje_eliminar" class="card-panel #00086E-text green accent-2">Moviento eliminado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
-<div class="row" >
+<div id="movmiento_mensaje_editar" class="card-panel #00086E-text green accent-2">Moviento modificado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
+<div class="row" style="margin-bottom: -50px;">
     <div class="col s6" style="top: -26px;">
         <fieldset>
             <legend>Filtros</legend>
@@ -127,7 +128,7 @@
       <input id="icon_prefix" type="text">
       <label for="icon_prefix">Buscar</label>
     </div>     
-</div>
+
 <div class="row">
     <div class="col s12">
         <table id="banco-table" class="table-inputs bordered">
@@ -144,12 +145,13 @@
             <tbody>
             <?php foreach ($collection as $entity) :?>
             <?php 
-                $fecha = new DateTime($entity['banco_fecha']);
-                $fecha = $fecha->format('d-m-Y');
+                $fechaObj = new DateTime($entity['banco_fecha']);
+                $fecha = $fechaObj->format('d-m-Y');
+                $fechaJS = $fechaObj->format('m/d/Y');
             ?>
-            <tr id="<?php echo $entity['idconceptobanco']?>">
-                <td><?php echo $fecha?></td>
-                <td><?php echo $entity['bancotransaccion_nombre']?></td>
+            <tr id="<?php echo $entity['idbanco']?>">
+                <td data-time="<?php echo $fechaJS ?>"><?php echo $fecha?></td>
+                <td class="banco_concepto" id="<?php echo $entity['idconceptobanco']?>"><?php echo $entity['bancotransaccion_nombre']?></td>
                 <?php  if($entity['banco_tipomovimiento'] == 'cargo') :  ?>
                      <td><?php echo money_format('%(#10n', $entity['banco_cantidad'])?></td>
                      <td class="movmiento_vacio"> ---- </td>
@@ -161,7 +163,7 @@
                 <td><?php echo $entity['banco_comprobante']?></td>        
                 <td><?php echo $entity['banco_nota']?></td>
                 <td>
-                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/banco/concepto/editar/".$entity['idconceptobanco']?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-".$entity['idbanco']?>'><i class="tiny mdi-action-assignment"></i></a>
                     &nbsp;&nbsp;    
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idbanco']?>'><i class="tiny mdi-action-delete"></i></a>
                 </td>
@@ -179,7 +181,6 @@
 </div>        
 <script>
 $(document).ready(function() {
-    
     $('#bancos-movimientos-contaiener').movimientosbancos();
     $("#banco-table").tablesorter({headers:{6:{sorter:false}}});
     $("#banco-table").filterTable({inputSelector: '#search-container input',minRows:1});
