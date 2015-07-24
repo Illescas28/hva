@@ -196,7 +196,7 @@ CREATE TABLE `banco`
     `banco_fecha` VARCHAR(100) NOT NULL,
     `banco_tipomovimiento` enum('cargo','abono') NOT NULL,
     `banco_cantidad` DECIMAL(10,2) NOT NULL,
-    `banco_balance` DECIMAL(10,2) DEFAULT 0.00 NOT NULL,
+    `banco_balance` DECIMAL(10,2) DEFAULT 0.00,
     `banco_comprobante` VARCHAR(255),
     `banco_nota` TEXT,
     PRIMARY KEY (`idbanco`),

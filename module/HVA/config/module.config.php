@@ -511,13 +511,13 @@ return array(
             'cajachica-movimientos' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/cajachica/movimientos[/:action][/:id]',
+                    'route'    => '/cajachica/movimientos[/:action]',
                     'defaults' => array(
                         'controller' => 'Cajachica\Controller\Concepto',
                         'action'     => 'movimientos',
                     ),
                     'constraints' => array(
-                        'action' => 'movimientos|getconceptos|nuevomovimiento',
+                        'action' => 'movimientos|getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento',
                     ),
                 ),
             ),
@@ -539,6 +539,19 @@ return array(
                     'defaults' => array(
                         'controller' => 'Bancos\Controller\Concepto',
                         'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'bancos-movimientos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/bancos/movimientos[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Bancos\Controller\Movimientos',
+                        'action'     => 'index',
+                    ),
+                    'constraints' => array(
+                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento',
                     ),
                 ),
             ),
@@ -624,6 +637,7 @@ return array(
             'Cajachica\Controller\Concepto'                                     => 'Cajachica\Controller\ConceptoController',
             //Modulo Bancos
             'Bancos\Controller\Concepto'                                        => 'Bancos\Controller\ConceptoController',
+            'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController'
             ),
     ),
     'view_manager' => array(

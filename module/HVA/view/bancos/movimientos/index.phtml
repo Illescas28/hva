@@ -1,0 +1,191 @@
+<style>
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        left: initial;
+        position: initial;
+    }
+    
+    #movmiento_mensaje, #movmiento_mensaje_eliminar, #movmiento_mensaje_editar{
+        position: relative;
+        display: none;
+    }
+    
+    #movmiento_mensaje a,#movmiento_mensaje_eliminar a, #movmiento_mensaje_editar a{
+        position: absolute;
+        right: 12px;
+        top: 12px;
+    }
+    
+    .movmiento_vacio{
+        text-align: center;
+    }
+    
+    .ui-datepicker .ui-datepicker-title select{
+        display: inline-block;
+    }
+    
+    div#ui-datepicker-div{
+        padding: 0;
+        border: 0;
+    }
+</style>
+<link href="/css/multiple.css" rel="stylesheet"/>
+<script src="/js/movimientos_bancos.js"></script>
+<script src="/js/multiple.js"></script>
+<script src="/js/accounting.js"></script>
+<?php
+    setlocale(LC_MONETARY, 'en_US');
+    $title = 'Movimientos';
+    $this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div id="bancos-movimientos-contaiener">
+<div class="row">
+    <fieldset>  
+        <legend>Nuevo movimiento</legend>
+        <div class="row">
+            <div class="col s3">
+                <div class="input-field">
+                    <input name="banco_fecha" type="text" value="13/01/2014" disabled>
+                    <label>Fecha</label>
+                </div>
+            </div>
+            <div class="col s3">
+                <select name="banco_tipomoviento">
+                    <option value="" disabled selected>Tipo de movimiento *</option>
+                    <option value="cargo">Cargo</option>
+                    <option value="abono">Abono</option>
+                </select>
+                
+            </div>
+            <div class="col s8">
+                <div class="input-field">
+                    <input name="idconcepto" type="hidden">
+                    <input name="banco_concepto" type="text">
+                    <label>Concepto *</label>
+                </div>
+                <p id="banco_concepto" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>   
+            <div class="col s4">
+                <div class="input-field">
+                    <input name="banco_cantidad" type="text">
+                    <label>Cantidad *</label>
+                </div>
+                <p id="banco_cantidad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
+            <div class="col s6">
+                <div class="input-field">
+                    <input name="banco_comprobante" type="text">
+                    <label>Comprobante</label>
+                </div>
+            </div>
+            <div class="col s8">
+                <div class="input-field">
+                    <input name="banco_nota" type="text"  >
+                    <label>Nota</label>
+                </div>           
+            </div>
+            <div class="col s4" style="padding-top: 30px;">
+                <button id="banco_guardar" style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                    <i class="mdi-content-save left"></i>
+                </button>         
+            </div>
+        </div>
+    </fieldset>
+</div>
+<p style="color: rgb(158, 158, 158); margin-bottom: 40px;">(*) Campos obligatorios</p>
+<div id="movmiento_mensaje" class="card-panel #00086E-text green accent-2">Moviento generado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
+<div id="movmiento_mensaje_eliminar" class="card-panel #00086E-text green accent-2">Moviento eliminado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
+<div id="movmiento_mensaje_editar" class="card-panel #00086E-text green accent-2">Moviento modificado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
+<div class="row" style="margin-bottom: -50px;">
+    <div class="col s6" style="top: -26px;">
+        <fieldset>
+            <legend>Filtros</legend>
+            <div class="row">
+                <div class="col s12">
+                    <label>Por concepto</label>
+                    <select multiple="multiple" class="browser-default" id="concepto_filter">
+                    </select>
+                </div>
+            </div>
+            
+                <div class="row">
+                    <div class="col s6">
+                        <label>Desde</label>
+                        <input type="text" id="fecha_filter_from">
+                    </div>
+                    <label>Hasta</label>
+                    <div class="col s6">
+                        <input type="text" id="fecha_filter_to">
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+
+      <div class="input-field col s4 offset-s2" id="search-container">
+      <i class="mdi-action-search prefix"></i>
+      <input id="icon_prefix" type="text">
+      <label for="icon_prefix">Buscar</label>
+    </div>     
+
+<div class="row">
+    <div class="col s12">
+        <table id="banco-table" class="table-inputs bordered">
+            <thead>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Ingreso</th>
+                <th>Egreso</th>
+                <!--<th>Balance</th>-->
+                <th>Comprobante</th>
+                <th>Nota</th>
+                <th>Opciones</th>
+            </thead>
+            <tbody>
+            <?php foreach ($collection as $entity) :?>
+            <?php 
+                $fechaObj = new DateTime($entity['banco_fecha']);
+                $fecha = $fechaObj->format('d-m-Y');
+                $fechaJS = $fechaObj->format('m/d/Y');
+            ?>
+            <tr id="<?php echo $entity['idbanco']?>">
+                <td data-time="<?php echo $fechaJS ?>"><?php echo $fecha?></td>
+                <td class="banco_concepto" id="<?php echo $entity['idconceptobanco']?>"><?php echo $entity['bancotransaccion_nombre']?></td>
+                <?php  if($entity['banco_tipomovimiento'] == 'cargo') :  ?>
+                     <td><?php echo money_format('%(#10n', $entity['banco_cantidad'])?></td>
+                     <td class="movmiento_vacio"> ---- </td>
+                <?php else :?>
+                     <td class="movmiento_vacio"> ---- </td>
+                    <td><?php echo money_format('%(#10n', $entity['banco_cantidad'])?></td> 
+                <?php endif;?>
+                <!--<td><?php //echo $entity['banco_balance']?></td>-->   
+                <td><?php echo $entity['banco_comprobante']?></td>        
+                <td><?php echo $entity['banco_nota']?></td>
+                <td>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-".$entity['idbanco']?>'><i class="tiny mdi-action-assignment"></i></a>
+                    &nbsp;&nbsp;    
+                    <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idbanco']?>'><i class="tiny mdi-action-delete"></i></a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col s12 ordertotal-container">
+                <p style="font-size: 16px; float: right; padding-right: 24px;">Balance: <span id="balance"><?php echo money_format('%+.2n', $current_balance)?></span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>        
+<script>
+$(document).ready(function() {
+    $('#bancos-movimientos-contaiener').movimientosbancos();
+    $("#banco-table").tablesorter({headers:{6:{sorter:false}}});
+    $("#banco-table").filterTable({inputSelector: '#search-container input',minRows:1});
+    
+    
+
+});
+</script>
