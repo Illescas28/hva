@@ -691,7 +691,7 @@ $("#buscarCargoconsultaArticulo").click(function() {
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -869,7 +869,7 @@ $("#buscarCargoconsultaServicio").click(function() {
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                     var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                     var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -954,7 +954,7 @@ function generaTablaBuscarConsultaArticulo(ordencompradetalleArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoconsultaArticulo
     var div = document.getElementById("tablaCargoconsultaArticulo");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <thead> y <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -1041,7 +1041,7 @@ function generaTablaBuscarConsultaServicio(servicioArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoconsultaArticulo
     var div = document.getElementById("tablaCargoconsultaServicio");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <thead> y <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -1411,7 +1411,7 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoconsultaArticuloAgregado
     var div = document.getElementById("tablaCargoconsultaArticuloAgregado");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Creamos el elemento <table>
     var tabla   = document.createElement("table");
     // Agregamos clases el elemento <table>
@@ -1539,7 +1539,7 @@ function tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoconsultaServicioAgregado
     var div = document.getElementById("tablaCargoconsultaServicioAgregado");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Creamos el elemento <table>
     var tabla   = document.createElement("table");
     // Agregamos clases el elemento <table>
@@ -1741,7 +1741,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -1867,7 +1867,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -2042,7 +2042,7 @@ function buscarCargoconsultaServicio(idservicio){
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                     var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                     var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -2141,7 +2141,7 @@ function buscarCargoconsultaServicio(idservicio){
 
                         // Creamos la entidad textual lista para agregar al cargoconsulta
                         var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
-                        div.innerHTML = div;
+                        div.innerHTML = div.dir;
                         var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                         var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                         var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -2226,7 +2226,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = cargoconsultaArticuloResult
     var div = document.getElementById("cargoconsultaArticuloResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -2357,7 +2357,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = cargoconsultaServicioResult
     var div = document.getElementById("cargoconsultaServicioResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";

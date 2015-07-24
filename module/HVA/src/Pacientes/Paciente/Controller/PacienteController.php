@@ -176,14 +176,33 @@ class PacienteController extends AbstractActionController
 
     public function detallesAction()
     {
-        $request = $this->getRequest();
-
         $id = (int) $this->params()->fromRoute('id', 0);
         if($id){
+            $paciente = \PacienteQuery::create()->findPk($id);
+            $consultaQuery = \ConsultaQuery::create()->filterByIdpaciente($id)->find();
+            if($consultaQuery->getArrayCopy()){
+                $consultaArray = array();
+                foreach($consultaQuery as $consultaEntity){
+                    array_push($consultaArray, $consultaEntity);
+                }
+            }
 
+            $admisionQuery = \AdmisionQuery::create()->filterByIdpaciente($id)->find();
+            if($admisionQuery->getArrayCopy()){
+                $admisionQuery = array();
+                foreach($admisionQuery as $admisionEntity){
+                    array_push($admisionArray, $admisionEntity);
+                }
+            }
+
+
+            $consultaCollection = $consultaArray;
+            $admisionCollection = $admisionArray;
 
             return new ViewModel(array(
-
+                'pacienteEntity' => $paciente,
+                'pacientesConsulta' => $consultaCollection,
+                'pacientesAdmision' => $admisionCollection,
             ));
         }else{
             return $this->redirect()->toRoute('pacientes');
@@ -322,7 +341,7 @@ class PacienteController extends AbstractActionController
         // Start Ver admisionanticipo
         if($request->getPost()->ver_admisionanticipo == "true"){
 
-            $admisionanticipoQuery = \AdmisionanticipoQuery::create()->find();
+            $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
             if($admisionanticipoQuery->getArrayCopy()){
                 $admisionanticipoArray = array();
                 foreach($admisionanticipoQuery as $admisionanticipoEntity){

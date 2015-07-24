@@ -510,9 +510,32 @@ $this->headTitle($title);
                 </table>
             </div>
             <div class="col s12">
-                <div id="botonPagarAnticipo" class="col s2">
+                <div id="botonPagarAnticipoConsulta" class="col s2">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
+                <!-- Create Modal Structure -->
+                <div id="create-modal-pagar-consulta" class="modal bottom-sheet">
+                    <div class="modal-content">
+                        <div class="row">
+                            <fieldset>
+                                <legend>Registro de Anticipo/Pago</legend>
+                                <div class="col s12">
+                                    <div id="radioPagoConsulta" class="col s4">
+                                        <p onclick="javascript:pagoConsulta();" >
+                                            <input class="with-gap" name="grupo2" type="radio" id="radio2"  />
+                                            <label for="radio2">Pago</label>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="pagoConsulta" class="hiddendiv">
+                                    <!-- Agregamos elementos con Javascript -->
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
                 <div id="botonGenerarFactura" class="col s3">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
@@ -1029,7 +1052,7 @@ $("#buscarCargoconsultaArticulo").click(function() {
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -1207,7 +1230,7 @@ $("#buscarCargoconsultaServicio").click(function() {
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                     var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                     var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -1292,7 +1315,7 @@ function generaTablaBuscarConsultaArticulo(ordencompradetalleArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoconsultaArticulo
     var div = document.getElementById("tablaCargoconsultaArticulo");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <thead> y <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -1379,7 +1402,7 @@ function generaTablaBuscarConsultaServicio(servicioArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoconsultaArticulo
     var div = document.getElementById("tablaCargoconsultaServicio");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <thead> y <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -1596,7 +1619,7 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoconsultaArticuloAgregado
     var div = document.getElementById("tablaCargoconsultaArticuloAgregado");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Creamos el elemento <table>
     var tabla   = document.createElement("table");
     // Agregamos clases el elemento <table>
@@ -1694,7 +1717,7 @@ function tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoconsultaServicioAgregado
     var div = document.getElementById("tablaCargoconsultaServicioAgregado");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Creamos el elemento <table>
     var tabla   = document.createElement("table");
     // Agregamos clases el elemento <table>
@@ -1866,7 +1889,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -1992,7 +2015,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -2167,7 +2190,7 @@ function buscarCargoconsultaServicio(idservicio){
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                     var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                     var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -2266,7 +2289,7 @@ function buscarCargoconsultaServicio(idservicio){
 
                         // Creamos la entidad textual lista para agregar al cargoconsulta
                         var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
-                        div.innerHTML = div;
+                        div.innerHTML = div.dir;
                         var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                         var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                         var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -2352,7 +2375,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = cargoconsultaArticuloResult
     var div = document.getElementById("cargoconsultaArticuloResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -2846,7 +2869,7 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = cargoconsultaArticuloResult
     var div = document.getElementById("cargoconsultaArticuloResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -3266,7 +3289,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = cargoconsultaServicioResult
     var div = document.getElementById("cargoconsultaServicioResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -3724,7 +3747,7 @@ function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
 
     // Obtener la referencia del elemento div con id = cargoconsultaServicioResult
     var div = document.getElementById("cargoconsultaServicioResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -4265,7 +4288,7 @@ $("#buscarCargoadmisionArticulo").click(function() {
 
                     // Creamos la entidad textual lista para agregar al cargoadmision
                     var div = document.getElementById("fieldsetCargoadmisionArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -4443,7 +4466,7 @@ $("#buscarCargoadmisionServicio").click(function() {
 
                     // Creamos la entidad textual lista para agregar al cargoadmision
                     var div = document.getElementById("fieldsetCargoadmisionServicioEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                     var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                     var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -4529,7 +4552,7 @@ function generaTablaBuscarAdmisionArticulo(ordencompradetalleArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoadmisionArticulo
     var div = document.getElementById("tablaCargoadmisionArticulo");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <thead> y <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -4616,7 +4639,7 @@ function generaTablaBuscarAdmisionServicio(servicioArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoadmisionArticulo
     var div = document.getElementById("tablaCargoadmisionServicio");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <thead> y <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -4833,7 +4856,7 @@ function tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoadmisionArticuloAgregado
     var div = document.getElementById("tablaCargoadmisionArticuloAgregado");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Creamos el elemento <table>
     var tabla   = document.createElement("table");
     // Agregamos clases el elemento <table>
@@ -4932,7 +4955,7 @@ function tablaCargoadmisionServicioAgregadoModal(cargoadmisionArray) {
 
     // Obtener la referencia del elemento div con id = tablaCargoadmisionServicioAgregado
     var div = document.getElementById("tablaCargoadmisionServicioAgregado");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Creamos el elemento <table>
     var tabla   = document.createElement("table");
     // Agregamos clases el elemento <table>
@@ -5104,7 +5127,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
 
                     // Creamos la entidad textual lista para agregar al cargoadmision
                     var div = document.getElementById("fieldsetCargoadmisionArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -5230,7 +5253,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
 
                     // Creamos la entidad textual lista para agregar al cargoadmision
                     var div = document.getElementById("fieldsetCargoadmisionArticuloEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
@@ -5405,7 +5428,7 @@ function buscarCargoadmisionServicio(idservicio){
 
                     // Creamos la entidad textual lista para agregar al cargoadmision
                     var div = document.getElementById("fieldsetCargoadmisionServicioEntity");
-                    div.innerHTML = div;
+                    div.innerHTML = div.dir;
                     var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                     var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                     var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -5504,7 +5527,7 @@ function buscarCargoadmisionServicio(idservicio){
 
                         // Creamos la entidad textual lista para agregar al cargoadmision
                         var div = document.getElementById("fieldsetCargoadmisionServicioEntity");
-                        div.innerHTML = div;
+                        div.innerHTML = div.dir;
                         var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                         var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
                         var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
@@ -5589,7 +5612,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
 
     // Obtener la referencia del elemento div con id = cargoadmisionArticuloResult
     var div = document.getElementById("cargoadmisionArticuloResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -6107,7 +6130,7 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
 
     // Obtener la referencia del elemento div con id = cargoadmisionArticuloResult
     var div = document.getElementById("cargoadmisionArticuloResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -6545,7 +6568,7 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
 
     // Obtener la referencia del elemento div con id = cargoadmisionServicioResult
     var div = document.getElementById("cargoadmisionServicioResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -7007,7 +7030,7 @@ function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
 
     // Obtener la referencia del elemento div con id = cargoadmisionServicioResult
     var div = document.getElementById("cargoadmisionServicioResult");
-    div.innerHTML = div;
+    div.innerHTML = div.dir;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
     tabla.className = "hoverable striped";
@@ -7406,7 +7429,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     if(tipo == "consulta"){
 
         var divTotalSuperior = document.getElementById("totalSuperior");
-        divTotalSuperior.innerHTML = divTotalSuperior;
+        divTotalSuperior.innerHTML = divTotalSuperior.dir;
         var divSubTotal = document.createElement('div');
         divSubTotal.className = "col s3";
         var divStatus = document.createElement('div');
@@ -7419,17 +7442,17 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         divTotalSuperior.appendChild(divStatus);
 
         var divTotalInferior = document.getElementById("totalInferior");
-        divTotalInferior.innerHTML = divTotalInferior;
+        divTotalInferior.innerHTML = divTotalInferior.dir;
         var h4 = document.createElement('h4')
         h4.className = "right-align";
         var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
         h4.appendChild(textoServicioTotal)
         divTotalInferior.appendChild(h4)
 
-        var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipo");
-        divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo;
+        var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipoConsulta");
+        divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo.dir;
         var buttonPagarAnticipo = document.createElement('button')
-        buttonPagarAnticipo.setAttribute ( 'id', 'buttonPagarAnticipo' );
+        buttonPagarAnticipo.setAttribute ( 'href', '#create-modal-pagar-consulta' );
         buttonPagarAnticipo.style.width = "100%";
         buttonPagarAnticipo.style.height = "45px";
         buttonPagarAnticipo.style.marginTop = "20px";
@@ -7438,9 +7461,10 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonPagarAnticipo = document.createTextNode("Pagar");
         buttonPagarAnticipo.appendChild(textoButtonPagarAnticipo)
         divbotonPagarAnticipo.appendChild(buttonPagarAnticipo)
+        $('.modal-trigger').leanModal();
 
         var divbotonGenerarFactura = document.getElementById("botonGenerarFactura");
-        divbotonGenerarFactura.innerHTML = divbotonGenerarFactura;
+        divbotonGenerarFactura.innerHTML = divbotonGenerarFactura.dir;
         var buttonGenerarFactura = document.createElement('button')
         buttonGenerarFactura.setAttribute ( 'id', 'buttonGenerarFactura' );
         buttonGenerarFactura.style.width = "100%";
@@ -7453,7 +7477,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         divbotonGenerarFactura.appendChild(buttonGenerarFactura)
 
         var divbotonGenerarNota = document.getElementById("botonGenerarNota");
-        divbotonGenerarNota.innerHTML = divbotonGenerarNota;
+        divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
         var buttonGenerarNota = document.createElement('button')
         buttonGenerarNota.setAttribute ( 'id', 'buttonGenerarNota' );
         buttonGenerarNota.style.width = "100%";
@@ -7466,7 +7490,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         divbotonGenerarNota.appendChild(buttonGenerarNota)
 
         var divbotoVerFactura = document.getElementById("botonVerFactura");
-        divbotoVerFactura.innerHTML = divbotoVerFactura;
+        divbotoVerFactura.innerHTML = divbotoVerFactura.dir;
         var buttonVerFactura = document.createElement('button')
         buttonVerFactura.setAttribute ( 'id', 'buttonVerFactura' );
         buttonVerFactura.style.width = "100%";
@@ -7482,7 +7506,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         // Creamos los elementos de Anticipo admision
         var anticipoAdmision = document.getElementById("anticipoAdmision");
-        anticipoAdmision.innerHTML = anticipoAdmision;
+        anticipoAdmision.innerHTML = anticipoAdmision.dir;
 
         var divCantidadRestanteAnticipo = document.createElement('div')
         divCantidadRestanteAnticipo.className = "col s12";
@@ -7537,7 +7561,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         // Creamos los elementos de Pago admision
         var pagoAdmision = document.getElementById("pagoAdmision");
-        pagoAdmision.innerHTML = pagoAdmision;
+        pagoAdmision.innerHTML = pagoAdmision.dir;
 
         var divCantidadRestantePago = document.createElement('div')
         divCantidadRestantePago.className = "col s12";
@@ -7614,7 +7638,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         // Creamos los elementos de Pago admision
 
         var divTotalSuperior = document.getElementById("totalSuperiorAdmision");
-        divTotalSuperior.innerHTML = divTotalSuperior;
+        divTotalSuperior.innerHTML = divTotalSuperior.dir;
         var divSubTotal = document.createElement('div');
         divSubTotal.className = "col s3";
         var divAnticipo = document.createElement('div');
@@ -7624,8 +7648,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
         var verAdmisionanticipo = document.createElement("i");
         verAdmisionanticipo.className = "modal-trigger blue-text text-darken-2 tiny mdi-action-assignment pointer";
-        verAdmisionanticipo.setAttribute ( 'id', 'verAdmisionanticipo' );
         verAdmisionanticipo.setAttribute ( 'href', 'verAdmisionanticipo' );
+        verAdmisionanticipo.setAttribute ( 'id', 'verAdmisionanticipo' );
         var textoAnticipo = document.createTextNode("Anticipo: "+anticipoCantidad+" MXN");
         var textoStatus = document.createTextNode("Status: "+status);
         divSubTotal.appendChild(textoSubTotal);
@@ -7637,7 +7661,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         divTotalSuperior.appendChild(divStatus);
 
         var divTotalInferior = document.getElementById("totalInferiorAdmision");
-        divTotalInferior.innerHTML = divTotalInferior;
+        divTotalInferior.innerHTML = divTotalInferior.dir;
         var h4 = document.createElement('h4')
         h4.className = "right-align";
         var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
@@ -7645,7 +7669,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         divTotalInferior.appendChild(h4)
 
         var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipoAdmision");
-        divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo;
+        divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo.dir;
         var buttonPagarAnticipo = document.createElement('button')
         buttonPagarAnticipo.setAttribute ( 'href', '#create-modal-pagar-admision' );
         buttonPagarAnticipo.className = "modal-trigger btn waves-effect waves-light";
@@ -7659,7 +7683,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         $('.modal-trigger').leanModal();
 
         var divbotonGenerarFactura = document.getElementById("botonGenerarFacturaAdmision");
-        divbotonGenerarFactura.innerHTML = divbotonGenerarFactura;
+        divbotonGenerarFactura.innerHTML = divbotonGenerarFactura.dir;
         var buttonGenerarFactura = document.createElement('button')
         buttonGenerarFactura.setAttribute ( 'id', 'buttonGenerarFacturaAdmision' );
         buttonGenerarFactura.style.width = "100%";
@@ -7672,7 +7696,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         divbotonGenerarFactura.appendChild(buttonGenerarFactura)
 
         var divbotonGenerarNota = document.getElementById("botonGenerarNotaAdmision");
-        divbotonGenerarNota.innerHTML = divbotonGenerarNota;
+        divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
         var buttonGenerarNota = document.createElement('button')
         buttonGenerarNota.setAttribute ( 'id', 'buttonGenerarNotaAdmision' );
         buttonGenerarNota.style.width = "100%";
@@ -7685,7 +7709,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         divbotonGenerarNota.appendChild(buttonGenerarNota)
 
         var divbotoVerFactura = document.getElementById("botonVerFacturaAdmision");
-        divbotoVerFactura.innerHTML = divbotoVerFactura;
+        divbotoVerFactura.innerHTML = divbotoVerFactura.dir;
         var buttonVerFactura = document.createElement('button')
         buttonVerFactura.setAttribute ( 'id', 'buttonVerFacturaAdmision' );
         buttonVerFactura.style.width = "100%";
@@ -7732,9 +7756,6 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                         "admisionanticipo_nota" : value.admisionanticipo_nota,
                     });
                 });
-
-                // Creamos nuestra tabla de colecciones -> será en un modal!!!
-                generaTablaAdmisionanticipo(admisionanticipoArray);
             },
             error: function(data){
                 alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
@@ -7754,9 +7775,11 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     });
     // Si dan clic en verAdmisionanticipo
     $('#verAdmisionanticipo').click(function(){
+        var idadmision = $("input#idadmision").val();
 
+        alert(idadmision);
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'ver_admisionanticipo=true';
+        var dataString = 'ver_admisionanticipo=true'+'&idadmision='+idadmision;
         $.ajax({
             type: "POST",
             url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
@@ -7778,7 +7801,9 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                     });
                 }
 
+                // será un modal
                 generaTablaAdmisionanticipo(admisionanticipoArray)
+
             },
             error: function(){
                 alert("Error al intentar visualizar anticipos")
@@ -7792,320 +7817,331 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 function generaTablaAdmisionanticipo(admisionanticipoArray) {
 
     // Crearemos la tabla en un modal, el cual colgaremos del id = cargosAdmision!!!
-    $('#verAdmisionanticipo').openModal();
-    var divcargosAdmision   = document.getElementById("cargosAdmision");
-    var divTabla = document.createElement('div')
-    divTabla.setAttribute ( 'id', 'verAdmisionanticipo');
-    divTabla.className = "modal bottom-sheet";
-    // Crea un elemento <table> y un elemento <thead> y <tbody>
-    var tabla   = document.createElement("table");
-    tabla.className = "hoverable striped";
-    var tblHead = document.createElement("thead");
-    var tblBody = document.createElement("tbody");
-    var thArray = ['Fecha', 'Cantidad', 'Nota', 'Opciones']
+    var divcargosAdmision = document.getElementById("cargosAdmision");
 
-    // Crea las celdas
-    for (var i = 0; i < 1; i++) {
-        // Crea las hileras de la tabla
-        var hilera = document.createElement("tr");
+        var divModalTablaAdmisionanticipo = document.createElement('div');
+        divModalTablaAdmisionanticipo.id = 'verAdmisionanticipo';
+        divModalTablaAdmisionanticipo.className = "modal bottom-sheet";
 
-        for (var j = 0; j < thArray.length; j++) {
-            // Crea un elemento <th> y un nodo de texto, haz que el nodo de
-            // texto sea el contenido de <th>, ubica el elemento <th> al final
-            // de la hilera de la tabla
-            var celda = document.createElement("th");
-            var textoCelda = document.createTextNode(thArray[j]);
-            celda.appendChild(textoCelda);
-            hilera.appendChild(celda);
-        }
+            var divModalContentTablaAdmisionanticipo = document.createElement('div');
+            divModalContentTablaAdmisionanticipo.className = 'modal-content';
 
-        // agrega la hilera al final de la tabla (al final del elemento tblHead)
-        tblHead.appendChild(hilera);
-    }
+                // Crea un elemento <table> y un elemento <thead> y <tbody>
+                var tabla   = document.createElement("table");
+                tabla.className = "hoverable striped";
+                var tblHead = document.createElement("thead");
+                var tblBody = document.createElement("tbody");
+                var thArray = ['Fecha', 'Cantidad', 'Nota', 'Opciones']
 
-    // posiciona el <thead> debajo del elemento <table>
-    tabla.appendChild(tblHead);
+                // Crea las celdas
+                for (var i = 0; i < 1; i++) {
+                    // Crea las hileras de la tabla
+                    var hilera = document.createElement("tr");
 
-    // Crea las celdas
-    for (var i = 0; i < admisionanticipoArray.length; i++) {
-        // Crea las hileras de la tabla
-        var hilera = document.createElement("tr");
-        hilera.className = "pointer";
-        // Le agregamos un id a la entidad <th>
-        hilera.setAttribute('id', 'entidadServicio-' + admisionanticipoArray[i]["idadmisionanticipo"])
+                    for (var j = 0; j < thArray.length; j++) {
+                        // Crea un elemento <th> y un nodo de texto, haz que el nodo de
+                        // texto sea el contenido de <th>, ubica el elemento <th> al final
+                        // de la hilera de la tabla
+                        var celda = document.createElement("th");
+                        var textoCelda = document.createTextNode(thArray[j]);
+                        celda.appendChild(textoCelda);
+                        hilera.appendChild(celda);
+                    }
 
-        for (var j = 0; j < thArray.length; j++) {
-
-            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
-            // texto sea el contenido de <td>, ubica el elemento <td> al final
-            // de la hilera de la tabla
-            var celda = document.createElement("td");
-
-            if(j == 0){
-                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_fecha"]);
-                celda.appendChild(textoCelda);
-                hilera.appendChild(celda);
-            }
-            if(j == 1){
-                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
-                celda.appendChild(textoCelda);
-                hilera.appendChild(celda);
-            }
-            if(j == 2){
-                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
-                celda.appendChild(textoCelda);
-                hilera.appendChild(celda);
-            }
-            if(j == 3){
-                var link2 = document.createElement("a");
-                link2.className = "tooltipped";
-                link2.setAttribute ( 'data-position', 'right' );
-                link2.setAttribute ( 'data-tooltip', 'Editar' );
-                link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
-                var editar = document.createElement("i");
-                editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-
-                var link3 = document.createElement("a");
-                link3.className = "tooltipped";
-                link3.setAttribute ( 'data-position', 'right' );
-                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                link3.setAttribute ( 'href', '#delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
-                var eliminar = document.createElement("i");
-                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                link2.appendChild(editar);
-                celda.appendChild(link2);
-                link3.appendChild(eliminar);
-                celda.appendChild(link3);
-                hilera.appendChild(celda);
-
-                <!-- Edit Modal Structure -->
-                var divcargosAdmision = document.getElementById('cargosAdmision')
-                var divEditModalCargoadmision = document.createElement('div')
-                divEditModalCargoadmision.setAttribute ( 'id', 'edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
-                divEditModalCargoadmision.className = "modal bottom-sheet";
-                var h4 = document.createElement('h4')
-                var texth4 = document.createTextNode("Editar-anticipo");
-                h4.appendChild(texth4);
-                var br = document.createElement('br')
-                var divRow = document.createElement('div')
-                divRow.className = "row";
-                var fieldset = document.createElement('fieldset')
-                var legend = document.createElement('legend')
-                var textlegend = document.createTextNode("Datos generales");
-                legend.appendChild(textlegend);
-                var divCol1 = document.createElement('div')
-                divCol1.className = "col s4";
-                var divLabelContainer1 = document.createElement('div')
-                divLabelContainer1.className = "label-container";
-                var label1 = document.createElement('label')
-                var textlabel1 = document.createTextNode("Cantidad:");
-                label1.appendChild(textlabel1);
-                var p1 = document.createElement('p')
-                var textp1 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
-                p1.appendChild(textp1);
-                divLabelContainer1.appendChild(label1);
-                divLabelContainer1.appendChild(p1);
-                divCol1.appendChild(divLabelContainer1);
-                var divCol2 = document.createElement('div')
-                divCol2.className = "col s4";
-                var divLabelContainer2 = document.createElement('div')
-                divLabelContainer2.className = "label-container";
-                var label2 = document.createElement('label')
-                var textlabel2 = document.createTextNode("Nota:");
-                label2.appendChild(textlabel2);
-                var p2 = document.createElement('p')
-                var textp2 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
-                p2.appendChild(textp2);
-                divLabelContainer2.appendChild(label2);
-                divLabelContainer2.appendChild(p2);
-                divCol2.appendChild(divLabelContainer2);
-                fieldset.appendChild(divCol1);
-                fieldset.appendChild(divCol2);
-                fieldset.appendChild(legend);
-                divRow.appendChild(fieldset);
-                var divEditModalFooter = document.createElement('div')
-                divEditModalFooter.className = "modal-footer";
-                var linkCerrar = document.createElement('a')
-                linkCerrar.className = "modal-action modal-close waves-effect waves-light btn cerrar";
-                var iconCerrar = document.createElement('i')
-                iconCerrar.className = "mdi-navigation-close left";
-                var textoIconCerrar = document.createTextNode('Cerrar');
-                iconCerrar.appendChild(textoIconCerrar);
-                linkCerrar.appendChild(iconCerrar);
-                divEditModalFooter.appendChild(linkCerrar);
-                divEditModalCargoadmision.appendChild(br);
-                divEditModalCargoadmision.appendChild(h4);
-                divEditModalCargoadmision.appendChild(divRow);
-                divEditModalCargoadmision.appendChild(divEditModalFooter);
-                divcargosAdmision.appendChild(divEditModalCargoadmision);
-                <!-- End Edit Modal Structure -->
-
-                <!-- Start Delete Structure -->
-                var divcargosAdmisionDelete = document.getElementById('cargosAdmision')
-                var divDeleteModalCargoadmisionDelete = document.createElement('div')
-                divDeleteModalCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
-                divDeleteModalCargoadmisionDelete.className = "modal";
-                var divDeleteModalContentCargoadmisionDelete = document.createElement('div')
-                divDeleteModalContentCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo');
-                divDeleteModalContentCargoadmisionDelete.className = "modal-content";
-
-                var divRowDelete = document.createElement('div')
-                divRowDelete.setAttribute ( 'id', 'delete-modal-header-container');
-                divRowDelete.className = "row";
-                var divRowAtencionDelete = document.createElement('div')
-                divRowAtencionDelete.className = "col s4 offset-s4";
-                var h4Delete = document.createElement('h4')
-                var iDelete = document.createElement('i')
-                iDelete.className = "mdi-alert-warning";
-                var textoiDelete = document.createTextNode("ATENCION");
-                iDelete.appendChild(textoiDelete);
-                h4Delete.appendChild(iDelete);
-                divRowAtencionDelete.appendChild(h4Delete);
-                divRowDelete.appendChild(divRowAtencionDelete);
-                divDeleteModalContentCargoadmisionDelete.appendChild(divRowDelete)
-
-                var divRow2Delete = document.createElement('div')
-                divRow2Delete.className = "row";
-                var fieldsetDelete = document.createElement('fieldset')
-                var legendDelete = document.createElement('legend')
-                var textlegendDelete = document.createTextNode("Datos generales");
-                legendDelete.appendChild(textlegendDelete);
-                var divCol1Delete = document.createElement('div')
-                divCol1Delete.className = "col s4";
-                var divLabelContainer1Delete = document.createElement('div')
-                divLabelContainer1Delete.className = "label-container";
-                var label1Delete = document.createElement('label')
-                var textlabel1Delete = document.createTextNode("Cantidad:");
-                label1Delete.appendChild(textlabel1Delete);
-                var p1Delete = document.createElement('p')
-                var textp1Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
-                p1Delete.appendChild(textp1Delete);
-                divLabelContainer1Delete.appendChild(label1Delete);
-                divLabelContainer1Delete.appendChild(p1Delete);
-                divCol1Delete.appendChild(divLabelContainer1Delete);
-                var divCol2Delete = document.createElement('div')
-                divCol2Delete.className = "col s4";
-                var divLabelContainer2Delete = document.createElement('div')
-                divLabelContainer2Delete.className = "label-container";
-                var label2Delete = document.createElement('label')
-                var textlabel2Delete = document.createTextNode("Nota:");
-                label2Delete.appendChild(textlabel2Delete);
-                var p2Delete = document.createElement('p')
-                var textp2Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
-                p2Delete.appendChild(textp2Delete);
-                divLabelContainer2Delete.appendChild(label2Delete);
-                divLabelContainer2Delete.appendChild(p2Delete);
-                divCol2Delete.appendChild(divLabelContainer2Delete);
-                fieldsetDelete.appendChild(divCol1Delete);
-                fieldsetDelete.appendChild(divCol2Delete);
-                fieldsetDelete.appendChild(legendDelete);
-                divRow2Delete.appendChild(fieldsetDelete);
-                divDeleteModalContentCargoadmisionDelete.appendChild(divRow2Delete)
-
-                var divRow3Delete = document.createElement('div')
-                divRow3Delete.className = "row";
-                var divRowPreguntaDelete = document.createElement('div')
-                divRowPreguntaDelete.className = "col s12";
-                var h5Delete = document.createElement('h5')
-                var textoi2Delete = document.createTextNode("¿Estás seguro que deseas eliminar el cargo?");
-                h5Delete.appendChild(textoi2Delete);
-                divRowPreguntaDelete.appendChild(h5Delete);
-                divRow3Delete.appendChild(divRowPreguntaDelete);
-                divDeleteModalContentCargoadmisionDelete.appendChild(divRow3Delete)
-
-                divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalContentCargoadmisionDelete);
-
-                var divDeleteModalFooterDelete = document.createElement('div')
-                divDeleteModalFooterDelete.className = "modal-footer";
-                var linkCerrarDelete = document.createElement('a')
-                linkCerrarDelete.className = "modal-action modal-close waves-effect waves-light btn cerrar";
-                var iconCerrarDelete = document.createElement('i')
-                iconCerrarDelete.className = "mdi-navigation-close left";
-                var textoIconCerrarDelete = document.createTextNode('Cerrar');
-                iconCerrarDelete.appendChild(textoIconCerrarDelete);
-                linkCerrarDelete.appendChild(iconCerrarDelete);
-                var linkEliminarDelete = document.createElement('a')
-                linkEliminarDelete.setAttribute ( 'id', 'eliminarAdmisionanticipo'+admisionanticipoArray[i]["idadmisionanticipo"]);
-                linkEliminarDelete.className = "waves-effect waves-light btn eliminar";
-                var iconEliminarDelete = document.createElement('i')
-                iconEliminarDelete.className = "mdi-action-delete left";
-                var textoIconEliminarDelete = document.createTextNode('Eliminar');
-                iconEliminarDelete.appendChild(textoIconEliminarDelete);
-                linkEliminarDelete.appendChild(iconEliminarDelete);
-
-                divDeleteModalFooterDelete.appendChild(linkCerrarDelete);
-                divDeleteModalFooterDelete.appendChild(linkEliminarDelete);
-                divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalFooterDelete);
-                divcargosAdmisionDelete.appendChild(divDeleteModalCargoadmisionDelete);
-                <!-- End Delete Modal Structure -->
-            }
-        }
-
-        // agrega la hilera al final de la tabla (al final del elemento tblbody)
-        tblBody.appendChild(hilera);
-
-        var idadmisionanticipo = admisionanticipoArray[i]["idadmisionanticipo"]
-        var idadmision = admisionanticipoArray[i]["idadmision"]
-        var cantidad = admisionanticipoArray[i]["admisionanticipo_cantidad"]
-
-    }
-
-    // posiciona el <tbody> debajo del elemento <table>
-    tabla.appendChild(tblBody);
-
-    // appends <table> into <body>
-    divTable.appendChild(tabla);
-    divcargosAdmision.appendChild(divTabla);
-
-    // Si dan clic en eliminarAnticipoadmision-id
-    $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
-
-        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'eliminar_admisionanticipo=true'+'&idadmisionanticipo=' + idadmisionanticipo + '&idadmision=' + idadmision + '&cantidad=' + cantidad;
-
-        $.ajax({
-            type: "POST",
-            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            dataType : 'json',
-            data: dataString,
-            jsonpCallback: 'callback',
-            success: function(data) {
-                alert("Se eliminó exitosamente el anticipo por la cantidad de: "+cantidad+" MXN")
-
-                admisionanticipoArray = []
-                var admisionanticipoEntity = data.admisionanticipoArray
-                if(admisionanticipoEntity){
-                    $.each( admisionanticipoEntity, function( key, value ) {
-                        admisionanticipoArray.push({
-                            "idadmisionanticipo" : value.idadmisionanticipo,
-                            "idadmision" : value.idadmision,
-                            "admisionanticipo_fecha" : value.admisionanticipo_fecha,
-                            "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
-                            "admisionanticipo_nota" : value.admisionanticipo_nota
-                        });
-                    });
+                    // agrega la hilera al final de la tabla (al final del elemento tblHead)
+                    tblHead.appendChild(hilera);
                 }
 
-                tablaCargoadmisionArticuloEliminado(cargoadmisionArray)
-                tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray)
-                cargoadmisionEliminadoArray = []
-                var cargoadmisionEliminado = data.cargoadmisionEliminadoArray
-                if(cargoadmisionEliminado){
-                    $.each( cargoadmisionEliminado, function( key, value ) {
-                        cargoadmisionEliminadoArray.push({
-                            "subtotal" : value.subtotal
-                        });
-                    });
-                }
-                subTotalResponse(status, -(cargoadmisionEliminadoArray[0]['subtotal']), null, 'admision')
-            },
-            error: function(){
-                alert("Error al intentar eliminar el anticipo por la cantidad de: "+cantidad+" MXN")
-            }
-        });
-        return false;
+                // posiciona el <thead> debajo del elemento <table>
+                tabla.appendChild(tblHead);
 
-    });
+                // Crea las celdas
+                for (var i = 0; i < admisionanticipoArray.length; i++) {
+                    // Crea las hileras de la tabla
+                    var hilera = document.createElement("tr");
+                    hilera.className = "pointer";
+                    // Le agregamos un id a la entidad <th>
+                    hilera.setAttribute('id', 'entidadServicio-' + admisionanticipoArray[i]["idadmisionanticipo"])
+
+                    for (var j = 0; j < thArray.length; j++) {
+
+                        // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+                        // texto sea el contenido de <td>, ubica el elemento <td> al final
+                        // de la hilera de la tabla
+                        var celda = document.createElement("td");
+
+                        if(j == 0){
+                            var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_fecha"]);
+                            celda.appendChild(textoCelda);
+                            hilera.appendChild(celda);
+                        }
+                        if(j == 1){
+                            var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                            celda.appendChild(textoCelda);
+                            hilera.appendChild(celda);
+                        }
+                        if(j == 2){
+                            var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
+                            celda.appendChild(textoCelda);
+                            hilera.appendChild(celda);
+                        }
+                        if(j == 3){
+                            var link2 = document.createElement("a");
+                            link2.className = "tooltipped";
+                            link2.setAttribute ( 'data-position', 'right' );
+                            link2.setAttribute ( 'data-tooltip', 'Editar' );
+                            link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                            var editar = document.createElement("i");
+                            editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
+
+                            var link3 = document.createElement("a");
+                            link3.className = "tooltipped";
+                            link3.setAttribute ( 'data-position', 'right' );
+                            link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                            link3.setAttribute ( 'href', '#delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                            var eliminar = document.createElement("i");
+                            eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                            link2.appendChild(editar);
+                            celda.appendChild(link2);
+                            link3.appendChild(eliminar);
+                            celda.appendChild(link3);
+                            hilera.appendChild(celda);
+
+                            <!-- Edit Modal Structure -->
+                            var divcargosAdmision = document.getElementById('cargosAdmision')
+                            var divEditModalCargoadmision = document.createElement('div')
+                            divEditModalCargoadmision.setAttribute ( 'id', 'edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                            divEditModalCargoadmision.className = "modal bottom-sheet";
+                            var h4 = document.createElement('h4')
+                            var texth4 = document.createTextNode("Editar-anticipo");
+                            h4.appendChild(texth4);
+                            var br = document.createElement('br')
+                            var divRow = document.createElement('div')
+                            divRow.className = "row";
+                            var fieldset = document.createElement('fieldset')
+                            var legend = document.createElement('legend')
+                            var textlegend = document.createTextNode("Datos generales");
+                            legend.appendChild(textlegend);
+                            var divCol1 = document.createElement('div')
+                            divCol1.className = "col s4";
+                            var divLabelContainer1 = document.createElement('div')
+                            divLabelContainer1.className = "label-container";
+                            var label1 = document.createElement('label')
+                            var textlabel1 = document.createTextNode("Cantidad:");
+                            label1.appendChild(textlabel1);
+                            var p1 = document.createElement('p')
+                            var textp1 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                            p1.appendChild(textp1);
+                            divLabelContainer1.appendChild(label1);
+                            divLabelContainer1.appendChild(p1);
+                            divCol1.appendChild(divLabelContainer1);
+                            var divCol2 = document.createElement('div')
+                            divCol2.className = "col s4";
+                            var divLabelContainer2 = document.createElement('div')
+                            divLabelContainer2.className = "label-container";
+                            var label2 = document.createElement('label')
+                            var textlabel2 = document.createTextNode("Nota:");
+                            label2.appendChild(textlabel2);
+                            var p2 = document.createElement('p')
+                            var textp2 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
+                            p2.appendChild(textp2);
+                            divLabelContainer2.appendChild(label2);
+                            divLabelContainer2.appendChild(p2);
+                            divCol2.appendChild(divLabelContainer2);
+                            fieldset.appendChild(divCol1);
+                            fieldset.appendChild(divCol2);
+                            fieldset.appendChild(legend);
+                            divRow.appendChild(fieldset);
+                            var divEditModalFooter = document.createElement('div')
+                            divEditModalFooter.className = "modal-footer";
+                            var linkCerrar = document.createElement('a')
+                            linkCerrar.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                            var iconCerrar = document.createElement('i')
+                            iconCerrar.className = "mdi-navigation-close left";
+                            var textoIconCerrar = document.createTextNode('Cerrar');
+                            iconCerrar.appendChild(textoIconCerrar);
+                            linkCerrar.appendChild(iconCerrar);
+                            divEditModalFooter.appendChild(linkCerrar);
+                            divEditModalCargoadmision.appendChild(br);
+                            divEditModalCargoadmision.appendChild(h4);
+                            divEditModalCargoadmision.appendChild(divRow);
+                            divEditModalCargoadmision.appendChild(divEditModalFooter);
+                            divcargosAdmision.appendChild(divEditModalCargoadmision);
+                            <!-- End Edit Modal Structure -->
+
+                            <!-- Start Delete Structure -->
+                            var divcargosAdmisionDelete = document.getElementById('cargosAdmision')
+                            var divDeleteModalCargoadmisionDelete = document.createElement('div')
+                            divDeleteModalCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                            divDeleteModalCargoadmisionDelete.className = "modal";
+                            var divDeleteModalContentCargoadmisionDelete = document.createElement('div')
+                            divDeleteModalContentCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo');
+                            divDeleteModalContentCargoadmisionDelete.className = "modal-content";
+
+                            var divRowDelete = document.createElement('div')
+                            divRowDelete.setAttribute ( 'id', 'delete-modal-header-container');
+                            divRowDelete.className = "row";
+                            var divRowAtencionDelete = document.createElement('div')
+                            divRowAtencionDelete.className = "col s4 offset-s4";
+                            var h4Delete = document.createElement('h4')
+                            var iDelete = document.createElement('i')
+                            iDelete.className = "mdi-alert-warning";
+                            var textoiDelete = document.createTextNode("ATENCION");
+                            iDelete.appendChild(textoiDelete);
+                            h4Delete.appendChild(iDelete);
+                            divRowAtencionDelete.appendChild(h4Delete);
+                            divRowDelete.appendChild(divRowAtencionDelete);
+                            divDeleteModalContentCargoadmisionDelete.appendChild(divRowDelete)
+
+                            var divRow2Delete = document.createElement('div')
+                            divRow2Delete.className = "row";
+                            var fieldsetDelete = document.createElement('fieldset')
+                            var legendDelete = document.createElement('legend')
+                            var textlegendDelete = document.createTextNode("Datos generales");
+                            legendDelete.appendChild(textlegendDelete);
+                            var divCol1Delete = document.createElement('div')
+                            divCol1Delete.className = "col s4";
+                            var divLabelContainer1Delete = document.createElement('div')
+                            divLabelContainer1Delete.className = "label-container";
+                            var label1Delete = document.createElement('label')
+                            var textlabel1Delete = document.createTextNode("Cantidad:");
+                            label1Delete.appendChild(textlabel1Delete);
+                            var p1Delete = document.createElement('p')
+                            var textp1Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                            p1Delete.appendChild(textp1Delete);
+                            divLabelContainer1Delete.appendChild(label1Delete);
+                            divLabelContainer1Delete.appendChild(p1Delete);
+                            divCol1Delete.appendChild(divLabelContainer1Delete);
+                            var divCol2Delete = document.createElement('div')
+                            divCol2Delete.className = "col s4";
+                            var divLabelContainer2Delete = document.createElement('div')
+                            divLabelContainer2Delete.className = "label-container";
+                            var label2Delete = document.createElement('label')
+                            var textlabel2Delete = document.createTextNode("Nota:");
+                            label2Delete.appendChild(textlabel2Delete);
+                            var p2Delete = document.createElement('p')
+                            var textp2Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
+                            p2Delete.appendChild(textp2Delete);
+                            divLabelContainer2Delete.appendChild(label2Delete);
+                            divLabelContainer2Delete.appendChild(p2Delete);
+                            divCol2Delete.appendChild(divLabelContainer2Delete);
+                            fieldsetDelete.appendChild(divCol1Delete);
+                            fieldsetDelete.appendChild(divCol2Delete);
+                            fieldsetDelete.appendChild(legendDelete);
+                            divRow2Delete.appendChild(fieldsetDelete);
+                            divDeleteModalContentCargoadmisionDelete.appendChild(divRow2Delete)
+
+                            var divRow3Delete = document.createElement('div')
+                            divRow3Delete.className = "row";
+                            var divRowPreguntaDelete = document.createElement('div')
+                            divRowPreguntaDelete.className = "col s12";
+                            var h5Delete = document.createElement('h5')
+                            var textoi2Delete = document.createTextNode("¿Estás seguro que deseas eliminar el cargo?");
+                            h5Delete.appendChild(textoi2Delete);
+                            divRowPreguntaDelete.appendChild(h5Delete);
+                            divRow3Delete.appendChild(divRowPreguntaDelete);
+                            divDeleteModalContentCargoadmisionDelete.appendChild(divRow3Delete)
+
+                            divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalContentCargoadmisionDelete);
+
+                            var divDeleteModalFooterDelete = document.createElement('div')
+                            divDeleteModalFooterDelete.className = "modal-footer";
+                            var linkCerrarDelete = document.createElement('a')
+                            linkCerrarDelete.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                            var iconCerrarDelete = document.createElement('i')
+                            iconCerrarDelete.className = "mdi-navigation-close left";
+                            var textoIconCerrarDelete = document.createTextNode('Cerrar');
+                            iconCerrarDelete.appendChild(textoIconCerrarDelete);
+                            linkCerrarDelete.appendChild(iconCerrarDelete);
+                            var linkEliminarDelete = document.createElement('a')
+                            linkEliminarDelete.setAttribute ( 'id', 'eliminarAdmisionanticipo'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                            linkEliminarDelete.className = "waves-effect waves-light btn eliminar";
+                            var iconEliminarDelete = document.createElement('i')
+                            iconEliminarDelete.className = "mdi-action-delete left";
+                            var textoIconEliminarDelete = document.createTextNode('Eliminar');
+                            iconEliminarDelete.appendChild(textoIconEliminarDelete);
+                            linkEliminarDelete.appendChild(iconEliminarDelete);
+
+                            divDeleteModalFooterDelete.appendChild(linkCerrarDelete);
+                            divDeleteModalFooterDelete.appendChild(linkEliminarDelete);
+                            divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalFooterDelete);
+                            divcargosAdmisionDelete.appendChild(divDeleteModalCargoadmisionDelete);
+                            <!-- End Delete Modal Structure -->
+                        }
+                    }
+
+                    // agrega la hilera al final de la tabla (al final del elemento tblbody)
+                    tblBody.appendChild(hilera);
+
+                    var idadmisionanticipo = admisionanticipoArray[i]["idadmisionanticipo"]
+                    var idadmision = admisionanticipoArray[i]["idadmision"]
+                    var cantidad = admisionanticipoArray[i]["admisionanticipo_cantidad"]
+
+                }
+
+                // posiciona el <tbody> debajo del elemento <table>
+                tabla.appendChild(tblBody);
+
+                // Si dan clic en eliminarAnticipoadmision-id
+                $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
+
+                    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+                    var dataString = 'eliminar_admisionanticipo=true'+'&idadmisionanticipo=' + idadmisionanticipo + '&idadmision=' + idadmision + '&cantidad=' + cantidad;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                        dataType : 'json',
+                        data: dataString,
+                        jsonpCallback: 'callback',
+                        success: function(data) {
+                            alert("Se eliminó exitosamente el anticipo por la cantidad de: "+cantidad+" MXN")
+
+                            admisionanticipoArray = []
+                            var admisionanticipoEntity = data.admisionanticipoArray
+                            if(admisionanticipoEntity){
+                                $.each( admisionanticipoEntity, function( key, value ) {
+                                    admisionanticipoArray.push({
+                                        "idadmisionanticipo" : value.idadmisionanticipo,
+                                        "idadmision" : value.idadmision,
+                                        "admisionanticipo_fecha" : value.admisionanticipo_fecha,
+                                        "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
+                                        "admisionanticipo_nota" : value.admisionanticipo_nota
+                                    });
+                                });
+                            }
+
+                            tablaCargoadmisionArticuloEliminado(cargoadmisionArray)
+                            tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray)
+                            cargoadmisionEliminadoArray = []
+                            var cargoadmisionEliminado = data.cargoadmisionEliminadoArray
+                            if(cargoadmisionEliminado){
+                                $.each( cargoadmisionEliminado, function( key, value ) {
+                                    cargoadmisionEliminadoArray.push({
+                                        "subtotal" : value.subtotal
+                                    });
+                                });
+                            }
+                            subTotalResponse(status, -(cargoadmisionEliminadoArray[0]['subtotal']), null, 'admision')
+                        },
+                        error: function(){
+                            alert("Error al intentar eliminar el anticipo por la cantidad de: "+cantidad+" MXN")
+                        }
+                    });
+                    return false;
+
+                });
+
+            divModalContentTablaAdmisionanticipo.appendChild(tabla);
+
+            var divModalFooterTablaAdmisionanticipo = document.createElement('div');
+            divModalFooterTablaAdmisionanticipo.className = 'modal-footer';
+                var divModalCerrarTablaAdmisionanticipo = document.createElement('a');
+                divModalCerrarTablaAdmisionanticipo.className = 'modal-action modal-close waves-effect waves-green btn-flat';
+            divModalFooterTablaAdmisionanticipo.appendChild(divModalCerrarTablaAdmisionanticipo);
+        divModalTablaAdmisionanticipo.appendChild(divModalContentTablaAdmisionanticipo);
+        divModalTablaAdmisionanticipo.appendChild(divModalFooterTablaAdmisionanticipo);
+    divcargosAdmision.appendChild(divModalTablaAdmisionanticipo);
 }
 
 function anticipoAdmision() {
@@ -8118,6 +8154,11 @@ function pagoAdmision() {
     if ($('#pagoAdmision').hasClass('hiddendiv')){
         $('#pagoAdmision').removeClass('hiddendiv')
         $('#anticipoAdmision').addClass('hiddendiv')
+    }
+}
+function pagoConsulta() {
+    if ($('#pagoConsulta').hasClass('hiddendiv')){
+        $('#pagoConsulta').removeClass('hiddendiv')
     }
 }
 </script>
