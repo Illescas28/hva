@@ -121,6 +121,23 @@ return array(
                     ),
                 ),
             ),
+            /*
+             * Citas 
+             */
+            'citas' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/citas[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Citas\Controller\Citas',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'admisionanticipo' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -624,6 +641,7 @@ return array(
             'Pacientes\Consultorio\Controller\Consultorio'                      => 'Pacientes\Consultorio\Controller\ConsultorioController',
             'Pacientes\Servicio\Controller\Servicio'                            => 'Pacientes\Servicio\Controller\ServicioController',
             'Pacientes\Cargoconsulta\Controller\Cargoconsulta'                  => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
+            'Pacientes\Citas\Controller\Citas'                                  => 'Pacientes\Citas\Controller\CitasController',
             
             //Modulo Compras
             'Compras\Controller\Compras'                                        => 'Compras\Controller\ComprasController',

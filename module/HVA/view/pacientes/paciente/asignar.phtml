@@ -2,9 +2,9 @@
 $title = $pacienteEntity->getPacienteNombre()." ".$pacienteEntity->getPacienteAp()." ".$pacienteEntity->getPacienteAm();
 $this->headTitle($title);
 ?>
-
+<script type="text/javascript" src="/js/asignacion.js"></script>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
-<div>
+<div id="asignar-container">
     <fieldset>
         <legend>Datos generales del paciente</legend>
         <div class="col s4">
@@ -50,6 +50,12 @@ $this->headTitle($title);
             <p onclick="javascript:nuevaAdmision();" >
                 <input class="with-gap" name="grupo1" type="radio" id="test4"  />
                 <label for="test4">Nueva admisión</label>
+            </p>
+        </div>
+        <div id="agendarCita" class="col s4">
+            <p>
+                <input class="with-gap" name="grupo1" type="radio" id="test4"  />
+                <label for="test4">Agendar cita</label>
             </p>
         </div>
     </div>
@@ -183,7 +189,7 @@ $this->headTitle($title);
             </button>
         </div>
     </div>
-
+    <div id="agendar-cita-container"></div>
     <div id="admision" class="hiddendiv">
         <?php $admisionForm->prepare();?>
         <?php echo $this->form()->openTag($admisionForm); ?>
@@ -4880,6 +4886,10 @@ function anticipoTotalStatus(cargoconsultaArray){
     a.setAttribute ( 'data-tooltip', 'Editar' );
     a.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
 }
+
+$('#asignar-container').asignacion({
+    idpaciente:<?php echo $pacienteEntity->getIdpaciente()?>,
+});
 
 // Esta función no está en uso
 function eliminarTabla(){
