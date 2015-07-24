@@ -236,7 +236,13 @@ class ConceptoController extends AbstractActionController
               $first_row->setCajachicaBalance($new_balance);
               $first_row->save();   
           }else{
-              $cajachica->setCajachicaBalance($post_data['cajachica_cantidad']);
+              if($post_data['cajachica_tipomoviento'] == 'cargo'){
+                  $new_balance = 0 + $post_data['cajachica_cantidad'];
+                  $cajachica->setCajachicaBalance($new_balance);
+              }else{
+                  $new_balance = 0 - $post_data['cajachica_cantidad'];
+                   $cajachica->setCajachicaBalance($new_balance);
+              }
           }
           
           $cajachica->save();

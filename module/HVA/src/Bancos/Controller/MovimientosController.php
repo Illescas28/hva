@@ -63,8 +63,8 @@ class MovimientosController extends AbstractActionController
           
            
           //Ya existe un movimiento?
-          if(\BancoQuery::create()->exists()){
-             
+          if(\BancoQuery::create()->exists()){  
+              
               //Modificamos el balance de nuestra caja
               $first_row = \BancoQuery::create()->orderByIdbanco('asc')->findOne();
               $current_balance = $first_row->getBancoBalance();
@@ -76,7 +76,13 @@ class MovimientosController extends AbstractActionController
               $first_row->setBancoBalance($new_balance);
               $first_row->save();   
           }else{
-              $banco->setBancoBalance($post_data['banco_cantidad']);
+              if($post_data['banco_tipomoviento'] == 'cargo'){
+                  $new_balance = 0 + $post_data['banco_cantidad'];
+                  $banco->setBancoBalance($new_balance);
+              }else{
+                  $new_balance = 0 - $post_data['banco_cantidad'];
+                   $banco->setBancoBalance($new_balance);
+              }
           }
           
           $banco->save();
