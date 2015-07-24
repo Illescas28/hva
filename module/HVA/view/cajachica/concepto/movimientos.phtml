@@ -4,12 +4,12 @@
         position: initial;
     }
     
-    #movmiento_mensaje, #movmiento_mensaje_eliminar{
+    #movmiento_mensaje, #movmiento_mensaje_eliminar, #movmiento_mensaje_editar{
         position: relative;
         display: none;
     }
     
-    #movmiento_mensaje a,#movmiento_mensaje_eliminar a{
+    #movmiento_mensaje a,#movmiento_mensaje_eliminar a, #movmiento_mensaje_editar a{
         position: absolute;
         right: 12px;
         top: 12px;
@@ -17,6 +17,15 @@
     
     .movmiento_vacio{
         text-align: center;
+    }
+    
+    .ui-datepicker .ui-datepicker-title select{
+        display: inline-block;
+    }
+    
+    div#ui-datepicker-div{
+        padding: 0;
+        border: 0;
     }
 </style>
 <link href="/css/multiple.css" rel="stylesheet"/>
@@ -92,22 +101,39 @@
 <p style="color: rgb(158, 158, 158); margin-bottom: 40px;">(*) Campos obligatorios</p>
 <div id="movmiento_mensaje" class="card-panel #00086E-text green accent-2">Moviento generado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
 <div id="movmiento_mensaje_eliminar" class="card-panel #00086E-text green accent-2">Moviento eliminado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
-<div class="row" >
+<div id="movmiento_mensaje_editar" class="card-panel #00086E-text green accent-2">Moviento modificado exitosamente<a href="javascript:void(0)">Cerrar</a></div>
+<div class="row" style="margin-bottom: -50px;">
     <div class="col s6" style="top: -26px;">
         <fieldset>
             <legend>Filtros</legend>
-            <label>Por concepto</label>
-            <select multiple="multiple" class="browser-default" id="concepto_filter">
-            </select>
+            <div class="row">
+                <div class="col s12">
+                    <label>Por concepto</label>
+                    <select multiple="multiple" class="browser-default" id="concepto_filter">
+                    </select>
+                </div>
+            </div>
+            
+                <div class="row">
+                    <div class="col s6">
+                        <label>Desde</label>
+                        <input type="text" id="fecha_filter_from">
+                    </div>
+                    <label>Hasta</label>
+                    <div class="col s6">
+                        <input type="text" id="fecha_filter_to">
+                    </div>
+                </div>
+            </div>
+
         </fieldset>
     </div>
 
-      <div class="input-field col s4 offset-s2" id="search-container">
+<div class="input-field col s4 offset-s2" id="search-container">
       <i class="mdi-action-search prefix"></i>
       <input id="icon_prefix" type="text">
       <label for="icon_prefix">Buscar</label>
-    </div>     
-</div>
+    </div>   
 <div class="row">
     <div class="col s12">
         <table id="cajachica-table" class="table-inputs bordered">
@@ -125,12 +151,13 @@
             <tbody>
             <?php foreach ($collection as $entity) :?>
             <?php 
-                $fecha = new DateTime($entity['cajachica_fecha']);
-                $fecha = $fecha->format('d-m-Y');
+                $fechaObj = new DateTime($entity['cajachica_fecha']);
+                $fecha = $fechaObj->format('d-m-Y');
+                $fechaJS = $fechaObj->format('m/d/Y');
             ?>
             <tr id="<?php echo $entity['idcajachica']?>">
-                <td><?php echo $fecha?></td>
-                <td><?php echo $entity['conceptocajachica_nombre']?></td>
+                <td data-time="<?php echo $fechaJS ?>"><?php echo $fecha?></td>
+                <td class="caja_concepto" id="<?php echo $entity['idconceptocajachica'] ?>"><?php echo $entity['conceptocajachica_nombre']?></td>
                 <?php  if($entity['cajachica_tipomovimiento'] == 'cargo') :  ?>
                      <td><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td>
                      <td class="movmiento_vacio"> ---- </td>
@@ -143,7 +170,7 @@
                 <td><?php echo $entity['cajachica_pacientedoctor']?></td>
                 <td><?php echo $entity['cajachica_nota']?></td>
                 <td>
-                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/cajachica/concepto/editar/".$entity['idconceptocajachica']?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-".$entity['idconceptocajachica']?>'><i class="tiny mdi-action-assignment"></i></a>
                     &nbsp;&nbsp;    
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idcajachica']?>'><i class="tiny mdi-action-delete"></i></a>
                 </td>
@@ -163,16 +190,8 @@
 $(document).ready(function() {
     
     $('#cajachica-movimientos-contaiener').movimientos();
-    
-    
-    
-
-    
-
-   
-   
-   
-    
+    $("#cajachica-table").tablesorter({headers:{6:{sorter:false}}});
+    $("#cajachica-table").filterTable({inputSelector: '#search-container input',minRows:1});
 
 });
 </script>
