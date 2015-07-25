@@ -7427,8 +7427,35 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     subTotal += subTotalArticulo+subTotalServicio;
     if (isNaN(subTotal)) subTotal = 0;
 
-    alert(typeof(admisionanticipoCantidad));
     anticipoCantidad += Number(admisionanticipoCantidad);
+
+    if(subTotal == 0){
+
+        status = 'pagada';
+
+        var idadmision = $("input#idadmision").val();
+        
+        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+        var dataString = 'subTotal=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad;
+
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            jsonpCallback: 'callback',
+            success: function(data) {
+
+                alert("Cuenta pagada.")
+
+                // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+
+            },
+            error: function(){
+                alert("Error al intentar liquidar la cuenta.")
+            }
+        });
+    }
 
     if(tipo == "consulta"){
 

@@ -213,6 +213,20 @@ class PacienteController extends AbstractActionController
 
         $request = $this->getRequest();
 
+        // Start Actualizar admision_tatus = pagada
+        if($request->getPost()->subTotal == "0"){
+            if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
+
+                $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
+                $admisionActualizarStatus->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago('no identificado')->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->save();
+                $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
+                return new JsonModel(array(
+                    'admisionArray' => $admisionArray,
+                ));
+            }
+        }
+        // End Actualizar admision_tatus = pagada
+
         // Start Eliminar cargoadmision
         if($request->getPost()->idcargoadmision){
             if($request->getPost()->eliminar_cargoadmision_tipo == 'articulo'){
