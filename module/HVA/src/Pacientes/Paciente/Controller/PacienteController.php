@@ -225,22 +225,23 @@ class PacienteController extends AbstractActionController
                     $lugarinventarioEntity->save();
                     $cargoadmisionEliminadoArray = array();
                     if($cargoadmisionEliminado->getIdlugarinventario() != null){
+
                         $articulovarianteEliminado = $cargoadmisionEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+
+                        $propiedadvalorNombreEliminado = null;
                         foreach($articulovarianteEliminado->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEliminado){
                             $propiedadEliminadoQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEliminado->getIdpropiedad())->findOne();
-                            $propiedadNombreEliminado = $propiedadEliminadoQuery->getPropiedadNombre();
-                        }
-                        foreach($articulovarianteEliminado->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEliminado){
                             $propiedadvalorEliminadoQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEliminado->getIdpropiedadvalor())->findOne();
-                            $propiedadvalorNombreEliminado = $propiedadvalorEliminadoQuery->getPropiedadvalorNombre();
+                            $propiedadvalorNombreEliminado .= $propiedadEliminadoQuery->getPropiedadNombre() . " " . $propiedadvalorEliminadoQuery->getPropiedadvalorNombre(). " ";
                         }
+
                         $cargoadmisionEliminado = array(
                             'idcargoadmision' => $cargoadmisionEliminado->getIdcargoadmision(),
                             'idadmision' => $cargoadmisionEliminado->getIdadmision(),
                             'status' => $cargoadmisionEliminado->getAdmision()->getAdmisionStatus(),
                             'cargoadmision_cantidad' => $cargoadmisionEliminado->getCargoadmisionCantidad(),
                             'articulo' => $cargoadmisionEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
-                            'descripcion' => utf8_encode($propiedadNombreEliminado." ".$propiedadvalorNombreEliminado),
+                            'descripcion' => utf8_encode($propiedadvalorNombreEliminado),
                             'salida' => $cargoadmisionEliminado->getLugarinventario()->getLugar()->getLugarNombre(),
                             'fechahora' => $cargoadmisionEliminado->getCargoadmisionFecha(),
                             'precio' => $cargoadmisionEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
@@ -412,13 +413,12 @@ class PacienteController extends AbstractActionController
                     $cargoconsultaEliminadoArray = array();
                     if($cargoconsultaEliminado->getIdlugarinventario() != null){
                         $articulovarianteEliminado = $cargoconsultaEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+
+                        $propiedadvalorNombreEliminado = null;
                         foreach($articulovarianteEliminado->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEliminado){
                             $propiedadEliminadoQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEliminado->getIdpropiedad())->findOne();
-                            $propiedadNombreEliminado = $propiedadEliminadoQuery->getPropiedadNombre();
-                        }
-                        foreach($articulovarianteEliminado->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEliminado){
                             $propiedadvalorEliminadoQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEliminado->getIdpropiedadvalor())->findOne();
-                            $propiedadvalorNombreEliminado = $propiedadvalorEliminadoQuery->getPropiedadvalorNombre();
+                            $propiedadvalorNombreEliminado .= $propiedadEliminadoQuery->getPropiedadNombre() . " " . $propiedadvalorEliminadoQuery->getPropiedadvalorNombre(). " ";
                         }
                         $cargoconsultaEliminado = array(
                             'idcargoconsulta' => $cargoconsultaEliminado->getIdcargoconsulta(),
@@ -426,7 +426,7 @@ class PacienteController extends AbstractActionController
                             'status' => $cargoconsultaEliminado->getConsulta()->getConsultaStatus(),
                             'cantidad' => $cargoconsultaEliminado->getCantidad(),
                             'articulo' => $cargoconsultaEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
-                            'descripcion' => utf8_encode($propiedadNombreEliminado." ".$propiedadvalorNombreEliminado),
+                            'descripcion' => utf8_encode($propiedadvalorNombreEliminado),
                             'salida' => $cargoconsultaEliminado->getLugarinventario()->getLugar()->getLugarNombre(),
                             'fechahora' => $cargoconsultaEliminado->getCargoconsultaFecha(),
                             'precio' => $cargoconsultaEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
@@ -443,13 +443,12 @@ class PacienteController extends AbstractActionController
                         foreach($cargoconsultaQuery as $cargoconsultaEntity){
                             if($cargoconsultaEntity->getIdlugarinventario() != null){
                                 $articulovarianteEntity = $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+
+                                $propiedadvalorNombre = null;
                                 foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
                                     $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
-                                    $propiedadNombre = $propiedadQuery->getPropiedadNombre();
-                                }
-                                foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
                                     $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
-                                    $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                    $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
                                 }
                                 $cargoconsulta = array(
                                     'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -457,7 +456,7 @@ class PacienteController extends AbstractActionController
                                     'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
                                     'cantidad' => $cargoconsultaEntity->getCantidad(),
                                     'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
-                                    'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
+                                    'descripcion' => utf8_encode($propiedadvalorNombre),
                                     'salida' => $cargoconsultaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
                                     'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
                                     'precio' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
@@ -678,13 +677,11 @@ class PacienteController extends AbstractActionController
                             $lugarinventarioCantidad = $lugarinventarioEntity->getLugarinventarioCantidad();
                             $articuloNombre = $ordencompradetalleEntity->getArticulovariante()->getArticulo()->getArticuloNombre();
 
+                            $propiedadvalorNombre = null;
                             foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
                                 $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
-                                $propiedadNombre = $propiedadQuery->getPropiedadNombre();
-                            }
-                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
                                 $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
-                                $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
                             }
                         }
 
@@ -696,7 +693,7 @@ class PacienteController extends AbstractActionController
                             'ordencompradetalle_caducidad' => $ordencompradetalleEntity->getOrdencompradetalleCaducidad(),
                             'existencia' => $lugarinventarioCantidad,
                             'articulo' => $articuloNombre,
-                            'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
+                            'descripcion' => utf8_encode($propiedadvalorNombre),
                             'precio' => $ordencompradetalleEntity->getArticulovariante()->getArticulovariantePrecio(),
                             'salida' => $lugarNombre,
                         );
@@ -790,6 +787,7 @@ class PacienteController extends AbstractActionController
                     $ordencompradetalleArray = array();
                     $lugarNombre = null;
                     foreach($ordencompradetalleQuery as $ordencompradetalleEntity){
+                        /*
                         foreach($ordencompradetalleEntity->getLugarinventarios()->getArrayCopy() as $lugarinventarioEntity){
                             $idlugarinventario = $lugarinventarioEntity->getIdlugarinventario();
                             $lugarNombre = $lugarinventarioEntity->getLugar()->getLugarNombre();
@@ -805,6 +803,35 @@ class PacienteController extends AbstractActionController
                                 $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
                             }
                         }
+                        */
+
+                        foreach($ordencompradetalleEntity->getLugarinventarios()->getArrayCopy() as $lugarinventarioEntity){
+                            $idlugarinventario = $lugarinventarioEntity->getIdlugarinventario();
+                            $lugarNombre = $lugarinventarioEntity->getLugar()->getLugarNombre();
+                            $lugarinventarioCantidad = $lugarinventarioEntity->getLugarinventarioCantidad();
+                            $articuloNombre = $ordencompradetalleEntity->getArticulovariante()->getArticulo()->getArticuloNombre();
+
+                            /*
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                $propiedadNombre = $propiedadQuery->getPropiedadNombre();
+                                array_push($propiedadArray, $propiedadNombre);
+
+                            }
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                array_push($propiedadValorArray, $propiedadvalorNombre);
+                            }
+                            */
+
+                            $propiedadvalorNombre = null;
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
+                            }
+                        }
 
                         $ordencompradetalle = array(
                             'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
@@ -814,7 +841,7 @@ class PacienteController extends AbstractActionController
                             'ordencompradetalle_caducidad' => $ordencompradetalleEntity->getOrdencompradetalleCaducidad(),
                             'existencia' => $lugarinventarioCantidad,
                             'articulo' => $articuloNombre,
-                            'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
+                            'descripcion' => utf8_encode($propiedadvalorNombre),
                             'precio' => $ordencompradetalleEntity->getArticulovariante()->getArticulovariantePrecio(),
                             'salida' => $lugarNombre,
                         );
@@ -942,21 +969,20 @@ class PacienteController extends AbstractActionController
                             foreach($cargoconsultaQuery as $cargoconsultaEntity){
                                 if($cargoconsultaEntity->getIdlugarinventario() != null){
                                     $articulovarianteEntity = $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                                    $propiedadvalorNombre = null;
                                     foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
                                         $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
-                                        $propiedadNombre = $propiedadQuery->getPropiedadNombre();
-                                    }
-                                    foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
                                         $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
-                                        $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                        $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
                                     }
+
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
                                         'idconsulta' => $cargoconsultaEntity->getIdconsulta(),
                                         'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
                                         'cantidad' => $cargoconsultaEntity->getCantidad(),
                                         'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
-                                        'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
+                                        'descripcion' => utf8_encode($propiedadvalorNombre),
                                         'salida' => $cargoconsultaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
                                         'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
                                         'precio' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
@@ -1116,13 +1142,12 @@ class PacienteController extends AbstractActionController
                             foreach($cargoadmisionQuery as $cargoadmisionEntity){
                                 if($cargoadmisionEntity->getIdlugarinventario() != null){
                                     $articulovarianteEntity = $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+
+                                    $propiedadvalorNombre = null;
                                     foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
                                         $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
-                                        $propiedadNombre = $propiedadQuery->getPropiedadNombre();
-                                    }
-                                    foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
                                         $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
-                                        $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                        $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
                                     }
                                     $cargoadmision = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -1130,7 +1155,7 @@ class PacienteController extends AbstractActionController
                                         'status' => $cargoadmisionEntity->getAdmision()->getAdmisionStatus(),
                                         'cargoadmision_cantidad' => $cargoadmisionEntity->getCargoadmisionCantidad(),
                                         'articulo' => $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
-                                        'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
+                                        'descripcion' => utf8_encode($propiedadvalorNombre),
                                         'salida' => $cargoadmisionEntity->getLugarinventario()->getLugar()->getLugarNombre(),
                                         'fechahora' => $cargoadmisionEntity->getCargoadmisionFecha(),
                                         'precio' => $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),

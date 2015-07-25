@@ -7423,7 +7423,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
     subTotal += subTotalArticulo+subTotalServicio;
-
+    if (isNaN(subTotal)) subTotal = 0;
+    
     var anticipoCantidad = 0;
 
     if(tipo == "consulta"){
@@ -7753,9 +7754,20 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                         "idadmision" : value.idadmision,
                         "admisionanticipo_fecha" : value.admisionanticipo_fecha,
                         "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
-                        "admisionanticipo_nota" : value.admisionanticipo_nota,
+                        "admisionanticipo_nota" : value.admisionanticipo_nota
                     });
                 });
+
+                admisionanticipoAgregadoArray = []
+                var admisionanticipoAgregado = data.admisionanticipoArray
+                if(admisionanticipoAgregado){
+                    $.each( admisionanticipoAgregado, function( key, value ) {
+                        admisionanticipoAgregadoArray.push({
+                            "admisionanticipo_cantidad" : value.admisionanticipo_cantidad
+                        });
+                    });
+                }
+                subTotalResponse(status, -(admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad']), null, 'admision')
             },
             error: function(data){
                 alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
@@ -7796,7 +7808,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                             "idadmision" : value.idadmision,
                             "admisionanticipo_fecha" : value.admisionanticipo_fecha,
                             "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
-                            "admisionanticipo_nota" : value.admisionanticipo_nota,
+                            "admisionanticipo_nota" : value.admisionanticipo_nota
                         });
                     });
                 }
