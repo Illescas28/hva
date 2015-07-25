@@ -2811,6 +2811,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
             jsonpCallback: 'callback',
             success: function(data) {
                 alert("Se eliminó exitosamente el cargo de un articulo")
+                $('#delete-modal-cargoadmision-'+idcargoconsulta).closeModal();
 
                 cargoconsultaArray = []
                 var cargoconsultaEntity = data.cargoconsultaArray
@@ -3692,7 +3693,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
             jsonpCallback: 'callback',
             success: function(data) {
                 alert("Se eliminó exitosamente el cargo de un servicio")
-
+                $('#delete-modal-cargoconsulta-servicio-'+idcargoconsulta).closeModal();
                 cargoconsultaArray = []
                 var cargoconsultaEntity = data.cargoconsultaArray
                 if(cargoconsultaEntity){
@@ -6072,7 +6073,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
             jsonpCallback: 'callback',
             success: function(data) {
                 alert("Se eliminó exitosamente el cargo de un articulo")
-
+                $('#delete-modal-cargoadmision-'+idcargoadmision).closeModal();
                 cargoadmisionArray = []
                 var cargoadmisionEntity = data.cargoadmisionArray
                 if(cargoadmisionEntity){
@@ -6975,7 +6976,7 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
             jsonpCallback: 'callback',
             success: function(data) {
                 alert("Se eliminó exitosamente el cargo de un servicio")
-
+                $('#delete-modal-cargoadmisionServicio-'+idcargoadmision).closeModal();
                 cargoadmisionArray = []
                 var cargoadmisionEntity = data.cargoadmisionArray
                 if(cargoadmisionEntity){
@@ -7680,7 +7681,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         divStatus.className = "col s3";
         var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
         var verAdmisionanticipo = document.createElement("i");
-        verAdmisionanticipo.className = "modal-trigger blue-text text-darken-2 tiny mdi-action-assignment pointer";
+        verAdmisionanticipo.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
         verAdmisionanticipo.setAttribute ( 'href', 'verAdmisionanticipo' );
         verAdmisionanticipo.setAttribute ( 'id', 'verAdmisionanticipo' );
         var textoAnticipo = document.createTextNode("Anticipo: "+anticipoCantidad+" MXN");
@@ -7879,6 +7880,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
             data: dataString,
             jsonpCallback: 'callback',
             success: function(data) {
+                alert("Visualizar anticipos")
                 admisionanticipoArray = []
                 var admisionanticipoEntity = data.admisionanticipoArray
                 if(admisionanticipoEntity){
@@ -7895,6 +7897,9 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
                 // será un modal
                 generaTablaAdmisionanticipo(admisionanticipoArray)
+                //$('#verAdmisionanticipo').openModal();
+
+                // Aqui me quede !!!!
 
             },
             error: function(){
@@ -7911,10 +7916,16 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
     // Crearemos la tabla en un modal, el cual colgaremos del id = cargosAdmision!!!
     var divcargosAdmision = document.getElementById("cargosAdmision");
 
+        // Verificamos si existe la tabla
+        if (document.getElementById("tabla-admisionanticipo")) {
+            // Eliminamos la tabla existente
+            var divModalTablaAdmisionanticipoParaEliminar = document.getElementById("tabla-admisionanticipo");
+            divModalTablaAdmisionanticipoParaEliminar.parentNode.removeChild(divModalTablaAdmisionanticipoParaEliminar);
+        }
+        // Creamos de nuevo la tabla
         var divModalTablaAdmisionanticipo = document.createElement('div');
-        divModalTablaAdmisionanticipo.id = 'verAdmisionanticipo';
-        divModalTablaAdmisionanticipo.className = "modal bottom-sheet";
-
+        divModalTablaAdmisionanticipo.id = "tabla-admisionanticipo";
+        divModalTablaAdmisionanticipo.innerHTML = divModalTablaAdmisionanticipo.dir
             var divModalContentTablaAdmisionanticipo = document.createElement('div');
             divModalContentTablaAdmisionanticipo.className = 'modal-content';
 
@@ -7949,6 +7960,13 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
 
                 // Crea las celdas
                 for (var i = 0; i < admisionanticipoArray.length; i++) {
+
+
+                    alert(admisionanticipoArray[i]["idadmisionanticipo"]);
+                    alert(admisionanticipoArray[i]["admisionanticipo_fecha"]);
+                    alert(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                    alert(admisionanticipoArray[i]["admisionanticipo_nota"]);
+
                     // Crea las hileras de la tabla
                     var hilera = document.createElement("tr");
                     hilera.className = "pointer";
@@ -8000,7 +8018,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                             hilera.appendChild(celda);
 
                             <!-- Edit Modal Structure -->
-                            var divcargosAdmision = document.getElementById('cargosAdmision')
+                            var divcargosAdmisionEdit = document.getElementById('cargosAdmision')
                             var divEditModalCargoadmision = document.createElement('div')
                             divEditModalCargoadmision.setAttribute ( 'id', 'edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
                             divEditModalCargoadmision.className = "modal bottom-sheet";
@@ -8058,7 +8076,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                             divEditModalCargoadmision.appendChild(h4);
                             divEditModalCargoadmision.appendChild(divRow);
                             divEditModalCargoadmision.appendChild(divEditModalFooter);
-                            divcargosAdmision.appendChild(divEditModalCargoadmision);
+                            divcargosAdmisionEdit.appendChild(divEditModalCargoadmision);
                             <!-- End Edit Modal Structure -->
 
                             <!-- Start Delete Structure -->
