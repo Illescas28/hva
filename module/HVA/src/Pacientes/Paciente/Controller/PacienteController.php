@@ -549,8 +549,20 @@ class PacienteController extends AbstractActionController
 
             $admisionanticipoArray = \AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($admisionanticipo->getIdadmisionanticipo())->findOne()->toArray(\BasePeer::TYPE_FIELDNAME);
 
+            $admisionanticipoAgregadoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
+            $admisionanticipoAgregadoArray = array();
+            $admisionanticipoAgregado = array(
+                'idcargoadmision' => $admisionanticipoAgregadoQuery->getIdadmisionanticipo(),
+                'idadmision' => $admisionanticipoAgregadoQuery->getIdadmision(),
+                'admisionanticipo_fecha' => $admisionanticipoAgregadoQuery->getAdmisionanticipoFecha(),
+                'admisionanticipo_cantidad' => $admisionanticipoAgregadoQuery->getAdmisionanticipoCantidad(),
+                'admisionanticipo_nota' => $admisionanticipoAgregadoQuery->getAdmisionanticipoNota(),
+            );
+            array_push($admisionanticipoAgregadoArray, $admisionanticipoAgregado);
+
             return new JsonModel(array(
                 'admisionanticipoArray' => $admisionanticipoArray,
+                'admisionanticipoAgregadoArray' => $admisionanticipoAgregadoArray,
             ));
         }
         // Fin Anticipo Admision

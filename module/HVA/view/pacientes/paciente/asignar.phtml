@@ -7013,6 +7013,7 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
                         });
                     });
                 }
+
                 subTotalResponse(status, null, -(cargoadmisionEliminadoArray[0]['subtotal']), 'admision')
             },
             error: function(){
@@ -7418,14 +7419,16 @@ function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
 }
 
 var subTotal = 0;
-function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null) {
+var anticipoCantidad = 0;
+function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, admisionanticipoCantidad=null) {
 
     // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
     subTotal += subTotalArticulo+subTotalServicio;
     if (isNaN(subTotal)) subTotal = 0;
-    
-    var anticipoCantidad = 0;
+
+    alert(typeof(admisionanticipoCantidad));
+    anticipoCantidad += Number(admisionanticipoCantidad);
 
     if(tipo == "consulta"){
 
@@ -7759,7 +7762,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                 });
 
                 admisionanticipoAgregadoArray = []
-                var admisionanticipoAgregado = data.admisionanticipoArray
+                var admisionanticipoAgregado = data.admisionanticipoAgregadoArray
                 if(admisionanticipoAgregado){
                     $.each( admisionanticipoAgregado, function( key, value ) {
                         admisionanticipoAgregadoArray.push({
@@ -7767,7 +7770,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                         });
                     });
                 }
-                subTotalResponse(status, -(admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad']), null, 'admision')
+                subTotalResponse(status, -(admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad']), null, 'admision', admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad'])
             },
             error: function(data){
                 alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
