@@ -7420,7 +7420,8 @@ function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
 
 var subTotal = 0;
 var anticipoCantidad = 0;
-function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, admisionanticipoCantidad=null) {
+var admision_tipodepago = "no identificado";
+function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, admisionanticipoCantidad=null, admisionTipodepago="no identificado") {
 
     // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
@@ -7432,11 +7433,12 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     if(subTotal == 0){
 
         status = 'pagada';
+        var admision_tipodepago = admisionTipodepago;
 
         var idadmision = $("input#idadmision").val();
-        
+
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'subTotal=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad;
+        var dataString = 'subTotal=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago;
 
         $.ajax({
             type: "POST",
@@ -7797,6 +7799,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                         });
                     });
                 }
+
                 subTotalResponse(status, -(admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad']), null, 'admision', admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad'])
             },
             error: function(data){
@@ -7809,11 +7812,58 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
     $("#divBotonAdmisionPagarPago").click(function() {
 
-        alert("subTotal: " + subTotal)
         var pagoAdmision = $("input#input_pago_admision").val();
         if(pagoAdmision > subTotal || pagoAdmision < 0){
-            var pagoAdmision = $("input#divMetodoDePago").val();
+            //var pagoAdmision = $("input#divMetodoDePago").val();
+            alert("La cantidad agregada: "+pagoAdmision+" no puede ser mayor a: "+subTotal+" ni menor o igual a 0.")
+            return false;
         }
+
+        var idadmision = $("input#idadmision").val();
+        var notaAnticipoAdmision = $("input#input_nota_anticipo").val();
+
+        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+        var dataString = 'idadmision=' + idadmision + '&admisionanticipo_cantidad=' + pagoAdmision + '&admisionanticipo_nota=' + notaAnticipoAdmision ;
+
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            jsonpCallback: 'callback',
+            success: function(data) {
+
+                alert("Se agregó exitosamente el anticipo de: "+pagoAdmision+" MXN")
+
+                admisionanticipoArray = []
+                var admisionanticipoEntity = data.admisionanticipoArray
+                $.each( admisionanticipoEntity, function( key, value ) {
+                    admisionanticipoArray.push({
+                        "idadmisionanticipo" : value.idadmisionanticipo,
+                        "idadmision" : value.idadmision,
+                        "admisionanticipo_fecha" : value.admisionanticipo_fecha,
+                        "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
+                        "admisionanticipo_nota" : value.admisionanticipo_nota
+                    });
+                });
+
+                admisionanticipoAgregadoArray = []
+                var admisionanticipoAgregado = data.admisionanticipoAgregadoArray
+                if(admisionanticipoAgregado){
+                    $.each( admisionanticipoAgregado, function( key, value ) {
+                        admisionanticipoAgregadoArray.push({
+                            "admisionanticipo_cantidad" : value.admisionanticipo_cantidad
+                        });
+                    });
+                }
+                subTotalResponse(status, -(admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad']), null, 'admision', admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad'], $("#select_metodo_de_pago").val())
+            },
+            error: function(data){
+                alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
+            }
+        });
+
+        return false;
     });
     // Si dan clic en verAdmisionanticipo
     $('#verAdmisionanticipo').click(function(){

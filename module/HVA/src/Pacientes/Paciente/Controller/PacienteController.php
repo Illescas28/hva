@@ -218,7 +218,7 @@ class PacienteController extends AbstractActionController
             if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
 
                 $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
-                $admisionActualizarStatus->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago('no identificado')->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->save();
+                $admisionActualizarStatus->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->save();
                 $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
                 return new JsonModel(array(
                     'admisionArray' => $admisionArray,
