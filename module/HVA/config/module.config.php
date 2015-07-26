@@ -182,7 +182,7 @@ return array(
                 'options' => array(
                     'route'    => '/catalogos/proveedor[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
+                        'action' => 'nuevo|editar|eliminar|getproveedores',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(

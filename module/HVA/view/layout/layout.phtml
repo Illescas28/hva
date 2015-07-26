@@ -18,7 +18,8 @@
         ->prependStylesheet($this->basePath('css/lolliclock.css'))
         ->prependStylesheet($this->basePath('css/style.css'))
         ->prependStylesheet($this->basePath('css/materialize.css'))
-        ->prependStylesheet($this->basePath('css/token_input/token-input.css'));
+        ->prependStylesheet($this->basePath('css/multiple.css'))
+                ->prependStylesheet($this->basePath('css/token_input/token-input.css'));
     
     
     ?>
@@ -33,6 +34,9 @@
         ->prependFile($this->basePath('js/filterTable.js'), 'text/javascript')
         ->prependFile($this->basePath('js/tablesorter.js'), 'text/javascript')
         ->prependFile($this->basePath('js/materialize.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/comprasreports.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/multiple.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/accounting.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery.min.js'), 'text/javascript');
     
     
