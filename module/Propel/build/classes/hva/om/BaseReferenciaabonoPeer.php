@@ -24,13 +24,13 @@ abstract class BaseReferenciaabonoPeer
     const TM_CLASS = 'ReferenciaabonoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 3;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 3;
 
     /** the column name for the idreferenciaabono field */
     const IDREFERENCIAABONO = 'referenciaabono.idreferenciaabono';
@@ -38,16 +38,8 @@ abstract class BaseReferenciaabonoPeer
     /** the column name for the idbanco field */
     const IDBANCO = 'referenciaabono.idbanco';
 
-    /** the column name for the referenciaabono_tipo field */
-    const REFERENCIAABONO_TIPO = 'referenciaabono.referenciaabono_tipo';
-
-    /** the column name for the referenciaabono_referencia field */
-    const REFERENCIAABONO_REFERENCIA = 'referenciaabono.referenciaabono_referencia';
-
-    /** The enumerated values for the referenciaabono_tipo field */
-    const REFERENCIAABONO_TIPO_CONSULTA = 'consulta';
-    const REFERENCIAABONO_TIPO_ADMISION = 'admision';
-    const REFERENCIAABONO_TIPO_VENTA = 'venta';
+    /** the column name for the referenciaabono_archivo field */
+    const REFERENCIAABONO_ARCHIVO = 'referenciaabono.referenciaabono_archivo';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -68,12 +60,12 @@ abstract class BaseReferenciaabonoPeer
      * e.g. ReferenciaabonoPeer::$fieldNames[ReferenciaabonoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idreferenciaabono', 'Idbanco', 'ReferenciaabonoTipo', 'ReferenciaabonoReferencia', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idreferenciaabono', 'idbanco', 'referenciaabonoTipo', 'referenciaabonoReferencia', ),
-        BasePeer::TYPE_COLNAME => array (ReferenciaabonoPeer::IDREFERENCIAABONO, ReferenciaabonoPeer::IDBANCO, ReferenciaabonoPeer::REFERENCIAABONO_TIPO, ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDREFERENCIAABONO', 'IDBANCO', 'REFERENCIAABONO_TIPO', 'REFERENCIAABONO_REFERENCIA', ),
-        BasePeer::TYPE_FIELDNAME => array ('idreferenciaabono', 'idbanco', 'referenciaabono_tipo', 'referenciaabono_referencia', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+        BasePeer::TYPE_PHPNAME => array ('Idreferenciaabono', 'Idbanco', 'ReferenciaabonoArchivo', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idreferenciaabono', 'idbanco', 'referenciaabonoArchivo', ),
+        BasePeer::TYPE_COLNAME => array (ReferenciaabonoPeer::IDREFERENCIAABONO, ReferenciaabonoPeer::IDBANCO, ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDREFERENCIAABONO', 'IDBANCO', 'REFERENCIAABONO_ARCHIVO', ),
+        BasePeer::TYPE_FIELDNAME => array ('idreferenciaabono', 'idbanco', 'referenciaabono_archivo', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, )
     );
 
     /**
@@ -83,21 +75,12 @@ abstract class BaseReferenciaabonoPeer
      * e.g. ReferenciaabonoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idreferenciaabono' => 0, 'Idbanco' => 1, 'ReferenciaabonoTipo' => 2, 'ReferenciaabonoReferencia' => 3, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idreferenciaabono' => 0, 'idbanco' => 1, 'referenciaabonoTipo' => 2, 'referenciaabonoReferencia' => 3, ),
-        BasePeer::TYPE_COLNAME => array (ReferenciaabonoPeer::IDREFERENCIAABONO => 0, ReferenciaabonoPeer::IDBANCO => 1, ReferenciaabonoPeer::REFERENCIAABONO_TIPO => 2, ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA => 3, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDREFERENCIAABONO' => 0, 'IDBANCO' => 1, 'REFERENCIAABONO_TIPO' => 2, 'REFERENCIAABONO_REFERENCIA' => 3, ),
-        BasePeer::TYPE_FIELDNAME => array ('idreferenciaabono' => 0, 'idbanco' => 1, 'referenciaabono_tipo' => 2, 'referenciaabono_referencia' => 3, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
-    );
-
-    /** The enumerated values for this table */
-    protected static $enumValueSets = array(
-        ReferenciaabonoPeer::REFERENCIAABONO_TIPO => array(
-            ReferenciaabonoPeer::REFERENCIAABONO_TIPO_CONSULTA,
-            ReferenciaabonoPeer::REFERENCIAABONO_TIPO_ADMISION,
-            ReferenciaabonoPeer::REFERENCIAABONO_TIPO_VENTA,
-        ),
+        BasePeer::TYPE_PHPNAME => array ('Idreferenciaabono' => 0, 'Idbanco' => 1, 'ReferenciaabonoArchivo' => 2, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idreferenciaabono' => 0, 'idbanco' => 1, 'referenciaabonoArchivo' => 2, ),
+        BasePeer::TYPE_COLNAME => array (ReferenciaabonoPeer::IDREFERENCIAABONO => 0, ReferenciaabonoPeer::IDBANCO => 1, ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO => 2, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDREFERENCIAABONO' => 0, 'IDBANCO' => 1, 'REFERENCIAABONO_ARCHIVO' => 2, ),
+        BasePeer::TYPE_FIELDNAME => array ('idreferenciaabono' => 0, 'idbanco' => 1, 'referenciaabono_archivo' => 2, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, )
     );
 
     /**
@@ -140,51 +123,6 @@ abstract class BaseReferenciaabonoPeer
     }
 
     /**
-     * Gets the list of values for all ENUM columns
-     * @return array
-     */
-    public static function getValueSets()
-    {
-      return ReferenciaabonoPeer::$enumValueSets;
-    }
-
-    /**
-     * Gets the list of values for an ENUM column
-     *
-     * @param string $colname The ENUM column name.
-     *
-     * @return array list of possible values for the column
-     */
-    public static function getValueSet($colname)
-    {
-        $valueSets = ReferenciaabonoPeer::getValueSets();
-
-        if (!isset($valueSets[$colname])) {
-            throw new PropelException(sprintf('Column "%s" has no ValueSet.', $colname));
-        }
-
-        return $valueSets[$colname];
-    }
-
-    /**
-     * Gets the SQL value for the ENUM column value
-     *
-     * @param string $colname ENUM column name.
-     * @param string $enumVal ENUM value.
-     *
-     * @return int SQL value
-     */
-    public static function getSqlValueForEnum($colname, $enumVal)
-    {
-        $values = ReferenciaabonoPeer::getValueSet($colname);
-        if (!in_array($enumVal, $values)) {
-            throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $colname));
-        }
-
-        return array_search($enumVal, $values);
-    }
-
-    /**
      * Convenience method which changes table.column to alias.column.
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
@@ -218,13 +156,11 @@ abstract class BaseReferenciaabonoPeer
         if (null === $alias) {
             $criteria->addSelectColumn(ReferenciaabonoPeer::IDREFERENCIAABONO);
             $criteria->addSelectColumn(ReferenciaabonoPeer::IDBANCO);
-            $criteria->addSelectColumn(ReferenciaabonoPeer::REFERENCIAABONO_TIPO);
-            $criteria->addSelectColumn(ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA);
+            $criteria->addSelectColumn(ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO);
         } else {
             $criteria->addSelectColumn($alias . '.idreferenciaabono');
             $criteria->addSelectColumn($alias . '.idbanco');
-            $criteria->addSelectColumn($alias . '.referenciaabono_tipo');
-            $criteria->addSelectColumn($alias . '.referenciaabono_referencia');
+            $criteria->addSelectColumn($alias . '.referenciaabono_archivo');
         }
     }
 

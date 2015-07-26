@@ -52,12 +52,6 @@ $this->headTitle($title);
                 <label for="test4">Nueva admisión</label>
             </p>
         </div>
-        <div id="agendarCita" class="col s4">
-            <p>
-                <input class="with-gap" name="grupo1" type="radio" id="test4"  />
-                <label for="test4">Agendar cita</label>
-            </p>
-        </div>
     </div>
     <div id="consulta" class="hiddendiv">
         <?php $consultaForm->prepare();?>
@@ -4886,10 +4880,6 @@ function anticipoTotalStatus(cargoconsultaArray){
     a.setAttribute ( 'data-tooltip', 'Editar' );
     a.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
 }
-
-$('#asignar-container').asignacion({
-    idpaciente:<?php echo $pacienteEntity->getIdpaciente()?>,
-});
 
 // Esta función no está en uso
 function eliminarTabla(){

@@ -124,6 +124,20 @@ return array(
             /*
              * Citas 
              */
+            'citas-agendar' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/agendarcita[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Citas\Controller\Agendarcita',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'citas' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -642,6 +656,7 @@ return array(
             'Pacientes\Servicio\Controller\Servicio'                            => 'Pacientes\Servicio\Controller\ServicioController',
             'Pacientes\Cargoconsulta\Controller\Cargoconsulta'                  => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
             'Pacientes\Citas\Controller\Citas'                                  => 'Pacientes\Citas\Controller\CitasController',
+            'Pacientes\Citas\Controller\Agendarcita'                            => 'Pacientes\Citas\Controller\AgendarcitaController',
             
             //Modulo Compras
             'Compras\Controller\Compras'                                        => 'Compras\Controller\ComprasController',

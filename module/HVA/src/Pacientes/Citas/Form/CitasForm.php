@@ -22,6 +22,7 @@ class CitasForm extends Form
             'name' => 'idmedico',
             'options' => array(
                 'label' => 'Medico',
+                'empty_option' => 'Seleccione medico',
                 'value_options' => $medicos
             ),
         ));
@@ -47,6 +48,9 @@ class CitasForm extends Form
             'type' => 'Textarea',
             'options' => array(
                 'label' => 'Nota *',
+            ),
+            'attributes' => array(
+                'class' => 'materialize-textarea',
             ),
         ));
  
