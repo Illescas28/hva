@@ -29,7 +29,7 @@ class HistoricoController extends AbstractActionController
         $consultas = \ConsultaQuery::create()->find();
         foreach ($consultas as $consulta){
             $tmp['fecha'] =  $consulta->getConsultaFecha('d-m-Y');
-            $hora =  date("g:i A", strtotime($consulta->getConsultaFecha('h:i')));
+            $hora =  date("g:i A", strtotime($consulta->getConsultaHora('h:i')));
             $tmp['hora'] = $hora;
             $tmp['id'] = 'CON-'.$consulta->getIdconsulta();
             $tmp['paciente'] = $consulta->getPaciente()->getPacienteNombre().' '.$consulta->getPaciente()->getPacienteAp().' '.$consulta->getPaciente()->getPacienteAm();
