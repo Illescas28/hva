@@ -122,7 +122,6 @@
                         success: function (response) {
                             
                             if(response.response == true){
-                                console.log(response);
                                 var tr = $('<tr>').attr('id',response.data.id).attr('data-time',response.data.fecha_js);
                                 tr.append('<td>'+response.data.fecha+'</td>');
                                 tr.append('<td class="banco_concepto" id='+$('input[name=idconcepto]').val()+'>'+$container.find('input[name=banco_concepto]').val()+'</td>');
