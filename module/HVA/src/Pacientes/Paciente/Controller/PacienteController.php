@@ -397,16 +397,15 @@ class PacienteController extends AbstractActionController
 
                 $admisionanticipoEliminado = \AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->findOne();
                 $admisionanticipoEliminadoArray = array();
-                if($admisionanticipoEliminado->getIdservicio() != null){
-                    $admisionanticipoEliminado = array(
-                        'idadmisionanticipo' => $admisionanticipoEliminado->getIdadmisionanticipo(),
-                        'idadmision' => $admisionanticipoEliminado->getIdadmision(),
-                        'admisionanticipo_fecha' => $admisionanticipoEliminado->getAdmisionanticipoFecha(),
-                        'admisionanticipo_cantidad' => $admisionanticipoEliminado->getAdmisionanticipoCantidad(),
-                        'admisionanticipo_nota' => $admisionanticipoEliminado->getAdmisionanticipoNota(),
-                    );
-                    array_push($admisionanticipoEliminadoArray, $admisionanticipoEliminado);
-                }
+                $admisionanticipoEliminado = array(
+                    'idadmisionanticipo' => $admisionanticipoEliminado->getIdadmisionanticipo(),
+                    'idadmision' => $admisionanticipoEliminado->getIdadmision(),
+                    'admisionanticipo_fecha' => $admisionanticipoEliminado->getAdmisionanticipoFecha(),
+                    'admisionanticipo_cantidad' => $admisionanticipoEliminado->getAdmisionanticipoCantidad(),
+                    'admisionanticipo_nota' => $admisionanticipoEliminado->getAdmisionanticipoNota(),
+                );
+                array_push($admisionanticipoEliminadoArray, $admisionanticipoEliminado);
+
                 \AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->delete();
 
                 $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();

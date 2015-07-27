@@ -8159,6 +8159,8 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                                 }
                                 if(j == 3){
 
+                                    /*
+
                                     var link3 = document.createElement("a");
                                     link3.id = 'eliminarAdmisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"];
                                     var eliminar = document.createElement("i");
@@ -8166,8 +8168,8 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                                     link3.appendChild(eliminar);
                                     celda.appendChild(link3);
                                     hilera.appendChild(celda);
+                                        */
 
-                                    /*
                                     var link2 = document.createElement("a");
                                     link2.className = "modal-trigger";
                                     link2.setAttribute ( 'data-position', 'right' );
@@ -8350,7 +8352,6 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                                     divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalFooterDelete);
                                     divcargosAdmisionDelete.appendChild(divDeleteModalCargoadmisionDelete);
                                     <!-- End Delete Modal Structure -->
-                                    */
                                 }
                             }
 
@@ -8367,7 +8368,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                         tabla.appendChild(tblBody);
 
                         // Si dan clic en eliminarAnticipoadmision-id
-                        $("#eliminarAdmisionanticipo-"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
+                        $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
 
                             alert("Entro");
                             //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
@@ -8382,32 +8383,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                                 success: function(data) {
                                     alert("Se eliminó exitosamente el anticipo por la cantidad de: "+cantidad+" MXN")
 
-                                    admisionanticipoArray = []
-                                    var admisionanticipoEntity = data.admisionanticipoArray
-                                    if(admisionanticipoEntity){
-                                        $.each( admisionanticipoEntity, function( key, value ) {
-                                            admisionanticipoArray.push({
-                                                "idadmisionanticipo" : value.idadmisionanticipo,
-                                                "idadmision" : value.idadmision,
-                                                "admisionanticipo_fecha" : value.admisionanticipo_fecha,
-                                                "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
-                                                "admisionanticipo_nota" : value.admisionanticipo_nota
-                                            });
-                                        });
-                                    }
-
-                                    tablaCargoadmisionArticuloEliminado(cargoadmisionArray)
-                                    tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray)
-                                    cargoadmisionEliminadoArray = []
-                                    var cargoadmisionEliminado = data.cargoadmisionEliminadoArray
-                                    if(cargoadmisionEliminado){
-                                        $.each( cargoadmisionEliminado, function( key, value ) {
-                                            cargoadmisionEliminadoArray.push({
-                                                "subtotal" : value.subtotal
-                                            });
-                                        });
-                                    }
-                                    subTotalResponse(status, -(cargoadmisionEliminadoArray[0]['subtotal']), null, 'admision')
+                                    subTotalResponse('no pagada', +(cantidad), null, 'admision', -(cantidad))
                                 },
                                 error: function(){
                                     alert("Error al intentar eliminar el anticipo por la cantidad de: "+cantidad+" MXN")
