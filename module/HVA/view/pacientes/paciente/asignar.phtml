@@ -178,7 +178,7 @@ $this->headTitle($title);
                 </div>
                 <?php echo $this->form()->closeTag(); ?>
                 <div class="right col s4">
-                    <button id="botonAltaPacienteConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Consulta
+                    <button id="botonAltaPacienteConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" name="action">Alta Paciente - Consulta
                         <i class="mdi-action-accessibility left"></i>
                     </button>
                 </div>
@@ -8069,6 +8069,62 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         return false;
 
     });
+
+    $("#botonAltaPacienteConsulta").click(function() {
+        if(status == 'pagada'){
+
+            var idconsultorio = $("select#idconsultorio").val();
+
+            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+            var dataString = 'alta_consultorio=true'+'&idconsultorio='+idconsultorio;
+            $.ajax({
+                type: "POST",
+                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                dataType : 'json',
+                data: dataString,
+                jsonpCallback: 'callback',
+                success: function(data) {
+
+                    // Deshabilitamos el boton botonAltaPacienteConsulta
+                    $("#botonAltaPacienteConsulta").addClass('disabled')
+
+                },
+                error: function(){
+                    alert("Error al intentar deshabilitar el botón")
+                }
+            });
+            return false;
+        }
+
+    });
+
+    $("#botonAltaPacienteAdmision").click(function() {
+
+        if(status == 'pagada'){
+
+            var idcuarto = $("select#idcuarto").val();
+
+            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+            var dataString = 'alta_cuarto=true'+'&idcuarto='+idcuarto;
+            $.ajax({
+                type: "POST",
+                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                dataType : 'json',
+                data: dataString,
+                jsonpCallback: 'callback',
+                success: function(data) {
+
+                    // Deshabilitamos el boton botonAltaPacienteAdmision
+                    $("#botonAltaPacienteAdmision").addClass('disabled')
+
+                },
+                error: function(){
+                    alert("Error al intentar deshabilitar el botón")
+                }
+            });
+            return false;
+        }
+    });
 }
 
 function generaTablaAdmisionanticipo(admisionanticipoArray) {
@@ -8447,4 +8503,5 @@ function pagoConsulta() {
         $('#pagoConsulta').removeClass('hiddendiv')
     }
 }
+
 </script>

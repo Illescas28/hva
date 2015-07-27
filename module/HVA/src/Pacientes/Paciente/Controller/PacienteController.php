@@ -215,6 +215,35 @@ class PacienteController extends AbstractActionController
 
         $request = $this->getRequest();
 
+        // Start Alta paciente - consulta alta_consultorio = true
+        if($request->getPost()->alta_consultorio == "true"){
+            if(\ConsultorioQuery::create()->filterByIdconsultorio($request->getPost()->idconsultorio)->exists()){
+
+                $consultorioActualizar = \ConsultorioQuery::create()->filterByIdconsultorio($request->getPost()->idconsultorio)->findOne();
+                $consultorioActualizar->setConsultorioEnuso(0)->save();
+                $consultorioArray = $consultorioActualizar->toArray(BasePeer::TYPE_FIELDNAME);
+                return new JsonModel(array(
+                    'consultorioArray' => $consultorioArray,
+                ));
+            }
+        }
+        // End Alta paciente - consulta alta_consultorio = true
+
+        // Start Alta paciente - admision alta_cuarto = true
+        if($request->getPost()->alta_cuarto == "true"){
+            if(\CuartoQuery::create()->filterByIdcuarto($request->getPost()->idcuarto)->exists()){
+
+                $cuartoActualizar = \CuartoQuery::create()->filterByIdcuarto($request->getPost()->idcuarto)->findOne();
+                $cuartoActualizar->setCuartoEnuso(0)->save();
+                $cuartoArray = $cuartoActualizar->toArray(BasePeer::TYPE_FIELDNAME);
+                return new JsonModel(array(
+                    'cuartoArray' => $cuartoArray,
+                ));
+            }
+        }
+        // End Alta paciente - consulta alta_cuarto = true
+
+
         // Start Actualizar admision_status = pagada
         if($request->getPost()->subTotalAdmision == "0"){
             if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
@@ -379,6 +408,7 @@ class PacienteController extends AbstractActionController
                         $admisionanticipo = array(
                             'idadmisionanticipo' => $admisionanticipoEntity->getIdadmisionanticipo(),
                             'idadmision' => $admisionanticipoEntity->getIdadmision(),
+                            'idcuarto' => $admisionanticipoEntity->getIdcuarto(),
                             'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
                             'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
                             'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionAnticipoNota()
