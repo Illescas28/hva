@@ -178,7 +178,7 @@ $this->headTitle($title);
                 </div>
                 <?php echo $this->form()->closeTag(); ?>
                 <div class="right col s4">
-                    <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Consulta
+                    <button id="botonAltaPacienteConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Consulta
                         <i class="mdi-action-accessibility left"></i>
                     </button>
                 </div>
@@ -288,7 +288,7 @@ $this->headTitle($title);
                 </div>
                 <?php echo $this->form()->closeTag(); ?>
                 <div class="right col s4">
-                    <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Admisión
+                    <button id="botonAltaPacienteAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Admisión
                         <i class="mdi-action-accessibility left"></i>
                     </button>
                 </div>
@@ -7422,6 +7422,7 @@ function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
 var subTotal = 0;
 var anticipoCantidad = 0;
 var admision_tipodepago = "no identificado";
+var cuentaPagada = false;
 function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, admisionanticipoCantidad=null, admisionTipodepago="no identificado") {
 
     // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
@@ -7452,6 +7453,11 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                 alert("Cuenta pagada.")
 
                 // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+                cuentaPagada = true;
+                $("#botonAltaPacienteAdmision").removeClass('disabled')
+                $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                $('#buttonGenerarFacturaAdmision').removeClass('disabled')
+                $("#buttonGenerarNotaAdmision").removeClass('disabled')
 
             },
             error: function(){
@@ -7704,6 +7710,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipoAdmision");
         divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo.dir;
         var buttonPagarAnticipo = document.createElement('button')
+        buttonPagarAnticipo.setAttribute ( 'id', 'butonPagarAnticipoAdmision' );
         buttonPagarAnticipo.setAttribute ( 'href', '#create-modal-pagar-admision' );
         buttonPagarAnticipo.className = "modal-trigger btn waves-effect waves-light";
         buttonPagarAnticipo.style.width = "100%";
@@ -7790,17 +7797,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                     });
                 });
 
-                admisionanticipoAgregadoArray = []
-                var admisionanticipoAgregado = data.admisionanticipoAgregadoArray
-                if(admisionanticipoAgregado){
-                    $.each( admisionanticipoAgregado, function( key, value ) {
-                        admisionanticipoAgregadoArray.push({
-                            "admisionanticipo_cantidad" : value.admisionanticipo_cantidad
-                        });
-                    });
-                }
+                subTotalResponse(status, -(anticipoAdmision), null, 'admision', anticipoAdmision)
 
-                subTotalResponse(status, -(admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad']), null, 'admision', admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad'])
             },
             error: function(data){
                 alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
@@ -7847,16 +7845,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                     });
                 });
 
-                admisionanticipoAgregadoArray = []
-                var admisionanticipoAgregado = data.admisionanticipoAgregadoArray
-                if(admisionanticipoAgregado){
-                    $.each( admisionanticipoAgregado, function( key, value ) {
-                        admisionanticipoAgregadoArray.push({
-                            "admisionanticipo_cantidad" : value.admisionanticipo_cantidad
-                        });
-                    });
-                }
-                subTotalResponse(status, -(admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad']), null, 'admision', admisionanticipoAgregadoArray[0]['admisionanticipo_cantidad'], $("#select_metodo_de_pago").val())
+                subTotalResponse(status, -(pagoAdmision), null, 'admision', pagoAdmision, $("#select_metodo_de_pago").val())
             },
             error: function(data){
                 alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
@@ -7895,8 +7884,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                 // será un modal
                 generaTablaAdmisionanticipo(admisionanticipoArray)
                 $('#tabla-admisionanticipo').openModal();
-
-                // Aqui me quede !!!!
+                // esta linea ayuda a crear los modal de la eliminación o edicion de anticipos
+                $('.modal-trigger').leanModal();
 
             },
             error: function(){
@@ -7906,6 +7895,10 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         return false;
 
     });
+
+    if(cuentaPagada == true){
+
+    }
 }
 
 function generaTablaAdmisionanticipo(admisionanticipoArray) {
@@ -7969,7 +7962,6 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
 
                             // Crea las hileras de la tabla
                             var hilera = document.createElement("tr");
-                            hilera.className = "pointer";
                             // Le agregamos un id a la entidad <th>
                             hilera.setAttribute('id', 'entidadServicio-' + admisionanticipoArray[i]["idadmisionanticipo"])
 
@@ -7997,18 +7989,19 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                                 }
                                 if(j == 3){
                                     var link2 = document.createElement("a");
-                                    link2.className = "tooltipped";
+                                    link2.className = "modal-trigger";
                                     link2.setAttribute ( 'data-position', 'right' );
-                                    link2.setAttribute ( 'data-tooltip', 'Editar' );
+                                    link2.setAttribute ( 'data-tooltip', 'EditarAdmisionanticipo' );
                                     link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
                                     var editar = document.createElement("i");
                                     editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
 
                                     var link3 = document.createElement("a");
-                                    link3.className = "tooltipped";
+                                    link3.className = "tooltipped modal-trigger";
                                     link3.setAttribute ( 'data-position', 'right' );
-                                    link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                                    link3.setAttribute ( 'data-tooltip', 'EliminarAdmisionanticipo' );
                                     link3.setAttribute ( 'href', '#delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                                    //link3.setAttribute ( 'id', 'delete-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
                                     var eliminar = document.createElement("i");
                                     eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
                                     link2.appendChild(editar);
@@ -8195,6 +8188,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                         // Si dan clic en eliminarAnticipoadmision-id
                         $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
 
+                            alert("Entro");
                             //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
                             var dataString = 'eliminar_admisionanticipo=true'+'&idadmisionanticipo=' + idadmisionanticipo + '&idadmision=' + idadmision + '&cantidad=' + cantidad;
 
@@ -8241,6 +8235,17 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                             return false;
 
                         });
+
+                        /*
+                        // Si dan clic en delete-modal-admisionanticipo-id
+                        $("#delete-admisionanticipo-"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo},function() {
+
+                            alert("Entro");
+                            $('#tabla-admisionanticipo').closeModal();
+                            $('#delete-modal-admisionanticipo-'+idadmisionanticipo).openModal();
+
+                        });
+                        */
 
                     divModalContentTablaAdmisionanticipo.appendChild(tabla);
 
