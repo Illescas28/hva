@@ -128,7 +128,7 @@ class PacienteController extends AbstractActionController
                 $paciente = \PacienteQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->findOne();
             }
             if($paciente != null){
-                array_push($pacienteArray, $paciente);
+                array_push($pacienteArray, $pacienteValue);
             }
         }
         $this->flashMessenger()->addMessage('Paciente guardado exitosamente!');
@@ -149,6 +149,22 @@ class PacienteController extends AbstractActionController
             'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
         */
+    }
+
+    public function historicoAction()
+    {
+        $pacienteQuery = \PacienteQuery::create()->find();
+        $pacienteArray = array();
+        foreach($pacienteQuery as $pacienteValue){
+
+            array_push($pacienteArray, $pacienteValue);
+
+        }
+
+        return new ViewModel(array(
+            'pacientes' => $pacienteArray,
+        ));
+
     }
 
     public function actualesAction()
@@ -1376,13 +1392,11 @@ class PacienteController extends AbstractActionController
         }
         //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
-            return $this->redirect()->toRoute('pacientes', array(
-                'action' => 'listar'
-            ));
+            return $this->redirect()->toRoute('pacientes');
         }
 
         //Instanciamos nuestro paciente
-        $paciente = PacienteQuery::create()->findPk($id);
+        $paciente = PacienteQuery::create()->filterByIdpaciente($id)->findOne();
 
         //Instanciamos nuestro formulario
         $pacienteForm = new PacienteForm();
@@ -1411,8 +1425,10 @@ class PacienteController extends AbstractActionController
                     }
                 }
 
-                //Guardamos en nuestra base de datos
-                $paciente->save();
+                if($paciente->isModified()){
+                    //Guardamos en nuestra base de datos
+                    $paciente->save();
+                }
 
                 //Agregamos un mensaje
                 $this->flashMessenger()->addMessage('Paciente guardado exitosamente!');
