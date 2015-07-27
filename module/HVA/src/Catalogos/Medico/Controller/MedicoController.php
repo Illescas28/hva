@@ -204,8 +204,18 @@ class MedicoController extends AbstractActionController
 
             //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('medico');
-            
+    }
+    
+    public  function getmedicosAction(){
+        $collection = MedicoQuery::create()->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
         
-
+        $autcomplete = array();
+        
+        foreach ($collection as $entity){
+            $tmp['value'] = $entity["idmedico"];
+            $tmp['label'] = $entity["medico_nombre"].' '.$entity['medico_apellidopaterno'].' '.$entity['medico_apellidomaterno'];
+            $conceptos_autcomplete[] = $tmp;
+        }
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($conceptos_autcomplete));
     }
 }

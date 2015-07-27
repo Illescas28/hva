@@ -56,7 +56,7 @@ return array(
                 'options' => array(
                     'route'    => '/pacientes[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|asignar|editar|eliminar|actuales|detalles',
+                        'action' => 'nuevo|asignar|editar|eliminar|actuales|detalles|getpacientes',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
@@ -117,6 +117,20 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Pacientes\Consultaanticipo\Controller\Consultaanticipo',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'pacientes-historico' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/historico[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Historico\Controller\Historico',
                         'action'     => 'listar',
                     ),
                 ),
@@ -280,7 +294,7 @@ return array(
                 'options' => array(
                     'route'    => '/catalogos/medico[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
+                        'action' => 'nuevo|editar|eliminar|getmedicos',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
@@ -650,6 +664,7 @@ return array(
             'Productos\Precios\Controller\Precios'                              =>   'Productos\Precios\Controller\PreciosController',
             'Pacientes\Consultaanticipo\Controller\Consultaanticipo'            => 'Pacientes\Consultaanticipo\Controller\ConsultaanticipoController',
             'Pacientes\Admisionanticipo\Controller\Admisionanticipo'            => 'Pacientes\Admisionanticipo\Controller\AdmisionanticipoController',
+            'Pacientes\Historico\Controller\Historico'                          => 'Pacientes\Historico\Controller\HistoricoController',
             // Módulo Pacientes
             'Pacientes\Paciente\Controller\Paciente'                            => 'Pacientes\Paciente\Controller\PacienteController',
             'Pacientes\Consultorio\Controller\Consultorio'                      => 'Pacientes\Consultorio\Controller\ConsultorioController',
