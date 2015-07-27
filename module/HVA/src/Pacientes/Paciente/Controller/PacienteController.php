@@ -762,11 +762,43 @@ class PacienteController extends AbstractActionController
                     $ordencompradetalleArray = array();
                     $lugarNombre = null;
                     foreach($ordencompradetalleQuery as $ordencompradetalleEntity){
+                        /*
                         foreach($ordencompradetalleEntity->getLugarinventarios()->getArrayCopy() as $lugarinventarioEntity){
                             $idlugarinventario = $lugarinventarioEntity->getIdlugarinventario();
                             $lugarNombre = $lugarinventarioEntity->getLugar()->getLugarNombre();
                             $lugarinventarioCantidad = $lugarinventarioEntity->getLugarinventarioCantidad();
                             $articuloNombre = $ordencompradetalleEntity->getArticulovariante()->getArticulo()->getArticuloNombre();
+
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                $propiedadNombre = $propiedadQuery->getPropiedadNombre();
+                            }
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                            }
+                        }
+                        */
+
+                        foreach($ordencompradetalleEntity->getLugarinventarios()->getArrayCopy() as $lugarinventarioEntity){
+                            $idlugarinventario = $lugarinventarioEntity->getIdlugarinventario();
+                            $lugarNombre = $lugarinventarioEntity->getLugar()->getLugarNombre();
+                            $lugarinventarioCantidad = $lugarinventarioEntity->getLugarinventarioCantidad();
+                            $articuloNombre = $ordencompradetalleEntity->getArticulovariante()->getArticulo()->getArticuloNombre();
+
+                            /*
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                $propiedadNombre = $propiedadQuery->getPropiedadNombre();
+                                array_push($propiedadArray, $propiedadNombre);
+
+                            }
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                array_push($propiedadValorArray, $propiedadvalorNombre);
+                            }
+                            */
 
                             $propiedadvalorNombre = null;
                             foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
@@ -779,8 +811,8 @@ class PacienteController extends AbstractActionController
                         $ordencompradetalle = array(
                             'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
                             'idlugarinventario' => $idlugarinventario,
-                            'cargoconsulta_tipo' => 'articulo',
-                            'cargoconsulta_fecha' => date('Y-m-d H:i:s'),
+                            'cargoadmision_tipo' => 'articulo',
+                            'cargoadmision_fecha' => date('Y-m-d H:i:s'),
                             'ordencompradetalle_caducidad' => $ordencompradetalleEntity->getOrdencompradetalleCaducidad(),
                             'existencia' => $lugarinventarioCantidad,
                             'articulo' => $articuloNombre,
@@ -788,9 +820,11 @@ class PacienteController extends AbstractActionController
                             'precio' => $ordencompradetalleEntity->getArticulovariante()->getArticulovariantePrecio(),
                             'salida' => $lugarNombre,
                         );
+
                         array_push($ordencompradetalleArray, $ordencompradetalle);
                     }
                 }
+
 
                 return new JsonModel(array(
                     'ordencompradetalleArray' => $ordencompradetalleArray
@@ -874,6 +908,7 @@ class PacienteController extends AbstractActionController
                     }
                 }
 
+
                 if($ordencompradetalleQuery->getArrayCopy()){
                     $ordencompradetalleArray = array();
                     $lugarNombre = null;
@@ -936,6 +971,7 @@ class PacienteController extends AbstractActionController
                             'precio' => $ordencompradetalleEntity->getArticulovariante()->getArticulovariantePrecio(),
                             'salida' => $lugarNombre,
                         );
+
                         array_push($ordencompradetalleArray, $ordencompradetalle);
                     }
                 }
