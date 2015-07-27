@@ -86,9 +86,12 @@ class MovimientosController extends AbstractActionController
           }
           
           $banco->save();
-
+          
+          $fecha = new \DateTime($banco->getBancoFecha());
+          $fechaJS = $fecha->format('m/d/Y');
+          $fecha = $fecha->format('d-m-Y');
           if(!$banco->isPrimaryKeyNull()){
-              return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('id' => $banco->getIdbanco(),'fecha' => $banco->getBancoFecha('d-m-Y'),'fecha_js' => $banco->getBancoFecha('m/d/Y')))));
+              return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('id' => $banco->getIdbanco(),'fecha' => $fecha,'fecha_js' => $fechaJS))));
           }else{
               return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false)));
           }
