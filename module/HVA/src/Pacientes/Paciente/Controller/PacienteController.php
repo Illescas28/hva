@@ -22,8 +22,10 @@ use Pacientes\Cargoadmision\Filter\CargoadmisionFilter;
 
 //// Form ////
 use Pacientes\Admisionanticipo\Form\AdmisionanticipoForm;
+use Pacientes\Consultaanticipo\Form\ConsultaanticipoForm;
 //// Filter ////
 use Pacientes\Admisionanticipo\Filter\AdmisionanticipoFilter;
+use Pacientes\Consultaanticipo\Filter\ConsultaanticipoFilter;
 
 //// Propel ////
 use Paciente;
@@ -213,8 +215,8 @@ class PacienteController extends AbstractActionController
 
         $request = $this->getRequest();
 
-        // Start Actualizar admision_tatus = pagada
-        if($request->getPost()->subTotal == "0"){
+        // Start Actualizar admision_status = pagada
+        if($request->getPost()->subTotalAdmision == "0"){
             if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
 
                 $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
@@ -225,7 +227,21 @@ class PacienteController extends AbstractActionController
                 ));
             }
         }
-        // End Actualizar admision_tatus = pagada
+        // End Actualizar admision_status = pagada
+
+        // Start Actualizar consulta_status = pagada
+        if($request->getPost()->subTotalConsulta == "0"){
+            if(\ConsultaQuery::create()->filterByIdconsulta($request->getPost()->idconsulta)->exists()){
+
+                $consultaActualizarStatus = \ConsultaQuery::create()->filterByIdconsulta($request->getPost()->idconsulta)->findOne();
+                $consultaActualizarStatus->setConsultaStatus($request->getPost()->consulta_status)->setConsultaTipodepago($request->getPost()->consulta_tipodepago)/*->setConsultaPagadaen(date('Y-m-d H:i:s'))*/->setConsultaFacturada(0)->setConsultaTotal($request->getPost()->consulta_total)->save();
+                $consultaArray = $consultaActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
+                return new JsonModel(array(
+                    'consultaArray' => $consultaArray,
+                ));
+            }
+        }
+        // End Actualizar consulta_status = pagada
 
         // Start Eliminar cargoadmision
         if($request->getPost()->idcargoadmision){
@@ -600,6 +616,38 @@ class PacienteController extends AbstractActionController
             ));
         }
         // Fin Pago Admision
+
+        // Inicio Pago Consulta
+        //Intanciamos nuestro formulario consultaanticipo
+        $consultaanticipoForm = new ConsultaanticipoForm();
+        //Instanciamos nuestro filtro
+        $consultaanticipoFilter = new ConsultaanticipoFilter();
+        //Le ponemos nuestro filtro a nuesto fromulario
+        $consultaanticipoForm->setInputFilter($consultaanticipoFilter->getInputFilter());
+
+        //Le ponemos los datos a nuestro formulario
+        $consultaanticipoForm->setData($request->getPost());
+
+        //Validamos nuestro formulario
+        if($consultaanticipoForm->isValid()){
+
+            $consultaanticipo = new \Consultaanticipo();
+
+            //Recorremos nuestro formulario y seteamos los valores a nuestro objeto consultaanticipo
+            foreach ($consultaanticipoForm->getData() as $consultaanticipoKey => $consultaanticipoValue){
+                $consultaanticipo->setByName($consultaanticipoKey, $consultaanticipoValue, \BasePeer::TYPE_FIELDNAME);
+            }
+            $consultaanticipo->setConsultaanticipoFecha(date('Y-m-d H:i:s'));
+            //Guardamos en nuestra base de datos
+            $consultaanticipo->save();
+
+            $consultaanticipoArray = \ConsultaanticipoQuery::create()->filterByIdconsultaanticipo($consultaanticipo->getIdconsultaanticipo())->findOne()->toArray(\BasePeer::TYPE_FIELDNAME);
+
+            return new JsonModel(array(
+                'consultaanticipoArray' => $consultaanticipoArray,
+            ));
+        }
+        // Fin Pago Consulta
 
         $id = (int) $this->params()->fromRoute('id', 0);
         if($id){

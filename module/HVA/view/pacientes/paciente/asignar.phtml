@@ -308,8 +308,8 @@ $this->headTitle($title);
             <div id="totalSuperior" class="col s9">
                 <!-- Aquí agregamos los elementos con javascript -->
             </div>
-            <div id="nuevoCargoConsultaArticulo" class=" col s3 offset-s9">
-                <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+            <div class=" col s3 offset-s9">
+                <a id="nuevoCargoConsultaArticulo" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
             </div>
             <div id="cargoconsultaArticuloResult" class="col s12">
                 <table class="hoverable striped">
@@ -411,8 +411,8 @@ $this->headTitle($title);
             </div>
             <br>
             <br>
-            <div id="nuevoCargoConsultaServicio" class=" col s3 offset-s9">
-                <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
+            <div class=" col s3 offset-s9">
+                <a id="nuevoCargoConsultaServicio" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
             </div>
             <!-- Create Modal Structure -->
             <div id="create-modal-cargoconsulta-servicio" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
@@ -518,7 +518,7 @@ $this->headTitle($title);
                     <div class="modal-content">
                         <div class="row">
                             <fieldset>
-                                <legend>Registro de Anticipo/Pago</legend>
+                                <legend>Registro de Pago</legend>
                                 <div class="col s12">
                                     <div id="radioPagoConsulta" class="col s4">
                                         <p onclick="javascript:pagoConsulta();" >
@@ -561,8 +561,8 @@ $this->headTitle($title);
             <div id="totalSuperiorAdmision" class="col s9">
                 <!-- Aquí agregamos los elementos con javascript -->
             </div>
-            <div id="nuevoCargoAdmisionArticulo" class=" col s3 offset-s9">
-                <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+            <div class=" col s3 offset-s9">
+                <a id="nuevoCargoAdmisionArticulo" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
             </div>
             <!-- Create Modal Structure -->
             <div id="create-modal-cargoadmision-articulo" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
@@ -666,8 +666,8 @@ $this->headTitle($title);
             </div>
             <br>
             <br>
-            <div id="nuevoCargoAdmisionServicio" class=" col s3 offset-s9">
-                <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
+            <div class=" col s3 offset-s9">
+                <a id="nuevoCargoAdmisionServicio" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
             </div>
             <!-- Create Modal Structure -->
             <div id="create-modal-cargoadmision-servicio" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
@@ -7423,50 +7423,175 @@ var subTotal = 0;
 var anticipoCantidad = 0;
 var admision_tipodepago = "no identificado";
 var cuentaPagada = false;
-function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, admisionanticipoCantidad=null, admisionTipodepago="no identificado") {
+function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado") {
 
     // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
     subTotal += subTotalArticulo+subTotalServicio;
     if (isNaN(subTotal)) subTotal = 0;
 
-    anticipoCantidad += Number(admisionanticipoCantidad);
+    anticipoCantidad += Number(AnticipoCantidad);
 
     if(subTotal == 0){
 
         status = 'pagada';
-        var admision_tipodepago = admisionTipodepago;
 
-        var idadmision = $("input#idadmision").val();
+        if(tipo == "consulta"){
 
-        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'subTotal=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago;
+            var consulta_tipodepago = Tipodepago;
 
-        $.ajax({
-            type: "POST",
-            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            dataType : 'json',
-            data: dataString,
-            jsonpCallback: 'callback',
-            success: function(data) {
+            var idconsulta = $("input#idconsulta").val();
 
-                alert("Cuenta pagada.")
+            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+            var dataString = 'subTotalConsulta=' + subTotal + '&idconsulta=' + idconsulta + '&consulta_status=' + status + '&consulta_total=' + anticipoCantidad + "&consulta_tipodepago=" + consulta_tipodepago;
 
-                // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
-                cuentaPagada = true;
-                $("#botonAltaPacienteAdmision").removeClass('disabled')
-                $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                $('#buttonGenerarFacturaAdmision').removeClass('disabled')
-                $("#buttonGenerarNotaAdmision").removeClass('disabled')
+            $.ajax({
+                type: "POST",
+                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                dataType : 'json',
+                data: dataString,
+                jsonpCallback: 'callback',
+                success: function(data) {
 
-            },
-            error: function(){
-                alert("Error al intentar liquidar la cuenta.")
-            }
-        });
+                    alert("Cuenta liquidada.")
+
+                    // Cerramos modal
+                    $("#create-modal-pagar-consulta").closeModal()
+                    // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+                    $("#nuevoCargoConsultaArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#nuevoCargoConsultaServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#butonPagarAnticipoConsulta").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#botonAltaPacienteConsulta").removeClass('disabled')
+                    $('#buttonGenerarFacturaConsulta').removeClass('disabled')
+                    $("#buttonGenerarNotaConsulta").removeClass('disabled')
+                    $( "a" ).off();
+                },
+                error: function(){
+                    alert("Error al intentar liquidar la cuenta.")
+                }
+            });
+        }
+
+        if(tipo == "admision"){
+
+            anticipoCantidad += Number(AnticipoCantidad);
+
+            var admision_tipodepago = Tipodepago;
+
+            var idadmision = $("input#idadmision").val();
+
+            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+            var dataString = 'subTotalAdmision=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago;
+
+            $.ajax({
+                type: "POST",
+                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                dataType : 'json',
+                data: dataString,
+                jsonpCallback: 'callback',
+                success: function(data) {
+
+                    alert("Cuenta liquidada.")
+
+                    // Cerramos modal
+                    $("#create-modal-pagar-admision").closeModal()
+                    // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+                    $("#nuevoCargoAdmisionArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#nuevoCargoAdmisionServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#verAdmisionanticipo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#botonAltaPacienteAdmision").removeClass('disabled')
+                    $('#buttonGenerarFacturaAdmision').removeClass('disabled')
+                    $("#buttonGenerarNotaAdmision").removeClass('disabled')
+                    $( "a" ).off();
+
+                },
+                error: function(){
+                    alert("Error al intentar liquidar la cuenta.")
+                }
+            });
+        }
     }
 
     if(tipo == "consulta"){
+
+        // Creamos los elementos de Pago Consulta
+        var pagoConsulta = document.getElementById("pagoConsulta");
+        pagoConsulta.innerHTML = pagoConsulta.dir;
+
+        var divCantidadRestantePago = document.createElement('div')
+        divCantidadRestantePago.className = "col s12";
+        var spanPago = document.createElement('span')
+        var cantidadRestantePago = document.createTextNode("Cantidad restante: "+subTotal);
+        spanPago.appendChild(cantidadRestantePago);
+        divCantidadRestantePago.appendChild(spanPago);
+        pagoConsulta.appendChild(divCantidadRestantePago);
+        var br1 = document.createElement('br')
+        pagoConsulta.appendChild(br1);
+
+        var divMetodoDePago = document.createElement('div')
+        divMetodoDePago.className = "col s12";
+        divMetodoDePago.setAttribute ( 'id', 'divMetodoDePago' );
+        var spanMetodoDePago = document.createElement('span')
+        var metodoDePago = document.createTextNode("Método de pago: ");
+        spanMetodoDePago.appendChild(metodoDePago);
+        divMetodoDePago.appendChild(spanMetodoDePago);
+
+        var select = document.createElement('select');
+        select.style.display = "inline";
+        select.style.width = "auto";
+        select.style.height = "auto";
+        select.setAttribute ( 'id', 'select_metodo_de_pago' );
+        var metodosArray = ["Efectivo", "Tarjeta de crédito", "Tarjeta de débito", "Cheque", "No identificado"];
+        // agregamos los valores <option> a seleccionar
+        for($i=0; $i<=metodosArray.length; $i++){
+            var selectOption = new Option(metodosArray[$i],metodosArray[$i]);
+            select.appendChild(selectOption);
+        }
+        divMetodoDePago.appendChild(select);
+
+        var span2 = document.createElement('span')
+        var espacio = document.createTextNode("   ");
+        span2.appendChild(espacio);
+        divMetodoDePago.appendChild(span2);
+
+        var inputMetodoDePago = document.createElement('input')
+        inputMetodoDePago.style.width = "auto";
+        inputMetodoDePago.setAttribute ( 'id', 'input_pago_consulta' );
+        inputMetodoDePago.setAttribute ( 'type', 'text' );
+        inputMetodoDePago.setAttribute ( 'name', 'pago' );
+        inputMetodoDePago.setAttribute ( 'value', subTotal );
+        inputMetodoDePago.setAttribute ( 'readonly', 'readonly');
+        divMetodoDePago.appendChild(inputMetodoDePago);
+        pagoConsulta.appendChild(divMetodoDePago);
+
+        var divInputNotaPago = document.createElement('div')
+        divInputNotaPago.className = "input-field col s12";
+        var inputNotaPago = document.createElement('input')
+        inputNotaPago.setAttribute ( 'id', 'input_nota_pago' );
+        inputNotaPago.setAttribute ( 'type', 'text' );
+        inputNotaPago.setAttribute ( 'name', 'nota_pago' );
+        divInputNotaPago.appendChild(inputNotaPago);
+        var labelNotaPago = document.createElement('label')
+        var notaPago = document.createTextNode("Nota")
+        labelNotaPago.appendChild(notaPago);
+        labelNotaPago.setAttribute ( 'for', 'input_nota_pago' );
+        divInputNotaPago.appendChild(labelNotaPago);
+        pagoConsulta.appendChild(divInputNotaPago);
+
+        var divBotonPagar = document.createElement('div')
+        divBotonPagar.className = "right col s4";
+        divBotonPagar.setAttribute ( 'id', 'divBotonConsultaPagarPago' );
+        var botonPagar = document.createElement('button')
+        botonPagar.className = "btn waves-effect waves-light";
+        botonPagar.style.width = "auto";
+        botonPagar.style.height = "45px";
+        botonPagar.style.marginTop = "20px";
+        var textBotonPagar = document.createTextNode("Pagar");
+        botonPagar.appendChild(textBotonPagar);
+        divBotonPagar.appendChild(botonPagar);
+        pagoConsulta.appendChild(divBotonPagar);
+        // Creamos los elementos de Pago Consulta
 
         var divTotalSuperior = document.getElementById("totalSuperior");
         divTotalSuperior.innerHTML = divTotalSuperior.dir;
@@ -7492,21 +7617,22 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipoConsulta");
         divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo.dir;
         var buttonPagarAnticipo = document.createElement('button')
+        buttonPagarAnticipo.setAttribute ( 'id', 'butonPagarAnticipoConsulta' );
         buttonPagarAnticipo.setAttribute ( 'href', '#create-modal-pagar-consulta' );
+        buttonPagarAnticipo.className = "modal-trigger btn waves-effect waves-light";
         buttonPagarAnticipo.style.width = "100%";
         buttonPagarAnticipo.style.height = "45px";
-        buttonPagarAnticipo.style.marginTop = "20px";
-        buttonPagarAnticipo.className = "btn waves-effect waves-light";
-        buttonPagarAnticipo.setAttribute ( 'type', 'submit' );
+        buttonPagarAnticipo.style.marginTop = "53px";
         var textoButtonPagarAnticipo = document.createTextNode("Pagar");
         buttonPagarAnticipo.appendChild(textoButtonPagarAnticipo)
         divbotonPagarAnticipo.appendChild(buttonPagarAnticipo)
+        //botonPagarAnticipo
         $('.modal-trigger').leanModal();
 
         var divbotonGenerarFactura = document.getElementById("botonGenerarFactura");
         divbotonGenerarFactura.innerHTML = divbotonGenerarFactura.dir;
         var buttonGenerarFactura = document.createElement('button')
-        buttonGenerarFactura.setAttribute ( 'id', 'buttonGenerarFactura' );
+        buttonGenerarFactura.setAttribute ( 'id', 'buttonGenerarFacturaConsulta' );
         buttonGenerarFactura.style.width = "100%";
         buttonGenerarFactura.style.height = "45px";
         buttonGenerarFactura.style.marginTop = "20px";
@@ -7519,7 +7645,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var divbotonGenerarNota = document.getElementById("botonGenerarNota");
         divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
         var buttonGenerarNota = document.createElement('button')
-        buttonGenerarNota.setAttribute ( 'id', 'buttonGenerarNota' );
+        buttonGenerarNota.setAttribute ( 'id', 'buttonGenerarNotaConsulta' );
+
         buttonGenerarNota.style.width = "100%";
         buttonGenerarNota.style.height = "45px";
         buttonGenerarNota.style.marginTop = "20px";
@@ -7532,7 +7659,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var divbotoVerFactura = document.getElementById("botonVerFactura");
         divbotoVerFactura.innerHTML = divbotoVerFactura.dir;
         var buttonVerFactura = document.createElement('button')
-        buttonVerFactura.setAttribute ( 'id', 'buttonVerFactura' );
+        buttonVerFactura.setAttribute ( 'id', 'buttonVerFacturaConsulta' );
         buttonVerFactura.style.width = "100%";
         buttonVerFactura.style.height = "45px";
         buttonVerFactura.className = "left btn waves-effect waves-light disabled";
@@ -7854,6 +7981,54 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         return false;
     });
+
+    $("#divBotonConsultaPagarPago").click(function() {
+
+        var pagoConsulta = $("input#input_pago_consulta").val();
+        if(pagoConsulta > subTotal || pagoConsulta < 0){
+            //var pagoAdmision = $("input#divMetodoDePago").val();
+            alert("La cantidad agregada: "+pagoConsulta+" no puede ser mayor a: "+subTotal+" ni menor o igual a 0.")
+            return false;
+        }
+
+        var idconsulta = $("input#idconsulta").val();
+        var notaAnticipoConsulta = $("input#input_nota_consulta").val();
+
+        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+        var dataString = 'idconsulta=' + idconsulta + '&consultaanticipo_cantidad=' + pagoConsulta + '&consultaanticipo_nota=' + notaAnticipoConsulta ;
+
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            jsonpCallback: 'callback',
+            success: function(data) {
+
+                alert("Se agregó exitosamente el anticipo de: "+pagoConsulta+" MXN")
+
+                consultaanticipoArray = []
+                var consultaanticipoEntity = data.consultaanticipoArray
+                $.each( consultaanticipoEntity, function( key, value ) {
+                    consultaanticipoArray.push({
+                        "idconsultaanticipo" : value.idconsultaanticipo,
+                        "idconsulta" : value.idconsulta,
+                        "consultaanticipo_fecha" : value.consultaanticipo_fecha,
+                        "consultaanticipo_cantidad" : value.consultaanticipo_cantidad,
+                        "consultaanticipo_nota" : value.consultaanticipo_nota
+                    });
+                });
+
+                subTotalResponse(status, -(pagoConsulta), null, 'consulta', pagoConsulta, $("#select_metodo_de_pago").val())
+            },
+            error: function(data){
+                alert("Error al intentar guardar consulta-anticipo > "+ data.consultaanticipoArray)
+            }
+        });
+
+        return false;
+    });
+
     // Si dan clic en verAdmisionanticipo
     $('#verAdmisionanticipo').click(function(){
         var idadmision = $("input#idadmision").val();
@@ -7895,10 +8070,6 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         return false;
 
     });
-
-    if(cuentaPagada == true){
-
-    }
 }
 
 function generaTablaAdmisionanticipo(admisionanticipoArray) {
@@ -7988,6 +8159,16 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                                     hilera.appendChild(celda);
                                 }
                                 if(j == 3){
+
+                                    var link3 = document.createElement("a");
+                                    link3.id = 'eliminarAdmisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"];
+                                    var eliminar = document.createElement("i");
+                                    eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                                    link3.appendChild(eliminar);
+                                    celda.appendChild(link3);
+                                    hilera.appendChild(celda);
+
+                                    /*
                                     var link2 = document.createElement("a");
                                     link2.className = "modal-trigger";
                                     link2.setAttribute ( 'data-position', 'right' );
@@ -8170,6 +8351,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                                     divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalFooterDelete);
                                     divcargosAdmisionDelete.appendChild(divDeleteModalCargoadmisionDelete);
                                     <!-- End Delete Modal Structure -->
+                                    */
                                 }
                             }
 
@@ -8186,7 +8368,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                         tabla.appendChild(tblBody);
 
                         // Si dan clic en eliminarAnticipoadmision-id
-                        $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
+                        $("#eliminarAdmisionanticipo-"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
 
                             alert("Entro");
                             //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
