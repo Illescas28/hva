@@ -47,8 +47,7 @@ class BancoTableMap extends TableMap
   1 => 'abono',
 ));
         $this->addColumn('banco_cantidad', 'BancoCantidad', 'DECIMAL', true, 10, null);
-        $this->addColumn('banco_balance', 'BancoBalance', 'DECIMAL', false, 10, 0);
-        $this->addColumn('banco_comprobante', 'BancoComprobante', 'VARCHAR', false, 255, null);
+        $this->addColumn('banco_balance', 'BancoBalance', 'DECIMAL', true, 10, 0);
         $this->addColumn('banco_nota', 'BancoNota', 'LONGVARCHAR', false, null, null);
         // validators
     } // initialize()

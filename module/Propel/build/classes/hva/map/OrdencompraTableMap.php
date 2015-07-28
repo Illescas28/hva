@@ -61,7 +61,6 @@ class OrdencompraTableMap extends TableMap
     {
         $this->addRelation('Proveedor', 'Proveedor', RelationMap::MANY_TO_ONE, array('idproveedor' => 'idproveedor', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Ordencompradetalle', 'Ordencompradetalle', RelationMap::ONE_TO_MANY, array('idordencompra' => 'idordencompra', ), 'CASCADE', 'CASCADE', 'Ordencompradetalles');
-        $this->addRelation('Traspaso', 'Traspaso', RelationMap::ONE_TO_MANY, array('idordencompra' => 'idordencompra', ), 'CASCADE', 'CASCADE', 'Traspasos');
     } // buildRelations()
 
 } // OrdencompraTableMap

@@ -1425,10 +1425,8 @@ class PacienteController extends AbstractActionController
                     }
                 }
 
-                if($paciente->isModified()){
-                    //Guardamos en nuestra base de datos
-                    $paciente->save();
-                }
+                //Guardamos en nuestra base de datos
+                $paciente->save();
 
                 //Agregamos un mensaje
                 $this->flashMessenger()->addMessage('Paciente guardado exitosamente!');

@@ -67,12 +67,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
     protected $banco_balance;
 
     /**
-     * The value for the banco_comprobante field.
-     * @var        string
-     */
-    protected $banco_comprobante;
-
-    /**
      * The value for the banco_nota field.
      * @var        string
      */
@@ -200,17 +194,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
     {
 
         return $this->banco_balance;
-    }
-
-    /**
-     * Get the [banco_comprobante] column value.
-     *
-     * @return string
-     */
-    public function getBancoComprobante()
-    {
-
-        return $this->banco_comprobante;
     }
 
     /**
@@ -355,27 +338,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
     } // setBancoBalance()
 
     /**
-     * Set the value of [banco_comprobante] column.
-     *
-     * @param  string $v new value
-     * @return Banco The current object (for fluent API support)
-     */
-    public function setBancoComprobante($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->banco_comprobante !== $v) {
-            $this->banco_comprobante = $v;
-            $this->modifiedColumns[] = BancoPeer::BANCO_COMPROBANTE;
-        }
-
-
-        return $this;
-    } // setBancoComprobante()
-
-    /**
      * Set the value of [banco_nota] column.
      *
      * @param  string $v new value
@@ -438,8 +400,7 @@ abstract class BaseBanco extends BaseObject implements Persistent
             $this->banco_tipomovimiento = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->banco_cantidad = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->banco_balance = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->banco_comprobante = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->banco_nota = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->banco_nota = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -449,7 +410,7 @@ abstract class BaseBanco extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 8; // 8 = BancoPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = BancoPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Banco object", $e);
@@ -714,9 +675,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
         if ($this->isColumnModified(BancoPeer::BANCO_BALANCE)) {
             $modifiedColumns[':p' . $index++]  = '`banco_balance`';
         }
-        if ($this->isColumnModified(BancoPeer::BANCO_COMPROBANTE)) {
-            $modifiedColumns[':p' . $index++]  = '`banco_comprobante`';
-        }
         if ($this->isColumnModified(BancoPeer::BANCO_NOTA)) {
             $modifiedColumns[':p' . $index++]  = '`banco_nota`';
         }
@@ -748,9 +706,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
                         break;
                     case '`banco_balance`':
                         $stmt->bindValue($identifier, $this->banco_balance, PDO::PARAM_STR);
-                        break;
-                    case '`banco_comprobante`':
-                        $stmt->bindValue($identifier, $this->banco_comprobante, PDO::PARAM_STR);
                         break;
                     case '`banco_nota`':
                         $stmt->bindValue($identifier, $this->banco_nota, PDO::PARAM_STR);
@@ -928,9 +883,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
                 return $this->getBancoBalance();
                 break;
             case 6:
-                return $this->getBancoComprobante();
-                break;
-            case 7:
                 return $this->getBancoNota();
                 break;
             default:
@@ -968,8 +920,7 @@ abstract class BaseBanco extends BaseObject implements Persistent
             $keys[3] => $this->getBancoTipomovimiento(),
             $keys[4] => $this->getBancoCantidad(),
             $keys[5] => $this->getBancoBalance(),
-            $keys[6] => $this->getBancoComprobante(),
-            $keys[7] => $this->getBancoNota(),
+            $keys[6] => $this->getBancoNota(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1036,9 +987,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
                 $this->setBancoBalance($value);
                 break;
             case 6:
-                $this->setBancoComprobante($value);
-                break;
-            case 7:
                 $this->setBancoNota($value);
                 break;
         } // switch()
@@ -1071,8 +1019,7 @@ abstract class BaseBanco extends BaseObject implements Persistent
         if (array_key_exists($keys[3], $arr)) $this->setBancoTipomovimiento($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setBancoCantidad($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setBancoBalance($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setBancoComprobante($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setBancoNota($arr[$keys[7]]);
+        if (array_key_exists($keys[6], $arr)) $this->setBancoNota($arr[$keys[6]]);
     }
 
     /**
@@ -1090,7 +1037,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
         if ($this->isColumnModified(BancoPeer::BANCO_TIPOMOVIMIENTO)) $criteria->add(BancoPeer::BANCO_TIPOMOVIMIENTO, $this->banco_tipomovimiento);
         if ($this->isColumnModified(BancoPeer::BANCO_CANTIDAD)) $criteria->add(BancoPeer::BANCO_CANTIDAD, $this->banco_cantidad);
         if ($this->isColumnModified(BancoPeer::BANCO_BALANCE)) $criteria->add(BancoPeer::BANCO_BALANCE, $this->banco_balance);
-        if ($this->isColumnModified(BancoPeer::BANCO_COMPROBANTE)) $criteria->add(BancoPeer::BANCO_COMPROBANTE, $this->banco_comprobante);
         if ($this->isColumnModified(BancoPeer::BANCO_NOTA)) $criteria->add(BancoPeer::BANCO_NOTA, $this->banco_nota);
 
         return $criteria;
@@ -1160,7 +1106,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
         $copyObj->setBancoTipomovimiento($this->getBancoTipomovimiento());
         $copyObj->setBancoCantidad($this->getBancoCantidad());
         $copyObj->setBancoBalance($this->getBancoBalance());
-        $copyObj->setBancoComprobante($this->getBancoComprobante());
         $copyObj->setBancoNota($this->getBancoNota());
 
         if ($deepCopy && !$this->startCopy) {
@@ -1530,7 +1475,6 @@ abstract class BaseBanco extends BaseObject implements Persistent
         $this->banco_tipomovimiento = null;
         $this->banco_cantidad = null;
         $this->banco_balance = null;
-        $this->banco_comprobante = null;
         $this->banco_nota = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
