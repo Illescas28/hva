@@ -611,6 +611,16 @@ return array(
                     ),
                 ),
             ),
+            'reportes-general' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/reportes/general[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Reportes\Controller\General',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -699,6 +709,7 @@ return array(
             'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController',
             //Reportes
             'Reportes\Controller\Ingresos'                                      => 'Reportes\Controller\IngresosController',
+            'Reportes\Controller\General'                                       => 'Reportes\Controller\GeneralController'
             ),
     ),
     'view_manager' => array(

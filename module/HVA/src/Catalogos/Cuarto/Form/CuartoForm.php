@@ -16,7 +16,10 @@ class CuartoForm extends Form
             'name' => 'cuarto_nombre',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre',
+                'label' => 'Nombre *',
+            ),
+            'attributes' => array(
+                'required' => 'required'
             ),
         ));
         $this->add(array(

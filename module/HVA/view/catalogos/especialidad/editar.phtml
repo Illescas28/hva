@@ -26,6 +26,7 @@
         </div>
     </fieldset>
 </div>
+<p style="color: rgb(158, 158, 158); margin-top: 0px; padding-left: 24px;">(*) Campos obligatorios</p>
 <div class="row">
     <div class="col s4 offset-s4">
         <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
@@ -34,3 +35,20 @@
     </div>
 </div>
 <?php echo $this->form()->closeTag(); ?>
+<script>
+
+var error_message =  $('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>');
+    
+    $(document).on('click', 'form button[type=submit]', function(e) {
+        $('p.input-error-show').remove();
+        var isValid = true;
+        //console.log($('select[name=idtipo]').val());
+        if(!$('input[name=especialidad_nombre]').val().length){
+           isValid = false;
+           $('input[name=especialidad_nombre]').after(error_message);
+           e.preventDefault(); 
+        }
+            
+    });
+
+</script>

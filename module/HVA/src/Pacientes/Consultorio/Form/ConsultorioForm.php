@@ -11,53 +11,38 @@ class ConsultorioForm extends Form
         // we want to ignore the name passed
         parent::__construct('ConsultorioForm');
         $this->setAttribute('method', 'post');
-
+        
         $this->add(array(
             'name' => 'consultorio_nombre',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre',
+                'label' => 'Nombre *',
+            ),
+            'attributes' => array(
+                'required' => 'required'
             ),
         ));
         $this->add(array(
             'name' => 'consultorio_descripcion',
-            'type' => 'Text',
+            'type' => 'Textarea',
             'options' => array(
-                'label' => 'Descripción',
+                'label' => 'Descripcion',
             ),
         ));
-
+        
         $this->add(array(
-            'type' => 'Zend\Form\Element\Checkbox',
             'name' => 'consultorio_enuso',
+            'type' => 'Checkbox',
             'options' => array(
-                'label' => 'Consultorio en uso',
-                'use_hidden_element' => true,
-                'checked_value' => 'si',
-                'unchecked_value' => 'no'
-            )
-        ));
-        /*
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Radio',
-            'name' => 'consultorio_enuso',
-            'options' => array(
-                'label' => 'Consultorio en uso',
-                'value_options' => array(
-                    'no' => 'no',
-                    'si' => 'si',
-                ),
+                'label' => 'En uso?',
             ),
-            'attributes' => array(
-                'value' => 'no', //set checked to '1'
-            )
         ));
-        */
+        
         $this->add(array(
             'name' => 'consultorio_extension',
-            'type' => 'Text',
+            'type' => 'text',
             'options' => array(
-                'label' => 'Extensión',
+                'label' => 'Extension',
             ),
         ));
 

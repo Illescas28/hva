@@ -1,0 +1,59 @@
+<style>
+    .filter-container input[type=text]{
+        background-color: #fff;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        
+        color: #444;
+        height: 26px;
+        line-height: 26px;
+        overflow: hidden;
+        padding: 0;
+        padding-left: 8px;
+        text-align: left;
+        text-decoration: none;
+        white-space: nowrap;
+        width: 100%;
+        margin: 0;
+        font-size: 12px;
+    }
+    
+    .filter-container input[type=text]:focus{
+        border: 1px solid #aaa;
+        box-shadow: none;
+    }
+</style>
+<?php
+$title = 'Reporte General';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<script src="/js/reportes_general.js"></script>
+<div id="report-container">
+    <table id="tabla-reporte-general" class="bordered">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th># Movimiento</th>
+                <th>Paciente</th>
+                <th>Medico</th>
+                <th>Diagnóstico</th>
+                <th>Estatus pago</th>
+                <th>Razon social</th>
+                <th>Total</th>
+                <th>Efectivo</th>
+                <th>Tarjeta</th>
+                <th>Cheque</th>
+                <th>Spei</th>
+                <th>Estatus</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#report-container').generalreport();
+    });
+</script>

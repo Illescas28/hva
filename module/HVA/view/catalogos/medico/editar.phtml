@@ -118,5 +118,23 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('select').material_select();
+        
+        $('button[type=submit]').on('click',function(e){
+            $('p.input-error-show').remove();
+            var error_message = '<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>';
+            var isValid = true;
+            $(document).find('input[required],select[required]').filter(function(){
+                if($(this).val() == ''){
+                    $(this).after(error_message);
+                    isValid = false;
+                }
+                
+            });
+            
+            if(!isValid){
+                e.preventDefault();
+            }
+            
+        });
     });
 </script>
