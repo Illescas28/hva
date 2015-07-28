@@ -7423,7 +7423,7 @@ var subTotal = 0;
 var anticipoCantidad = 0;
 var admision_tipodepago = "no identificado";
 var cuentaPagada = false;
-function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado") {
+function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
 
     // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
@@ -7443,7 +7443,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
             var idconsulta = $("input#idconsulta").val();
 
             //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-            var dataString = 'subTotalConsulta=' + subTotal + '&idconsulta=' + idconsulta + '&consulta_status=' + status + '&consulta_total=' + anticipoCantidad + "&consulta_tipodepago=" + consulta_tipodepago;
+            var dataString = 'subTotalConsulta=' + subTotal + '&idconsulta=' + idconsulta + '&consulta_status=' + status + '&consulta_total=' + anticipoCantidad + "&consulta_tipodepago=" + consulta_tipodepago + '&consulta_referenciapago=' + referenciapago;
 
             $.ajax({
                 type: "POST",
@@ -7474,14 +7474,12 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         if(tipo == "admision"){
 
-            anticipoCantidad += Number(AnticipoCantidad);
-
             var admision_tipodepago = Tipodepago;
 
             var idadmision = $("input#idadmision").val();
 
             //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-            var dataString = 'subTotalAdmision=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago;
+            var dataString = 'subTotalAdmision=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago + "&admision_referenciapago=" + referenciapago;
 
             $.ajax({
                 type: "POST",
@@ -7541,7 +7539,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         select.style.width = "auto";
         select.style.height = "auto";
         select.setAttribute ( 'id', 'select_metodo_de_pago' );
-        var metodosArray = ["Efectivo", "Tarjeta de crédito", "Tarjeta de débito", "Cheque", "No identificado"];
+        var metodosArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "No identificado"];
         // agregamos los valores <option> a seleccionar
         for($i=0; $i<=metodosArray.length; $i++){
             var selectOption = new Option(metodosArray[$i],metodosArray[$i]);
@@ -7752,7 +7750,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         select.style.width = "auto";
         select.style.height = "auto";
         select.setAttribute ( 'id', 'select_metodo_de_pago' );
-        var metodosArray = ["Efectivo", "Tarjeta de crédito", "Tarjeta de débito", "Cheque", "No identificado"];
+        var metodosArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "No identificado"];
         // agregamos los valores <option> a seleccionar
         for($i=0; $i<=metodosArray.length; $i++){
             var selectOption = new Option(metodosArray[$i],metodosArray[$i]);
@@ -7936,6 +7934,11 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
     $("#divBotonAdmisionPagarPago").click(function() {
 
+        // Si el método de pago es con tarjeta, le solicitamos al usuario la referencia de la tarjeta)
+        if($("#select_metodo_de_pago").val() == 'Tarjeta de credito' || $("#select_metodo_de_pago").val() == 'Tarjeta de debito'){
+            var admision_referenciapago = prompt("Por favor ingresa la referencia de la tarjeta", "1234");
+        }
+
         var pagoAdmision = $("input#input_pago_admision").val();
         if(pagoAdmision > subTotal || pagoAdmision < 0){
             //var pagoAdmision = $("input#divMetodoDePago").val();
@@ -7971,7 +7974,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                     });
                 });
 
-                subTotalResponse(status, -(pagoAdmision), null, 'admision', pagoAdmision, $("#select_metodo_de_pago").val())
+                subTotalResponse(status, -(pagoAdmision), null, 'admision', pagoAdmision, $("#select_metodo_de_pago").val(), admision_referenciapago)
             },
             error: function(data){
                 alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
@@ -7983,6 +7986,10 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
     $("#divBotonConsultaPagarPago").click(function() {
 
+        // Si el método de pago es con tarjeta, le solicitamos al usuario la referencia de la tarjeta)
+        if($("#select_metodo_de_pago").val() == 'Tarjeta de credito' || $("#select_metodo_de_pago").val() == 'Tarjeta de debito'){
+            var consulta_referenciapago = prompt("Por favor ingresa la referencia de la tarjeta", "1234");
+        }
         var pagoConsulta = $("input#input_pago_consulta").val();
         if(pagoConsulta > subTotal || pagoConsulta < 0){
             //var pagoAdmision = $("input#divMetodoDePago").val();
@@ -7994,7 +8001,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var notaAnticipoConsulta = $("input#input_nota_consulta").val();
 
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idconsulta=' + idconsulta + '&consultaanticipo_cantidad=' + pagoConsulta + '&consultaanticipo_nota=' + notaAnticipoConsulta ;
+        var dataString = 'idconsulta=' + idconsulta + '&consultaanticipo_cantidad=' + pagoConsulta + '&consultaanticipo_nota=' + notaAnticipoConsulta;
 
         $.ajax({
             type: "POST",
@@ -8018,7 +8025,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                     });
                 });
 
-                subTotalResponse(status, -(pagoConsulta), null, 'consulta', pagoConsulta, $("#select_metodo_de_pago").val())
+                subTotalResponse(status, -(pagoConsulta), null, 'consulta', pagoConsulta, $("#select_metodo_de_pago").val(), consulta_referenciapago)
             },
             error: function(data){
                 alert("Error al intentar guardar consulta-anticipo > "+ data.consultaanticipoArray)

@@ -119,17 +119,7 @@ class PacienteController extends AbstractActionController
         $pacienteQuery = \PacienteQuery::create()->find();
         $pacienteArray = array();
         foreach($pacienteQuery as $pacienteValue){
-            $consultaQuery = \ConsultaQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->findOne();
-            if(!$consultaQuery){
-                $paciente = \PacienteQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->findOne();
-            }
-            $admisionQuery = \AdmisionQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->findOne();
-            if(!$admisionQuery){
-                $paciente = \PacienteQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->findOne();
-            }
-            if($paciente != null){
-                array_push($pacienteArray, $pacienteValue);
-            }
+            array_push($pacienteArray, $pacienteValue);
         }
         $this->flashMessenger()->addMessage('Paciente guardado exitosamente!');
 
@@ -173,11 +163,11 @@ class PacienteController extends AbstractActionController
         $consultaArray = array();
         $admisionArray = array();
         foreach($pacienteQuery as $pacienteValue){
-            $consultaQuery = \ConsultaQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->findOne();
+            $consultaQuery = \ConsultaQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->useConsultorioQuery()->filterByConsultorioEnuso(1)->endUse()->findOne();
             if($consultaQuery){
                 array_push($consultaArray, $consultaQuery);
             }
-            $admisionQuery = \AdmisionQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->findOne();
+            $admisionQuery = \AdmisionQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->useCuartoQuery()->filterByCuartoEnuso(1)->endUse()->findOne();
             if($admisionQuery){
                 array_push($admisionArray, $admisionQuery);
             }
@@ -197,31 +187,35 @@ class PacienteController extends AbstractActionController
         $id = (int) $this->params()->fromRoute('id', 0);
         if($id){
             $paciente = \PacienteQuery::create()->findPk($id);
-            $consultaQuery = \ConsultaQuery::create()->filterByIdpaciente($id)->find();
-            if($consultaQuery->getArrayCopy()){
-                $consultaArray = array();
-                foreach($consultaQuery as $consultaEntity){
-                    array_push($consultaArray, $consultaEntity);
+            $consultasQuery = $paciente->getConsultas();
+            if($consultasQuery->count() != 0){
+                foreach($consultasQuery as $consultaEntity){
+                    if($consultaEntity->getConsultorio()->getConsultorioEnuso() == 1){
+                        $consultaEntity = $consultaEntity;
+                    }
                 }
+                return new ViewModel(array(
+                    'pacienteEntity' => $paciente,
+                    'consultorioEnuso' => $consultaEntity->getConsultorio()->getConsultorioEnuso(),
+                    'consultaByPaciente' => $consultaEntity,
+                ));
             }
 
-            $admisionQuery = \AdmisionQuery::create()->filterByIdpaciente($id)->find();
-            if($admisionQuery->getArrayCopy()){
-                $admisionQuery = array();
-                foreach($admisionQuery as $admisionEntity){
-                    array_push($admisionArray, $admisionEntity);
+            $admisionesQuery = $paciente->getAdmisions();
+            if($admisionesQuery->count() != 0){
+                foreach($admisionesQuery as $admisionEntity){
+                    if($admisionEntity->getCuarto()->getCuartoEnuso() == 1){
+                        $admisionEntity = $admisionEntity;
+                    }
                 }
+                return new ViewModel(array(
+                    'pacienteEntity' => $paciente,
+                    'cuartoEnuso' => $admisionEntity->getCuarto()->getCuartoEnuso(),
+                    'admisionByPaciente' => $admisionEntity,
+                ));
             }
 
 
-            $consultaCollection = $consultaArray;
-            $admisionCollection = $admisionArray;
-
-            return new ViewModel(array(
-                'pacienteEntity' => $paciente,
-                'pacientesConsulta' => $consultaCollection,
-                'pacientesAdmision' => $admisionCollection,
-            ));
         }else{
             return $this->redirect()->toRoute('pacientes');
         }
@@ -265,7 +259,7 @@ class PacienteController extends AbstractActionController
             if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
 
                 $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
-                $admisionActualizarStatus->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->save();
+                $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
                 $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
                 return new JsonModel(array(
                     'admisionArray' => $admisionArray,
@@ -279,7 +273,7 @@ class PacienteController extends AbstractActionController
             if(\ConsultaQuery::create()->filterByIdconsulta($request->getPost()->idconsulta)->exists()){
 
                 $consultaActualizarStatus = \ConsultaQuery::create()->filterByIdconsulta($request->getPost()->idconsulta)->findOne();
-                $consultaActualizarStatus->setConsultaStatus($request->getPost()->consulta_status)->setConsultaTipodepago($request->getPost()->consulta_tipodepago)/*->setConsultaPagadaen(date('Y-m-d H:i:s'))*/->setConsultaFacturada(0)->setConsultaTotal($request->getPost()->consulta_total)->save();
+                $consultaActualizarStatus->setConsultaStatus($request->getPost()->consulta_status)->setConsultaReferenciapago($request->getPost()->consulta_referenciapago)->setConsultaTipodepago($request->getPost()->consulta_tipodepago)/*->setConsultaPagadaen(date('Y-m-d H:i:s'))*/->setConsultaFacturada(0)->setConsultaTotal($request->getPost()->consulta_total)->save();
                 $consultaArray = $consultaActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
                 return new JsonModel(array(
                     'consultaArray' => $consultaArray,
@@ -827,8 +821,8 @@ class PacienteController extends AbstractActionController
                         $ordencompradetalle = array(
                             'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
                             'idlugarinventario' => $idlugarinventario,
-                            'cargoadmision_tipo' => 'articulo',
-                            'cargoadmision_fecha' => date('Y-m-d H:i:s'),
+                            'cargoconsulta_tipo' => 'articulo',
+                            'cargoconsulta_fecha' => date('Y-m-d H:i:s'),
                             'ordencompradetalle_caducidad' => $ordencompradetalleEntity->getOrdencompradetalleCaducidad(),
                             'existencia' => $lugarinventarioCantidad,
                             'articulo' => $articuloNombre,

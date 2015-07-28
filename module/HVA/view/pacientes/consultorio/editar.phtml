@@ -25,10 +25,35 @@ $this->headTitle($title);
                 <?php echo $this->formText($consultorioForm->get('consultorio_extension')); ?>
                 <?php echo $this->formLabel($consultorioForm->get('consultorio_extension')); ?>
             </div>
-            <div class="input-field">
-                <?php echo $this->formCheckbox($consultorioForm->get('consultorio_enuso')); ?>
-                <?php echo $this->formLabel($consultorioForm->get('consultorio_enuso')); ?>
+        </div>
+        <div class="col s6 input-field">
+            <span class="grey-text" style="margin-left: 20px;">¿En uso?</span>
+            <div class="switch">
+                <label>
+                    No
+                    <?php echo $this->formCheckbox($consultorioForm->get('consultorio_enuso')); ?>
+                    <span class="lever"></span>
+                    Si
+                </label>
+                <?php $showError=$this->formElementErrors($consultorioForm->get('consultorio_enuso'));
+                if(!empty($showError)):
+                    ?>
+                    <div class="center-align col right" style="color: #e57373">
+                        <i class="mdi-content-report prefix"></i>
+                    </div>
+                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                        <?php
+                        echo $showError;
+                        ?>
+                    </div>
+                <?php  endif;?>
             </div>
+            <?php /*
+                <label>
+                    <?php echo $this->formCheckbox($consultorioForm->get('consultorio_enuso')); ?>
+                    <?php echo $this->formLabel($consultorioForm->get('consultorio_enuso')); ?>
+                </label>
+                */ ?>
         </div>
     </fieldset>
 </div>
