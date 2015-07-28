@@ -47,6 +47,7 @@ class Module
                     'Almacen' => __DIR__ . '/src/' . 'Almacen/',
                     'Cajachica' => __DIR__ . '/src/' . 'Cajachica/',
                     'Bancos' => __DIR__ . '/src/' . 'Bancos/',
+                    'Reportes' => __DIR__ . '/src/' . 'Reportes/',
                 ),
             ),
         );

@@ -600,6 +600,17 @@ return array(
                     ),
                 ),
             ),
+            //Reportes
+            'reportes-ingresos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/reportes/ingresos[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Reportes\Controller\Ingresos',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -685,7 +696,9 @@ return array(
             'Cajachica\Controller\Concepto'                                     => 'Cajachica\Controller\ConceptoController',
             //Modulo Bancos
             'Bancos\Controller\Concepto'                                        => 'Bancos\Controller\ConceptoController',
-            'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController'
+            'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController',
+            //Reportes
+            'Reportes\Controller\Ingresos'                                      => 'Reportes\Controller\IngresosController',
             ),
     ),
     'view_manager' => array(
