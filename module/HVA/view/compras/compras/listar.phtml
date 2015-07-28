@@ -1,3 +1,18 @@
+<style>
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        left: initial;
+        position: initial;
+    }
+    
+    .ui-datepicker .ui-datepicker-title select{
+        display: inline-block;
+    }
+    
+    div#ui-datepicker-div{
+        padding: 0;
+        border: 0;
+    }
+</style>
 <?php
     $title = 'Compras';
     $this->headTitle($title);
@@ -5,6 +20,7 @@
       
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
+<div id="compras-list">
 <div class="row" id="table-header">
     <form class="col s12">
         <?php if(count($flashMessages)) :?>
@@ -16,13 +32,40 @@
             <div class="col s6" id="new-container">
                 <a href="/compras/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nueva compra</a>
             </div>
-              <div class="input-field col s4 offset-s2" id="search-container">
+              <div id="search-container" class="input-field col s4 offset-s2" style="top: 215px;">
               <i class="mdi-action-search prefix"></i>
               <input id="icon_prefix" type="text">
               <label for="icon_prefix">Buscar</label>
             </div>     
         </div>
     </form>
+</div>
+    <div class="row" style="margin-bottom: -50px;" id="filter-container">
+<div class="col s6" style="top: -26px;">
+    <fieldset>
+        <legend>Filtros</legend>
+        <div class="row">
+            <div class="col s12">
+                <input type="hidden" name="idproveedor">
+                <label>Por proveedor</label>
+                <select multiple="multiple" class="browser-default" id="proveedor_filter">
+                </select>
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col s6">
+                    <label>Desde</label>
+                    <input type="text" id="fecha_filter_from">
+                </div>
+                <label>Hasta</label>
+                <div class="col s6">
+                    <input type="text" id="fecha_filter_to">
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
 </div>
 <table id="tabla-ordenes" class="striped">
     <thead>
@@ -41,8 +84,9 @@
     <?php foreach($compras as $compra) : ?>
         <?php 
             $orden_fecha = new DateTime($compra->getOrdencompraFecha());
+            $fechaJS = $orden_fecha->format('m/d/Y');
             $orden_fecha = $orden_fecha->format('d/m/Y');
-            
+                
             $orden_fechapago = $compra->getOrdencompraFechaapagar();
             if(!is_null($orden_fechapago)){
                  $orden_fechapago = new DateTime($compra->getOrdencompraFecha());
@@ -66,8 +110,8 @@
         ?>
         <?php $c = new Ordencompra(); $c?>
         <tr id="<?php echo  $compra->getIdOrdenCompra()?>">
-            <td><?php  echo $orden_fecha?></td>
-            <td><?php  echo $compra->getProveedor()->getProveedorNombre() ?></td>
+            <td data-time="<?php echo $fechaJS ?>"><?php  echo $orden_fecha?></td>
+            <td  class="proveedor_nombre" id="<?php echo $compra->getProveedor()->getIdproveedor()?>"><?php  echo $compra->getProveedor()->getProveedorNombre() ?></td>
             <td><?php  echo '$ ' .$compra->getOrdencompraImporte()?></td>
             <td><?php  echo $orden_factura ?></td>
             <td><?php  echo $orden_pagada ?></td>
@@ -110,6 +154,7 @@ $(document).ready(function(){
         $('.modal-trigger').leanModal();
         $("#tabla-ordenes").tablesorter({headers:{3:{sorter:false},6:{sorter:false},7:{sorter:false}}});
         $("#tabla-ordenes").filterTable({inputSelector: '#search-container input',minRows:1});
+        $('#compras-list').comprasreports();
 
     $("a#order_detalles").on('click',function(e){
         

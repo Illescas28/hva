@@ -5,818 +5,818 @@ $this->headTitle($title);
 
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div>
-    <fieldset>
-        <legend>Datos generales del paciente</legend>
-        <div class="col s4">
-            <div class="label-container">
-                <label>Fecha de nacimiento:</label>
-                <p><?php echo $pacienteEntity->getPacienteFechanacimiento()?></p>
-            </div>
-            <div class="label-container">
-                <label>Responsable:</label>
-                <p><?php echo $pacienteEntity->getPacienteResponsable()?></p>
-            </div>
+<fieldset>
+    <legend>Datos generales del paciente</legend>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Fecha de nacimiento:</label>
+            <p><?php echo $pacienteEntity->getPacienteFechanacimiento()?></p>
         </div>
-        <div class="col s4">
-            <div class="label-container">
-                <label>Edad:</label>
-                <p><?php echo $edad . " años"?></p>
-            </div>
-            <div class="label-container">
-                <label>Teléfono responsable:</label>
-                <p><?php echo $pacienteEntity->getPacienteTelefonoresponsable()?></p>
-            </div>
+        <div class="label-container">
+            <label>Responsable:</label>
+            <p><?php echo $pacienteEntity->getPacienteResponsable()?></p>
         </div>
-        <div class="col s4">
-            <div class="label-container">
-                <label>Sexo:</label>
-                <p><?php echo $pacienteEntity->getPacienteSexo()?></p>
-            </div>
+    </div>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Edad:</label>
+            <p><?php echo $edad . " años"?></p>
         </div>
-    </fieldset>
+        <div class="label-container">
+            <label>Teléfono responsable:</label>
+            <p><?php echo $pacienteEntity->getPacienteTelefonoresponsable()?></p>
+        </div>
+    </div>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Sexo:</label>
+            <p><?php echo $pacienteEntity->getPacienteSexo()?></p>
+        </div>
+    </div>
+</fieldset>
+<br>
+<div class="row">
+<fieldset>
+<legend>Para uso exclusivo del hospital</legend>
+<label>Selecciona una acción</label>
+<div class="col s12">
+    <div id="radioNuevaConsulta" class="col s4">
+        <p onclick="javascript:nuevaConsulta();" >
+            <input class="with-gap" name="grupo1" type="radio" id="test3"  />
+            <label for="test3">Nueva consulta</label>
+        </p>
+    </div>
+    <div id="radioNuevaAdmision" class="col s4">
+        <p onclick="javascript:nuevaAdmision();" >
+            <input class="with-gap" name="grupo1" type="radio" id="test4"  />
+            <label for="test4">Nueva admisión</label>
+        </p>
+    </div>
+</div>
+<div id="consulta" class="hiddendiv">
+    <?php $consultaForm->prepare();?>
+    <?php echo $this->form()->openTag($consultaForm); ?>
+    <div class="col s4">
+        <div class="input-field">
+            <?php echo $this->formHidden($consultaForm->get('idpaciente')->setValue($pacienteEntity->getIdpaciente())); ?>
+        </div>
+        <div class="input-field">
+            <?php echo $this->formSelect($consultaForm->get('idmedico')); ?>
+            <span class="red-text hidden" for="idmedico" id="idmedico_error">Debe selecionar un medico.</span><br><br>
+            <?php $showError=$this->formElementErrors($consultaForm->get('idmedico'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s4 offset-s4">
+        <div class="input-field">
+            <?php echo $this->formSelect($consultaForm->get('idconsultorio')); ?>
+            <span class="red-text hidden" for="idconsultorio" id="idconsultorio_error">Debe selecionar un consultorio.</span><br><br>
+            <?php $showError=$this->formElementErrors($consultaForm->get('idconsultorio'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($consultaForm->get('consulta_fecha')); ?>
+            <?php echo $this->formLabel($consultaForm->get('consulta_fecha')); ?>
+            <span class="red-text hidden" for="consulta_fecha" id="fecha_error">Debe selecionar una fecha.</span><br><br>
+            <?php $showError=$this->formElementErrors($consultaForm->get('consulta_fecha'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($consultaForm->get('consulta_hora')); ?>
+            <?php echo $this->formLabel($consultaForm->get('consulta_hora')); ?>
+            <span class="red-text hidden" for="consulta_hora" id="consulta_hora_error">Debe selecionar una hora.</span><br><br>
+            <?php $showError=$this->formElementErrors($consultaForm->get('consulta_hora'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($consultaForm->get('consulta_diagnostico')); ?>
+            <?php echo $this->formLabel($consultaForm->get('consulta_diagnostico')); ?>
+            <?php $showError=$this->formElementErrors($consultaForm->get('consulta_diagnostico'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($consultaForm->get('consulta_observaciones')); ?>
+            <?php echo $this->formLabel($consultaForm->get('consulta_observaciones')); ?>
+            <?php $showError=$this->formElementErrors($consultaForm->get('consulta_observaciones'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
     <br>
-    <div class="row">
-        <fieldset>
-            <legend>Para uso exclusivo del hospital</legend>
-            <label>Selecciona una acción</label>
-            <div class="col s12">
-                <div id="radioNuevaConsulta" class="col s4">
-                    <p onclick="javascript:nuevaConsulta();" >
-                        <input class="with-gap" name="grupo1" type="radio" id="test3"  />
-                        <label for="test3">Nueva consulta</label>
-                    </p>
-                </div>
-                <div id="radioNuevaAdmision" class="col s4">
-                    <p onclick="javascript:nuevaAdmision();" >
-                        <input class="with-gap" name="grupo1" type="radio" id="test4"  />
-                        <label for="test4">Nueva admisión</label>
-                    </p>
-                </div>
-            </div>
-            <div id="consulta" class="hiddendiv">
-                <?php $consultaForm->prepare();?>
-                <?php echo $this->form()->openTag($consultaForm); ?>
-                <div class="col s4">
-                    <div class="input-field">
-                        <?php echo $this->formHidden($consultaForm->get('idpaciente')->setValue($pacienteEntity->getIdpaciente())); ?>
-                    </div>
-                    <div class="input-field">
-                        <?php echo $this->formSelect($consultaForm->get('idmedico')); ?>
-                        <span class="red-text hidden" for="idmedico" id="idmedico_error">Debe selecionar un medico.</span><br><br>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('idmedico'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s4 offset-s4">
-                    <div class="input-field">
-                        <?php echo $this->formSelect($consultaForm->get('idconsultorio')); ?>
-                        <span class="red-text hidden" for="idconsultorio" id="idconsultorio_error">Debe selecionar un consultorio.</span><br><br>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('idconsultorio'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($consultaForm->get('consulta_fecha')); ?>
-                        <?php echo $this->formLabel($consultaForm->get('consulta_fecha')); ?>
-                        <span class="red-text hidden" for="consulta_fecha" id="fecha_error">Debe selecionar una fecha.</span><br><br>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_fecha'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($consultaForm->get('consulta_hora')); ?>
-                        <?php echo $this->formLabel($consultaForm->get('consulta_hora')); ?>
-                        <span class="red-text hidden" for="consulta_hora" id="consulta_hora_error">Debe selecionar una hora.</span><br><br>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_hora'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($consultaForm->get('consulta_diagnostico')); ?>
-                        <?php echo $this->formLabel($consultaForm->get('consulta_diagnostico')); ?>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_diagnostico'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($consultaForm->get('consulta_observaciones')); ?>
-                        <?php echo $this->formLabel($consultaForm->get('consulta_observaciones')); ?>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_observaciones'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div id="botonGuardarConsulta" class="right col s4">
-                    <button id="guardarConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Guardar Consulta
-                        <i class="mdi-content-save left"></i>
-                    </button>
-                </div>
-                <?php echo $this->form()->closeTag(); ?>
-                <div class="right col s4">
-                    <button id="botonAltaPacienteConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" name="action">Alta Paciente - Consulta
-                        <i class="mdi-action-accessibility left"></i>
-                    </button>
-                </div>
-            </div>
+    <br>
+    <div id="botonGuardarConsulta" class="right col s4">
+        <button id="guardarConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Guardar Consulta
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+    <?php echo $this->form()->closeTag(); ?>
+    <div class="right col s4">
+        <button id="botonAltaPacienteConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" name="action">Alta Paciente - Consulta
+            <i class="mdi-action-accessibility left"></i>
+        </button>
+    </div>
+</div>
 
-            <div id="admision" class="hiddendiv">
-                <?php $admisionForm->prepare();?>
-                <?php echo $this->form()->openTag($admisionForm); ?>
-                <div class="col s4">
-                    <div class="input-field">
-                        <?php echo $this->formHidden($admisionForm->get('idpaciente')->setValue($pacienteEntity->getIdpaciente())); ?>
-                    </div>
-                    <div class="input-field">
-                        <?php echo $this->formSelect($admisionForm->get('idmedico')); ?>
-                        <span class="red-text hidden" for="idmedico" id="idmedico_error">Debe selecionar un medico.</span><br><br>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('idmedico'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
+<div id="admision" class="hiddendiv">
+    <?php $admisionForm->prepare();?>
+    <?php echo $this->form()->openTag($admisionForm); ?>
+    <div class="col s4">
+        <div class="input-field">
+            <?php echo $this->formHidden($admisionForm->get('idpaciente')->setValue($pacienteEntity->getIdpaciente())); ?>
+        </div>
+        <div class="input-field">
+            <?php echo $this->formSelect($admisionForm->get('idmedico')); ?>
+            <span class="red-text hidden" for="idmedico" id="idmedico_error">Debe selecionar un medico.</span><br><br>
+            <?php $showError=$this->formElementErrors($admisionForm->get('idmedico'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
                 </div>
-                <div class="col s4 offset-s4">
-                    <div class="input-field">
-                        <?php echo $this->formSelect($admisionForm->get('idcuarto')); ?>
-                        <span class="red-text hidden" for="idcuarto" id="idcuarto_error">Debe selecionar un cuarto.</span><br><br>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('idcuarto'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
                 </div>
-                <div class="col s12">
-                    <div class="input-field">
-                        <?php echo $this->formText($admisionForm->get('admision_fechaadmision')); ?>
-                        <?php echo $this->formLabel($admisionForm->get('admision_fechaadmision')); ?>
-                        <span class="red-text hidden" for="admision_fechaadmision" id="fechaadmision_error">Debe selecionar una fecha.</span><br><br>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_fechaadmision'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($admisionForm->get('admision_diagnostico')); ?>
-                        <?php echo $this->formLabel($admisionForm->get('admision_diagnostico')); ?>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_diagnostico'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($admisionForm->get('admision_observaciones')); ?>
-                        <?php echo $this->formLabel($admisionForm->get('admision_observaciones')); ?>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_observaciones'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div id="botonGuardarAdmision" class="right col s4">
-                    <button id="guardarAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit" name="action">Guardar Admisión
-                        <i class="mdi-content-save left"></i>
-                    </button>
-                </div>
-                <?php echo $this->form()->closeTag(); ?>
-                <div class="right col s4">
-                    <button id="botonAltaPacienteAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Admisión
-                        <i class="mdi-action-accessibility left"></i>
-                    </button>
-                </div>
-            </div>
-        </fieldset>
+            <?php  endif;?>
+        </div>
     </div>
-    <div class="row">
-        <?php if($pacienteQuery):?>
-            <div class="col s4">
-                <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>asignar/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
-            </div>
-        <?php endif;?>
-    </div>
-    <div id="cargosConsulta" class="hiddendiv">
-        <fieldset>
-            <legend>Cargos al paciente</legend>
-            <div id="totalSuperior" class="col s9">
-                <!-- Aquí agregamos los elementos con javascript -->
-            </div>
-            <div class=" col s3 offset-s9">
-                <a id="nuevoCargoConsultaArticulo" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
-            </div>
-            <div id="cargoconsultaArticuloResult" class="col s12">
-                <table class="hoverable striped">
-                    <thead>
-                    <tr>
-                        <th>Cantidad</th>
-                        <th>Articulo</th>
-                        <th>Descripción</th>
-                        <th>Salida</th>
-                        <th>Fecha/hora</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                        <th>Opciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Aquí agregamos los elementos con javascript -->
-                    </tbody>
-                </table>
-            </div>
-            <!-- Create Modal Structure -->
-            <div id="create-modal-cargoconsulta-articulo" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
-                <div class="modal-content">
-                    <h3>Agregar producto a cuenta</h3>
-                    <div class="row" id="table-header">
-                        <?php $cargoconsultaForm->prepare();?>
-                        <?php echo $this->form()->openTag($cargoconsultaForm); ?>
-                        <div class="input-field">
-                            <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
-                        </div>
-                        <div id="modalCargoconsultaArticulo" class="row">
-                            <div id="busquedaCargoconsultaArticulo" class="col s5">
-                                <div class="input-field col s4 left" id="search-container">
-                                    <i class="mdi-action-search prefix"></i>
-                                    <?php echo $this->formText($cargoconsultaForm->get('busquedaArticulo')); ?>
-                                    <?php echo $this->formLabel($cargoconsultaForm->get('busquedaArticulo')); ?>
-                                </div>
-                                <div class="col s4">
-                                    <div class="input-field">
-                                        <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsultaarticulo_by')); ?>
-                                        <span class="red-text hidden" for="cargoconsultaarticulo_by" id="cargoconsultaarticulo_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
-                                    </div>
-                                </div>
-                                <div class="right col s4">
-                                    <button id="buscarCargoconsultaArticulo" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
-                                </div>
-                                <div id="fieldsetCargoconsultaArticulo" class="col s12">
-                                    <fieldset>
-                                        <legend>Artículo</legend>
-                                        <div id="fieldsetCargoconsultaArticuloEntity" class="left col s8">
-                                            <!-- Aquí agregamos los elementos con javascript -->
-                                        </div>
-                                        <div id="botonGuardarCargoconsultaArticulo" class="right col s4" style="margin-top: 80px;">
-                                            <button id="guardarCargoconsultaArticulo" class="btn waves-effect waves-light" type="submit">Agregar</button>
-                                        </div>
-                                    </fieldset>
-                                    <br>
-                                    <br>
-                                </div>
-                                <div id="tablaCargoconsultaArticulo" class="col s12">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Existencias</th>
-                                            <th>Articulo</th>
-                                            <th>Descripción</th>
-                                            <th>Precio</th>
-                                            <th>Salida</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <!-- Aquí agregamos los elementos con javascript -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="tablaCargoconsultaArticuloAgregado" class="col s7">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Cantidad</th>
-                                        <th>Articulo</th>
-                                        <th>Descripción</th>
-                                        <th>Salida</th>
-                                        <th>Fecha/hora</th>
-                                        <th>Precio</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <!-- Aquí agregamos los elementos con javascript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <?php echo $this->form()->closeTag(); ?>
-                    </div>
+    <div class="col s4 offset-s4">
+        <div class="input-field">
+            <?php echo $this->formSelect($admisionForm->get('idcuarto')); ?>
+            <span class="red-text hidden" for="idcuarto" id="idcuarto_error">Debe selecionar un cuarto.</span><br><br>
+            <?php $showError=$this->formElementErrors($admisionForm->get('idcuarto'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
                 </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s12">
+        <div class="input-field">
+            <?php echo $this->formText($admisionForm->get('admision_fechaadmision')); ?>
+            <?php echo $this->formLabel($admisionForm->get('admision_fechaadmision')); ?>
+            <span class="red-text hidden" for="admision_fechaadmision" id="fechaadmision_error">Debe selecionar una fecha.</span><br><br>
+            <?php $showError=$this->formElementErrors($admisionForm->get('admision_fechaadmision'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($admisionForm->get('admision_diagnostico')); ?>
+            <?php echo $this->formLabel($admisionForm->get('admision_diagnostico')); ?>
+            <?php $showError=$this->formElementErrors($admisionForm->get('admision_diagnostico'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($admisionForm->get('admision_observaciones')); ?>
+            <?php echo $this->formLabel($admisionForm->get('admision_observaciones')); ?>
+            <?php $showError=$this->formElementErrors($admisionForm->get('admision_observaciones'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div id="botonGuardarAdmision" class="right col s4">
+        <button id="guardarAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit" name="action">Guardar Admisión
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+    <?php echo $this->form()->closeTag(); ?>
+    <div class="right col s4">
+        <button id="botonAltaPacienteAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Admisión
+            <i class="mdi-action-accessibility left"></i>
+        </button>
+    </div>
+</div>
+</fieldset>
+</div>
+<div class="row">
+    <?php if($pacienteQuery):?>
+        <div class="col s4">
+            <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>asignar/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
+        </div>
+    <?php endif;?>
+</div>
+<div id="cargosConsulta" class="hiddendiv">
+<fieldset>
+<legend>Cargos al paciente</legend>
+<div id="totalSuperior" class="col s9">
+    <!-- Aquí agregamos los elementos con javascript -->
+</div>
+<div class=" col s3 offset-s9">
+    <a id="nuevoCargoConsultaArticulo" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+</div>
+<div id="cargoconsultaArticuloResult" class="col s12">
+    <table class="hoverable striped">
+        <thead>
+        <tr>
+            <th>Cantidad</th>
+            <th>Articulo</th>
+            <th>Descripción</th>
+            <th>Salida</th>
+            <th>Fecha/hora</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Aquí agregamos los elementos con javascript -->
+        </tbody>
+    </table>
+</div>
+<!-- Create Modal Structure -->
+<div id="create-modal-cargoconsulta-articulo" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
+    <div class="modal-content">
+        <h3>Agregar producto a cuenta</h3>
+        <div class="row" id="table-header">
+            <?php $cargoconsultaForm->prepare();?>
+            <?php echo $this->form()->openTag($cargoconsultaForm); ?>
+            <div class="input-field">
+                <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
             </div>
-            <br>
-            <br>
-            <div class=" col s3 offset-s9">
-                <a id="nuevoCargoConsultaServicio" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
-            </div>
-            <!-- Create Modal Structure -->
-            <div id="create-modal-cargoconsulta-servicio" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
-                <div class="modal-content">
-                    <h3>Agregar servicio a cuenta</h3>
-                    <div class="row" id="table-header">
-                        <?php $cargoconsultaForm->prepare();?>
-                        <?php echo $this->form()->openTag($cargoconsultaForm); ?>
+            <div id="modalCargoconsultaArticulo" class="row">
+                <div id="busquedaCargoconsultaArticulo" class="col s5">
+                    <div class="input-field col s4 left" id="search-container">
+                        <i class="mdi-action-search prefix"></i>
+                        <?php echo $this->formText($cargoconsultaForm->get('busquedaArticulo')); ?>
+                        <?php echo $this->formLabel($cargoconsultaForm->get('busquedaArticulo')); ?>
+                    </div>
+                    <div class="col s4">
                         <div class="input-field">
-                            <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
+                            <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsultaarticulo_by')); ?>
+                            <span class="red-text hidden" for="cargoconsultaarticulo_by" id="cargoconsultaarticulo_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
                         </div>
-                        <div id="modalCargoconsultaServicio" class="row">
-                            <div id="busquedaCargoconsultaServicio" class="col s6">
-                                <div class="input-field col s4 left" id="search-container">
-                                    <i class="mdi-action-search prefix"></i>
-                                    <?php echo $this->formText($cargoconsultaForm->get('busquedaServicio')); ?>
-                                    <?php echo $this->formLabel($cargoconsultaForm->get('busquedaServicio')); ?>
-                                </div>
-                                <div class="col s4">
-                                    <div class="input-field">
-                                        <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsultaservicio_by')); ?>
-                                        <span class="red-text hidden" for="cargoconsultaservicio_by" id="cargoconsultaservicio_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
-                                    </div>
-                                </div>
-                                <div class="right col s4">
-                                    <button id="buscarCargoconsultaServicio" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
-                                </div>
-                                <div id="fieldsetCargoconsultaServicio" class="col s12">
-                                    <fieldset>
-                                        <legend>Servicio</legend>
-                                        <div id="fieldsetCargoconsultaServicioEntity" class="left col s8">
-                                            <!-- Aquí agregamos los elementos con javascript -->
-                                        </div>
-                                        <div id="botonGuardarCargoconsultaServicio" class="right col s4" style="margin-top: 50px;">
-                                            <button id="guardarCargoconsultaServicio" class="btn waves-effect waves-light" type="submit">Agregar</button>
-                                        </div>
-                                    </fieldset>
-                                    <br>
-                                    <br>
-                                </div>
-                                <div id="tablaCargoconsultaServicio" class="col s12">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Servicio</th>
-                                            <th>Descripción</th>
-                                            <th>Precio</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <!-- Aquí agregamos los elementos con javascript -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="tablaCargoconsultaServicioAgregado" class="col s6">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Cantidad</th>
-                                        <th>Servicio</th>
-                                        <th>Fecha/hora</th>
-                                        <th>Precio</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <!-- Aquí agregamos los elementos con javascript -->
-                                    </tbody>
-                                </table>
+                    </div>
+                    <div class="right col s4">
+                        <button id="buscarCargoconsultaArticulo" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
+                    </div>
+                    <div id="fieldsetCargoconsultaArticulo" class="col s12">
+                        <fieldset>
+                            <legend>Artículo</legend>
+                            <div id="fieldsetCargoconsultaArticuloEntity" class="left col s8">
                                 <!-- Aquí agregamos los elementos con javascript -->
                             </div>
-                        </div>
-                        <?php echo $this->form()->closeTag(); ?>
+                            <div id="botonGuardarCargoconsultaArticulo" class="right col s4" style="margin-top: 80px;">
+                                <button id="guardarCargoconsultaArticulo" class="btn waves-effect waves-light" type="submit">Agregar</button>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <br>
+                    </div>
+                    <div id="tablaCargoconsultaArticulo" class="col s12">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Existencias</th>
+                                <th>Articulo</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Salida</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Aquí agregamos los elementos con javascript -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <!-- End Create Modal Structure -->
-            <div id="cargoconsultaServicioResult" class="col s12">
-                <table class="hoverable striped">
-                    <thead>
-                    <tr>
-                        <th>Cantidad</th>
-                        <th>Servicio</th>
-                        <th>Descripción</th>
-                        <th>Fecha/hora</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                        <th>Opciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Aquí agregamos los elementos con javascript -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="col s12">
-                <div id="botonPagarAnticipoConsulta" class="col s2">
-                    <!-- Aquí agregamos los elementos con javascript -->
-                </div>
-                <!-- Create Modal Structure -->
-                <div id="create-modal-pagar-consulta" class="modal bottom-sheet">
-                    <div class="modal-content">
-                        <div class="row">
-                            <fieldset>
-                                <legend>Registro de Pago</legend>
-                                <div class="col s12">
-                                    <div id="radioPagoConsulta" class="col s4">
-                                        <p onclick="javascript:pagoConsulta();" >
-                                            <input class="with-gap" name="grupo2" type="radio" id="radio2"  />
-                                            <label for="radio2">Pago</label>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div id="pagoConsulta" class="hiddendiv">
-                                    <!-- Agregamos elementos con Javascript -->
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div id="botonGenerarFactura" class="col s3">
-                    <!-- Aquí agregamos los elementos con javascript -->
-                </div>
-                <div id="botonGenerarNota" class="col s2">
-                    <!-- Aquí agregamos los elementos con javascript -->
-                </div>
-                <div id="totalInferior" class="col s3">
-                    <!-- Aquí agregamos los elementos con javascript -->
+                <div id="tablaCargoconsultaArticuloAgregado" class="col s7">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Articulo</th>
+                            <th>Descripción</th>
+                            <th>Salida</th>
+                            <th>Fecha/hora</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Aquí agregamos los elementos con javascript -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="col s12">
-                <div id="botonVerFactura" class="col s3 offset-s2">
-                    <!-- Aquí agregamos los elementos con javascript -->
-                </div>
-            </div>
-        </fieldset>
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
     </div>
-
-    <!-- Cargos de Admision -->
-    <div id="cargosAdmision" class="hiddendiv">
-        <fieldset>
-            <legend>Cargos al paciente</legend>
-            <div id="totalSuperiorAdmision" class="col s9">
-                <!-- Aquí agregamos los elementos con javascript -->
+</div>
+<br>
+<br>
+<div class=" col s3 offset-s9">
+    <a id="nuevoCargoConsultaServicio" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
+</div>
+<!-- Create Modal Structure -->
+<div id="create-modal-cargoconsulta-servicio" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
+    <div class="modal-content">
+        <h3>Agregar servicio a cuenta</h3>
+        <div class="row" id="table-header">
+            <?php $cargoconsultaForm->prepare();?>
+            <?php echo $this->form()->openTag($cargoconsultaForm); ?>
+            <div class="input-field">
+                <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
             </div>
-            <div class=" col s3 offset-s9">
-                <a id="nuevoCargoAdmisionArticulo" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
-            </div>
-            <!-- Create Modal Structure -->
-            <div id="create-modal-cargoadmision-articulo" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
-                <div class="modal-content">
-                    <h3>Agregar producto a cuenta</h3>
-                    <div class="row" id="table-header">
-                        <?php $cargoadmisionForm->prepare();?>
-                        <?php echo $this->form()->openTag($cargoadmisionForm); ?>
-                        <div class="input-field">
-                            <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')); ?>
-                        </div>
-                        <div id="modalCargoadmisionArticulo" class="row">
-                            <div id="busquedaCargoadmisionArticulo" class="col s5">
-                                <div class="input-field col s4 left" id="search-container">
-                                    <i class="mdi-action-search prefix"></i>
-                                    <?php echo $this->formText($cargoadmisionForm->get('busquedaAdmisionArticulo')); ?>
-                                    <?php echo $this->formLabel($cargoadmisionForm->get('busquedaAdmisionArticulo')); ?>
-                                </div>
-                                <div class="col s4">
-                                    <div class="input-field">
-                                        <?php echo $this->formSelect($cargoadmisionForm->get('cargoadmisionarticulo_by')); ?>
-                                        <span class="red-text hidden" for="cargoadmisionarticulo_by" id="cargoadmisionarticulo_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
-                                    </div>
-                                </div>
-                                <div class="right col s4">
-                                    <button id="buscarCargoadmisionArticulo" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
-                                </div>
-                                <div id="fieldsetCargoadmisionArticulo" class="col s12">
-                                    <fieldset>
-                                        <legend>Artículo</legend>
-                                        <div id="fieldsetCargoadmisionArticuloEntity" class="left col s8">
-                                            <!-- Aquí agregamos los elementos con javascript -->
-                                        </div>
-                                        <div id="botonGuardarCargoadmisionArticulo" class="right col s4" style="margin-top: 80px;">
-                                            <button id="guardarCargoadmisionArticulo" class="btn waves-effect waves-light" type="submit">Agregar</button>
-                                        </div>
-                                    </fieldset>
-                                    <br>
-                                    <br>
-                                </div>
-                                <div id="tablaCargoadmisionArticulo" class="col s12">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Existencias</th>
-                                            <th>Articulo</th>
-                                            <th>Descripción</th>
-                                            <th>Precio</th>
-                                            <th>Salida</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <!-- Aquí agregamos los elementos con javascript -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="tablaCargoadmisionArticuloAgregado" class="col s7">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Cantidad</th>
-                                        <th>Articulo</th>
-                                        <th>Descripción</th>
-                                        <th>Salida</th>
-                                        <th>Fecha/hora</th>
-                                        <th>Precio</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <!-- Aquí agregamos los elementos con javascript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <?php echo $this->form()->closeTag(); ?>
+            <div id="modalCargoconsultaServicio" class="row">
+                <div id="busquedaCargoconsultaServicio" class="col s6">
+                    <div class="input-field col s4 left" id="search-container">
+                        <i class="mdi-action-search prefix"></i>
+                        <?php echo $this->formText($cargoconsultaForm->get('busquedaServicio')); ?>
+                        <?php echo $this->formLabel($cargoconsultaForm->get('busquedaServicio')); ?>
                     </div>
-                </div>
-            </div>
-            <!-- End Create Modal Structure -->
-
-
-            <div id="cargoadmisionArticuloResult" class="col s12">
-                <table class="hoverable striped">
-                    <thead>
-                    <tr>
-                        <th>Cantidad</th>
-                        <th>Articulo</th>
-                        <th>Descripción</th>
-                        <th>Fecha/hora</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                        <th>Opciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Aquí agregamos los elementos con javascript -->
-                    </tbody>
-                </table>
-            </div>
-            <br>
-            <br>
-            <div class=" col s3 offset-s9">
-                <a id="nuevoCargoAdmisionServicio" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
-            </div>
-            <!-- Create Modal Structure -->
-            <div id="create-modal-cargoadmision-servicio" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
-                <div class="modal-content">
-                    <h3>Agregar servicio a cuenta</h3>
-                    <div class="row" id="table-header">
-                        <?php $cargoadmisionForm->prepare();?>
-                        <?php echo $this->form()->openTag($cargoadmisionForm); ?>
+                    <div class="col s4">
                         <div class="input-field">
-                            <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')); ?>
+                            <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsultaservicio_by')); ?>
+                            <span class="red-text hidden" for="cargoconsultaservicio_by" id="cargoconsultaservicio_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
                         </div>
-                        <div id="modalCargoadmisionServicio" class="row">
-                            <div id="busquedaCargoadmisionServicio" class="col s6">
-                                <div class="input-field col s4 left" id="search-container">
-                                    <i class="mdi-action-search prefix"></i>
-                                    <?php echo $this->formText($cargoadmisionForm->get('busquedaAdmisionServicio')); ?>
-                                    <?php echo $this->formLabel($cargoadmisionForm->get('busquedaAdmisionServicio')); ?>
-                                </div>
-                                <div class="col s4">
-                                    <div class="input-field">
-                                        <?php echo $this->formSelect($cargoadmisionForm->get('cargoadmisionservicio_by')); ?>
-                                        <span class="red-text hidden" for="cargoadmisionservicio_by" id="cargoadmisionservicio_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
-                                    </div>
-                                </div>
-                                <div class="right col s4">
-                                    <button id="buscarCargoadmisionServicio" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
-                                </div>
-                                <div id="fieldsetCargoadmisionServicio" class="col s12">
-                                    <fieldset>
-                                        <legend>Servicio</legend>
-                                        <div id="fieldsetCargoadmisionServicioEntity" class="left col s8">
-                                            <!-- Aquí agregamos los elementos con javascript -->
-                                        </div>
-                                        <div id="botonGuardarCargoadmisionServicio" class="right col s4" style="margin-top: 50px;">
-                                            <button id="guardarCargoadmisionServicio" class="btn waves-effect waves-light" type="submit">Agregar</button>
-                                        </div>
-                                    </fieldset>
-                                    <br>
-                                    <br>
-                                </div>
-                                <div id="tablaCargoadmisionServicio" class="col s12">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Servicio</th>
-                                            <th>Descripción</th>
-                                            <th>Precio</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <!-- Aquí agregamos los elementos con javascript -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="tablaCargoadmisionServicioAgregado" class="col s6">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Cantidad</th>
-                                        <th>Servicio</th>
-                                        <th>Fecha/hora</th>
-                                        <th>Precio</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <!-- Aquí agregamos los elementos con javascript -->
-                                    </tbody>
-                                </table>
+                    </div>
+                    <div class="right col s4">
+                        <button id="buscarCargoconsultaServicio" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
+                    </div>
+                    <div id="fieldsetCargoconsultaServicio" class="col s12">
+                        <fieldset>
+                            <legend>Servicio</legend>
+                            <div id="fieldsetCargoconsultaServicioEntity" class="left col s8">
                                 <!-- Aquí agregamos los elementos con javascript -->
                             </div>
-                        </div>
-                        <?php echo $this->form()->closeTag(); ?>
+                            <div id="botonGuardarCargoconsultaServicio" class="right col s4" style="margin-top: 50px;">
+                                <button id="guardarCargoconsultaServicio" class="btn waves-effect waves-light" type="submit">Agregar</button>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <br>
+                    </div>
+                    <div id="tablaCargoconsultaServicio" class="col s12">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Servicio</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Aquí agregamos los elementos con javascript -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <!-- End Create Modal Structure -->
-            <div id="cargoadmisionServicioResult" class="col s12">
-                <table class="hoverable striped">
-                    <thead>
-                    <tr>
-                        <th>Cantidad</th>
-                        <th>Servicio</th>
-                        <th>Descripción</th>
-                        <th>Fecha/hora</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                        <th>Opciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Aquí agregamos los elementos con javascript -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="col s12">
-                <div id="botonPagarAnticipoAdmision" class="col s2">
-                    <!-- Aquí agregamos los elementos con javascript -->
-                </div>
-                <!-- Create Modal Structure -->
-                <div id="create-modal-pagar-admision" class="modal bottom-sheet">
-                    <div class="modal-content">
-                        <div class="row">
-                            <fieldset>
-                                <legend>Registro de Anticipo/Pago</legend>
-                                <div class="col s12">
-                                    <div id="radioAnticipoAdmision" class="col s4">
-                                        <p onclick="javascript:anticipoAdmision();" >
-                                            <input class="with-gap" name="grupo2" type="radio" id="radio1"  />
-                                            <label for="radio1">Anticipo</label>
-                                        </p>
-                                    </div>
-                                    <div id="radioPagoAdmision" class="col s4">
-                                        <p onclick="javascript:pagoAdmision();" >
-                                            <input class="with-gap" name="grupo2" type="radio" id="radio2"  />
-                                            <label for="radio2">Pago</label>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div id="anticipoAdmision" class="hiddendiv">
-                                    <!-- Agregamos elementos con Javascript -->
-                                </div>
-                                <div id="pagoAdmision" class="hiddendiv">
-                                    <!-- Agregamos elementos con Javascript -->
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div id="botonGenerarFacturaAdmision" class="col s3">
-                    <!-- Aquí agregamos los elementos con javascript -->
-                </div>
-                <div id="botonGenerarNotaAdmision" class="col s2">
-                    <!-- Aquí agregamos los elementos con javascript -->
-                </div>
-                <div id="totalInferiorAdmision" class="col s3">
+                <div id="tablaCargoconsultaServicioAgregado" class="col s6">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Servicio</th>
+                            <th>Fecha/hora</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Aquí agregamos los elementos con javascript -->
+                        </tbody>
+                    </table>
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
             </div>
-            <div class="col s12">
-                <div id="botonVerFacturaAdmision" class="col s3 offset-s2">
-                    <!-- Aquí agregamos los elementos con javascript -->
-                </div>
-            </div>
-        </fieldset>
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
     </div>
+</div>
+<!-- End Create Modal Structure -->
+<div id="cargoconsultaServicioResult" class="col s12">
+    <table class="hoverable striped">
+        <thead>
+        <tr>
+            <th>Cantidad</th>
+            <th>Servicio</th>
+            <th>Descripción</th>
+            <th>Fecha/hora</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Aquí agregamos los elementos con javascript -->
+        </tbody>
+    </table>
+</div>
+<div class="col s12">
+    <div id="botonPagarAnticipoConsulta" class="col s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <!-- Create Modal Structure -->
+    <div id="create-modal-pagar-consulta" class="modal bottom-sheet">
+        <div class="modal-content">
+            <div class="row">
+                <fieldset>
+                    <legend>Registro de Pago</legend>
+                    <div class="col s12">
+                        <div id="radioPagoConsulta" class="col s4">
+                            <p onclick="javascript:pagoConsulta();" >
+                                <input class="with-gap" name="grupo2" type="radio" id="radio2"  />
+                                <label for="radio2">Pago</label>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="pagoConsulta" class="hiddendiv">
+                        <!-- Agregamos elementos con Javascript -->
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id="botonGenerarFactura" class="col s3">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <div id="botonGenerarNota" class="col s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <div id="totalInferior" class="col s3">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+</div>
+<div class="col s12">
+    <div id="botonVerFactura" class="col s3 offset-s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+</div>
+</fieldset>
+</div>
+
+<!-- Cargos de Admision -->
+<div id="cargosAdmision" class="hiddendiv">
+<fieldset>
+<legend>Cargos al paciente</legend>
+<div id="totalSuperiorAdmision" class="col s9">
+    <!-- Aquí agregamos los elementos con javascript -->
+</div>
+<div class=" col s3 offset-s9">
+    <a id="nuevoCargoAdmisionArticulo" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+</div>
+<!-- Create Modal Structure -->
+<div id="create-modal-cargoadmision-articulo" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
+    <div class="modal-content">
+        <h3>Agregar producto a cuenta</h3>
+        <div class="row" id="table-header">
+            <?php $cargoadmisionForm->prepare();?>
+            <?php echo $this->form()->openTag($cargoadmisionForm); ?>
+            <div class="input-field">
+                <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')); ?>
+            </div>
+            <div id="modalCargoadmisionArticulo" class="row">
+                <div id="busquedaCargoadmisionArticulo" class="col s5">
+                    <div class="input-field col s4 left" id="search-container">
+                        <i class="mdi-action-search prefix"></i>
+                        <?php echo $this->formText($cargoadmisionForm->get('busquedaAdmisionArticulo')); ?>
+                        <?php echo $this->formLabel($cargoadmisionForm->get('busquedaAdmisionArticulo')); ?>
+                    </div>
+                    <div class="col s4">
+                        <div class="input-field">
+                            <?php echo $this->formSelect($cargoadmisionForm->get('cargoadmisionarticulo_by')); ?>
+                            <span class="red-text hidden" for="cargoadmisionarticulo_by" id="cargoadmisionarticulo_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
+                        </div>
+                    </div>
+                    <div class="right col s4">
+                        <button id="buscarCargoadmisionArticulo" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
+                    </div>
+                    <div id="fieldsetCargoadmisionArticulo" class="col s12">
+                        <fieldset>
+                            <legend>Artículo</legend>
+                            <div id="fieldsetCargoadmisionArticuloEntity" class="left col s8">
+                                <!-- Aquí agregamos los elementos con javascript -->
+                            </div>
+                            <div id="botonGuardarCargoadmisionArticulo" class="right col s4" style="margin-top: 80px;">
+                                <button id="guardarCargoadmisionArticulo" class="btn waves-effect waves-light" type="submit">Agregar</button>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <br>
+                    </div>
+                    <div id="tablaCargoadmisionArticulo" class="col s12">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Existencias</th>
+                                <th>Articulo</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Salida</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Aquí agregamos los elementos con javascript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="tablaCargoadmisionArticuloAgregado" class="col s7">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Articulo</th>
+                            <th>Descripción</th>
+                            <th>Salida</th>
+                            <th>Fecha/hora</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Aquí agregamos los elementos con javascript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>
+<!-- End Create Modal Structure -->
+
+
+<div id="cargoadmisionArticuloResult" class="col s12">
+    <table class="hoverable striped">
+        <thead>
+        <tr>
+            <th>Cantidad</th>
+            <th>Articulo</th>
+            <th>Descripción</th>
+            <th>Fecha/hora</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Aquí agregamos los elementos con javascript -->
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+<div class=" col s3 offset-s9">
+    <a id="nuevoCargoAdmisionServicio" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
+</div>
+<!-- Create Modal Structure -->
+<div id="create-modal-cargoadmision-servicio" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
+    <div class="modal-content">
+        <h3>Agregar servicio a cuenta</h3>
+        <div class="row" id="table-header">
+            <?php $cargoadmisionForm->prepare();?>
+            <?php echo $this->form()->openTag($cargoadmisionForm); ?>
+            <div class="input-field">
+                <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')); ?>
+            </div>
+            <div id="modalCargoadmisionServicio" class="row">
+                <div id="busquedaCargoadmisionServicio" class="col s6">
+                    <div class="input-field col s4 left" id="search-container">
+                        <i class="mdi-action-search prefix"></i>
+                        <?php echo $this->formText($cargoadmisionForm->get('busquedaAdmisionServicio')); ?>
+                        <?php echo $this->formLabel($cargoadmisionForm->get('busquedaAdmisionServicio')); ?>
+                    </div>
+                    <div class="col s4">
+                        <div class="input-field">
+                            <?php echo $this->formSelect($cargoadmisionForm->get('cargoadmisionservicio_by')); ?>
+                            <span class="red-text hidden" for="cargoadmisionservicio_by" id="cargoadmisionservicio_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
+                        </div>
+                    </div>
+                    <div class="right col s4">
+                        <button id="buscarCargoadmisionServicio" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
+                    </div>
+                    <div id="fieldsetCargoadmisionServicio" class="col s12">
+                        <fieldset>
+                            <legend>Servicio</legend>
+                            <div id="fieldsetCargoadmisionServicioEntity" class="left col s8">
+                                <!-- Aquí agregamos los elementos con javascript -->
+                            </div>
+                            <div id="botonGuardarCargoadmisionServicio" class="right col s4" style="margin-top: 50px;">
+                                <button id="guardarCargoadmisionServicio" class="btn waves-effect waves-light" type="submit">Agregar</button>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <br>
+                    </div>
+                    <div id="tablaCargoadmisionServicio" class="col s12">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Servicio</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Aquí agregamos los elementos con javascript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="tablaCargoadmisionServicioAgregado" class="col s6">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Servicio</th>
+                            <th>Fecha/hora</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Aquí agregamos los elementos con javascript -->
+                        </tbody>
+                    </table>
+                    <!-- Aquí agregamos los elementos con javascript -->
+                </div>
+            </div>
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>
+<!-- End Create Modal Structure -->
+<div id="cargoadmisionServicioResult" class="col s12">
+    <table class="hoverable striped">
+        <thead>
+        <tr>
+            <th>Cantidad</th>
+            <th>Servicio</th>
+            <th>Descripción</th>
+            <th>Fecha/hora</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Aquí agregamos los elementos con javascript -->
+        </tbody>
+    </table>
+</div>
+<div class="col s12">
+    <div id="botonPagarAnticipoAdmision" class="col s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <!-- Create Modal Structure -->
+    <div id="create-modal-pagar-admision" class="modal bottom-sheet">
+        <div class="modal-content">
+            <div class="row">
+                <fieldset>
+                    <legend>Registro de Anticipo/Pago</legend>
+                    <div class="col s12">
+                        <div id="radioAnticipoAdmision" class="col s4">
+                            <p onclick="javascript:anticipoAdmision();" >
+                                <input class="with-gap" name="grupo2" type="radio" id="radio1"  />
+                                <label for="radio1">Anticipo</label>
+                            </p>
+                        </div>
+                        <div id="radioPagoAdmision" class="col s4">
+                            <p onclick="javascript:pagoAdmision();" >
+                                <input class="with-gap" name="grupo2" type="radio" id="radio2"  />
+                                <label for="radio2">Pago</label>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="anticipoAdmision" class="hiddendiv">
+                        <!-- Agregamos elementos con Javascript -->
+                    </div>
+                    <div id="pagoAdmision" class="hiddendiv">
+                        <!-- Agregamos elementos con Javascript -->
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id="botonGenerarFacturaAdmision" class="col s3">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <div id="botonGenerarNotaAdmision" class="col s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <div id="totalInferiorAdmision" class="col s3">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+</div>
+<div class="col s12">
+    <div id="botonVerFacturaAdmision" class="col s3 offset-s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+</div>
+</fieldset>
+</div>
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -8132,357 +8132,357 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
     // Crearemos la tabla en un modal, el cual colgaremos del id = cargosAdmision!!!
     var divcargosAdmision = document.getElementById("cargosAdmision");
 
-        // Verificamos si existe la tabla
-        if (document.getElementById("tabla-admisionanticipo")) {
-            // Eliminamos la tabla existente
-            var divModalTablaAdmisionanticipoParaEliminar = document.getElementById("tabla-admisionanticipo");
-            divModalTablaAdmisionanticipoParaEliminar.parentNode.removeChild(divModalTablaAdmisionanticipoParaEliminar);
+    // Verificamos si existe la tabla
+    if (document.getElementById("tabla-admisionanticipo")) {
+        // Eliminamos la tabla existente
+        var divModalTablaAdmisionanticipoParaEliminar = document.getElementById("tabla-admisionanticipo");
+        divModalTablaAdmisionanticipoParaEliminar.parentNode.removeChild(divModalTablaAdmisionanticipoParaEliminar);
+    }
+
+    // Creamos de nuevo la tabla
+    var divModalTablaAdmisionanticipo = document.createElement('div');
+    divModalTablaAdmisionanticipo.id = "tabla-admisionanticipo";
+    divModalTablaAdmisionanticipo.className = "modal bottom-sheet";
+    divModalTablaAdmisionanticipo.innerHTML = divModalTablaAdmisionanticipo.dir
+
+    var divRowModalTablaAdmisionanticipo = document.createElement('div')
+    divRowModalTablaAdmisionanticipo.className = "row";
+    var fieldsetModalTablaAdmisionanticipo = document.createElement('fieldset')
+    var legendModalTablaAdmisionanticipo = document.createElement('legend')
+    var textlegendModalTablaAdmisionanticipo = document.createTextNode("Anticipos");
+    legendModalTablaAdmisionanticipo.appendChild(textlegendModalTablaAdmisionanticipo);
+    var divModalContentTablaAdmisionanticipo = document.createElement('div');
+    divModalContentTablaAdmisionanticipo.className = 'modal-content';
+
+    // Crea un elemento <table> y un elemento <thead> y <tbody>
+    var tabla   = document.createElement("table");
+    tabla.className = "hoverable striped";
+    var tblHead = document.createElement("thead");
+    var tblBody = document.createElement("tbody");
+    var thArray = ['Fecha', 'Cantidad', 'Nota', 'Opciones']
+
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <th> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <th>, ubica el elemento <th> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
         }
 
-        // Creamos de nuevo la tabla
-        var divModalTablaAdmisionanticipo = document.createElement('div');
-        divModalTablaAdmisionanticipo.id = "tabla-admisionanticipo";
-        divModalTablaAdmisionanticipo.className = "modal bottom-sheet";
-        divModalTablaAdmisionanticipo.innerHTML = divModalTablaAdmisionanticipo.dir
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
 
-            var divRowModalTablaAdmisionanticipo = document.createElement('div')
-            divRowModalTablaAdmisionanticipo.className = "row";
-                var fieldsetModalTablaAdmisionanticipo = document.createElement('fieldset')
-                    var legendModalTablaAdmisionanticipo = document.createElement('legend')
-                    var textlegendModalTablaAdmisionanticipo = document.createTextNode("Anticipos");
-                    legendModalTablaAdmisionanticipo.appendChild(textlegendModalTablaAdmisionanticipo);
-                    var divModalContentTablaAdmisionanticipo = document.createElement('div');
-                    divModalContentTablaAdmisionanticipo.className = 'modal-content';
+    // posiciona el <thead> debajo del elemento <table>
+    tabla.appendChild(tblHead);
 
-                        // Crea un elemento <table> y un elemento <thead> y <tbody>
-                        var tabla   = document.createElement("table");
-                        tabla.className = "hoverable striped";
-                        var tblHead = document.createElement("thead");
-                        var tblBody = document.createElement("tbody");
-                        var thArray = ['Fecha', 'Cantidad', 'Nota', 'Opciones']
+    // Crea las celdas
+    for (var i = 0; i < admisionanticipoArray.length; i++) {
 
-                        // Crea las celdas
-                        for (var i = 0; i < 1; i++) {
-                            // Crea las hileras de la tabla
-                            var hilera = document.createElement("tr");
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+        // Le agregamos un id a la entidad <th>
+        hilera.setAttribute('id', 'entidadServicio-' + admisionanticipoArray[i]["idadmisionanticipo"])
 
-                            for (var j = 0; j < thArray.length; j++) {
-                                // Crea un elemento <th> y un nodo de texto, haz que el nodo de
-                                // texto sea el contenido de <th>, ubica el elemento <th> al final
-                                // de la hilera de la tabla
-                                var celda = document.createElement("th");
-                                var textoCelda = document.createTextNode(thArray[j]);
-                                celda.appendChild(textoCelda);
-                                hilera.appendChild(celda);
-                            }
+        for (var j = 0; j < thArray.length; j++) {
 
-                            // agrega la hilera al final de la tabla (al final del elemento tblHead)
-                            tblHead.appendChild(hilera);
-                        }
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
 
-                        // posiciona el <thead> debajo del elemento <table>
-                        tabla.appendChild(tblHead);
+            if(j == 0){
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_fecha"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 1){
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 2){
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 3){
 
-                        // Crea las celdas
-                        for (var i = 0; i < admisionanticipoArray.length; i++) {
+                /*
 
-                            // Crea las hileras de la tabla
-                            var hilera = document.createElement("tr");
-                            // Le agregamos un id a la entidad <th>
-                            hilera.setAttribute('id', 'entidadServicio-' + admisionanticipoArray[i]["idadmisionanticipo"])
+                 var link3 = document.createElement("a");
+                 link3.id = 'eliminarAdmisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"];
+                 var eliminar = document.createElement("i");
+                 eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                 link3.appendChild(eliminar);
+                 celda.appendChild(link3);
+                 hilera.appendChild(celda);
+                 */
 
-                            for (var j = 0; j < thArray.length; j++) {
+                var link2 = document.createElement("a");
+                link2.className = "modal-trigger";
+                link2.setAttribute ( 'data-position', 'right' );
+                link2.setAttribute ( 'data-tooltip', 'EditarAdmisionanticipo' );
+                link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                var editar = document.createElement("i");
+                editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
 
-                                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
-                                // texto sea el contenido de <td>, ubica el elemento <td> al final
-                                // de la hilera de la tabla
-                                var celda = document.createElement("td");
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped modal-trigger";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'EliminarAdmisionanticipo' );
+                link3.setAttribute ( 'href', '#delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                //link3.setAttribute ( 'id', 'delete-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                link2.appendChild(editar);
+                celda.appendChild(link2);
+                link3.appendChild(eliminar);
+                celda.appendChild(link3);
+                hilera.appendChild(celda);
 
-                                if(j == 0){
-                                    var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_fecha"]);
-                                    celda.appendChild(textoCelda);
-                                    hilera.appendChild(celda);
-                                }
-                                if(j == 1){
-                                    var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
-                                    celda.appendChild(textoCelda);
-                                    hilera.appendChild(celda);
-                                }
-                                if(j == 2){
-                                    var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
-                                    celda.appendChild(textoCelda);
-                                    hilera.appendChild(celda);
-                                }
-                                if(j == 3){
+                <!-- Edit Modal Structure -->
+                var divcargosAdmisionEdit = document.getElementById('cargosAdmision')
+                var divEditModalCargoadmision = document.createElement('div')
+                divEditModalCargoadmision.setAttribute ( 'id', 'edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                divEditModalCargoadmision.className = "modal bottom-sheet";
+                var h4 = document.createElement('h4')
+                var texth4 = document.createTextNode("Editar-anticipo");
+                h4.appendChild(texth4);
+                var br = document.createElement('br')
+                var divRow = document.createElement('div')
+                divRow.className = "row";
+                var fieldset = document.createElement('fieldset')
+                var legend = document.createElement('legend')
+                var textlegend = document.createTextNode("Datos generales");
+                legend.appendChild(textlegend);
+                var divCol1 = document.createElement('div')
+                divCol1.className = "col s4";
+                var divLabelContainer1 = document.createElement('div')
+                divLabelContainer1.className = "label-container";
+                var label1 = document.createElement('label')
+                var textlabel1 = document.createTextNode("Cantidad:");
+                label1.appendChild(textlabel1);
+                var p1 = document.createElement('p')
+                var textp1 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                p1.appendChild(textp1);
+                divLabelContainer1.appendChild(label1);
+                divLabelContainer1.appendChild(p1);
+                divCol1.appendChild(divLabelContainer1);
+                var divCol2 = document.createElement('div')
+                divCol2.className = "col s4";
+                var divLabelContainer2 = document.createElement('div')
+                divLabelContainer2.className = "label-container";
+                var label2 = document.createElement('label')
+                var textlabel2 = document.createTextNode("Nota:");
+                label2.appendChild(textlabel2);
+                var p2 = document.createElement('p')
+                var textp2 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
+                p2.appendChild(textp2);
+                divLabelContainer2.appendChild(label2);
+                divLabelContainer2.appendChild(p2);
+                divCol2.appendChild(divLabelContainer2);
+                fieldset.appendChild(divCol1);
+                fieldset.appendChild(divCol2);
+                fieldset.appendChild(legend);
+                divRow.appendChild(fieldset);
+                var divEditModalFooter = document.createElement('div')
+                divEditModalFooter.className = "modal-footer";
+                var linkCerrar = document.createElement('a')
+                linkCerrar.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                var iconCerrar = document.createElement('i')
+                iconCerrar.className = "mdi-navigation-close left";
+                var textoIconCerrar = document.createTextNode('Cerrar');
+                iconCerrar.appendChild(textoIconCerrar);
+                linkCerrar.appendChild(iconCerrar);
+                divEditModalFooter.appendChild(linkCerrar);
+                divEditModalCargoadmision.appendChild(br);
+                divEditModalCargoadmision.appendChild(h4);
+                divEditModalCargoadmision.appendChild(divRow);
+                divEditModalCargoadmision.appendChild(divEditModalFooter);
+                divcargosAdmisionEdit.appendChild(divEditModalCargoadmision);
+                <!-- End Edit Modal Structure -->
 
-                                    /*
+                <!-- Start Delete Structure -->
+                var divcargosAdmisionDelete = document.getElementById('cargosAdmision')
+                var divDeleteModalCargoadmisionDelete = document.createElement('div')
+                divDeleteModalCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                divDeleteModalCargoadmisionDelete.className = "modal";
+                var divDeleteModalContentCargoadmisionDelete = document.createElement('div')
+                divDeleteModalContentCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo');
+                divDeleteModalContentCargoadmisionDelete.className = "modal-content";
 
-                                    var link3 = document.createElement("a");
-                                    link3.id = 'eliminarAdmisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"];
-                                    var eliminar = document.createElement("i");
-                                    eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                                    link3.appendChild(eliminar);
-                                    celda.appendChild(link3);
-                                    hilera.appendChild(celda);
-                                        */
+                var divRowDelete = document.createElement('div')
+                divRowDelete.setAttribute ( 'id', 'delete-modal-header-container');
+                divRowDelete.className = "row";
+                var divRowAtencionDelete = document.createElement('div')
+                divRowAtencionDelete.className = "col s4 offset-s4";
+                var h4Delete = document.createElement('h4')
+                var iDelete = document.createElement('i')
+                iDelete.className = "mdi-alert-warning";
+                var textoiDelete = document.createTextNode("ATENCION");
+                iDelete.appendChild(textoiDelete);
+                h4Delete.appendChild(iDelete);
+                divRowAtencionDelete.appendChild(h4Delete);
+                divRowDelete.appendChild(divRowAtencionDelete);
+                divDeleteModalContentCargoadmisionDelete.appendChild(divRowDelete)
 
-                                    var link2 = document.createElement("a");
-                                    link2.className = "modal-trigger";
-                                    link2.setAttribute ( 'data-position', 'right' );
-                                    link2.setAttribute ( 'data-tooltip', 'EditarAdmisionanticipo' );
-                                    link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
-                                    var editar = document.createElement("i");
-                                    editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
+                var divRow2Delete = document.createElement('div')
+                divRow2Delete.className = "row";
+                var fieldsetDelete = document.createElement('fieldset')
+                var legendDelete = document.createElement('legend')
+                var textlegendDelete = document.createTextNode("Datos generales");
+                legendDelete.appendChild(textlegendDelete);
+                var divCol1Delete = document.createElement('div')
+                divCol1Delete.className = "col s4";
+                var divLabelContainer1Delete = document.createElement('div')
+                divLabelContainer1Delete.className = "label-container";
+                var label1Delete = document.createElement('label')
+                var textlabel1Delete = document.createTextNode("Cantidad:");
+                label1Delete.appendChild(textlabel1Delete);
+                var p1Delete = document.createElement('p')
+                var textp1Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
+                p1Delete.appendChild(textp1Delete);
+                divLabelContainer1Delete.appendChild(label1Delete);
+                divLabelContainer1Delete.appendChild(p1Delete);
+                divCol1Delete.appendChild(divLabelContainer1Delete);
+                var divCol2Delete = document.createElement('div')
+                divCol2Delete.className = "col s4";
+                var divLabelContainer2Delete = document.createElement('div')
+                divLabelContainer2Delete.className = "label-container";
+                var label2Delete = document.createElement('label')
+                var textlabel2Delete = document.createTextNode("Nota:");
+                label2Delete.appendChild(textlabel2Delete);
+                var p2Delete = document.createElement('p')
+                var textp2Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
+                p2Delete.appendChild(textp2Delete);
+                divLabelContainer2Delete.appendChild(label2Delete);
+                divLabelContainer2Delete.appendChild(p2Delete);
+                divCol2Delete.appendChild(divLabelContainer2Delete);
+                fieldsetDelete.appendChild(divCol1Delete);
+                fieldsetDelete.appendChild(divCol2Delete);
+                fieldsetDelete.appendChild(legendDelete);
+                divRow2Delete.appendChild(fieldsetDelete);
+                divDeleteModalContentCargoadmisionDelete.appendChild(divRow2Delete)
 
-                                    var link3 = document.createElement("a");
-                                    link3.className = "tooltipped modal-trigger";
-                                    link3.setAttribute ( 'data-position', 'right' );
-                                    link3.setAttribute ( 'data-tooltip', 'EliminarAdmisionanticipo' );
-                                    link3.setAttribute ( 'href', '#delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
-                                    //link3.setAttribute ( 'id', 'delete-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
-                                    var eliminar = document.createElement("i");
-                                    eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
-                                    link2.appendChild(editar);
-                                    celda.appendChild(link2);
-                                    link3.appendChild(eliminar);
-                                    celda.appendChild(link3);
-                                    hilera.appendChild(celda);
+                var divRow3Delete = document.createElement('div')
+                divRow3Delete.className = "row";
+                var divRowPreguntaDelete = document.createElement('div')
+                divRowPreguntaDelete.className = "col s12";
+                var h5Delete = document.createElement('h5')
+                var textoi2Delete = document.createTextNode("¿Estás seguro que deseas eliminar el cargo?");
+                h5Delete.appendChild(textoi2Delete);
+                divRowPreguntaDelete.appendChild(h5Delete);
+                divRow3Delete.appendChild(divRowPreguntaDelete);
+                divDeleteModalContentCargoadmisionDelete.appendChild(divRow3Delete)
 
-                                    <!-- Edit Modal Structure -->
-                                    var divcargosAdmisionEdit = document.getElementById('cargosAdmision')
-                                    var divEditModalCargoadmision = document.createElement('div')
-                                    divEditModalCargoadmision.setAttribute ( 'id', 'edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
-                                    divEditModalCargoadmision.className = "modal bottom-sheet";
-                                    var h4 = document.createElement('h4')
-                                    var texth4 = document.createTextNode("Editar-anticipo");
-                                    h4.appendChild(texth4);
-                                    var br = document.createElement('br')
-                                    var divRow = document.createElement('div')
-                                    divRow.className = "row";
-                                    var fieldset = document.createElement('fieldset')
-                                    var legend = document.createElement('legend')
-                                    var textlegend = document.createTextNode("Datos generales");
-                                    legend.appendChild(textlegend);
-                                    var divCol1 = document.createElement('div')
-                                    divCol1.className = "col s4";
-                                    var divLabelContainer1 = document.createElement('div')
-                                    divLabelContainer1.className = "label-container";
-                                    var label1 = document.createElement('label')
-                                    var textlabel1 = document.createTextNode("Cantidad:");
-                                    label1.appendChild(textlabel1);
-                                    var p1 = document.createElement('p')
-                                    var textp1 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
-                                    p1.appendChild(textp1);
-                                    divLabelContainer1.appendChild(label1);
-                                    divLabelContainer1.appendChild(p1);
-                                    divCol1.appendChild(divLabelContainer1);
-                                    var divCol2 = document.createElement('div')
-                                    divCol2.className = "col s4";
-                                    var divLabelContainer2 = document.createElement('div')
-                                    divLabelContainer2.className = "label-container";
-                                    var label2 = document.createElement('label')
-                                    var textlabel2 = document.createTextNode("Nota:");
-                                    label2.appendChild(textlabel2);
-                                    var p2 = document.createElement('p')
-                                    var textp2 = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
-                                    p2.appendChild(textp2);
-                                    divLabelContainer2.appendChild(label2);
-                                    divLabelContainer2.appendChild(p2);
-                                    divCol2.appendChild(divLabelContainer2);
-                                    fieldset.appendChild(divCol1);
-                                    fieldset.appendChild(divCol2);
-                                    fieldset.appendChild(legend);
-                                    divRow.appendChild(fieldset);
-                                    var divEditModalFooter = document.createElement('div')
-                                    divEditModalFooter.className = "modal-footer";
-                                    var linkCerrar = document.createElement('a')
-                                    linkCerrar.className = "modal-action modal-close waves-effect waves-light btn cerrar";
-                                    var iconCerrar = document.createElement('i')
-                                    iconCerrar.className = "mdi-navigation-close left";
-                                    var textoIconCerrar = document.createTextNode('Cerrar');
-                                    iconCerrar.appendChild(textoIconCerrar);
-                                    linkCerrar.appendChild(iconCerrar);
-                                    divEditModalFooter.appendChild(linkCerrar);
-                                    divEditModalCargoadmision.appendChild(br);
-                                    divEditModalCargoadmision.appendChild(h4);
-                                    divEditModalCargoadmision.appendChild(divRow);
-                                    divEditModalCargoadmision.appendChild(divEditModalFooter);
-                                    divcargosAdmisionEdit.appendChild(divEditModalCargoadmision);
-                                    <!-- End Edit Modal Structure -->
+                divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalContentCargoadmisionDelete);
 
-                                    <!-- Start Delete Structure -->
-                                    var divcargosAdmisionDelete = document.getElementById('cargosAdmision')
-                                    var divDeleteModalCargoadmisionDelete = document.createElement('div')
-                                    divDeleteModalCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"]);
-                                    divDeleteModalCargoadmisionDelete.className = "modal";
-                                    var divDeleteModalContentCargoadmisionDelete = document.createElement('div')
-                                    divDeleteModalContentCargoadmisionDelete.setAttribute ( 'id', 'delete-modal-admisionanticipo');
-                                    divDeleteModalContentCargoadmisionDelete.className = "modal-content";
+                var divDeleteModalFooterDelete = document.createElement('div')
+                divDeleteModalFooterDelete.className = "modal-footer";
+                var linkCerrarDelete = document.createElement('a')
+                linkCerrarDelete.className = "modal-action modal-close waves-effect waves-light btn cerrar";
+                var iconCerrarDelete = document.createElement('i')
+                iconCerrarDelete.className = "mdi-navigation-close left";
+                var textoIconCerrarDelete = document.createTextNode('Cerrar');
+                iconCerrarDelete.appendChild(textoIconCerrarDelete);
+                linkCerrarDelete.appendChild(iconCerrarDelete);
+                var linkEliminarDelete = document.createElement('a')
+                linkEliminarDelete.setAttribute ( 'id', 'eliminarAdmisionanticipo'+admisionanticipoArray[i]["idadmisionanticipo"]);
+                linkEliminarDelete.className = "waves-effect waves-light btn eliminar";
+                var iconEliminarDelete = document.createElement('i')
+                iconEliminarDelete.className = "mdi-action-delete left";
+                var textoIconEliminarDelete = document.createTextNode('Eliminar');
+                iconEliminarDelete.appendChild(textoIconEliminarDelete);
+                linkEliminarDelete.appendChild(iconEliminarDelete);
 
-                                    var divRowDelete = document.createElement('div')
-                                    divRowDelete.setAttribute ( 'id', 'delete-modal-header-container');
-                                    divRowDelete.className = "row";
-                                    var divRowAtencionDelete = document.createElement('div')
-                                    divRowAtencionDelete.className = "col s4 offset-s4";
-                                    var h4Delete = document.createElement('h4')
-                                    var iDelete = document.createElement('i')
-                                    iDelete.className = "mdi-alert-warning";
-                                    var textoiDelete = document.createTextNode("ATENCION");
-                                    iDelete.appendChild(textoiDelete);
-                                    h4Delete.appendChild(iDelete);
-                                    divRowAtencionDelete.appendChild(h4Delete);
-                                    divRowDelete.appendChild(divRowAtencionDelete);
-                                    divDeleteModalContentCargoadmisionDelete.appendChild(divRowDelete)
+                divDeleteModalFooterDelete.appendChild(linkCerrarDelete);
+                divDeleteModalFooterDelete.appendChild(linkEliminarDelete);
+                divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalFooterDelete);
+                divcargosAdmisionDelete.appendChild(divDeleteModalCargoadmisionDelete);
+                <!-- End Delete Modal Structure -->
+            }
+        }
 
-                                    var divRow2Delete = document.createElement('div')
-                                    divRow2Delete.className = "row";
-                                    var fieldsetDelete = document.createElement('fieldset')
-                                    var legendDelete = document.createElement('legend')
-                                    var textlegendDelete = document.createTextNode("Datos generales");
-                                    legendDelete.appendChild(textlegendDelete);
-                                    var divCol1Delete = document.createElement('div')
-                                    divCol1Delete.className = "col s4";
-                                    var divLabelContainer1Delete = document.createElement('div')
-                                    divLabelContainer1Delete.className = "label-container";
-                                    var label1Delete = document.createElement('label')
-                                    var textlabel1Delete = document.createTextNode("Cantidad:");
-                                    label1Delete.appendChild(textlabel1Delete);
-                                    var p1Delete = document.createElement('p')
-                                    var textp1Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_cantidad"]);
-                                    p1Delete.appendChild(textp1Delete);
-                                    divLabelContainer1Delete.appendChild(label1Delete);
-                                    divLabelContainer1Delete.appendChild(p1Delete);
-                                    divCol1Delete.appendChild(divLabelContainer1Delete);
-                                    var divCol2Delete = document.createElement('div')
-                                    divCol2Delete.className = "col s4";
-                                    var divLabelContainer2Delete = document.createElement('div')
-                                    divLabelContainer2Delete.className = "label-container";
-                                    var label2Delete = document.createElement('label')
-                                    var textlabel2Delete = document.createTextNode("Nota:");
-                                    label2Delete.appendChild(textlabel2Delete);
-                                    var p2Delete = document.createElement('p')
-                                    var textp2Delete = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_nota"]);
-                                    p2Delete.appendChild(textp2Delete);
-                                    divLabelContainer2Delete.appendChild(label2Delete);
-                                    divLabelContainer2Delete.appendChild(p2Delete);
-                                    divCol2Delete.appendChild(divLabelContainer2Delete);
-                                    fieldsetDelete.appendChild(divCol1Delete);
-                                    fieldsetDelete.appendChild(divCol2Delete);
-                                    fieldsetDelete.appendChild(legendDelete);
-                                    divRow2Delete.appendChild(fieldsetDelete);
-                                    divDeleteModalContentCargoadmisionDelete.appendChild(divRow2Delete)
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
 
-                                    var divRow3Delete = document.createElement('div')
-                                    divRow3Delete.className = "row";
-                                    var divRowPreguntaDelete = document.createElement('div')
-                                    divRowPreguntaDelete.className = "col s12";
-                                    var h5Delete = document.createElement('h5')
-                                    var textoi2Delete = document.createTextNode("¿Estás seguro que deseas eliminar el cargo?");
-                                    h5Delete.appendChild(textoi2Delete);
-                                    divRowPreguntaDelete.appendChild(h5Delete);
-                                    divRow3Delete.appendChild(divRowPreguntaDelete);
-                                    divDeleteModalContentCargoadmisionDelete.appendChild(divRow3Delete)
+        var idadmisionanticipo = admisionanticipoArray[i]["idadmisionanticipo"]
+        var idadmision = admisionanticipoArray[i]["idadmision"]
+        var cantidad = admisionanticipoArray[i]["admisionanticipo_cantidad"]
 
-                                    divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalContentCargoadmisionDelete);
+    }
 
-                                    var divDeleteModalFooterDelete = document.createElement('div')
-                                    divDeleteModalFooterDelete.className = "modal-footer";
-                                    var linkCerrarDelete = document.createElement('a')
-                                    linkCerrarDelete.className = "modal-action modal-close waves-effect waves-light btn cerrar";
-                                    var iconCerrarDelete = document.createElement('i')
-                                    iconCerrarDelete.className = "mdi-navigation-close left";
-                                    var textoIconCerrarDelete = document.createTextNode('Cerrar');
-                                    iconCerrarDelete.appendChild(textoIconCerrarDelete);
-                                    linkCerrarDelete.appendChild(iconCerrarDelete);
-                                    var linkEliminarDelete = document.createElement('a')
-                                    linkEliminarDelete.setAttribute ( 'id', 'eliminarAdmisionanticipo'+admisionanticipoArray[i]["idadmisionanticipo"]);
-                                    linkEliminarDelete.className = "waves-effect waves-light btn eliminar";
-                                    var iconEliminarDelete = document.createElement('i')
-                                    iconEliminarDelete.className = "mdi-action-delete left";
-                                    var textoIconEliminarDelete = document.createTextNode('Eliminar');
-                                    iconEliminarDelete.appendChild(textoIconEliminarDelete);
-                                    linkEliminarDelete.appendChild(iconEliminarDelete);
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
 
-                                    divDeleteModalFooterDelete.appendChild(linkCerrarDelete);
-                                    divDeleteModalFooterDelete.appendChild(linkEliminarDelete);
-                                    divDeleteModalCargoadmisionDelete.appendChild(divDeleteModalFooterDelete);
-                                    divcargosAdmisionDelete.appendChild(divDeleteModalCargoadmisionDelete);
-                                    <!-- End Delete Modal Structure -->
-                                }
-                            }
+    // Si dan clic en eliminarAnticipoadmision-id
+    $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
 
-                            // agrega la hilera al final de la tabla (al final del elemento tblbody)
-                            tblBody.appendChild(hilera);
+        alert("Entro");
+        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+        var dataString = 'eliminar_admisionanticipo=true'+'&idadmisionanticipo=' + idadmisionanticipo + '&idadmision=' + idadmision + '&cantidad=' + cantidad;
 
-                            var idadmisionanticipo = admisionanticipoArray[i]["idadmisionanticipo"]
-                            var idadmision = admisionanticipoArray[i]["idadmision"]
-                            var cantidad = admisionanticipoArray[i]["admisionanticipo_cantidad"]
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                alert("Se eliminó exitosamente el anticipo por la cantidad de: "+cantidad+" MXN")
 
-                        }
+                subTotalResponse('no pagada', +(cantidad), null, 'admision', -(cantidad))
+            },
+            error: function(){
+                alert("Error al intentar eliminar el anticipo por la cantidad de: "+cantidad+" MXN")
+            }
+        });
+        return false;
 
-                        // posiciona el <tbody> debajo del elemento <table>
-                        tabla.appendChild(tblBody);
+    });
 
-                        // Si dan clic en eliminarAnticipoadmision-id
-                        $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
+    /*
+     // Si dan clic en delete-modal-admisionanticipo-id
+     $("#delete-admisionanticipo-"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo},function() {
 
-                            alert("Entro");
-                            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-                            var dataString = 'eliminar_admisionanticipo=true'+'&idadmisionanticipo=' + idadmisionanticipo + '&idadmision=' + idadmision + '&cantidad=' + cantidad;
+     alert("Entro");
+     $('#tabla-admisionanticipo').closeModal();
+     $('#delete-modal-admisionanticipo-'+idadmisionanticipo).openModal();
 
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
-                                dataType : 'json',
-                                data: dataString,
-                                jsonpCallback: 'callback',
-                                success: function(data) {
-                                    alert("Se eliminó exitosamente el anticipo por la cantidad de: "+cantidad+" MXN")
+     });
+     */
 
-                                    subTotalResponse('no pagada', +(cantidad), null, 'admision', -(cantidad))
-                                },
-                                error: function(){
-                                    alert("Error al intentar eliminar el anticipo por la cantidad de: "+cantidad+" MXN")
-                                }
-                            });
-                            return false;
+    divModalContentTablaAdmisionanticipo.appendChild(tabla);
 
-                        });
+    var brAdmisionanticipo = document.createElement('br');
+    var hrAdmisionanticipo = document.createElement('hr');
 
-                        /*
-                        // Si dan clic en delete-modal-admisionanticipo-id
-                        $("#delete-admisionanticipo-"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo},function() {
+    var divModalFooterTablaAdmisionanticipo = document.createElement('div');
+    divModalFooterTablaAdmisionanticipo.className = 'modal-footer';
+    var linkCerrarModalTablaAdmisionanticipo = document.createElement('a');
+    linkCerrarModalTablaAdmisionanticipo.className = 'modal-action modal-close waves-effect waves-green btn cerrar';
+    var iconCerrarModalTablaAdmisionanticipo = document.createElement('i')
+    iconCerrarModalTablaAdmisionanticipo.className = "mdi-navigation-close left";
+    var textoIconCerrarModalTablaAdmisionanticipo = document.createTextNode('Cerrar');
+    iconCerrarModalTablaAdmisionanticipo.appendChild(textoIconCerrarModalTablaAdmisionanticipo);
+    linkCerrarModalTablaAdmisionanticipo.appendChild(iconCerrarModalTablaAdmisionanticipo);
+    divModalFooterTablaAdmisionanticipo.appendChild(linkCerrarModalTablaAdmisionanticipo);
 
-                            alert("Entro");
-                            $('#tabla-admisionanticipo').closeModal();
-                            $('#delete-modal-admisionanticipo-'+idadmisionanticipo).openModal();
-
-                        });
-                        */
-
-                    divModalContentTablaAdmisionanticipo.appendChild(tabla);
-
-                    var brAdmisionanticipo = document.createElement('br');
-                    var hrAdmisionanticipo = document.createElement('hr');
-
-                    var divModalFooterTablaAdmisionanticipo = document.createElement('div');
-                    divModalFooterTablaAdmisionanticipo.className = 'modal-footer';
-                        var linkCerrarModalTablaAdmisionanticipo = document.createElement('a');
-                        linkCerrarModalTablaAdmisionanticipo.className = 'modal-action modal-close waves-effect waves-green btn cerrar';
-                            var iconCerrarModalTablaAdmisionanticipo = document.createElement('i')
-                            iconCerrarModalTablaAdmisionanticipo.className = "mdi-navigation-close left";
-                            var textoIconCerrarModalTablaAdmisionanticipo = document.createTextNode('Cerrar');
-                            iconCerrarModalTablaAdmisionanticipo.appendChild(textoIconCerrarModalTablaAdmisionanticipo);
-                        linkCerrarModalTablaAdmisionanticipo.appendChild(iconCerrarModalTablaAdmisionanticipo);
-                    divModalFooterTablaAdmisionanticipo.appendChild(linkCerrarModalTablaAdmisionanticipo);
-
-                fieldsetModalTablaAdmisionanticipo.appendChild(divModalContentTablaAdmisionanticipo)
-                fieldsetModalTablaAdmisionanticipo.appendChild(brAdmisionanticipo)
-                fieldsetModalTablaAdmisionanticipo.appendChild(hrAdmisionanticipo)
-                fieldsetModalTablaAdmisionanticipo.appendChild(divModalFooterTablaAdmisionanticipo)
-                fieldsetModalTablaAdmisionanticipo.appendChild(legendModalTablaAdmisionanticipo)
-            divRowModalTablaAdmisionanticipo.appendChild(fieldsetModalTablaAdmisionanticipo);
-        divModalTablaAdmisionanticipo.appendChild(divRowModalTablaAdmisionanticipo);
+    fieldsetModalTablaAdmisionanticipo.appendChild(divModalContentTablaAdmisionanticipo)
+    fieldsetModalTablaAdmisionanticipo.appendChild(brAdmisionanticipo)
+    fieldsetModalTablaAdmisionanticipo.appendChild(hrAdmisionanticipo)
+    fieldsetModalTablaAdmisionanticipo.appendChild(divModalFooterTablaAdmisionanticipo)
+    fieldsetModalTablaAdmisionanticipo.appendChild(legendModalTablaAdmisionanticipo)
+    divRowModalTablaAdmisionanticipo.appendChild(fieldsetModalTablaAdmisionanticipo);
+    divModalTablaAdmisionanticipo.appendChild(divRowModalTablaAdmisionanticipo);
     divcargosAdmision.appendChild(divModalTablaAdmisionanticipo);
 }
 

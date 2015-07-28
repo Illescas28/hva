@@ -825,7 +825,7 @@ CREATE TABLE `paciente`
     `paciente_am` VARCHAR(45) NOT NULL,
     `paciente_calle` VARCHAR(45) NOT NULL,
     `paciente_noexterior` VARCHAR(45) NOT NULL,
-    `paciente_nointerior` VARCHAR(45) NOT NULL,
+    `paciente_nointerior` VARCHAR(45),
     `paciente_colonia` VARCHAR(45) NOT NULL,
     `paciente_codigopostal` VARCHAR(5) NOT NULL,
     `paciente_ciudad` VARCHAR(45) NOT NULL,
@@ -837,7 +837,7 @@ CREATE TABLE `paciente`
     `paciente_sexo` enum('Masculino','Femenino') NOT NULL,
     `paciente_estadocivil` enum('Soltero(a)','Casado(a)','Divorciado(a)','Viudo(a)') NOT NULL,
     `paciente_ocupacion` VARCHAR(45) NOT NULL,
-    `paciente_conyuge` VARCHAR(45) NOT NULL,
+    `paciente_conyuge` VARCHAR(45),
     `paciente_padre` VARCHAR(45) NOT NULL,
     `paciente_madre` VARCHAR(45) NOT NULL,
     `paciente_responsable` VARCHAR(45) NOT NULL,
@@ -959,8 +959,7 @@ CREATE TABLE `referenciaabono`
 (
     `idreferenciaabono` INTEGER NOT NULL,
     `idbanco` INTEGER,
-    `referenciaabono_tipo` enum('consulta','admision','venta'),
-    `referenciaabono_referencia` INTEGER,
+    `referenciaabono_archivo` TEXT,
     PRIMARY KEY (`idreferenciaabono`),
     INDEX `idbanco` (`idbanco`),
     CONSTRAINT `idbanco_referenciaabono`

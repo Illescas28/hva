@@ -120,7 +120,7 @@
                         data: movimiento,
                         url:'/bancos/movimientos/nuevomovimiento',
                         success: function (response) {
-                         
+                            
                             if(response.response == true){
                                 var tr = $('<tr>').attr('id',response.data.id).attr('data-time',response.data.fecha_js);
                                 tr.append('<td>'+response.data.fecha+'</td>');
@@ -175,7 +175,7 @@
 
                                 $container.find('input:not(input[name=banco_fecha]):not(input.select-dropdown)').val('');
                                 
-                                
+                                calcularTotalIngresosEgresos();
                                 
                             }
                         }
@@ -335,7 +335,31 @@
                 });
             }
                 
-
+            calcularTotalIngresosEgresos();
+            
+        }
+        
+        calcularTotalIngresosEgresos = function(){
+            
+            $container.find('#row_report').remove();
+            $row_report = $('<tr id="row_report" class="green lighten-5"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
+            $td_ingresos = $row_report.find('td').eq(2);
+            $td_egresos = $row_report.find('td').eq(3);
+            
+            
+            var totalIngresos = 0;
+            var totalEgresos = 0;
+            $container.find('tbody').children('tr:visible').filter(function(index){
+                totalIngresos = (totalIngresos + accounting.unformat($(this).find('td').eq(2).text()));
+                totalEgresos = (totalEgresos + accounting.unformat($(this).find('td').eq(3).text()));
+            });
+            
+             $td_ingresos.text(accounting.formatMoney(totalIngresos));
+             $td_egresos.text(accounting.formatMoney(totalEgresos));
+            
+            $container.find('tbody').after($row_report);
+            
+            
         }
 
        var filterByConcepto = function(){

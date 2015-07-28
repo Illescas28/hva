@@ -70,14 +70,7 @@ class ProveedorController extends AbstractActionController
 
     public function listarAction()
     {
-        // Instanciamos nuestro formulario proveedorForm
-        $proveedorForm = new ProveedorForm();
-
-        $proveedorQuery = new ProveedorQuery();
-
-        $result = $proveedorQuery->paginate($page,$limit);
-
-        $dataCollection = $result->getResults();
+        $dataCollection = \ProveedorQuery::create()->filterByIdproveedor(1,\Criteria::NOT_EQUAL)->find();
         
         return new ViewModel(array(
             'proveedores' => $dataCollection,
@@ -182,6 +175,22 @@ class ProveedorController extends AbstractActionController
             
         
 
+    }
+    
+    public function getproveedoresAction(){
+        
+        $collection = \ProveedorQuery::create()->filterByIdproveedor(1,\Criteria::NOT_EQUAL)->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        
+        $autcomplete = array();
+        
+        foreach ($collection as $entity){
+            $tmp['value'] = $entity["idproveedor"];
+            $tmp['label'] = $entity["proveedor_nombre"];
+            $conceptos_autcomplete[] = $tmp;
+        }
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($conceptos_autcomplete));
+        
+        
     }
 }
 
