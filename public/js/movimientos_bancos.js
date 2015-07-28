@@ -318,8 +318,6 @@
                 }
             });
             
-            return;
-            
            var from = $container.find('#fecha_filter_from').val();
            var to = $container.find('#fecha_filter_to').val();
 
@@ -378,8 +376,7 @@
             $row_report = $('<tr id="row_report" class="green lighten-5"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
             $td_ingresos = $row_report.find('td').eq(2);
             $td_egresos = $row_report.find('td').eq(3);
-            
-            
+
             var totalIngresos = 0;
             var totalEgresos = 0;
             $container.find('tbody').children('tr:visible').filter(function(index){
