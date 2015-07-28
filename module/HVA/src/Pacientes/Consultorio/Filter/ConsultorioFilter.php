@@ -40,7 +40,7 @@ class ConsultorioFilter implements InputFilterAwareInterface
                     array('name' => 'StringTrim'),
                 ),
             ));
-
+            
             $inputFilter->add(array(
                 'name'     => 'consultorio_extension',
                 'required' => false,
