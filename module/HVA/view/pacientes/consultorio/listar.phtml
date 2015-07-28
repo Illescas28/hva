@@ -6,6 +6,11 @@ $this->headTitle($title);
 <div>
     <div class="row" id="table-header">
         <form class="col s12">
+            <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+            <?php endif;?>
             <div class="row" style="position: relative">
                 <div class="col s6" id="new-container">
                     <a href="<?php echo $this->url('consultorio', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo consultorio</a>
