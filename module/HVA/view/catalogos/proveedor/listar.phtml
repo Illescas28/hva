@@ -31,6 +31,7 @@
             <th>Nombre</th>
             <th>Contacto</th>
             <th>Ciudad</th>
+            <th>Estado</th>
             <th>Telefono</th>
             <th >Opciones</th>
         </tr>
@@ -41,7 +42,8 @@
         <tr>
             <td><?php echo $proveedor->getProveedorNombre() ?></td>
             <td><?php echo $proveedor->getProveedorContacto() ?></td>
-            <td><?php echo $proveedor->getProveedorCiudad().", ". $proveedor->getProveedorEstado()?></td>
+            <td><?php echo $proveedor->getProveedorCiudad() ?></td>
+            <td><?php echo $proveedor->getProveedorEstado() ?></td>
             <td class="telefono"><?php echo $proveedor->getProveedorTelefono() ?></td>
             <td>
                 <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-proveedor-".$proveedor->getIdProveedor()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
@@ -146,7 +148,7 @@
 </table>
 <script>
 $(document).ready(function(){
-        $("#tabla-proveedores").tablesorter({headers:{4:{sorter:false},3:{sorter:false}}});
+        $("#tabla-proveedores").tablesorter({headers:{5:{sorter:false}}});
         $("#tabla-proveedores").filterTable({inputSelector: '#search-container input',minRows:1});
         $('.modal-trigger').leanModal();
 }); 

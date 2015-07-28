@@ -1,0 +1,129 @@
+<?php
+$title = 'Agendar cita';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row" id="table-header">
+    <form class="col s12">
+        <div class="row" style="position: relative">
+            <div class="input-field col s4 offset-s2" id="search-container">
+                <i class="mdi-action-search prefix"></i>
+                <input id="icon_prefix" type="text">
+                <label for="icon_prefix">Buscar</label>
+            </div>
+        </div>
+    </form>
+</div>
+<table id="tabla-paciente" class="striped hoverable">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido paterno</th>
+            <th>Apellido materno</th>
+            <th>Fecha de nacimiento</th>
+            <th>Telefono celular</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($collection as $entity) :?>
+        <?php 
+            $paciente_fechanacimiento = new DateTime($entity['paciente_fechanacimiento']);
+            $paciente_fechanacimiento = $paciente_fechanacimiento->format('d-m-Y');
+        ?>
+        <tr id="<?php echo $entity['idpaciente']?>">
+            <td><?php echo $entity['paciente_nombre'] ?></td>
+            <td><?php echo $entity['paciente_ap'] ?></td>
+            <td><?php echo $entity['paciente_am'] ?></td>
+            <td><?php echo $paciente_fechanacimiento ?></td>
+            <td><?php echo $entity['paciente_telefonocelular'] ?></td>
+            <td>
+                <a class="tooltipped modal-trigger" href="#view-modal-paciente-<?php echo $entity['idpaciente']?>" data-tooltip="Visualizar" data-position="left">
+                    <i class="tiny mdi-image-remove-red-eye"></i>
+                </a>
+                &nbsp;&nbsp; 
+                <a class="tooltipped" href="/pacientes/agendarcita/nuevo/<?php echo $entity['idpaciente']?>" data-tooltip="Agendar cita" data-position="left">
+                    <i class="tiny mdi-action-assignment"></i>
+                </a>
+            </td>
+            <div id="view-modal-paciente-<?php echo $entity['idpaciente'] ?>" class="modal">
+                    <div class="modal-content">
+                        <h4><?php echo "Paciente: " . $entity['paciente_nombre'] . " " . $entity['paciente_ap'] . " " . $entity['paciente_am'] ?></h4>
+                        <div class="row">
+                            <fieldset>
+                                <legend>Datos Generales</legend>
+                                <div class="col s4">
+                                    <div class="label-container">
+                                        <label>Calle:</label>
+                                        <p><?php echo $entity['paciente_calle'] ?></p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Colonia:</label>
+                                        <p><?php echo $entity['paciente_colonia']  ?></p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Estado:</label>
+                                        <p><?php echo $entity['paciente_estado'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="col s4">
+                                    <div class="label-container">
+                                        <label>No. Exterior:</label>
+                                        <p><?php echo $entity['paciente_noexterior'] ?></p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Codigo Postal:</label>
+                                        <p><?php echo $entity['paciente_codigopostal'] ?></p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Pais:</label>
+                                        <p><?php echo $entity['paciente_pais'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="col s4">
+                                    <div class="label-container">
+                                        <label>No. Interior:</label>
+                                        <p><?php echo $entity['paciente_nointerior'] ?></p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Ciudad:</label>
+                                        <p><?php echo $entity['paciente_ciudad']?></p>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset>
+                                <legend>Teléfonos</legend>
+                                <div class="col s4">
+                                    <div class="label-container">
+                                        <label>Casa:</label>
+                                        <p><?php echo $entity['paciente_telefono'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="label-container">
+                                    <label>Celular:</label>
+                                    <p><?php echo $entity['paciente_telefonocelular'] ?></p>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                        <a href='/pacientes/agendarcita/nuevo/<?php echo $entity['idpaciente']?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Agendar cita</a>
+                    </div>
+                </div>
+        </tr>
+        <?php endforeach;?>
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.modal-trigger').leanModal();
+        $("#tabla-paciente").tablesorter({headers:{5:{sorter:false}}});
+        $("#tabla-paciente").filterTable({inputSelector: '#search-container input',minRows:2});
+        
+        
+        
+    });
+</script>

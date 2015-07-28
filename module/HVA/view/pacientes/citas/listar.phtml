@@ -1,0 +1,130 @@
+<?php
+$title = 'Citas';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row" id="table-header">
+    <?php if(count($flashMessages)) :?>
+        <?php foreach ($flashMessages as $message) :?>
+            <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+        <?php endforeach;?>
+    <?php endif;?>    
+    <form class="col s12">
+        <div class="row" style="position: relative">
+            <div class="input-field col s4 offset-s2" id="search-container">
+                <i class="mdi-action-search prefix"></i>
+                <input id="icon_prefix" type="text">
+                <label for="icon_prefix">Buscar</label>
+            </div>
+        </div>
+    </form>
+</div>
+<table id="tabla-citas" class="striped hoverable">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Paciente</th>
+            <th>Medico</th>
+            <th>Nota</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($collection as $entity) :?>
+        <?php 
+            $cita_fecha = new DateTime($entity['cita_fecha']);
+            $cita_fecha = $cita_fecha->format('d-m-Y');
+            
+            $cita_hora = date("g:i A", strtotime($entity['cita_hora']));;
+
+        ?>
+        <tr id="<?php echo $entity['idcita']?>">
+            <td><?php echo $cita_fecha ?></td>
+            <td><?php echo $cita_hora ?></td>
+            <td><?php echo $entity['paciente_nombre'].' '.$entity['paciente_ap'].' '.$entity['paciente_am']?></td>
+             <td><?php echo $entity['medico_nombre'].' '.$entity['medico_apellidopaterno'].' '.$entity['medico_apellidomaterno']?></td>
+            <td><?php echo $entity['cita_descripcion'] ?></td>
+             <td>
+                <a class="tooltipped modal-trigger" href="#view-modal-cita-<?php echo $entity['idcita']?>" data-tooltip="Visualizar" data-position="left">
+                    <i class="tiny mdi-image-remove-red-eye"></i>
+                </a>
+                &nbsp;&nbsp; 
+                <a class="tooltipped" href="/pacientes/citas/editar/<?php echo $entity['idcita']?>" data-tooltip="Modifica cita" data-position="left">
+                    <i class="tiny mdi-action-assignment"></i>
+                </a>
+                &nbsp;&nbsp;    
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idcita']?>'><i class="tiny mdi-action-delete"></i></a>
+            </td>
+        </tr>
+        <!-- Delete Modal Structure -->
+        <div id="delete-modal-<?php echo $entity['idcita']?>" class="modal ">
+            <div class="modal-content" id="delete-modal-container">
+                <div class="row" id="delete-modal-header-container">
+                    <div class="col s5 offset-s4">
+                        <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <p><?php echo "Esta seguro que desea eliminar la cita seleecionada ?"?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                <a href="/pacientes/citas/eliminar/<?php echo $entity['idcita']?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>       
+            </div>
+        </div>
+        <!-- End Delete Modal Structure -->   
+        <div id="view-modal-cita-<?php echo $entity['idcita'] ?>" class="modal">
+            <div class="modal-content">
+                <h4><?php echo $entity['paciente_nombre'] . " " . $entity['paciente_ap'] . " " . $entity['paciente_am'] ?></h4>
+                <div class="row">
+                    <fieldset>
+                        <legend>Datos Generales</legend>
+                        <div class="col s4">
+                            <div class="label-container">
+                                <label>Fecha:</label>
+                                <p><?php echo $cita_fecha ?></p>
+                            </div>
+                        </div>
+                        <div class="col s4">
+                            <div class="label-container">
+                                <label>Hora:</label>
+                                <p><?php echo $cita_hora ?></p>
+                            </div>
+                        </div>
+                        <div class="col s4">
+                            <div class="label-container">
+                                <label>Medico:</label>
+                                <p><?php echo $entity['medico_nombre'].' '.$entity['medico_apellidopaterno'].' '.$entity['medico_apellidomaterno']?></p>
+                            </div>
+                        </div>
+                        <div class="col s12">
+                            <div class="label-container">
+                                 <label>Nota:</label>
+                                 <p><?php echo $entity['cita_descripcion'] ?></p>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                <a href='/pacientes/citas/editar/<?php echo $entity['idcita']?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar cita</a>
+            </div>
+        </div>
+        <?php endforeach;?>
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.modal-trigger').leanModal();
+        $("#tabla-citas").tablesorter({headers:{4:{sorter:false}}});
+        $("#tabla-citas").filterTable({inputSelector: '#search-container input',minRows:2});
+        
+        
+        
+    });
+</script>

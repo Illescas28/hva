@@ -1,0 +1,128 @@
+<style>
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        left: initial;
+        position: initial;
+    }
+    
+    .filter-container input[type=text]{
+        background-color: #fff;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        
+        color: #444;
+        height: 26px;
+        line-height: 26px;
+        overflow: hidden;
+        padding: 0;
+        padding-left: 8px;
+        text-align: left;
+        text-decoration: none;
+        white-space: nowrap;
+        width: 100%;
+        margin: 0;
+        font-size: 12px;
+    }
+    
+    .filter-container input[type=text]:focus{
+        border: 1px solid #aaa;
+        box-shadow: none;
+    }
+</style>
+<?php
+$title = 'Reporte de consultas y admisiones';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<script src="/js/admisiones_consultas_reports.js"></script>
+<div id="report-container">
+<div class="filter-container row" >
+    <fieldset>
+        <legend>Filtros</legend>
+        <div id="table-header">
+            <div class="row">
+                <div class="col s4">
+                     <label>Por fecha</label>
+                     <div class="row">
+                         <div class="col s6" style="padding-left: 0px;">
+                             <input placeholder="01-01-2014" type="text" id="fecha_from" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false">
+                         </div>
+                         <div class="col s6">
+                               <input placeholder="31-12-2014" type="text" id="fecha_to" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false">
+                         </div>
+                     </div>
+                </div>
+                    <div class="col s4">
+                         <label>Por tipo</label>
+                        <select multiple="multiple" class="browser-default" id="tipo_filter">
+                            <option value="admision">Admision</option>
+                            <option value="consulta">Consulta</option>
+                        </select>
+                    </div>
+                <div class="col s4">
+                         <label>Por paciente</label>
+                        <select multiple="multiple" class="browser-default" id="paciente_filter">
+                        </select>
+                    </div>
+                    
+            </div>
+                <div class="row">
+                    <div class="col s4">
+                     <label>Por hora</label>
+                     <div class="row">
+                         <div class="col s6" style="padding-left: 0px;">
+                             <input placeholder="12:00 AM" type="text" id="hora_from" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false">
+                         </div>
+                         <div class="col s6">
+                             <input placeholder="11:59 PM" type="text" id="hora_to" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false">
+                         </div>
+                     </div>
+                </div>
+                    <div class="col s4">
+                         <label>Por medico</label>
+                        <select multiple="multiple" class="browser-default" id="medico_filter">
+                        </select>
+                    </div>
+                    <div class="col s4">
+                         <label>Por # movimiento</label>
+                        <select multiple="multiple" class="browser-default" id="movimiento_filter">
+                        </select>
+                    </div>
+                    
+                </div>
+        </div>
+        </fieldset>
+    </div>
+    <table id="tabla-paciente" class="bordered">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th># Movimiento</th>
+            <th>Paciente</th>
+            <th>Medico</th>
+            <th>Tipo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($collection as $entity) :?>
+            <tr>
+                <td><?php echo $entity['fecha']?></td>
+                <td><?php echo $entity['hora']?></td>
+                <td><?php echo $entity['id']?></td>
+                <td><?php echo $entity['paciente']?></td>
+                <td><?php echo $entity['medico']?></td>
+                <td><?php echo $entity['tipo']?></td>
+            </tr>  
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //$("#tabla-paciente").tablesorter({headers:{5:{sorter:false}}});
+        //$("#tabla-paciente").filterTable({inputSelector: '#search-container input',minRows:2});
+        $('#report-container').admisionesreports({
+            movimientos:<?php echo $movimientos?>
+        });
+    });
+</script>

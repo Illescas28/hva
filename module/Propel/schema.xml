@@ -636,7 +636,7 @@
     <column name="paciente_am" phpName="PacienteAm" type="VARCHAR" size="45" required="true"/>
     <column name="paciente_calle" phpName="PacienteCalle" type="VARCHAR" size="45" required="true"/>
     <column name="paciente_noexterior" phpName="PacienteNoexterior" type="VARCHAR" size="45" required="true"/>
-    <column name="paciente_nointerior" phpName="PacienteNointerior" type="VARCHAR" size="45" required="true"/>
+    <column name="paciente_nointerior" phpName="PacienteNointerior" type="VARCHAR" size="45" required="false"/>
     <column name="paciente_colonia" phpName="PacienteColonia" type="VARCHAR" size="45" required="true"/>
     <column name="paciente_codigopostal" phpName="PacienteCodigopostal" type="VARCHAR" size="5" required="true"/>
     <column name="paciente_ciudad" phpName="PacienteCiudad" type="VARCHAR" size="45" required="true"/>
@@ -648,7 +648,7 @@
     <column name="paciente_sexo" phpName="PacienteSexo" type="CHAR" sqlType="enum('Masculino','Femenino')" required="true"/>
     <column name="paciente_estadocivil" phpName="PacienteEstadocivil" type="CHAR" sqlType="enum('Soltero(a)','Casado(a)','Divorciado(a)','Viudo(a)')" required="true"/>
     <column name="paciente_ocupacion" phpName="PacienteOcupacion" type="VARCHAR" size="45" required="true"/>
-    <column name="paciente_conyuge" phpName="PacienteConyuge" type="VARCHAR" size="45" required="true"/>
+    <column name="paciente_conyuge" phpName="PacienteConyuge" type="VARCHAR" size="45" required="false"/>
     <column name="paciente_padre" phpName="PacientePadre" type="VARCHAR" size="45" required="true"/>
     <column name="paciente_madre" phpName="PacienteMadre" type="VARCHAR" size="45" required="true"/>
     <column name="paciente_responsable" phpName="PacienteResponsable" type="VARCHAR" size="45" required="true"/>
@@ -740,8 +740,7 @@
   <table name="referenciaabono" phpName="Referenciaabono" idMethod="native">
     <column name="idreferenciaabono" phpName="Idreferenciaabono" type="INTEGER" primaryKey="true" required="true"/>
     <column name="idbanco" phpName="Idbanco" type="INTEGER" required="false"/>
-    <column name="referenciaabono_tipo" phpName="ReferenciaabonoTipo" type="CHAR" sqlType="enum('consulta','admision','venta')" required="false"/>
-    <column name="referenciaabono_referencia" phpName="ReferenciaabonoReferencia" type="INTEGER" required="false"/>
+    <column name="referenciaabono_archivo" phpName="ReferenciaabonoArchivo" type="LONGVARCHAR" required="false"/>
     <foreign-key foreignTable="banco" name="idbanco_referenciaabono" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idbanco" foreign="idbanco"/>
     </foreign-key>

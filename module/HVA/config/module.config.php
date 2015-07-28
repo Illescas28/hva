@@ -56,7 +56,7 @@ return array(
                 'options' => array(
                     'route'    => '/pacientes[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|asignar|editar|eliminar|actuales|detalles|historico',
+                        'action' => 'nuevo|asignar|editar|eliminar|actuales|detalles|getpacientes|historico',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
@@ -121,6 +121,51 @@ return array(
                     ),
                 ),
             ),
+            'pacientes-historico' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/historico[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Historico\Controller\Historico',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            /*
+             * Citas 
+             */
+            'citas-agendar' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/agendarcita[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Citas\Controller\Agendarcita',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'citas' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/citas[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Citas\Controller\Citas',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'admisionanticipo' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -151,7 +196,7 @@ return array(
                 'options' => array(
                     'route'    => '/catalogos/proveedor[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
+                        'action' => 'nuevo|editar|eliminar|getproveedores',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
@@ -249,7 +294,7 @@ return array(
                 'options' => array(
                     'route'    => '/catalogos/medico[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
+                        'action' => 'nuevo|editar|eliminar|getmedicos',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
@@ -555,6 +600,17 @@ return array(
                     ),
                 ),
             ),
+            //Reportes
+            'reportes-ingresos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/reportes/ingresos[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Reportes\Controller\Ingresos',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -619,11 +675,14 @@ return array(
             'Productos\Precios\Controller\Precios'                              =>   'Productos\Precios\Controller\PreciosController',
             'Pacientes\Consultaanticipo\Controller\Consultaanticipo'            => 'Pacientes\Consultaanticipo\Controller\ConsultaanticipoController',
             'Pacientes\Admisionanticipo\Controller\Admisionanticipo'            => 'Pacientes\Admisionanticipo\Controller\AdmisionanticipoController',
+            'Pacientes\Historico\Controller\Historico'                          => 'Pacientes\Historico\Controller\HistoricoController',
             // Módulo Pacientes
             'Pacientes\Paciente\Controller\Paciente'                            => 'Pacientes\Paciente\Controller\PacienteController',
             'Pacientes\Consultorio\Controller\Consultorio'                      => 'Pacientes\Consultorio\Controller\ConsultorioController',
             'Pacientes\Servicio\Controller\Servicio'                            => 'Pacientes\Servicio\Controller\ServicioController',
             'Pacientes\Cargoconsulta\Controller\Cargoconsulta'                  => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
+            'Pacientes\Citas\Controller\Citas'                                  => 'Pacientes\Citas\Controller\CitasController',
+            'Pacientes\Citas\Controller\Agendarcita'                            => 'Pacientes\Citas\Controller\AgendarcitaController',
             
             //Modulo Compras
             'Compras\Controller\Compras'                                        => 'Compras\Controller\ComprasController',
@@ -637,7 +696,9 @@ return array(
             'Cajachica\Controller\Concepto'                                     => 'Cajachica\Controller\ConceptoController',
             //Modulo Bancos
             'Bancos\Controller\Concepto'                                        => 'Bancos\Controller\ConceptoController',
-            'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController'
+            'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController',
+            //Reportes
+            'Reportes\Controller\Ingresos'                                      => 'Reportes\Controller\IngresosController',
             ),
     ),
     'view_manager' => array(

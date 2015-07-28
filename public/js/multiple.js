@@ -63,10 +63,9 @@
         init: function () {
             var that = this;
             if (this.options.filter) {
+
                 this.$drop.append(
-                    '<div class="ms-search">',
-                    '<input type="text" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false">',
-                    '</div>'
+                    '<div class="ms-search"><input style="margin:0" type="text" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false"></div>'
                 );
             }
             var ul = $('<ul></ul>');
@@ -546,7 +545,7 @@
         allSelected: 'All selected',
         minimumCountSelected: 3,
         countSelected: '# de % seleccionados',
-        noMatchesFound: 'No matches found',
+        noMatchesFound: 'Sin coincidencias',
         multiple: false,
         multipleWidth: 80,
         single: false,

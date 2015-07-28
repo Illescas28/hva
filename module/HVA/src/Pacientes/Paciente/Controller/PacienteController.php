@@ -1467,4 +1467,17 @@ class PacienteController extends AbstractActionController
 
         }
     }
+    
+    public  function getpacientesAction(){
+        $collection = \PacienteQuery::create()->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        
+        $autcomplete = array();
+        
+        foreach ($collection as $entity){
+            $tmp['value'] = $entity["idpaciente"];
+            $tmp['label'] = $entity["paciente_nombre"].' '.$entity['paciente_ap'].' '.$entity['paciente_am'];
+            $conceptos_autcomplete[] = $tmp;
+        }
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($conceptos_autcomplete));
+    }
 }

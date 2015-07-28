@@ -19,7 +19,8 @@
         //->prependStylesheet($this->basePath('css/timepicki.css'))
         ->prependStylesheet($this->basePath('css/style.css'))
         ->prependStylesheet($this->basePath('css/materialize.css'))
-        ->prependStylesheet($this->basePath('css/token_input/token-input.css'));
+        ->prependStylesheet($this->basePath('css/multiple.css'))
+                ->prependStylesheet($this->basePath('css/token_input/token-input.css'));
     
     
     ?>
@@ -35,6 +36,9 @@
         ->prependFile($this->basePath('js/filterTable.js'), 'text/javascript')
         ->prependFile($this->basePath('js/tablesorter.js'), 'text/javascript')
         ->prependFile($this->basePath('js/materialize.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/comprasreports.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/multiple.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/accounting.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery.min.js'), 'text/javascript');
     
     
@@ -57,6 +61,7 @@
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_caja'>Caja<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>  
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_catalogos'>Catalogos <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_empleados'>Empleados <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a href="/reportes/ingresos">Reporte de ingresos</a></li>
 
             </ul>
         </div>
@@ -121,7 +126,9 @@
     <li class="divider"></li>
     <li><a href="#!">Generación de cargos a</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Programar cita paciente</a></li>
+    <li><a href="/pacientes/citas">Citas</a></li>
+    <li class="divider"></li>
+    <li><a href="/pacientes/agendarcita">Agendar cita</a></li>
     <li class="divider"></li>
     <li><a href="#!">Alta y facturación</a></li>
     <li class="divider"></li>
