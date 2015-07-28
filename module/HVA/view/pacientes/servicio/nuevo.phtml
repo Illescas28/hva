@@ -66,8 +66,7 @@ $this->headTitle($title);
         </div>
         <div class="col s6">
             <div class="input-field">
-                <?php echo $this->formText($servicioForm->get('servicio_iva')); ?>
-                <?php echo $this->formLabel($servicioForm->get('servicio_iva')); ?>
+                <?php echo $this->formSelect($servicioForm->get('servicio_iva')); ?>
                 <?php $showError=$this->formElementErrors($servicioForm->get('servicio_iva'));
                 if(!empty($showError)):
                     ?>

@@ -12,7 +12,6 @@
  * @method BancoQuery orderByBancoTipomovimiento($order = Criteria::ASC) Order by the banco_tipomovimiento column
  * @method BancoQuery orderByBancoCantidad($order = Criteria::ASC) Order by the banco_cantidad column
  * @method BancoQuery orderByBancoBalance($order = Criteria::ASC) Order by the banco_balance column
- * @method BancoQuery orderByBancoComprobante($order = Criteria::ASC) Order by the banco_comprobante column
  * @method BancoQuery orderByBancoNota($order = Criteria::ASC) Order by the banco_nota column
  *
  * @method BancoQuery groupByIdbanco() Group by the idbanco column
@@ -21,7 +20,6 @@
  * @method BancoQuery groupByBancoTipomovimiento() Group by the banco_tipomovimiento column
  * @method BancoQuery groupByBancoCantidad() Group by the banco_cantidad column
  * @method BancoQuery groupByBancoBalance() Group by the banco_balance column
- * @method BancoQuery groupByBancoComprobante() Group by the banco_comprobante column
  * @method BancoQuery groupByBancoNota() Group by the banco_nota column
  *
  * @method BancoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -44,7 +42,6 @@
  * @method Banco findOneByBancoTipomovimiento(string $banco_tipomovimiento) Return the first Banco filtered by the banco_tipomovimiento column
  * @method Banco findOneByBancoCantidad(string $banco_cantidad) Return the first Banco filtered by the banco_cantidad column
  * @method Banco findOneByBancoBalance(string $banco_balance) Return the first Banco filtered by the banco_balance column
- * @method Banco findOneByBancoComprobante(string $banco_comprobante) Return the first Banco filtered by the banco_comprobante column
  * @method Banco findOneByBancoNota(string $banco_nota) Return the first Banco filtered by the banco_nota column
  *
  * @method array findByIdbanco(int $idbanco) Return Banco objects filtered by the idbanco column
@@ -53,7 +50,6 @@
  * @method array findByBancoTipomovimiento(string $banco_tipomovimiento) Return Banco objects filtered by the banco_tipomovimiento column
  * @method array findByBancoCantidad(string $banco_cantidad) Return Banco objects filtered by the banco_cantidad column
  * @method array findByBancoBalance(string $banco_balance) Return Banco objects filtered by the banco_balance column
- * @method array findByBancoComprobante(string $banco_comprobante) Return Banco objects filtered by the banco_comprobante column
  * @method array findByBancoNota(string $banco_nota) Return Banco objects filtered by the banco_nota column
  *
  * @package    propel.generator.hva.om
@@ -162,7 +158,7 @@ abstract class BaseBancoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idbanco`, `idconceptobanco`, `banco_fecha`, `banco_tipomovimiento`, `banco_cantidad`, `banco_balance`, `banco_comprobante`, `banco_nota` FROM `banco` WHERE `idbanco` = :p0';
+        $sql = 'SELECT `idbanco`, `idconceptobanco`, `banco_fecha`, `banco_tipomovimiento`, `banco_cantidad`, `banco_balance`, `banco_nota` FROM `banco` WHERE `idbanco` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -477,35 +473,6 @@ abstract class BaseBancoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BancoPeer::BANCO_BALANCE, $bancoBalance, $comparison);
-    }
-
-    /**
-     * Filter the query on the banco_comprobante column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByBancoComprobante('fooValue');   // WHERE banco_comprobante = 'fooValue'
-     * $query->filterByBancoComprobante('%fooValue%'); // WHERE banco_comprobante LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $bancoComprobante The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return BancoQuery The current query, for fluid interface
-     */
-    public function filterByBancoComprobante($bancoComprobante = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($bancoComprobante)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $bancoComprobante)) {
-                $bancoComprobante = str_replace('*', '%', $bancoComprobante);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(BancoPeer::BANCO_COMPROBANTE, $bancoComprobante, $comparison);
     }
 
     /**

@@ -60,6 +60,7 @@ class AdmisionTableMap extends TableMap
   1 => 'tarjeta debito',
   2 => 'tarjeta credito',
   3 => 'cheque',
+  4 => 'no identificado',
 ));
         $this->addColumn('admision_referenciapago', 'AdmisionReferenciapago', 'VARCHAR', false, 45, null);
         $this->addColumn('admision_facturada', 'AdmisionFacturada', 'BOOLEAN', false, 1, null);

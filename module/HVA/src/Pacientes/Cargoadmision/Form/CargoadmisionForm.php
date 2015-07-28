@@ -14,24 +14,24 @@ class CargoadmisionForm extends Form
         // Inicio columnas adicionales
         // busquedaArticulo
         $this->add(array(
-            'name' => 'busquedaArticulo',
+            'name' => 'busquedaAdmisionArticulo',
             'type' => 'Text',
             'options' => array(
                 'label' => 'busqueda Articulo',
             ),
             'attributes' => array(
-                'id' => 'busquedaArticulo'
+                'id' => 'busquedaAdmisionArticulo'
             )
         ));
         // busquedaServicio
         $this->add(array(
-            'name' => 'busquedaServicio',
+            'name' => 'busquedaAdmisionServicio',
             'type' => 'Text',
             'options' => array(
                 'label' => 'busqueda Servicio',
             ),
             'attributes' => array(
-                'id' => 'busquedaServicio'
+                'id' => 'busquedaAdmisionServicio'
             )
         ));
         $this->add(array(
