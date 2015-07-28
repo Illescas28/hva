@@ -57,22 +57,40 @@
                        
                        $.each(conceptos,function(index,element){
                            //Inicilizamos el filtro de los conceptos
-                            $container.find('select#concepto_filter').append('<option value="'+element.value+'">'+element.label+'</option>');
+                            $container.find('#concepto_filter').append('<option value="'+element.value+'">'+element.label+'</option>');
                        });
                        
-                       $("select#concepto_filter").multipleSelect({
+                       $container.find("#concepto_filter").multipleSelect({
                             selectAll:true,
                             allSelected:'Todos los conceptos',
                             selectAllText:'Todos los conceptos',
                             onClick : filterByDate,
                             onCheckAll:filterByDate,
-                            onUncheckAll:filterByDate,
+                            onUncheckAll:filterByDate
                         });
 
-                        $("select#concepto_filter").multipleSelect("checkAll");
+                        $container.find("#tipo_filter").multipleSelect({
+                            selectAll:true,
+                            allSelected:'Todos los tipo',
+                            selectAllText:'Todos los tipos',
+                            onClick : filterByDate,
+                            onCheckAll:filterByDate,
+                            onUncheckAll:filterByDate
+                        });
+
+                        $container.find("#tipo_filter").multipleSelect("checkAll");
+                        $container.find("#concepto_filter").multipleSelect("checkAll");
+                        
+                        
                        
                    }
             );
+    
+                        
+    
+
+
+            //$("select#tipo_filter").multipleSelect("checkAll");
     
             //Inicializamos los calendarios
             $container.find('#fecha_filter_from').datepicker({
@@ -279,14 +297,29 @@
        }
        
        var filterByDate = function(){
+           
            $container.find('tbody').children('tr').show();
-           var selected =  $("select#concepto_filter").multipleSelect('getSelects');
+           
+           var selected =  $("#concepto_filter").multipleSelect('getSelects');
+
             $container.find('td.banco_concepto').filter(function(index){
                 if($.inArray($(this).attr('id'),selected) == -1){
+                    
                      $(this).closest('tr').hide();
                  }
             });
-           
+            
+
+            var typeselected =  $("#tipo_filter").multipleSelect('getSelects');
+            $container.find('tbody tr:visible').filter(function(index){
+                var tr_tipo = ($(this).find('td').eq(2).attr('class') == 'ingreso') ? 'ingreso' : 'egreso';
+                if($.inArray(tr_tipo,typeselected) == -1){
+                    $(this).closest('tr').hide();
+                }
+            });
+            
+            return;
+            
            var from = $container.find('#fecha_filter_from').val();
            var to = $container.find('#fecha_filter_to').val();
 
