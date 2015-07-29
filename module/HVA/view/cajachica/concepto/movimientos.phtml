@@ -112,6 +112,13 @@
                     <select multiple="multiple" class="browser-default" id="concepto_filter">
                     </select>
                 </div>
+                <div class="col s12">
+                    <label>Por tipo</label>
+                    <select multiple="multiple" class="browser-default" id="tipo_filter">
+                        <option value="ingreso">Ingreso</option>
+                        <option value="egreso">Egreso</option>
+                    </select>
+                </div>
             </div>
             
                 <div class="row">
@@ -159,11 +166,11 @@
                 <td data-time="<?php echo $fechaJS ?>"><?php echo $fecha?></td>
                 <td class="caja_concepto" id="<?php echo $entity['idconceptocajachica'] ?>"><?php echo $entity['conceptocajachica_nombre']?></td>
                 <?php  if($entity['cajachica_tipomovimiento'] == 'cargo') :  ?>
-                     <td><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td>
+                <td class="ingreso"><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td>
                      <td class="movmiento_vacio"> ---- </td>
                 <?php else :?>
                      <td class="movmiento_vacio"> ---- </td>
-                    <td><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td> 
+                    <td class="egreso"><?php echo money_format('%(#10n', $entity['cajachica_cantidad'])?></td> 
                 <?php endif;?>
                 <!--<td><?php //echo $entity['cajachica_balance']?></td>-->   
                 <td><?php echo $entity['cajachica_comprobante']?></td>        

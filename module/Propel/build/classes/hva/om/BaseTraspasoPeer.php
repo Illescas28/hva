@@ -24,19 +24,16 @@ abstract class BaseTraspasoPeer
     const TM_CLASS = 'TraspasoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 5;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /** the column name for the idinventariolugar field */
     const IDINVENTARIOLUGAR = 'traspaso.idinventariolugar';
-
-    /** the column name for the idordencompra field */
-    const IDORDENCOMPRA = 'traspaso.idordencompra';
 
     /** the column name for the idlugarremitente field */
     const IDLUGARREMITENTE = 'traspaso.idlugarremitente';
@@ -75,12 +72,12 @@ abstract class BaseTraspasoPeer
      * e.g. TraspasoPeer::$fieldNames[TraspasoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idinventariolugar', 'Idordencompra', 'Idlugarremitente', 'Idlugardestinatario', 'TraspasoFecha', 'TraspasoStatus', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idinventariolugar', 'idordencompra', 'idlugarremitente', 'idlugardestinatario', 'traspasoFecha', 'traspasoStatus', ),
-        BasePeer::TYPE_COLNAME => array (TraspasoPeer::IDINVENTARIOLUGAR, TraspasoPeer::IDORDENCOMPRA, TraspasoPeer::IDLUGARREMITENTE, TraspasoPeer::IDLUGARDESTINATARIO, TraspasoPeer::TRASPASO_FECHA, TraspasoPeer::TRASPASO_STATUS, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDINVENTARIOLUGAR', 'IDORDENCOMPRA', 'IDLUGARREMITENTE', 'IDLUGARDESTINATARIO', 'TRASPASO_FECHA', 'TRASPASO_STATUS', ),
-        BasePeer::TYPE_FIELDNAME => array ('idinventariolugar', 'idordencompra', 'idlugarremitente', 'idlugardestinatario', 'traspaso_fecha', 'traspaso_status', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Idinventariolugar', 'Idlugarremitente', 'Idlugardestinatario', 'TraspasoFecha', 'TraspasoStatus', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idinventariolugar', 'idlugarremitente', 'idlugardestinatario', 'traspasoFecha', 'traspasoStatus', ),
+        BasePeer::TYPE_COLNAME => array (TraspasoPeer::IDINVENTARIOLUGAR, TraspasoPeer::IDLUGARREMITENTE, TraspasoPeer::IDLUGARDESTINATARIO, TraspasoPeer::TRASPASO_FECHA, TraspasoPeer::TRASPASO_STATUS, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDINVENTARIOLUGAR', 'IDLUGARREMITENTE', 'IDLUGARDESTINATARIO', 'TRASPASO_FECHA', 'TRASPASO_STATUS', ),
+        BasePeer::TYPE_FIELDNAME => array ('idinventariolugar', 'idlugarremitente', 'idlugardestinatario', 'traspaso_fecha', 'traspaso_status', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
     );
 
     /**
@@ -90,12 +87,12 @@ abstract class BaseTraspasoPeer
      * e.g. TraspasoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idinventariolugar' => 0, 'Idordencompra' => 1, 'Idlugarremitente' => 2, 'Idlugardestinatario' => 3, 'TraspasoFecha' => 4, 'TraspasoStatus' => 5, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idinventariolugar' => 0, 'idordencompra' => 1, 'idlugarremitente' => 2, 'idlugardestinatario' => 3, 'traspasoFecha' => 4, 'traspasoStatus' => 5, ),
-        BasePeer::TYPE_COLNAME => array (TraspasoPeer::IDINVENTARIOLUGAR => 0, TraspasoPeer::IDORDENCOMPRA => 1, TraspasoPeer::IDLUGARREMITENTE => 2, TraspasoPeer::IDLUGARDESTINATARIO => 3, TraspasoPeer::TRASPASO_FECHA => 4, TraspasoPeer::TRASPASO_STATUS => 5, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDINVENTARIOLUGAR' => 0, 'IDORDENCOMPRA' => 1, 'IDLUGARREMITENTE' => 2, 'IDLUGARDESTINATARIO' => 3, 'TRASPASO_FECHA' => 4, 'TRASPASO_STATUS' => 5, ),
-        BasePeer::TYPE_FIELDNAME => array ('idinventariolugar' => 0, 'idordencompra' => 1, 'idlugarremitente' => 2, 'idlugardestinatario' => 3, 'traspaso_fecha' => 4, 'traspaso_status' => 5, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+        BasePeer::TYPE_PHPNAME => array ('Idinventariolugar' => 0, 'Idlugarremitente' => 1, 'Idlugardestinatario' => 2, 'TraspasoFecha' => 3, 'TraspasoStatus' => 4, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idinventariolugar' => 0, 'idlugarremitente' => 1, 'idlugardestinatario' => 2, 'traspasoFecha' => 3, 'traspasoStatus' => 4, ),
+        BasePeer::TYPE_COLNAME => array (TraspasoPeer::IDINVENTARIOLUGAR => 0, TraspasoPeer::IDLUGARREMITENTE => 1, TraspasoPeer::IDLUGARDESTINATARIO => 2, TraspasoPeer::TRASPASO_FECHA => 3, TraspasoPeer::TRASPASO_STATUS => 4, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDINVENTARIOLUGAR' => 0, 'IDLUGARREMITENTE' => 1, 'IDLUGARDESTINATARIO' => 2, 'TRASPASO_FECHA' => 3, 'TRASPASO_STATUS' => 4, ),
+        BasePeer::TYPE_FIELDNAME => array ('idinventariolugar' => 0, 'idlugarremitente' => 1, 'idlugardestinatario' => 2, 'traspaso_fecha' => 3, 'traspaso_status' => 4, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
     );
 
     /** The enumerated values for this table */
@@ -225,14 +222,12 @@ abstract class BaseTraspasoPeer
     {
         if (null === $alias) {
             $criteria->addSelectColumn(TraspasoPeer::IDINVENTARIOLUGAR);
-            $criteria->addSelectColumn(TraspasoPeer::IDORDENCOMPRA);
             $criteria->addSelectColumn(TraspasoPeer::IDLUGARREMITENTE);
             $criteria->addSelectColumn(TraspasoPeer::IDLUGARDESTINATARIO);
             $criteria->addSelectColumn(TraspasoPeer::TRASPASO_FECHA);
             $criteria->addSelectColumn(TraspasoPeer::TRASPASO_STATUS);
         } else {
             $criteria->addSelectColumn($alias . '.idinventariolugar');
-            $criteria->addSelectColumn($alias . '.idordencompra');
             $criteria->addSelectColumn($alias . '.idlugarremitente');
             $criteria->addSelectColumn($alias . '.idlugardestinatario');
             $criteria->addSelectColumn($alias . '.traspaso_fecha');
@@ -459,11 +454,11 @@ abstract class BaseTraspasoPeer
     public static function getPrimaryKeyHashFromRow($row, $startcol = 0)
     {
         // If the PK cannot be derived from the row, return null.
-        if ($row[$startcol] === null && $row[$startcol + 2] === null && $row[$startcol + 3] === null) {
+        if ($row[$startcol] === null && $row[$startcol + 1] === null && $row[$startcol + 2] === null) {
             return null;
         }
 
-        return serialize(array((string) $row[$startcol], (string) $row[$startcol + 2], (string) $row[$startcol + 3]));
+        return serialize(array((string) $row[$startcol], (string) $row[$startcol + 1], (string) $row[$startcol + 2]));
     }
 
     /**
@@ -478,7 +473,7 @@ abstract class BaseTraspasoPeer
     public static function getPrimaryKeyFromRow($row, $startcol = 0)
     {
 
-        return array((int) $row[$startcol], (int) $row[$startcol + 2], (int) $row[$startcol + 3]);
+        return array((int) $row[$startcol], (int) $row[$startcol + 1], (int) $row[$startcol + 2]);
     }
 
     /**
@@ -644,57 +639,6 @@ abstract class BaseTraspasoPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related Ordencompra table
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinOrdencompra(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(TraspasoPeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            TraspasoPeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-        // Set the correct dbName
-        $criteria->setDbName(TraspasoPeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(TraspasoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(TraspasoPeer::IDORDENCOMPRA, OrdencompraPeer::IDORDENCOMPRA, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
-    }
-
-
-    /**
      * Selects a collection of Traspaso objects pre-filled with their Lugar objects.
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
@@ -829,73 +773,6 @@ abstract class BaseTraspasoPeer
 
 
     /**
-     * Selects a collection of Traspaso objects pre-filled with their Ordencompra objects.
-     * @param      Criteria  $criteria
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Traspaso objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
-     */
-    public static function doSelectJoinOrdencompra(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $criteria = clone $criteria;
-
-        // Set the correct dbName if it has not been overridden
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(TraspasoPeer::DATABASE_NAME);
-        }
-
-        TraspasoPeer::addSelectColumns($criteria);
-        $startcol = TraspasoPeer::NUM_HYDRATE_COLUMNS;
-        OrdencompraPeer::addSelectColumns($criteria);
-
-        $criteria->addJoin(TraspasoPeer::IDORDENCOMPRA, OrdencompraPeer::IDORDENCOMPRA, $join_behavior);
-
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = TraspasoPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = TraspasoPeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-
-                $cls = TraspasoPeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                TraspasoPeer::addInstanceToPool($obj1, $key1);
-            } // if $obj1 already loaded
-
-            $key2 = OrdencompraPeer::getPrimaryKeyHashFromRow($row, $startcol);
-            if ($key2 !== null) {
-                $obj2 = OrdencompraPeer::getInstanceFromPool($key2);
-                if (!$obj2) {
-
-                    $cls = OrdencompraPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol);
-                    OrdencompraPeer::addInstanceToPool($obj2, $key2);
-                } // if obj2 already loaded
-
-                // Add the $obj1 (Traspaso) to $obj2 (Ordencompra)
-                $obj2->addTraspaso($obj1);
-
-            } // if joined row was not null
-
-            $results[] = $obj1;
-        }
-        $stmt->closeCursor();
-
-        return $results;
-    }
-
-
-    /**
      * Returns the number of rows matching criteria, joining all related tables
      *
      * @param      Criteria $criteria
@@ -934,8 +811,6 @@ abstract class BaseTraspasoPeer
         $criteria->addJoin(TraspasoPeer::IDLUGARDESTINATARIO, LugarPeer::IDLUGAR, $join_behavior);
 
         $criteria->addJoin(TraspasoPeer::IDLUGARREMITENTE, LugarPeer::IDLUGAR, $join_behavior);
-
-        $criteria->addJoin(TraspasoPeer::IDORDENCOMPRA, OrdencompraPeer::IDORDENCOMPRA, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -977,14 +852,9 @@ abstract class BaseTraspasoPeer
         LugarPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + LugarPeer::NUM_HYDRATE_COLUMNS;
 
-        OrdencompraPeer::addSelectColumns($criteria);
-        $startcol5 = $startcol4 + OrdencompraPeer::NUM_HYDRATE_COLUMNS;
-
         $criteria->addJoin(TraspasoPeer::IDLUGARDESTINATARIO, LugarPeer::IDLUGAR, $join_behavior);
 
         $criteria->addJoin(TraspasoPeer::IDLUGARREMITENTE, LugarPeer::IDLUGAR, $join_behavior);
-
-        $criteria->addJoin(TraspasoPeer::IDORDENCOMPRA, OrdencompraPeer::IDORDENCOMPRA, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -1039,24 +909,6 @@ abstract class BaseTraspasoPeer
                 $obj3->addTraspasoRelatedByIdlugarremitente($obj1);
             } // if joined row not null
 
-            // Add objects for joined Ordencompra rows
-
-            $key4 = OrdencompraPeer::getPrimaryKeyHashFromRow($row, $startcol4);
-            if ($key4 !== null) {
-                $obj4 = OrdencompraPeer::getInstanceFromPool($key4);
-                if (!$obj4) {
-
-                    $cls = OrdencompraPeer::getOMClass();
-
-                    $obj4 = new $cls();
-                    $obj4->hydrate($row, $startcol4);
-                    OrdencompraPeer::addInstanceToPool($obj4, $key4);
-                } // if obj4 loaded
-
-                // Add the $obj1 (Traspaso) to the collection in $obj4 (Ordencompra)
-                $obj4->addTraspaso($obj1);
-            } // if joined row not null
-
             $results[] = $obj1;
         }
         $stmt->closeCursor();
@@ -1100,8 +952,6 @@ abstract class BaseTraspasoPeer
         if ($con === null) {
             $con = Propel::getConnection(TraspasoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
-
-        $criteria->addJoin(TraspasoPeer::IDORDENCOMPRA, OrdencompraPeer::IDORDENCOMPRA, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1152,61 +1002,6 @@ abstract class BaseTraspasoPeer
             $con = Propel::getConnection(TraspasoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(TraspasoPeer::IDORDENCOMPRA, OrdencompraPeer::IDORDENCOMPRA, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
-    }
-
-
-    /**
-     * Returns the number of rows matching criteria, joining the related Ordencompra table
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinAllExceptOrdencompra(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(TraspasoPeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            TraspasoPeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
-
-        // Set the correct dbName
-        $criteria->setDbName(TraspasoPeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(TraspasoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(TraspasoPeer::IDLUGARDESTINATARIO, LugarPeer::IDLUGAR, $join_behavior);
-
-        $criteria->addJoin(TraspasoPeer::IDLUGARREMITENTE, LugarPeer::IDLUGAR, $join_behavior);
-
         $stmt = BasePeer::doCount($criteria, $con);
 
         if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
@@ -1244,11 +1039,6 @@ abstract class BaseTraspasoPeer
         TraspasoPeer::addSelectColumns($criteria);
         $startcol2 = TraspasoPeer::NUM_HYDRATE_COLUMNS;
 
-        OrdencompraPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + OrdencompraPeer::NUM_HYDRATE_COLUMNS;
-
-        $criteria->addJoin(TraspasoPeer::IDORDENCOMPRA, OrdencompraPeer::IDORDENCOMPRA, $join_behavior);
-
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -1266,25 +1056,6 @@ abstract class BaseTraspasoPeer
                 $obj1->hydrate($row);
                 TraspasoPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
-
-                // Add objects for joined Ordencompra rows
-
-                $key2 = OrdencompraPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-                if ($key2 !== null) {
-                    $obj2 = OrdencompraPeer::getInstanceFromPool($key2);
-                    if (!$obj2) {
-
-                        $cls = OrdencompraPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    OrdencompraPeer::addInstanceToPool($obj2, $key2);
-                } // if $obj2 already loaded
-
-                // Add the $obj1 (Traspaso) to the collection in $obj2 (Ordencompra)
-                $obj2->addTraspaso($obj1);
-
-            } // if joined row is not null
 
             $results[] = $obj1;
         }
@@ -1318,11 +1089,6 @@ abstract class BaseTraspasoPeer
         TraspasoPeer::addSelectColumns($criteria);
         $startcol2 = TraspasoPeer::NUM_HYDRATE_COLUMNS;
 
-        OrdencompraPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + OrdencompraPeer::NUM_HYDRATE_COLUMNS;
-
-        $criteria->addJoin(TraspasoPeer::IDORDENCOMPRA, OrdencompraPeer::IDORDENCOMPRA, $join_behavior);
-
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -1340,123 +1106,6 @@ abstract class BaseTraspasoPeer
                 $obj1->hydrate($row);
                 TraspasoPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
-
-                // Add objects for joined Ordencompra rows
-
-                $key2 = OrdencompraPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-                if ($key2 !== null) {
-                    $obj2 = OrdencompraPeer::getInstanceFromPool($key2);
-                    if (!$obj2) {
-
-                        $cls = OrdencompraPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    OrdencompraPeer::addInstanceToPool($obj2, $key2);
-                } // if $obj2 already loaded
-
-                // Add the $obj1 (Traspaso) to the collection in $obj2 (Ordencompra)
-                $obj2->addTraspaso($obj1);
-
-            } // if joined row is not null
-
-            $results[] = $obj1;
-        }
-        $stmt->closeCursor();
-
-        return $results;
-    }
-
-
-    /**
-     * Selects a collection of Traspaso objects pre-filled with all related objects except Ordencompra.
-     *
-     * @param      Criteria  $criteria
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Traspaso objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
-     */
-    public static function doSelectJoinAllExceptOrdencompra(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $criteria = clone $criteria;
-
-        // Set the correct dbName if it has not been overridden
-        // $criteria->getDbName() will return the same object if not set to another value
-        // so == check is okay and faster
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(TraspasoPeer::DATABASE_NAME);
-        }
-
-        TraspasoPeer::addSelectColumns($criteria);
-        $startcol2 = TraspasoPeer::NUM_HYDRATE_COLUMNS;
-
-        LugarPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + LugarPeer::NUM_HYDRATE_COLUMNS;
-
-        LugarPeer::addSelectColumns($criteria);
-        $startcol4 = $startcol3 + LugarPeer::NUM_HYDRATE_COLUMNS;
-
-        $criteria->addJoin(TraspasoPeer::IDLUGARDESTINATARIO, LugarPeer::IDLUGAR, $join_behavior);
-
-        $criteria->addJoin(TraspasoPeer::IDLUGARREMITENTE, LugarPeer::IDLUGAR, $join_behavior);
-
-
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = TraspasoPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = TraspasoPeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-                $cls = TraspasoPeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                TraspasoPeer::addInstanceToPool($obj1, $key1);
-            } // if obj1 already loaded
-
-                // Add objects for joined Lugar rows
-
-                $key2 = LugarPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-                if ($key2 !== null) {
-                    $obj2 = LugarPeer::getInstanceFromPool($key2);
-                    if (!$obj2) {
-
-                        $cls = LugarPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    LugarPeer::addInstanceToPool($obj2, $key2);
-                } // if $obj2 already loaded
-
-                // Add the $obj1 (Traspaso) to the collection in $obj2 (Lugar)
-                $obj2->addTraspasoRelatedByIdlugardestinatario($obj1);
-
-            } // if joined row is not null
-
-                // Add objects for joined Lugar rows
-
-                $key3 = LugarPeer::getPrimaryKeyHashFromRow($row, $startcol3);
-                if ($key3 !== null) {
-                    $obj3 = LugarPeer::getInstanceFromPool($key3);
-                    if (!$obj3) {
-
-                        $cls = LugarPeer::getOMClass();
-
-                    $obj3 = new $cls();
-                    $obj3->hydrate($row, $startcol3);
-                    LugarPeer::addInstanceToPool($obj3, $key3);
-                } // if $obj3 already loaded
-
-                // Add the $obj1 (Traspaso) to the collection in $obj3 (Lugar)
-                $obj3->addTraspasoRelatedByIdlugarremitente($obj1);
-
-            } // if joined row is not null
 
             $results[] = $obj1;
         }
@@ -1518,6 +1167,10 @@ abstract class BaseTraspasoPeer
             $criteria = clone $values; // rename for clarity
         } else {
             $criteria = $values->buildCriteria(); // build Criteria from Traspaso object
+        }
+
+        if ($criteria->containsKey(TraspasoPeer::IDINVENTARIOLUGAR) && $criteria->keyContainsValue(TraspasoPeer::IDINVENTARIOLUGAR) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.TraspasoPeer::IDINVENTARIOLUGAR.')');
         }
 
 

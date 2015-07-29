@@ -27,6 +27,8 @@ class ConsultorioController extends AbstractActionController
         
         if ($request->isPost()) { //Si hicieron POST
             
+            $post_data = $request->getPost();
+            
             //Instanciamos nuestro filtro
             $consultorioFilter = new ConsultorioFilter();
 
@@ -47,6 +49,12 @@ class ConsultorioController extends AbstractActionController
                     $consultorio->setByName($consultorioKey, $consultorioValue, \BasePeer::TYPE_FIELDNAME);
                 }
                 
+                if(isset($post_data["consultorio_enuso"])){
+                        $consultorio->setConsultorioEnuso(1);
+                    }else{
+                        $consultorio->setConsultorioEnuso(0);
+                    }
+                
                 //Guardamos en nuestra base de datos
                 $consultorio->save();
                 
@@ -61,6 +69,7 @@ class ConsultorioController extends AbstractActionController
         
         return new ViewModel(array(
             'consultorioForm' => $consultorioForm,
+            
         ));
 
     }
@@ -106,15 +115,10 @@ class ConsultorioController extends AbstractActionController
             
             //Le ponemos los datos de nuestro consultorio a nuestro formulario
             $consultorioForm->setData($consultorio->toArray(BasePeer::TYPE_FIELDNAME));
-            
-            if($consultorio->getConsultorioEnuso()){           
-                    $consultorioForm->get('consultorio_enuso')->setValue('si');
-                    
-                }else{
-                     $consultorioForm->get('consultorio_enuso')->setValue('no');
-                } 
+
             if ($request->isPost()) { //Si hicieron POST
                 $post_data = $request->getPost();
+
                 //Instanciamos nuestro filtro
                 $consultorioFilter = new ConsultorioFilter();
 
@@ -123,7 +127,7 @@ class ConsultorioController extends AbstractActionController
                 
                 //Le ponemos los datos a nuestro formulario
                 $consultorioForm->setData($request->getPost());
-               
+                
                 //Validamos nuestro formulario
                 if($consultorioForm->isValid()){
                     
@@ -154,11 +158,11 @@ class ConsultorioController extends AbstractActionController
 
                 }  
             }
-           
 
             return new ViewModel(array(
                 'id'  => $id,
                 'consultorioForm' => $consultorioForm,
+                'consultorio_enuso' => $consultorio->getConsultorioEnuso(),
             ));
         
 

@@ -7,6 +7,7 @@ $this->headTitle($title);
 <?php $consultorioForm->setAttribute('class', 'hva-form');?>
 <?php $consultorioForm->prepare();?>
 <?php echo $this->form()->openTag($consultorioForm); ?>
+
 <div class="row">
     <fieldset>
         <legend>Datos Generales</legend>
@@ -17,13 +18,13 @@ $this->headTitle($title);
             </div>
         </div>
         <div class="col s3">
- 
+           <label for="consultorio_enuso">En uso?</label>
                 <div class="input-field checkbox">
                     <div class="switch">
                         <label>
                           No
-                          <?php if($consultorioForm->get('consultorio_enuso')->getvalue()) :?>
-                                <input type="checkbox" name="consultorio_enuso" value="on" checked>
+                          <?php if($consultorio_enuso) :?>
+                                <input type="checkbox" name="consultorio_enuso" checked>
                           <?php else :?>
                                 <input type="checkbox" name="consultorio_enuso">
                           <?php endif;?>
@@ -44,6 +45,12 @@ $this->headTitle($title);
                 <?php echo $this->formText($consultorioForm->get('consultorio_descripcion')); ?>
                 <?php echo $this->formLabel($consultorioForm->get('consultorio_descripcion')); ?>
             </div>
+            <?php /*
+                <label>
+                    <?php echo $this->formCheckbox($consultorioForm->get('consultorio_enuso')); ?>
+                    <?php echo $this->formLabel($consultorioForm->get('consultorio_enuso')); ?>
+                </label>
+                */ ?>
         </div>
     </fieldset>
 </div>

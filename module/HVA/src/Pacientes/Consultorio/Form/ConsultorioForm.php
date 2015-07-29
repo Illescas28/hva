@@ -30,14 +30,7 @@ class ConsultorioForm extends Form
             ),
         ));
         
-        $this->add(array(
-            'name' => 'consultorio_enuso',
-            'type' => 'Checkbox',
-            'options' => array(
-                'label' => 'En uso?',
-            ),
-        ));
-        
+   
         $this->add(array(
             'name' => 'consultorio_extension',
             'type' => 'text',

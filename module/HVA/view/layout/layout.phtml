@@ -16,6 +16,7 @@
     <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
         ->prependStylesheet($this->basePath('css/jquery-ui.css'))
         ->prependStylesheet($this->basePath('css/lolliclock.css'))
+        //->prependStylesheet($this->basePath('css/timepicki.css'))
         ->prependStylesheet($this->basePath('css/style.css'))
         ->prependStylesheet($this->basePath('css/materialize.css'))
         ->prependStylesheet($this->basePath('css/multiple.css'))
@@ -30,6 +31,7 @@
         ->prependFile($this->basePath('js/jquery.tokeninput.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery-ui-1-10-1.js'), 'text/javascript')
         ->prependFile($this->basePath('js/lolliclock.js'), 'text/javascript')
+        //->prependFile($this->basePath('js/timepicki.js'), 'text/javascript')
         ->prependFile($this->basePath('js/formcache.min.js'), 'text/javascript')
         ->prependFile($this->basePath('js/filterTable.js'), 'text/javascript')
         ->prependFile($this->basePath('js/tablesorter.js'), 'text/javascript')
@@ -129,8 +131,6 @@
     <li class="divider"></li>
     <li><a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>">Admisión de pacientes</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Pacientes Actuales</a></li>
-    <li class="divider"></li>
     <li><a href="#!">Generación de cargos a</a></li>
     <li class="divider"></li>
     <li><a href="/pacientes/citas">Citas</a></li>
@@ -208,7 +208,6 @@
         <a href="/auth/out">Cerrar sesión</a>
     </li>
 </ul>
-
 </body>
 </html>
 <script type="text/javascript">

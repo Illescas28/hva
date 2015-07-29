@@ -68,7 +68,17 @@
                             onUncheckAll:filterByDate,
                         });
 
-                        $("select#concepto_filter").multipleSelect("checkAll");
+                        $container.find("#tipo_filter").multipleSelect({
+                            selectAll:true,
+                            allSelected:'Todos los tipo',
+                            selectAllText:'Todos los tipos',
+                            onClick : filterByDate,
+                            onCheckAll:filterByDate,
+                            onUncheckAll:filterByDate
+                        });
+
+                        $container.find("#tipo_filter").multipleSelect("checkAll");
+                        $container.find("#concepto_filter").multipleSelect("checkAll");
                        
                    }
             );
@@ -280,6 +290,14 @@
                 if($.inArray($(this).attr('id'),selected) == -1){
                      $(this).closest('tr').hide();
                  }
+            });
+            
+            var typeselected =  $("#tipo_filter").multipleSelect('getSelects');
+            $container.find('tbody tr:visible').filter(function(index){
+                var tr_tipo = ($(this).find('td').eq(2).attr('class') == 'ingreso') ? 'ingreso' : 'egreso';
+                if($.inArray(tr_tipo,typeselected) == -1){
+                    $(this).closest('tr').hide();
+                }
             });
            
            var from = $container.find('#fecha_filter_from').val();
