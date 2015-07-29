@@ -56,20 +56,12 @@ class AdmisionTableMap extends TableMap
         $this->addColumn('admision_pagadaen', 'AdmisionPagadaen', 'TIMESTAMP', false, null, null);
         $this->addColumn('admision_tipodepago', 'AdmisionTipodepago', 'CHAR', false, null, null);
         $this->getColumn('admision_tipodepago', false)->setValueSet(array (
-<<<<<<< HEAD
   0 => 'Efectivo',
   1 => 'Tarjeta de debito',
   2 => 'Tarjeta de credito',
   3 => 'Cheque',
   4 => 'No identificado',
   5 => 'SPEI',
-=======
-  0 => 'efectivo',
-  1 => 'tarjeta debito',
-  2 => 'tarjeta credito',
-  3 => 'cheque',
-  4 => 'no identificado',
->>>>>>> 3723f745aefa31c777ebad292f25ad93ec2218fa
 ));
         $this->addColumn('admision_referenciapago', 'AdmisionReferenciapago', 'VARCHAR', false, 45, null);
         $this->addColumn('admision_facturada', 'AdmisionFacturada', 'BOOLEAN', false, 1, null);

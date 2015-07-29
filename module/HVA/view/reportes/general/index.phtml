@@ -22,6 +22,11 @@
         border: 1px solid #aaa;
         box-shadow: none;
     }
+    
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        left: initial;
+        position: initial;
+    }
 </style>
 <?php
 $title = 'Reporte General';
@@ -30,11 +35,63 @@ $this->headTitle($title);
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <script src="/js/reportes_general.js"></script>
 <div id="report-container">
+    <div class="filter-container row" >
+        <div class="col s12">
+            <fieldset>
+                <legend>Filtros</legend>
+                <div class="row">
+                    <div class="col s4">
+                         <label>Por fecha</label>
+                         <div class="row">
+                             <div class="col s6" style="padding-left: 0px;">
+                                 <input placeholder="01-01-2014" type="text" id="fecha_from" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false">
+                             </div>
+                             <div class="col s6">
+                                   <input placeholder="31-12-2014" type="text" id="fecha_to" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false">
+                             </div>
+                         </div>
+                    </div>
+                    <div class="col s4">
+                         <label>Por tipo</label>
+                        <select multiple="multiple" class="browser-default" id="tipo_filter">
+                            <option value="admision">Admision</option>
+                            <option value="consulta">Consulta</option>
+                        </select>
+                    </div>
+                    <div class="col s4">
+                         <label>Por paciente</label>
+                        <select multiple="multiple" class="browser-default" id="paciente_filter">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                         <label>Por medico</label>
+                        <select multiple="multiple" class="browser-default" id="medico_filter">
+                        </select>
+                    </div>
+                    <div class="col s4">
+                         <label>Por # movimiento</label>
+                        <select multiple="multiple" class="browser-default" id="movimiento_filter">
+                        </select>
+                    </div>
+                    <div class="col s4">
+                         <label>Por estatus pago</label>
+                        <select multiple="multiple" class="browser-default" id="statuspago_filter">
+                            <option value="pagada">Pagada</option>
+                            <option value="no pagada">No pagada</option>
+                        </select>
+                    </div>
+                </div>
+        </div>
+            </fieldset>
+        </div>
+    
     <table id="tabla-reporte-general" class="bordered">
         <thead>
             <tr>
                 <th>Fecha</th>
-                <th># Movimiento</th>
+                <th>#</th>
                 <th>Paciente</th>
                 <th>Medico</th>
                 <th>Diagnóstico</th>
@@ -49,9 +106,27 @@ $this->headTitle($title);
             </tr>
         </thead>
         <tbody>
+            <?php foreach ($reportes as $reporte) :?>
+                <tr>
+                    <td><?php echo $reporte['fecha']?></td>
+                    <td><?php echo $reporte['movimiento']?></td>
+                    <td><?php echo $reporte['paciente']?></td>
+                    <td><?php echo $reporte['medico']?></td>
+                    <td><?php echo $reporte['diagnostico']?></td>
+                    <td><?php echo $reporte['status_pago']?></td>
+                    <td><?php echo $reporte['razon_social']?></td>
+                    <td class="money"><?php echo $reporte['total']?></td>
+                    <td class="money"><?php echo $reporte['efectivo']?></td>
+                    <td class="money"><?php echo $reporte['tarjeta']?></td>
+                    <td class="money"><?php echo $reporte['cheque']?></td>
+                    <td class="money"><?php echo $reporte['spei']?></td>
+                    <td><?php echo $reporte['status']?></td>
+                </tr>
+            <?php endforeach;?>
         </tbody>
     </table>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('#report-container').generalreport();

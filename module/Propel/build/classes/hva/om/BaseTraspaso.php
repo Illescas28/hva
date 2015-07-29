@@ -36,6 +36,12 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
     protected $idinventariolugar;
 
     /**
+     * The value for the idordencompra field.
+     * @var        int
+     */
+    protected $idordencompra;
+
+    /**
      * The value for the idlugarremitente field.
      * @var        int
      */
@@ -68,6 +74,11 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
      * @var        Lugar
      */
     protected $aLugarRelatedByIdlugarremitente;
+
+    /**
+     * @var        Ordencompra
+     */
+    protected $aOrdencompra;
 
     /**
      * @var        PropelObjectCollection|Traspasodetalles[] Collection to store aggregation of Traspasodetalles objects.
@@ -110,6 +121,17 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
     {
 
         return $this->idinventariolugar;
+    }
+
+    /**
+     * Get the [idordencompra] column value.
+     *
+     * @return int
+     */
+    public function getIdordencompra()
+    {
+
+        return $this->idordencompra;
     }
 
     /**
@@ -205,6 +227,31 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
 
         return $this;
     } // setIdinventariolugar()
+
+    /**
+     * Set the value of [idordencompra] column.
+     *
+     * @param  int $v new value
+     * @return Traspaso The current object (for fluent API support)
+     */
+    public function setIdordencompra($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->idordencompra !== $v) {
+            $this->idordencompra = $v;
+            $this->modifiedColumns[] = TraspasoPeer::IDORDENCOMPRA;
+        }
+
+        if ($this->aOrdencompra !== null && $this->aOrdencompra->getIdordencompra() !== $v) {
+            $this->aOrdencompra = null;
+        }
+
+
+        return $this;
+    } // setIdordencompra()
 
     /**
      * Set the value of [idlugarremitente] column.
@@ -333,10 +380,11 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
         try {
 
             $this->idinventariolugar = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->idlugarremitente = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->idlugardestinatario = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-            $this->traspaso_fecha = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->traspaso_status = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->idordencompra = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+            $this->idlugarremitente = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+            $this->idlugardestinatario = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+            $this->traspaso_fecha = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->traspaso_status = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -346,7 +394,7 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = TraspasoPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = TraspasoPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Traspaso object", $e);
@@ -369,6 +417,9 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
+        if ($this->aOrdencompra !== null && $this->idordencompra !== $this->aOrdencompra->getIdordencompra()) {
+            $this->aOrdencompra = null;
+        }
         if ($this->aLugarRelatedByIdlugarremitente !== null && $this->idlugarremitente !== $this->aLugarRelatedByIdlugarremitente->getIdlugar()) {
             $this->aLugarRelatedByIdlugarremitente = null;
         }
@@ -416,6 +467,7 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
 
             $this->aLugarRelatedByIdlugardestinatario = null;
             $this->aLugarRelatedByIdlugarremitente = null;
+            $this->aOrdencompra = null;
             $this->collTraspasodetalless = null;
 
         } // if (deep)
@@ -550,6 +602,13 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
                 $this->setLugarRelatedByIdlugarremitente($this->aLugarRelatedByIdlugarremitente);
             }
 
+            if ($this->aOrdencompra !== null) {
+                if ($this->aOrdencompra->isModified() || $this->aOrdencompra->isNew()) {
+                    $affectedRows += $this->aOrdencompra->save($con);
+                }
+                $this->setOrdencompra($this->aOrdencompra);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -598,14 +657,13 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = TraspasoPeer::IDINVENTARIOLUGAR;
-        if (null !== $this->idinventariolugar) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . TraspasoPeer::IDINVENTARIOLUGAR . ')');
-        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(TraspasoPeer::IDINVENTARIOLUGAR)) {
             $modifiedColumns[':p' . $index++]  = '`idinventariolugar`';
+        }
+        if ($this->isColumnModified(TraspasoPeer::IDORDENCOMPRA)) {
+            $modifiedColumns[':p' . $index++]  = '`idordencompra`';
         }
         if ($this->isColumnModified(TraspasoPeer::IDLUGARREMITENTE)) {
             $modifiedColumns[':p' . $index++]  = '`idlugarremitente`';
@@ -633,6 +691,9 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
                     case '`idinventariolugar`':
                         $stmt->bindValue($identifier, $this->idinventariolugar, PDO::PARAM_INT);
                         break;
+                    case '`idordencompra`':
+                        $stmt->bindValue($identifier, $this->idordencompra, PDO::PARAM_INT);
+                        break;
                     case '`idlugarremitente`':
                         $stmt->bindValue($identifier, $this->idlugarremitente, PDO::PARAM_INT);
                         break;
@@ -652,13 +713,6 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', $e);
-        }
-        $this->setIdinventariolugar($pk);
 
         $this->setNew(false);
     }
@@ -756,6 +810,12 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
                 }
             }
 
+            if ($this->aOrdencompra !== null) {
+                if (!$this->aOrdencompra->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aOrdencompra->getValidationFailures());
+                }
+            }
+
 
             if (($retval = TraspasoPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
@@ -809,15 +869,18 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
                 return $this->getIdinventariolugar();
                 break;
             case 1:
-                return $this->getIdlugarremitente();
+                return $this->getIdordencompra();
                 break;
             case 2:
-                return $this->getIdlugardestinatario();
+                return $this->getIdlugarremitente();
                 break;
             case 3:
-                return $this->getTraspasoFecha();
+                return $this->getIdlugardestinatario();
                 break;
             case 4:
+                return $this->getTraspasoFecha();
+                break;
+            case 5:
                 return $this->getTraspasoStatus();
                 break;
             default:
@@ -850,10 +913,11 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
         $keys = TraspasoPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getIdinventariolugar(),
-            $keys[1] => $this->getIdlugarremitente(),
-            $keys[2] => $this->getIdlugardestinatario(),
-            $keys[3] => $this->getTraspasoFecha(),
-            $keys[4] => $this->getTraspasoStatus(),
+            $keys[1] => $this->getIdordencompra(),
+            $keys[2] => $this->getIdlugarremitente(),
+            $keys[3] => $this->getIdlugardestinatario(),
+            $keys[4] => $this->getTraspasoFecha(),
+            $keys[5] => $this->getTraspasoStatus(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -866,6 +930,9 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
             }
             if (null !== $this->aLugarRelatedByIdlugarremitente) {
                 $result['LugarRelatedByIdlugarremitente'] = $this->aLugarRelatedByIdlugarremitente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aOrdencompra) {
+                $result['Ordencompra'] = $this->aOrdencompra->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->collTraspasodetalless) {
                 $result['Traspasodetalless'] = $this->collTraspasodetalless->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -908,15 +975,18 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
                 $this->setIdinventariolugar($value);
                 break;
             case 1:
-                $this->setIdlugarremitente($value);
+                $this->setIdordencompra($value);
                 break;
             case 2:
-                $this->setIdlugardestinatario($value);
+                $this->setIdlugarremitente($value);
                 break;
             case 3:
-                $this->setTraspasoFecha($value);
+                $this->setIdlugardestinatario($value);
                 break;
             case 4:
+                $this->setTraspasoFecha($value);
+                break;
+            case 5:
                 $this->setTraspasoStatus($value);
                 break;
         } // switch()
@@ -944,10 +1014,11 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
         $keys = TraspasoPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setIdinventariolugar($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setIdlugarremitente($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setIdlugardestinatario($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setTraspasoFecha($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setTraspasoStatus($arr[$keys[4]]);
+        if (array_key_exists($keys[1], $arr)) $this->setIdordencompra($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setIdlugarremitente($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setIdlugardestinatario($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setTraspasoFecha($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setTraspasoStatus($arr[$keys[5]]);
     }
 
     /**
@@ -960,6 +1031,7 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
         $criteria = new Criteria(TraspasoPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(TraspasoPeer::IDINVENTARIOLUGAR)) $criteria->add(TraspasoPeer::IDINVENTARIOLUGAR, $this->idinventariolugar);
+        if ($this->isColumnModified(TraspasoPeer::IDORDENCOMPRA)) $criteria->add(TraspasoPeer::IDORDENCOMPRA, $this->idordencompra);
         if ($this->isColumnModified(TraspasoPeer::IDLUGARREMITENTE)) $criteria->add(TraspasoPeer::IDLUGARREMITENTE, $this->idlugarremitente);
         if ($this->isColumnModified(TraspasoPeer::IDLUGARDESTINATARIO)) $criteria->add(TraspasoPeer::IDLUGARDESTINATARIO, $this->idlugardestinatario);
         if ($this->isColumnModified(TraspasoPeer::TRASPASO_FECHA)) $criteria->add(TraspasoPeer::TRASPASO_FECHA, $this->traspaso_fecha);
@@ -1037,6 +1109,8 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setIdinventariolugar($this->getIdinventariolugar());
+        $copyObj->setIdordencompra($this->getIdordencompra());
         $copyObj->setIdlugarremitente($this->getIdlugarremitente());
         $copyObj->setIdlugardestinatario($this->getIdlugardestinatario());
         $copyObj->setTraspasoFecha($this->getTraspasoFecha());
@@ -1061,7 +1135,6 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
 
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setIdinventariolugar(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1207,6 +1280,58 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
         }
 
         return $this->aLugarRelatedByIdlugarremitente;
+    }
+
+    /**
+     * Declares an association between this object and a Ordencompra object.
+     *
+     * @param                  Ordencompra $v
+     * @return Traspaso The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setOrdencompra(Ordencompra $v = null)
+    {
+        if ($v === null) {
+            $this->setIdordencompra(NULL);
+        } else {
+            $this->setIdordencompra($v->getIdordencompra());
+        }
+
+        $this->aOrdencompra = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the Ordencompra object, it will not be re-added.
+        if ($v !== null) {
+            $v->addTraspaso($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated Ordencompra object
+     *
+     * @param PropelPDO $con Optional Connection object.
+     * @param $doQuery Executes a query to get the object if required
+     * @return Ordencompra The associated Ordencompra object.
+     * @throws PropelException
+     */
+    public function getOrdencompra(PropelPDO $con = null, $doQuery = true)
+    {
+        if ($this->aOrdencompra === null && ($this->idordencompra !== null) && $doQuery) {
+            $this->aOrdencompra = OrdencompraQuery::create()->findPk($this->idordencompra, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aOrdencompra->addTraspasos($this);
+             */
+        }
+
+        return $this->aOrdencompra;
     }
 
 
@@ -1481,6 +1606,7 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
     public function clear()
     {
         $this->idinventariolugar = null;
+        $this->idordencompra = null;
         $this->idlugarremitente = null;
         $this->idlugardestinatario = null;
         $this->traspaso_fecha = null;
@@ -1518,6 +1644,9 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
             if ($this->aLugarRelatedByIdlugarremitente instanceof Persistent) {
               $this->aLugarRelatedByIdlugarremitente->clearAllReferences($deep);
             }
+            if ($this->aOrdencompra instanceof Persistent) {
+              $this->aOrdencompra->clearAllReferences($deep);
+            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
@@ -1528,6 +1657,7 @@ abstract class BaseTraspaso extends BaseObject implements Persistent
         $this->collTraspasodetalless = null;
         $this->aLugarRelatedByIdlugardestinatario = null;
         $this->aLugarRelatedByIdlugarremitente = null;
+        $this->aOrdencompra = null;
     }
 
     /**

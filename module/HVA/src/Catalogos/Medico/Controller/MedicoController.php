@@ -55,10 +55,10 @@ class MedicoController extends AbstractActionController
                     $medico->setByName($medicoKey, $medicoValue, \BasePeer::TYPE_FIELDNAME);
                 }
                 
-                
+
 
                 //La imagen
-                if(!empty($_FILES)){
+                if(!empty($_FILES['name'])){
                     $date = new \DateTime();
                     $upload_folder ='/img/medicos/';
                     $tipo_archivo = $_FILES['medico_imagen']['type']; $tipo_archivo = explode('/', $tipo_archivo); $tipo_archivo = $tipo_archivo[1];   
