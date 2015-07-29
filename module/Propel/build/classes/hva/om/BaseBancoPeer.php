@@ -24,13 +24,13 @@ abstract class BaseBancoPeer
     const TM_CLASS = 'BancoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 8;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /** the column name for the idbanco field */
     const IDBANCO = 'banco.idbanco';
@@ -49,6 +49,9 @@ abstract class BaseBancoPeer
 
     /** the column name for the banco_balance field */
     const BANCO_BALANCE = 'banco.banco_balance';
+
+    /** the column name for the banco_comprobante field */
+    const BANCO_COMPROBANTE = 'banco.banco_comprobante';
 
     /** the column name for the banco_nota field */
     const BANCO_NOTA = 'banco.banco_nota';
@@ -76,12 +79,12 @@ abstract class BaseBancoPeer
      * e.g. BancoPeer::$fieldNames[BancoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idbanco', 'Idconceptobanco', 'BancoFecha', 'BancoTipomovimiento', 'BancoCantidad', 'BancoBalance', 'BancoNota', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idbanco', 'idconceptobanco', 'bancoFecha', 'bancoTipomovimiento', 'bancoCantidad', 'bancoBalance', 'bancoNota', ),
-        BasePeer::TYPE_COLNAME => array (BancoPeer::IDBANCO, BancoPeer::IDCONCEPTOBANCO, BancoPeer::BANCO_FECHA, BancoPeer::BANCO_TIPOMOVIMIENTO, BancoPeer::BANCO_CANTIDAD, BancoPeer::BANCO_BALANCE, BancoPeer::BANCO_NOTA, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDBANCO', 'IDCONCEPTOBANCO', 'BANCO_FECHA', 'BANCO_TIPOMOVIMIENTO', 'BANCO_CANTIDAD', 'BANCO_BALANCE', 'BANCO_NOTA', ),
-        BasePeer::TYPE_FIELDNAME => array ('idbanco', 'idconceptobanco', 'banco_fecha', 'banco_tipomovimiento', 'banco_cantidad', 'banco_balance', 'banco_nota', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idbanco', 'Idconceptobanco', 'BancoFecha', 'BancoTipomovimiento', 'BancoCantidad', 'BancoBalance', 'BancoComprobante', 'BancoNota', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idbanco', 'idconceptobanco', 'bancoFecha', 'bancoTipomovimiento', 'bancoCantidad', 'bancoBalance', 'bancoComprobante', 'bancoNota', ),
+        BasePeer::TYPE_COLNAME => array (BancoPeer::IDBANCO, BancoPeer::IDCONCEPTOBANCO, BancoPeer::BANCO_FECHA, BancoPeer::BANCO_TIPOMOVIMIENTO, BancoPeer::BANCO_CANTIDAD, BancoPeer::BANCO_BALANCE, BancoPeer::BANCO_COMPROBANTE, BancoPeer::BANCO_NOTA, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDBANCO', 'IDCONCEPTOBANCO', 'BANCO_FECHA', 'BANCO_TIPOMOVIMIENTO', 'BANCO_CANTIDAD', 'BANCO_BALANCE', 'BANCO_COMPROBANTE', 'BANCO_NOTA', ),
+        BasePeer::TYPE_FIELDNAME => array ('idbanco', 'idconceptobanco', 'banco_fecha', 'banco_tipomovimiento', 'banco_cantidad', 'banco_balance', 'banco_comprobante', 'banco_nota', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -91,12 +94,12 @@ abstract class BaseBancoPeer
      * e.g. BancoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idbanco' => 0, 'Idconceptobanco' => 1, 'BancoFecha' => 2, 'BancoTipomovimiento' => 3, 'BancoCantidad' => 4, 'BancoBalance' => 5, 'BancoNota' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idbanco' => 0, 'idconceptobanco' => 1, 'bancoFecha' => 2, 'bancoTipomovimiento' => 3, 'bancoCantidad' => 4, 'bancoBalance' => 5, 'bancoNota' => 6, ),
-        BasePeer::TYPE_COLNAME => array (BancoPeer::IDBANCO => 0, BancoPeer::IDCONCEPTOBANCO => 1, BancoPeer::BANCO_FECHA => 2, BancoPeer::BANCO_TIPOMOVIMIENTO => 3, BancoPeer::BANCO_CANTIDAD => 4, BancoPeer::BANCO_BALANCE => 5, BancoPeer::BANCO_NOTA => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDBANCO' => 0, 'IDCONCEPTOBANCO' => 1, 'BANCO_FECHA' => 2, 'BANCO_TIPOMOVIMIENTO' => 3, 'BANCO_CANTIDAD' => 4, 'BANCO_BALANCE' => 5, 'BANCO_NOTA' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('idbanco' => 0, 'idconceptobanco' => 1, 'banco_fecha' => 2, 'banco_tipomovimiento' => 3, 'banco_cantidad' => 4, 'banco_balance' => 5, 'banco_nota' => 6, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idbanco' => 0, 'Idconceptobanco' => 1, 'BancoFecha' => 2, 'BancoTipomovimiento' => 3, 'BancoCantidad' => 4, 'BancoBalance' => 5, 'BancoComprobante' => 6, 'BancoNota' => 7, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idbanco' => 0, 'idconceptobanco' => 1, 'bancoFecha' => 2, 'bancoTipomovimiento' => 3, 'bancoCantidad' => 4, 'bancoBalance' => 5, 'bancoComprobante' => 6, 'bancoNota' => 7, ),
+        BasePeer::TYPE_COLNAME => array (BancoPeer::IDBANCO => 0, BancoPeer::IDCONCEPTOBANCO => 1, BancoPeer::BANCO_FECHA => 2, BancoPeer::BANCO_TIPOMOVIMIENTO => 3, BancoPeer::BANCO_CANTIDAD => 4, BancoPeer::BANCO_BALANCE => 5, BancoPeer::BANCO_COMPROBANTE => 6, BancoPeer::BANCO_NOTA => 7, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDBANCO' => 0, 'IDCONCEPTOBANCO' => 1, 'BANCO_FECHA' => 2, 'BANCO_TIPOMOVIMIENTO' => 3, 'BANCO_CANTIDAD' => 4, 'BANCO_BALANCE' => 5, 'BANCO_COMPROBANTE' => 6, 'BANCO_NOTA' => 7, ),
+        BasePeer::TYPE_FIELDNAME => array ('idbanco' => 0, 'idconceptobanco' => 1, 'banco_fecha' => 2, 'banco_tipomovimiento' => 3, 'banco_cantidad' => 4, 'banco_balance' => 5, 'banco_comprobante' => 6, 'banco_nota' => 7, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /** The enumerated values for this table */
@@ -229,6 +232,7 @@ abstract class BaseBancoPeer
             $criteria->addSelectColumn(BancoPeer::BANCO_TIPOMOVIMIENTO);
             $criteria->addSelectColumn(BancoPeer::BANCO_CANTIDAD);
             $criteria->addSelectColumn(BancoPeer::BANCO_BALANCE);
+            $criteria->addSelectColumn(BancoPeer::BANCO_COMPROBANTE);
             $criteria->addSelectColumn(BancoPeer::BANCO_NOTA);
         } else {
             $criteria->addSelectColumn($alias . '.idbanco');
@@ -237,6 +241,7 @@ abstract class BaseBancoPeer
             $criteria->addSelectColumn($alias . '.banco_tipomovimiento');
             $criteria->addSelectColumn($alias . '.banco_cantidad');
             $criteria->addSelectColumn($alias . '.banco_balance');
+            $criteria->addSelectColumn($alias . '.banco_comprobante');
             $criteria->addSelectColumn($alias . '.banco_nota');
         }
     }

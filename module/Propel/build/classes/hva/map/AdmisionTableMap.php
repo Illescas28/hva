@@ -56,11 +56,12 @@ class AdmisionTableMap extends TableMap
         $this->addColumn('admision_pagadaen', 'AdmisionPagadaen', 'TIMESTAMP', false, null, null);
         $this->addColumn('admision_tipodepago', 'AdmisionTipodepago', 'CHAR', false, null, null);
         $this->getColumn('admision_tipodepago', false)->setValueSet(array (
-  0 => 'efectivo',
-  1 => 'tarjeta debito',
-  2 => 'tarjeta credito',
-  3 => 'cheque',
-  4 => 'no identificado',
+  0 => 'Efectivo',
+  1 => 'Tarjeta de debito',
+  2 => 'Tarjeta de credito',
+  3 => 'Cheque',
+  4 => 'No identificado',
+  5 => 'SPEI',
 ));
         $this->addColumn('admision_referenciapago', 'AdmisionReferenciapago', 'VARCHAR', false, 45, null);
         $this->addColumn('admision_facturada', 'AdmisionFacturada', 'BOOLEAN', false, 1, null);
@@ -78,6 +79,7 @@ class AdmisionTableMap extends TableMap
         $this->addRelation('Paciente', 'Paciente', RelationMap::MANY_TO_ONE, array('idpaciente' => 'idpaciente', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Admisionanticipo', 'Admisionanticipo', RelationMap::ONE_TO_MANY, array('idadmision' => 'idadmision', ), 'CASCADE', 'CASCADE', 'Admisionanticipos');
         $this->addRelation('Cargoadmision', 'Cargoadmision', RelationMap::ONE_TO_MANY, array('idadmision' => 'idadmision', ), 'CASCADE', 'CASCADE', 'Cargoadmisions');
+        $this->addRelation('Factura', 'Factura', RelationMap::ONE_TO_MANY, array('idadmision' => 'idadmision', ), null, null, 'Facturas');
     } // buildRelations()
 
 } // AdmisionTableMap

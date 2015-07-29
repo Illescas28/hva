@@ -40,7 +40,7 @@ class CuartoTableMap extends TableMap
         // columns
         $this->addPrimaryKey('idcuarto', 'Idcuarto', 'INTEGER', true, null, null);
         $this->addColumn('cuarto_nombre', 'CuartoNombre', 'VARCHAR', true, 300, null);
-        $this->addColumn('cuarto_descripcion', 'CuartoDescripcion', 'LONGVARCHAR', true, null, null);
+        $this->addColumn('cuarto_descripcion', 'CuartoDescripcion', 'LONGVARCHAR', false, null, null);
         $this->addColumn('cuarto_enuso', 'CuartoEnuso', 'BOOLEAN', true, 1, null);
         $this->addColumn('cuarto_extension', 'CuartoExtension', 'VARCHAR', false, 45, null);
         // validators

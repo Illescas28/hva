@@ -61,8 +61,7 @@
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_caja'>Caja<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>  
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_catalogos'>Catalogos <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_empleados'>Empleados <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
-                <li><a href="/reportes/ingresos">Reporte de ingresos</a></li>
-
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_reportes'>Reportes<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
             </ul>
         </div>
         <div class="col s2" id="navbar_profile-container">
@@ -96,25 +95,33 @@
 </div>
 
 <!-- Dropdown Catalogos -->
+<ul id='dropdown_reportes' class='dropdown-content'>
+    <li><a href="/reportes/ingresos">Reporte de ingresos</a></li>
+    <li class="divider"></li>
+    <li><a href="/pacientes/historico">Reporte de consultas/admisiones</a></li>
+    <li class="divider"></li>
+    <li><a href="/reportes/general">Reporte general</a></li>
+    <li class="divider"></li>
+</ul>
+
 <ul id='dropdown_catalogos' class='dropdown-content'>
     <li style="min-width: 150px"><a href="/catalogos/articulo">Productos</a></li>
     <li class="divider"></li>
     <li><a href="/catalogos/proveedor">Proveedores</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Cuartos</a></li>
+    <li><a href="/catalogos/cuarto">Cuartos</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Consultorios</a></li>
+    <li><a href="/consultorio">Consultorios</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Especialidades</a></li>
+    <li><a href="/catalogos/especialidad">Especialidades</a></li>
     <li class="divider"></li>
     <li><a href="#!">Lugares</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Medicos</a></li>
+    <li><a href="/catalogos/medico">Medicos</a></li>
     <li class="divider"></li>
     <li><a href="#!">Servicios</a></li>
     <li class="divider"></li>
-    <li><a href="#!">UDM</a></li>
-    
+    <li><a href="#!">UDM</a></li>   
 </ul>
 <!-- Dropdown  Pacientes -->
 <ul id='dropdown_pacientes' class='dropdown-content'>
@@ -134,8 +141,6 @@
     <li class="divider"></li>
     <li><a href="#!">Cancelación de facturas</a></li>
     <li class="divider"></li>
-    <li><a href="<?php echo $this->url('pacientes', array('action'=>'historico'));?>">Histórico de pacientes</a></li>
-    <li class="divider"></li>
     <li><a href="#!">Reporte facturas</a></li>
     <li class="divider"></li>
     <li><a href="#!">Reporte quirúrgico</a></li>
@@ -153,16 +158,12 @@
     <li><a href="/productos/existencias">Definir existencias</a></li>
     <li class="divider"></li>
     <li><a href="/productos/registro">Registro de productos</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte de productos</a></li>
 </ul>
 <!-- Dropdown  Compras -->
 <ul id='dropdown_compras' class='dropdown-content'>
     <li><a href="/compras">Compras</a></li>
     <li class="divider"></li>
     <li><a href="/compras/nuevo">Nueva compra</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte de compras</a></li>
 </ul>
 <!-- Dropdown  Almacen -->
 <ul id='dropdown_almacen' class='dropdown-content'>
@@ -173,8 +174,6 @@
     <li><a href="/almacen/transferencias">Transferencias</a></li>
     <li class="divider"></li>
     <li><a href="/almacen/transferencias/nuevo">Nueva transferencia</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte de almacenes</a></li>
 </ul>
 <!-- Dropdown  bancos -->
 <ul id='dropdown_bancos' class='dropdown-content'>
@@ -183,8 +182,6 @@
     <li><a href="/bancos/concepto/nuevo">Nuevo concepto</a></li>
     <li class="divider"></li>
     <li><a href="/bancos/movimientos">Movimientos</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte de bancos</a></li>
 </ul>
 <!-- Dropdown  Almacen -->
 <ul id='dropdown_caja' class='dropdown-content'>
@@ -193,8 +190,6 @@
     <li><a href="/cajachica/concepto/nuevo">Nuevo concepto</a></li>
     <li class="divider"></li>
     <li><a href="/cajachica/movimientos">Movimientos</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte de caja</a></li>
 </ul>
 <!-- Dropdown  Empleados -->
 <ul id='dropdown_empleados' class='dropdown-content'>
@@ -204,8 +199,6 @@
     <li class="divider"></li>
     <li><a href="/empleados/roles">Roles</a></li>
     <li class="divider"></li>
-    <li><a href="/empleados/roles/nuevo">Nuevo Rol</a></li>
-    <li><a href="#!">Reporte de empleados</a></li>
 </ul>
 
 <ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">

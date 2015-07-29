@@ -20,6 +20,9 @@ class MedicoForm extends Form
                 'empty_option' => 'Seleccione una especialidad *',
                 'value_options' => $especialidades,
             ),
+            'attributes' => array(
+                'required' => 'required'
+            ),
         ));
         
         $this->add(array(
@@ -28,6 +31,9 @@ class MedicoForm extends Form
             'options' => array(
                 'label' => 'Nombre *',  
             ),
+            'attributes' => array(
+                'required' => 'required'
+            ),
         ));
         $this->add(array(
             'name' => 'medico_apellidopaterno',
@@ -35,12 +41,18 @@ class MedicoForm extends Form
             'options' => array(
                 'label' => 'Apellido Paterno *',
             ),
+            'attributes' => array(
+                'required' => 'required'
+            ),
         ));
         $this->add(array(
             'name' => 'medico_apellidomaterno',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Apellido Materno *',
+            ),
+            'attributes' => array(
+                'required' => 'required'
             ),
         ));
         $this->add(array(
@@ -112,6 +124,9 @@ class MedicoForm extends Form
             'options' => array(
                 'label' => 'Celular *',
             ),
+            'attributes' => array(
+                'required' => 'required'
+            ),
         ));
         $this->add(array(
             'name' => 'medico_clave',
@@ -125,6 +140,9 @@ class MedicoForm extends Form
             'type' => 'Text',
             'options' => array(
                 'label' => 'D.G.P *',
+            ),
+            'attributes' => array(
+                'required' => 'required'
             ),
         ));
         $this->add(array(

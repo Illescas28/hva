@@ -9,6 +9,8 @@
  * @method FacturaQuery orderByIdfactura($order = Criteria::ASC) Order by the idfactura column
  * @method FacturaQuery orderByIddatosfacturacion($order = Criteria::ASC) Order by the iddatosfacturacion column
  * @method FacturaQuery orderByIdconsulta($order = Criteria::ASC) Order by the idconsulta column
+ * @method FacturaQuery orderByIdadmision($order = Criteria::ASC) Order by the idadmision column
+ * @method FacturaQuery orderByIdventa($order = Criteria::ASC) Order by the idventa column
  * @method FacturaQuery orderByFacturaUrlXml($order = Criteria::ASC) Order by the factura_url_xml column
  * @method FacturaQuery orderByFacturaUrlPdf($order = Criteria::ASC) Order by the factura_url_pdf column
  * @method FacturaQuery orderByFacturaFecha($order = Criteria::ASC) Order by the factura_fecha column
@@ -25,6 +27,8 @@
  * @method FacturaQuery groupByIdfactura() Group by the idfactura column
  * @method FacturaQuery groupByIddatosfacturacion() Group by the iddatosfacturacion column
  * @method FacturaQuery groupByIdconsulta() Group by the idconsulta column
+ * @method FacturaQuery groupByIdadmision() Group by the idadmision column
+ * @method FacturaQuery groupByIdventa() Group by the idventa column
  * @method FacturaQuery groupByFacturaUrlXml() Group by the factura_url_xml column
  * @method FacturaQuery groupByFacturaUrlPdf() Group by the factura_url_pdf column
  * @method FacturaQuery groupByFacturaFecha() Group by the factura_fecha column
@@ -42,6 +46,10 @@
  * @method FacturaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method FacturaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method FacturaQuery leftJoinAdmision($relationAlias = null) Adds a LEFT JOIN clause to the query using the Admision relation
+ * @method FacturaQuery rightJoinAdmision($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Admision relation
+ * @method FacturaQuery innerJoinAdmision($relationAlias = null) Adds a INNER JOIN clause to the query using the Admision relation
+ *
  * @method FacturaQuery leftJoinConsulta($relationAlias = null) Adds a LEFT JOIN clause to the query using the Consulta relation
  * @method FacturaQuery rightJoinConsulta($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Consulta relation
  * @method FacturaQuery innerJoinConsulta($relationAlias = null) Adds a INNER JOIN clause to the query using the Consulta relation
@@ -50,11 +58,17 @@
  * @method FacturaQuery rightJoinPacientefacturacion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Pacientefacturacion relation
  * @method FacturaQuery innerJoinPacientefacturacion($relationAlias = null) Adds a INNER JOIN clause to the query using the Pacientefacturacion relation
  *
+ * @method FacturaQuery leftJoinVenta($relationAlias = null) Adds a LEFT JOIN clause to the query using the Venta relation
+ * @method FacturaQuery rightJoinVenta($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Venta relation
+ * @method FacturaQuery innerJoinVenta($relationAlias = null) Adds a INNER JOIN clause to the query using the Venta relation
+ *
  * @method Factura findOne(PropelPDO $con = null) Return the first Factura matching the query
  * @method Factura findOneOrCreate(PropelPDO $con = null) Return the first Factura matching the query, or a new Factura object populated from the query conditions when no match is found
  *
  * @method Factura findOneByIddatosfacturacion(int $iddatosfacturacion) Return the first Factura filtered by the iddatosfacturacion column
  * @method Factura findOneByIdconsulta(int $idconsulta) Return the first Factura filtered by the idconsulta column
+ * @method Factura findOneByIdadmision(int $idadmision) Return the first Factura filtered by the idadmision column
+ * @method Factura findOneByIdventa(int $idventa) Return the first Factura filtered by the idventa column
  * @method Factura findOneByFacturaUrlXml(string $factura_url_xml) Return the first Factura filtered by the factura_url_xml column
  * @method Factura findOneByFacturaUrlPdf(string $factura_url_pdf) Return the first Factura filtered by the factura_url_pdf column
  * @method Factura findOneByFacturaFecha(string $factura_fecha) Return the first Factura filtered by the factura_fecha column
@@ -71,6 +85,8 @@
  * @method array findByIdfactura(int $idfactura) Return Factura objects filtered by the idfactura column
  * @method array findByIddatosfacturacion(int $iddatosfacturacion) Return Factura objects filtered by the iddatosfacturacion column
  * @method array findByIdconsulta(int $idconsulta) Return Factura objects filtered by the idconsulta column
+ * @method array findByIdadmision(int $idadmision) Return Factura objects filtered by the idadmision column
+ * @method array findByIdventa(int $idventa) Return Factura objects filtered by the idventa column
  * @method array findByFacturaUrlXml(string $factura_url_xml) Return Factura objects filtered by the factura_url_xml column
  * @method array findByFacturaUrlPdf(string $factura_url_pdf) Return Factura objects filtered by the factura_url_pdf column
  * @method array findByFacturaFecha(string $factura_fecha) Return Factura objects filtered by the factura_fecha column
@@ -190,7 +206,7 @@ abstract class BaseFacturaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idfactura`, `iddatosfacturacion`, `idconsulta`, `factura_url_xml`, `factura_url_pdf`, `factura_fecha`, `factura_sellosat`, `factura_certificadosat`, `factura_cadenaoriginal`, `factura_cfdi`, `factura_mensaje`, `factura_qrcode`, `factura_tipodepago`, `factura_status`, `factura_tipo` FROM `factura` WHERE `idfactura` = :p0';
+        $sql = 'SELECT `idfactura`, `iddatosfacturacion`, `idconsulta`, `idadmision`, `idventa`, `factura_url_xml`, `factura_url_pdf`, `factura_fecha`, `factura_sellosat`, `factura_certificadosat`, `factura_cadenaoriginal`, `factura_cfdi`, `factura_mensaje`, `factura_qrcode`, `factura_tipodepago`, `factura_status`, `factura_tipo` FROM `factura` WHERE `idfactura` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -407,6 +423,94 @@ abstract class BaseFacturaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(FacturaPeer::IDCONSULTA, $idconsulta, $comparison);
+    }
+
+    /**
+     * Filter the query on the idadmision column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdadmision(1234); // WHERE idadmision = 1234
+     * $query->filterByIdadmision(array(12, 34)); // WHERE idadmision IN (12, 34)
+     * $query->filterByIdadmision(array('min' => 12)); // WHERE idadmision >= 12
+     * $query->filterByIdadmision(array('max' => 12)); // WHERE idadmision <= 12
+     * </code>
+     *
+     * @see       filterByAdmision()
+     *
+     * @param     mixed $idadmision The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return FacturaQuery The current query, for fluid interface
+     */
+    public function filterByIdadmision($idadmision = null, $comparison = null)
+    {
+        if (is_array($idadmision)) {
+            $useMinMax = false;
+            if (isset($idadmision['min'])) {
+                $this->addUsingAlias(FacturaPeer::IDADMISION, $idadmision['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idadmision['max'])) {
+                $this->addUsingAlias(FacturaPeer::IDADMISION, $idadmision['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(FacturaPeer::IDADMISION, $idadmision, $comparison);
+    }
+
+    /**
+     * Filter the query on the idventa column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdventa(1234); // WHERE idventa = 1234
+     * $query->filterByIdventa(array(12, 34)); // WHERE idventa IN (12, 34)
+     * $query->filterByIdventa(array('min' => 12)); // WHERE idventa >= 12
+     * $query->filterByIdventa(array('max' => 12)); // WHERE idventa <= 12
+     * </code>
+     *
+     * @see       filterByVenta()
+     *
+     * @param     mixed $idventa The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return FacturaQuery The current query, for fluid interface
+     */
+    public function filterByIdventa($idventa = null, $comparison = null)
+    {
+        if (is_array($idventa)) {
+            $useMinMax = false;
+            if (isset($idventa['min'])) {
+                $this->addUsingAlias(FacturaPeer::IDVENTA, $idventa['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idventa['max'])) {
+                $this->addUsingAlias(FacturaPeer::IDVENTA, $idventa['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(FacturaPeer::IDVENTA, $idventa, $comparison);
     }
 
     /**
@@ -772,6 +876,82 @@ abstract class BaseFacturaQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query by a related Admision object
+     *
+     * @param   Admision|PropelObjectCollection $admision The related object(s) to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 FacturaQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByAdmision($admision, $comparison = null)
+    {
+        if ($admision instanceof Admision) {
+            return $this
+                ->addUsingAlias(FacturaPeer::IDADMISION, $admision->getIdadmision(), $comparison);
+        } elseif ($admision instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(FacturaPeer::IDADMISION, $admision->toKeyValue('PrimaryKey', 'Idadmision'), $comparison);
+        } else {
+            throw new PropelException('filterByAdmision() only accepts arguments of type Admision or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Admision relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return FacturaQuery The current query, for fluid interface
+     */
+    public function joinAdmision($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Admision');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Admision');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Admision relation Admision object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   AdmisionQuery A secondary query class using the current class as primary query
+     */
+    public function useAdmisionQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinAdmision($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Admision', 'AdmisionQuery');
+    }
+
+    /**
      * Filter the query by a related Consulta object
      *
      * @param   Consulta|PropelObjectCollection $consulta The related object(s) to use as filter
@@ -805,7 +985,7 @@ abstract class BaseFacturaQuery extends ModelCriteria
      *
      * @return FacturaQuery The current query, for fluid interface
      */
-    public function joinConsulta($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinConsulta($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Consulta');
@@ -840,7 +1020,7 @@ abstract class BaseFacturaQuery extends ModelCriteria
      *
      * @return   ConsultaQuery A secondary query class using the current class as primary query
      */
-    public function useConsultaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useConsultaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinConsulta($relationAlias, $joinType)
@@ -921,6 +1101,82 @@ abstract class BaseFacturaQuery extends ModelCriteria
         return $this
             ->joinPacientefacturacion($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Pacientefacturacion', 'PacientefacturacionQuery');
+    }
+
+    /**
+     * Filter the query by a related Venta object
+     *
+     * @param   Venta|PropelObjectCollection $venta The related object(s) to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 FacturaQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByVenta($venta, $comparison = null)
+    {
+        if ($venta instanceof Venta) {
+            return $this
+                ->addUsingAlias(FacturaPeer::IDVENTA, $venta->getIdventa(), $comparison);
+        } elseif ($venta instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(FacturaPeer::IDVENTA, $venta->toKeyValue('PrimaryKey', 'Idventa'), $comparison);
+        } else {
+            throw new PropelException('filterByVenta() only accepts arguments of type Venta or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Venta relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return FacturaQuery The current query, for fluid interface
+     */
+    public function joinVenta($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Venta');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Venta');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Venta relation Venta object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   VentaQuery A secondary query class using the current class as primary query
+     */
+    public function useVentaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinVenta($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Venta', 'VentaQuery');
     }
 
     /**

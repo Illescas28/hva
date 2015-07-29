@@ -7,7 +7,7 @@
     <a href="<?php echo $this->url('cuarto', array('action'=>'nuevo'));?>">Nueva cuarto</a>
 </p>-->
 <div class="row" id="table-header">
-    <form class="col s12">
+    <div class="col s12">
         <?php if(count($flashMessages)) :?>
             <?php foreach ($flashMessages as $message) :?>
                 <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
@@ -23,9 +23,9 @@
               <label for="icon_prefix">Buscar</label>
             </div>     
         </div>
-    </form>
+    </div>
 </div>
-<table id="tabla-cuartos" class="striped">
+<table id="tabla-cuartos" class="table striped">
     <thead>
         <tr>
             <th>Nombre</th>

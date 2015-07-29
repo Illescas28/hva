@@ -24,13 +24,13 @@ abstract class BaseFacturaPeer
     const TM_CLASS = 'FacturaTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 15;
+    const NUM_COLUMNS = 17;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 15;
+    const NUM_HYDRATE_COLUMNS = 17;
 
     /** the column name for the idfactura field */
     const IDFACTURA = 'factura.idfactura';
@@ -40,6 +40,12 @@ abstract class BaseFacturaPeer
 
     /** the column name for the idconsulta field */
     const IDCONSULTA = 'factura.idconsulta';
+
+    /** the column name for the idadmision field */
+    const IDADMISION = 'factura.idadmision';
+
+    /** the column name for the idventa field */
+    const IDVENTA = 'factura.idventa';
 
     /** the column name for the factura_url_xml field */
     const FACTURA_URL_XML = 'factura.factura_url_xml';
@@ -108,12 +114,12 @@ abstract class BaseFacturaPeer
      * e.g. FacturaPeer::$fieldNames[FacturaPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idfactura', 'Iddatosfacturacion', 'Idconsulta', 'FacturaUrlXml', 'FacturaUrlPdf', 'FacturaFecha', 'FacturaSellosat', 'FacturaCertificadosat', 'FacturaCadenaoriginal', 'FacturaCfdi', 'FacturaMensaje', 'FacturaQrcode', 'FacturaTipodepago', 'FacturaStatus', 'FacturaTipo', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idfactura', 'iddatosfacturacion', 'idconsulta', 'facturaUrlXml', 'facturaUrlPdf', 'facturaFecha', 'facturaSellosat', 'facturaCertificadosat', 'facturaCadenaoriginal', 'facturaCfdi', 'facturaMensaje', 'facturaQrcode', 'facturaTipodepago', 'facturaStatus', 'facturaTipo', ),
-        BasePeer::TYPE_COLNAME => array (FacturaPeer::IDFACTURA, FacturaPeer::IDDATOSFACTURACION, FacturaPeer::IDCONSULTA, FacturaPeer::FACTURA_URL_XML, FacturaPeer::FACTURA_URL_PDF, FacturaPeer::FACTURA_FECHA, FacturaPeer::FACTURA_SELLOSAT, FacturaPeer::FACTURA_CERTIFICADOSAT, FacturaPeer::FACTURA_CADENAORIGINAL, FacturaPeer::FACTURA_CFDI, FacturaPeer::FACTURA_MENSAJE, FacturaPeer::FACTURA_QRCODE, FacturaPeer::FACTURA_TIPODEPAGO, FacturaPeer::FACTURA_STATUS, FacturaPeer::FACTURA_TIPO, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDFACTURA', 'IDDATOSFACTURACION', 'IDCONSULTA', 'FACTURA_URL_XML', 'FACTURA_URL_PDF', 'FACTURA_FECHA', 'FACTURA_SELLOSAT', 'FACTURA_CERTIFICADOSAT', 'FACTURA_CADENAORIGINAL', 'FACTURA_CFDI', 'FACTURA_MENSAJE', 'FACTURA_QRCODE', 'FACTURA_TIPODEPAGO', 'FACTURA_STATUS', 'FACTURA_TIPO', ),
-        BasePeer::TYPE_FIELDNAME => array ('idfactura', 'iddatosfacturacion', 'idconsulta', 'factura_url_xml', 'factura_url_pdf', 'factura_fecha', 'factura_sellosat', 'factura_certificadosat', 'factura_cadenaoriginal', 'factura_cfdi', 'factura_mensaje', 'factura_qrcode', 'factura_tipodepago', 'factura_status', 'factura_tipo', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        BasePeer::TYPE_PHPNAME => array ('Idfactura', 'Iddatosfacturacion', 'Idconsulta', 'Idadmision', 'Idventa', 'FacturaUrlXml', 'FacturaUrlPdf', 'FacturaFecha', 'FacturaSellosat', 'FacturaCertificadosat', 'FacturaCadenaoriginal', 'FacturaCfdi', 'FacturaMensaje', 'FacturaQrcode', 'FacturaTipodepago', 'FacturaStatus', 'FacturaTipo', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idfactura', 'iddatosfacturacion', 'idconsulta', 'idadmision', 'idventa', 'facturaUrlXml', 'facturaUrlPdf', 'facturaFecha', 'facturaSellosat', 'facturaCertificadosat', 'facturaCadenaoriginal', 'facturaCfdi', 'facturaMensaje', 'facturaQrcode', 'facturaTipodepago', 'facturaStatus', 'facturaTipo', ),
+        BasePeer::TYPE_COLNAME => array (FacturaPeer::IDFACTURA, FacturaPeer::IDDATOSFACTURACION, FacturaPeer::IDCONSULTA, FacturaPeer::IDADMISION, FacturaPeer::IDVENTA, FacturaPeer::FACTURA_URL_XML, FacturaPeer::FACTURA_URL_PDF, FacturaPeer::FACTURA_FECHA, FacturaPeer::FACTURA_SELLOSAT, FacturaPeer::FACTURA_CERTIFICADOSAT, FacturaPeer::FACTURA_CADENAORIGINAL, FacturaPeer::FACTURA_CFDI, FacturaPeer::FACTURA_MENSAJE, FacturaPeer::FACTURA_QRCODE, FacturaPeer::FACTURA_TIPODEPAGO, FacturaPeer::FACTURA_STATUS, FacturaPeer::FACTURA_TIPO, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDFACTURA', 'IDDATOSFACTURACION', 'IDCONSULTA', 'IDADMISION', 'IDVENTA', 'FACTURA_URL_XML', 'FACTURA_URL_PDF', 'FACTURA_FECHA', 'FACTURA_SELLOSAT', 'FACTURA_CERTIFICADOSAT', 'FACTURA_CADENAORIGINAL', 'FACTURA_CFDI', 'FACTURA_MENSAJE', 'FACTURA_QRCODE', 'FACTURA_TIPODEPAGO', 'FACTURA_STATUS', 'FACTURA_TIPO', ),
+        BasePeer::TYPE_FIELDNAME => array ('idfactura', 'iddatosfacturacion', 'idconsulta', 'idadmision', 'idventa', 'factura_url_xml', 'factura_url_pdf', 'factura_fecha', 'factura_sellosat', 'factura_certificadosat', 'factura_cadenaoriginal', 'factura_cfdi', 'factura_mensaje', 'factura_qrcode', 'factura_tipodepago', 'factura_status', 'factura_tipo', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /**
@@ -123,12 +129,12 @@ abstract class BaseFacturaPeer
      * e.g. FacturaPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idfactura' => 0, 'Iddatosfacturacion' => 1, 'Idconsulta' => 2, 'FacturaUrlXml' => 3, 'FacturaUrlPdf' => 4, 'FacturaFecha' => 5, 'FacturaSellosat' => 6, 'FacturaCertificadosat' => 7, 'FacturaCadenaoriginal' => 8, 'FacturaCfdi' => 9, 'FacturaMensaje' => 10, 'FacturaQrcode' => 11, 'FacturaTipodepago' => 12, 'FacturaStatus' => 13, 'FacturaTipo' => 14, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idfactura' => 0, 'iddatosfacturacion' => 1, 'idconsulta' => 2, 'facturaUrlXml' => 3, 'facturaUrlPdf' => 4, 'facturaFecha' => 5, 'facturaSellosat' => 6, 'facturaCertificadosat' => 7, 'facturaCadenaoriginal' => 8, 'facturaCfdi' => 9, 'facturaMensaje' => 10, 'facturaQrcode' => 11, 'facturaTipodepago' => 12, 'facturaStatus' => 13, 'facturaTipo' => 14, ),
-        BasePeer::TYPE_COLNAME => array (FacturaPeer::IDFACTURA => 0, FacturaPeer::IDDATOSFACTURACION => 1, FacturaPeer::IDCONSULTA => 2, FacturaPeer::FACTURA_URL_XML => 3, FacturaPeer::FACTURA_URL_PDF => 4, FacturaPeer::FACTURA_FECHA => 5, FacturaPeer::FACTURA_SELLOSAT => 6, FacturaPeer::FACTURA_CERTIFICADOSAT => 7, FacturaPeer::FACTURA_CADENAORIGINAL => 8, FacturaPeer::FACTURA_CFDI => 9, FacturaPeer::FACTURA_MENSAJE => 10, FacturaPeer::FACTURA_QRCODE => 11, FacturaPeer::FACTURA_TIPODEPAGO => 12, FacturaPeer::FACTURA_STATUS => 13, FacturaPeer::FACTURA_TIPO => 14, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDFACTURA' => 0, 'IDDATOSFACTURACION' => 1, 'IDCONSULTA' => 2, 'FACTURA_URL_XML' => 3, 'FACTURA_URL_PDF' => 4, 'FACTURA_FECHA' => 5, 'FACTURA_SELLOSAT' => 6, 'FACTURA_CERTIFICADOSAT' => 7, 'FACTURA_CADENAORIGINAL' => 8, 'FACTURA_CFDI' => 9, 'FACTURA_MENSAJE' => 10, 'FACTURA_QRCODE' => 11, 'FACTURA_TIPODEPAGO' => 12, 'FACTURA_STATUS' => 13, 'FACTURA_TIPO' => 14, ),
-        BasePeer::TYPE_FIELDNAME => array ('idfactura' => 0, 'iddatosfacturacion' => 1, 'idconsulta' => 2, 'factura_url_xml' => 3, 'factura_url_pdf' => 4, 'factura_fecha' => 5, 'factura_sellosat' => 6, 'factura_certificadosat' => 7, 'factura_cadenaoriginal' => 8, 'factura_cfdi' => 9, 'factura_mensaje' => 10, 'factura_qrcode' => 11, 'factura_tipodepago' => 12, 'factura_status' => 13, 'factura_tipo' => 14, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        BasePeer::TYPE_PHPNAME => array ('Idfactura' => 0, 'Iddatosfacturacion' => 1, 'Idconsulta' => 2, 'Idadmision' => 3, 'Idventa' => 4, 'FacturaUrlXml' => 5, 'FacturaUrlPdf' => 6, 'FacturaFecha' => 7, 'FacturaSellosat' => 8, 'FacturaCertificadosat' => 9, 'FacturaCadenaoriginal' => 10, 'FacturaCfdi' => 11, 'FacturaMensaje' => 12, 'FacturaQrcode' => 13, 'FacturaTipodepago' => 14, 'FacturaStatus' => 15, 'FacturaTipo' => 16, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idfactura' => 0, 'iddatosfacturacion' => 1, 'idconsulta' => 2, 'idadmision' => 3, 'idventa' => 4, 'facturaUrlXml' => 5, 'facturaUrlPdf' => 6, 'facturaFecha' => 7, 'facturaSellosat' => 8, 'facturaCertificadosat' => 9, 'facturaCadenaoriginal' => 10, 'facturaCfdi' => 11, 'facturaMensaje' => 12, 'facturaQrcode' => 13, 'facturaTipodepago' => 14, 'facturaStatus' => 15, 'facturaTipo' => 16, ),
+        BasePeer::TYPE_COLNAME => array (FacturaPeer::IDFACTURA => 0, FacturaPeer::IDDATOSFACTURACION => 1, FacturaPeer::IDCONSULTA => 2, FacturaPeer::IDADMISION => 3, FacturaPeer::IDVENTA => 4, FacturaPeer::FACTURA_URL_XML => 5, FacturaPeer::FACTURA_URL_PDF => 6, FacturaPeer::FACTURA_FECHA => 7, FacturaPeer::FACTURA_SELLOSAT => 8, FacturaPeer::FACTURA_CERTIFICADOSAT => 9, FacturaPeer::FACTURA_CADENAORIGINAL => 10, FacturaPeer::FACTURA_CFDI => 11, FacturaPeer::FACTURA_MENSAJE => 12, FacturaPeer::FACTURA_QRCODE => 13, FacturaPeer::FACTURA_TIPODEPAGO => 14, FacturaPeer::FACTURA_STATUS => 15, FacturaPeer::FACTURA_TIPO => 16, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDFACTURA' => 0, 'IDDATOSFACTURACION' => 1, 'IDCONSULTA' => 2, 'IDADMISION' => 3, 'IDVENTA' => 4, 'FACTURA_URL_XML' => 5, 'FACTURA_URL_PDF' => 6, 'FACTURA_FECHA' => 7, 'FACTURA_SELLOSAT' => 8, 'FACTURA_CERTIFICADOSAT' => 9, 'FACTURA_CADENAORIGINAL' => 10, 'FACTURA_CFDI' => 11, 'FACTURA_MENSAJE' => 12, 'FACTURA_QRCODE' => 13, 'FACTURA_TIPODEPAGO' => 14, 'FACTURA_STATUS' => 15, 'FACTURA_TIPO' => 16, ),
+        BasePeer::TYPE_FIELDNAME => array ('idfactura' => 0, 'iddatosfacturacion' => 1, 'idconsulta' => 2, 'idadmision' => 3, 'idventa' => 4, 'factura_url_xml' => 5, 'factura_url_pdf' => 6, 'factura_fecha' => 7, 'factura_sellosat' => 8, 'factura_certificadosat' => 9, 'factura_cadenaoriginal' => 10, 'factura_cfdi' => 11, 'factura_mensaje' => 12, 'factura_qrcode' => 13, 'factura_tipodepago' => 14, 'factura_status' => 15, 'factura_tipo' => 16, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /** The enumerated values for this table */
@@ -266,6 +272,8 @@ abstract class BaseFacturaPeer
             $criteria->addSelectColumn(FacturaPeer::IDFACTURA);
             $criteria->addSelectColumn(FacturaPeer::IDDATOSFACTURACION);
             $criteria->addSelectColumn(FacturaPeer::IDCONSULTA);
+            $criteria->addSelectColumn(FacturaPeer::IDADMISION);
+            $criteria->addSelectColumn(FacturaPeer::IDVENTA);
             $criteria->addSelectColumn(FacturaPeer::FACTURA_URL_XML);
             $criteria->addSelectColumn(FacturaPeer::FACTURA_URL_PDF);
             $criteria->addSelectColumn(FacturaPeer::FACTURA_FECHA);
@@ -282,6 +290,8 @@ abstract class BaseFacturaPeer
             $criteria->addSelectColumn($alias . '.idfactura');
             $criteria->addSelectColumn($alias . '.iddatosfacturacion');
             $criteria->addSelectColumn($alias . '.idconsulta');
+            $criteria->addSelectColumn($alias . '.idadmision');
+            $criteria->addSelectColumn($alias . '.idventa');
             $criteria->addSelectColumn($alias . '.factura_url_xml');
             $criteria->addSelectColumn($alias . '.factura_url_pdf');
             $criteria->addSelectColumn($alias . '.factura_fecha');
@@ -596,6 +606,57 @@ abstract class BaseFacturaPeer
 
 
     /**
+     * Returns the number of rows matching criteria, joining the related Admision table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinAdmision(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(FacturaPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            FacturaPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(FacturaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
      * Returns the number of rows matching criteria, joining the related Consulta table
      *
      * @param      Criteria $criteria
@@ -694,6 +755,124 @@ abstract class BaseFacturaPeer
         $stmt->closeCursor();
 
         return $count;
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining the related Venta table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinVenta(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(FacturaPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            FacturaPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(FacturaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
+     * Selects a collection of Factura objects pre-filled with their Admision objects.
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Factura objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAdmision(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+        }
+
+        FacturaPeer::addSelectColumns($criteria);
+        $startcol = FacturaPeer::NUM_HYDRATE_COLUMNS;
+        AdmisionPeer::addSelectColumns($criteria);
+
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = FacturaPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = FacturaPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+
+                $cls = FacturaPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                FacturaPeer::addInstanceToPool($obj1, $key1);
+            } // if $obj1 already loaded
+
+            $key2 = AdmisionPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            if ($key2 !== null) {
+                $obj2 = AdmisionPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = AdmisionPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol);
+                    AdmisionPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 already loaded
+
+                // Add the $obj1 (Factura) to $obj2 (Admision)
+                $obj2->addFactura($obj1);
+
+            } // if joined row was not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
     }
 
 
@@ -832,6 +1011,73 @@ abstract class BaseFacturaPeer
 
 
     /**
+     * Selects a collection of Factura objects pre-filled with their Venta objects.
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Factura objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinVenta(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+        }
+
+        FacturaPeer::addSelectColumns($criteria);
+        $startcol = FacturaPeer::NUM_HYDRATE_COLUMNS;
+        VentaPeer::addSelectColumns($criteria);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = FacturaPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = FacturaPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+
+                $cls = FacturaPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                FacturaPeer::addInstanceToPool($obj1, $key1);
+            } // if $obj1 already loaded
+
+            $key2 = VentaPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            if ($key2 !== null) {
+                $obj2 = VentaPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = VentaPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol);
+                    VentaPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 already loaded
+
+                // Add the $obj1 (Factura) to $obj2 (Venta)
+                $obj2->addFactura($obj1);
+
+            } // if joined row was not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
      * Returns the number of rows matching criteria, joining all related tables
      *
      * @param      Criteria $criteria
@@ -867,9 +1113,13 @@ abstract class BaseFacturaPeer
             $con = Propel::getConnection(FacturaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
         $criteria->addJoin(FacturaPeer::IDCONSULTA, ConsultaPeer::IDCONSULTA, $join_behavior);
 
         $criteria->addJoin(FacturaPeer::IDDATOSFACTURACION, PacientefacturacionPeer::IDPACIENTEFACTURACION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -905,15 +1155,25 @@ abstract class BaseFacturaPeer
         FacturaPeer::addSelectColumns($criteria);
         $startcol2 = FacturaPeer::NUM_HYDRATE_COLUMNS;
 
+        AdmisionPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + AdmisionPeer::NUM_HYDRATE_COLUMNS;
+
         ConsultaPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + ConsultaPeer::NUM_HYDRATE_COLUMNS;
+        $startcol4 = $startcol3 + ConsultaPeer::NUM_HYDRATE_COLUMNS;
 
         PacientefacturacionPeer::addSelectColumns($criteria);
-        $startcol4 = $startcol3 + PacientefacturacionPeer::NUM_HYDRATE_COLUMNS;
+        $startcol5 = $startcol4 + PacientefacturacionPeer::NUM_HYDRATE_COLUMNS;
+
+        VentaPeer::addSelectColumns($criteria);
+        $startcol6 = $startcol5 + VentaPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
 
         $criteria->addJoin(FacturaPeer::IDCONSULTA, ConsultaPeer::IDCONSULTA, $join_behavior);
 
         $criteria->addJoin(FacturaPeer::IDDATOSFACTURACION, PacientefacturacionPeer::IDPACIENTEFACTURACION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -932,40 +1192,76 @@ abstract class BaseFacturaPeer
                 FacturaPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-            // Add objects for joined Consulta rows
+            // Add objects for joined Admision rows
 
-            $key2 = ConsultaPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            $key2 = AdmisionPeer::getPrimaryKeyHashFromRow($row, $startcol2);
             if ($key2 !== null) {
-                $obj2 = ConsultaPeer::getInstanceFromPool($key2);
+                $obj2 = AdmisionPeer::getInstanceFromPool($key2);
                 if (!$obj2) {
 
-                    $cls = ConsultaPeer::getOMClass();
+                    $cls = AdmisionPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol2);
-                    ConsultaPeer::addInstanceToPool($obj2, $key2);
+                    AdmisionPeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 loaded
 
-                // Add the $obj1 (Factura) to the collection in $obj2 (Consulta)
+                // Add the $obj1 (Factura) to the collection in $obj2 (Admision)
                 $obj2->addFactura($obj1);
+            } // if joined row not null
+
+            // Add objects for joined Consulta rows
+
+            $key3 = ConsultaPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+            if ($key3 !== null) {
+                $obj3 = ConsultaPeer::getInstanceFromPool($key3);
+                if (!$obj3) {
+
+                    $cls = ConsultaPeer::getOMClass();
+
+                    $obj3 = new $cls();
+                    $obj3->hydrate($row, $startcol3);
+                    ConsultaPeer::addInstanceToPool($obj3, $key3);
+                } // if obj3 loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj3 (Consulta)
+                $obj3->addFactura($obj1);
             } // if joined row not null
 
             // Add objects for joined Pacientefacturacion rows
 
-            $key3 = PacientefacturacionPeer::getPrimaryKeyHashFromRow($row, $startcol3);
-            if ($key3 !== null) {
-                $obj3 = PacientefacturacionPeer::getInstanceFromPool($key3);
-                if (!$obj3) {
+            $key4 = PacientefacturacionPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+            if ($key4 !== null) {
+                $obj4 = PacientefacturacionPeer::getInstanceFromPool($key4);
+                if (!$obj4) {
 
                     $cls = PacientefacturacionPeer::getOMClass();
 
-                    $obj3 = new $cls();
-                    $obj3->hydrate($row, $startcol3);
-                    PacientefacturacionPeer::addInstanceToPool($obj3, $key3);
-                } // if obj3 loaded
+                    $obj4 = new $cls();
+                    $obj4->hydrate($row, $startcol4);
+                    PacientefacturacionPeer::addInstanceToPool($obj4, $key4);
+                } // if obj4 loaded
 
-                // Add the $obj1 (Factura) to the collection in $obj3 (Pacientefacturacion)
-                $obj3->addFactura($obj1);
+                // Add the $obj1 (Factura) to the collection in $obj4 (Pacientefacturacion)
+                $obj4->addFactura($obj1);
+            } // if joined row not null
+
+            // Add objects for joined Venta rows
+
+            $key5 = VentaPeer::getPrimaryKeyHashFromRow($row, $startcol5);
+            if ($key5 !== null) {
+                $obj5 = VentaPeer::getInstanceFromPool($key5);
+                if (!$obj5) {
+
+                    $cls = VentaPeer::getOMClass();
+
+                    $obj5 = new $cls();
+                    $obj5->hydrate($row, $startcol5);
+                    VentaPeer::addInstanceToPool($obj5, $key5);
+                } // if obj5 loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj5 (Venta)
+                $obj5->addFactura($obj1);
             } // if joined row not null
 
             $results[] = $obj1;
@@ -973,6 +1269,61 @@ abstract class BaseFacturaPeer
         $stmt->closeCursor();
 
         return $results;
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining the related Admision table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinAllExceptAdmision(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(FacturaPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            FacturaPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+        // Set the correct dbName
+        $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(FacturaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(FacturaPeer::IDCONSULTA, ConsultaPeer::IDCONSULTA, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDDATOSFACTURACION, PacientefacturacionPeer::IDPACIENTEFACTURACION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
     }
 
 
@@ -1012,7 +1363,11 @@ abstract class BaseFacturaPeer
             $con = Propel::getConnection(FacturaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
         $criteria->addJoin(FacturaPeer::IDDATOSFACTURACION, PacientefacturacionPeer::IDPACIENTEFACTURACION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1063,7 +1418,11 @@ abstract class BaseFacturaPeer
             $con = Propel::getConnection(FacturaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
         $criteria->addJoin(FacturaPeer::IDCONSULTA, ConsultaPeer::IDCONSULTA, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1079,81 +1438,62 @@ abstract class BaseFacturaPeer
 
 
     /**
-     * Selects a collection of Factura objects pre-filled with all related objects except Consulta.
+     * Returns the number of rows matching criteria, joining the related Venta table
      *
-     * @param      Criteria  $criteria
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Factura objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     * @return int Number of matching rows.
      */
-    public static function doSelectJoinAllExceptConsulta(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinAllExceptVenta(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
+        // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
 
-        // Set the correct dbName if it has not been overridden
-        // $criteria->getDbName() will return the same object if not set to another value
-        // so == check is okay and faster
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(FacturaPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
         }
 
-        FacturaPeer::addSelectColumns($criteria);
-        $startcol2 = FacturaPeer::NUM_HYDRATE_COLUMNS;
+        if (!$criteria->hasSelectClause()) {
+            FacturaPeer::addSelectColumns($criteria);
+        }
 
-        PacientefacturacionPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + PacientefacturacionPeer::NUM_HYDRATE_COLUMNS;
+        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+        // Set the correct dbName
+        $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(FacturaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDCONSULTA, ConsultaPeer::IDCONSULTA, $join_behavior);
 
         $criteria->addJoin(FacturaPeer::IDDATOSFACTURACION, PacientefacturacionPeer::IDPACIENTEFACTURACION, $join_behavior);
 
+        $stmt = BasePeer::doCount($criteria, $con);
 
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = FacturaPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = FacturaPeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-                $cls = FacturaPeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                FacturaPeer::addInstanceToPool($obj1, $key1);
-            } // if obj1 already loaded
-
-                // Add objects for joined Pacientefacturacion rows
-
-                $key2 = PacientefacturacionPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-                if ($key2 !== null) {
-                    $obj2 = PacientefacturacionPeer::getInstanceFromPool($key2);
-                    if (!$obj2) {
-
-                        $cls = PacientefacturacionPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    PacientefacturacionPeer::addInstanceToPool($obj2, $key2);
-                } // if $obj2 already loaded
-
-                // Add the $obj1 (Factura) to the collection in $obj2 (Pacientefacturacion)
-                $obj2->addFactura($obj1);
-
-            } // if joined row is not null
-
-            $results[] = $obj1;
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
         }
         $stmt->closeCursor();
 
-        return $results;
+        return $count;
     }
 
 
     /**
-     * Selects a collection of Factura objects pre-filled with all related objects except Pacientefacturacion.
+     * Selects a collection of Factura objects pre-filled with all related objects except Admision.
      *
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
@@ -1162,7 +1502,7 @@ abstract class BaseFacturaPeer
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinAllExceptPacientefacturacion(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinAllExceptAdmision(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -1179,7 +1519,17 @@ abstract class BaseFacturaPeer
         ConsultaPeer::addSelectColumns($criteria);
         $startcol3 = $startcol2 + ConsultaPeer::NUM_HYDRATE_COLUMNS;
 
+        PacientefacturacionPeer::addSelectColumns($criteria);
+        $startcol4 = $startcol3 + PacientefacturacionPeer::NUM_HYDRATE_COLUMNS;
+
+        VentaPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + VentaPeer::NUM_HYDRATE_COLUMNS;
+
         $criteria->addJoin(FacturaPeer::IDCONSULTA, ConsultaPeer::IDCONSULTA, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDDATOSFACTURACION, PacientefacturacionPeer::IDPACIENTEFACTURACION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
 
 
         $stmt = BasePeer::doSelect($criteria, $con);
@@ -1215,6 +1565,410 @@ abstract class BaseFacturaPeer
 
                 // Add the $obj1 (Factura) to the collection in $obj2 (Consulta)
                 $obj2->addFactura($obj1);
+
+            } // if joined row is not null
+
+                // Add objects for joined Pacientefacturacion rows
+
+                $key3 = PacientefacturacionPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+                if ($key3 !== null) {
+                    $obj3 = PacientefacturacionPeer::getInstanceFromPool($key3);
+                    if (!$obj3) {
+
+                        $cls = PacientefacturacionPeer::getOMClass();
+
+                    $obj3 = new $cls();
+                    $obj3->hydrate($row, $startcol3);
+                    PacientefacturacionPeer::addInstanceToPool($obj3, $key3);
+                } // if $obj3 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj3 (Pacientefacturacion)
+                $obj3->addFactura($obj1);
+
+            } // if joined row is not null
+
+                // Add objects for joined Venta rows
+
+                $key4 = VentaPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                if ($key4 !== null) {
+                    $obj4 = VentaPeer::getInstanceFromPool($key4);
+                    if (!$obj4) {
+
+                        $cls = VentaPeer::getOMClass();
+
+                    $obj4 = new $cls();
+                    $obj4->hydrate($row, $startcol4);
+                    VentaPeer::addInstanceToPool($obj4, $key4);
+                } // if $obj4 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj4 (Venta)
+                $obj4->addFactura($obj1);
+
+            } // if joined row is not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Selects a collection of Factura objects pre-filled with all related objects except Consulta.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Factura objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAllExceptConsulta(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        // $criteria->getDbName() will return the same object if not set to another value
+        // so == check is okay and faster
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+        }
+
+        FacturaPeer::addSelectColumns($criteria);
+        $startcol2 = FacturaPeer::NUM_HYDRATE_COLUMNS;
+
+        AdmisionPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + AdmisionPeer::NUM_HYDRATE_COLUMNS;
+
+        PacientefacturacionPeer::addSelectColumns($criteria);
+        $startcol4 = $startcol3 + PacientefacturacionPeer::NUM_HYDRATE_COLUMNS;
+
+        VentaPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + VentaPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDDATOSFACTURACION, PacientefacturacionPeer::IDPACIENTEFACTURACION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
+
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = FacturaPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = FacturaPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = FacturaPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                FacturaPeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+                // Add objects for joined Admision rows
+
+                $key2 = AdmisionPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                if ($key2 !== null) {
+                    $obj2 = AdmisionPeer::getInstanceFromPool($key2);
+                    if (!$obj2) {
+
+                        $cls = AdmisionPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    AdmisionPeer::addInstanceToPool($obj2, $key2);
+                } // if $obj2 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj2 (Admision)
+                $obj2->addFactura($obj1);
+
+            } // if joined row is not null
+
+                // Add objects for joined Pacientefacturacion rows
+
+                $key3 = PacientefacturacionPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+                if ($key3 !== null) {
+                    $obj3 = PacientefacturacionPeer::getInstanceFromPool($key3);
+                    if (!$obj3) {
+
+                        $cls = PacientefacturacionPeer::getOMClass();
+
+                    $obj3 = new $cls();
+                    $obj3->hydrate($row, $startcol3);
+                    PacientefacturacionPeer::addInstanceToPool($obj3, $key3);
+                } // if $obj3 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj3 (Pacientefacturacion)
+                $obj3->addFactura($obj1);
+
+            } // if joined row is not null
+
+                // Add objects for joined Venta rows
+
+                $key4 = VentaPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                if ($key4 !== null) {
+                    $obj4 = VentaPeer::getInstanceFromPool($key4);
+                    if (!$obj4) {
+
+                        $cls = VentaPeer::getOMClass();
+
+                    $obj4 = new $cls();
+                    $obj4->hydrate($row, $startcol4);
+                    VentaPeer::addInstanceToPool($obj4, $key4);
+                } // if $obj4 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj4 (Venta)
+                $obj4->addFactura($obj1);
+
+            } // if joined row is not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Selects a collection of Factura objects pre-filled with all related objects except Pacientefacturacion.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Factura objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAllExceptPacientefacturacion(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        // $criteria->getDbName() will return the same object if not set to another value
+        // so == check is okay and faster
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+        }
+
+        FacturaPeer::addSelectColumns($criteria);
+        $startcol2 = FacturaPeer::NUM_HYDRATE_COLUMNS;
+
+        AdmisionPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + AdmisionPeer::NUM_HYDRATE_COLUMNS;
+
+        ConsultaPeer::addSelectColumns($criteria);
+        $startcol4 = $startcol3 + ConsultaPeer::NUM_HYDRATE_COLUMNS;
+
+        VentaPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + VentaPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDCONSULTA, ConsultaPeer::IDCONSULTA, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDVENTA, VentaPeer::IDVENTA, $join_behavior);
+
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = FacturaPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = FacturaPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = FacturaPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                FacturaPeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+                // Add objects for joined Admision rows
+
+                $key2 = AdmisionPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                if ($key2 !== null) {
+                    $obj2 = AdmisionPeer::getInstanceFromPool($key2);
+                    if (!$obj2) {
+
+                        $cls = AdmisionPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    AdmisionPeer::addInstanceToPool($obj2, $key2);
+                } // if $obj2 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj2 (Admision)
+                $obj2->addFactura($obj1);
+
+            } // if joined row is not null
+
+                // Add objects for joined Consulta rows
+
+                $key3 = ConsultaPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+                if ($key3 !== null) {
+                    $obj3 = ConsultaPeer::getInstanceFromPool($key3);
+                    if (!$obj3) {
+
+                        $cls = ConsultaPeer::getOMClass();
+
+                    $obj3 = new $cls();
+                    $obj3->hydrate($row, $startcol3);
+                    ConsultaPeer::addInstanceToPool($obj3, $key3);
+                } // if $obj3 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj3 (Consulta)
+                $obj3->addFactura($obj1);
+
+            } // if joined row is not null
+
+                // Add objects for joined Venta rows
+
+                $key4 = VentaPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                if ($key4 !== null) {
+                    $obj4 = VentaPeer::getInstanceFromPool($key4);
+                    if (!$obj4) {
+
+                        $cls = VentaPeer::getOMClass();
+
+                    $obj4 = new $cls();
+                    $obj4->hydrate($row, $startcol4);
+                    VentaPeer::addInstanceToPool($obj4, $key4);
+                } // if $obj4 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj4 (Venta)
+                $obj4->addFactura($obj1);
+
+            } // if joined row is not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Selects a collection of Factura objects pre-filled with all related objects except Venta.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Factura objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAllExceptVenta(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        // $criteria->getDbName() will return the same object if not set to another value
+        // so == check is okay and faster
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(FacturaPeer::DATABASE_NAME);
+        }
+
+        FacturaPeer::addSelectColumns($criteria);
+        $startcol2 = FacturaPeer::NUM_HYDRATE_COLUMNS;
+
+        AdmisionPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + AdmisionPeer::NUM_HYDRATE_COLUMNS;
+
+        ConsultaPeer::addSelectColumns($criteria);
+        $startcol4 = $startcol3 + ConsultaPeer::NUM_HYDRATE_COLUMNS;
+
+        PacientefacturacionPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + PacientefacturacionPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(FacturaPeer::IDADMISION, AdmisionPeer::IDADMISION, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDCONSULTA, ConsultaPeer::IDCONSULTA, $join_behavior);
+
+        $criteria->addJoin(FacturaPeer::IDDATOSFACTURACION, PacientefacturacionPeer::IDPACIENTEFACTURACION, $join_behavior);
+
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = FacturaPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = FacturaPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = FacturaPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                FacturaPeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+                // Add objects for joined Admision rows
+
+                $key2 = AdmisionPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                if ($key2 !== null) {
+                    $obj2 = AdmisionPeer::getInstanceFromPool($key2);
+                    if (!$obj2) {
+
+                        $cls = AdmisionPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    AdmisionPeer::addInstanceToPool($obj2, $key2);
+                } // if $obj2 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj2 (Admision)
+                $obj2->addFactura($obj1);
+
+            } // if joined row is not null
+
+                // Add objects for joined Consulta rows
+
+                $key3 = ConsultaPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+                if ($key3 !== null) {
+                    $obj3 = ConsultaPeer::getInstanceFromPool($key3);
+                    if (!$obj3) {
+
+                        $cls = ConsultaPeer::getOMClass();
+
+                    $obj3 = new $cls();
+                    $obj3->hydrate($row, $startcol3);
+                    ConsultaPeer::addInstanceToPool($obj3, $key3);
+                } // if $obj3 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj3 (Consulta)
+                $obj3->addFactura($obj1);
+
+            } // if joined row is not null
+
+                // Add objects for joined Pacientefacturacion rows
+
+                $key4 = PacientefacturacionPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                if ($key4 !== null) {
+                    $obj4 = PacientefacturacionPeer::getInstanceFromPool($key4);
+                    if (!$obj4) {
+
+                        $cls = PacientefacturacionPeer::getOMClass();
+
+                    $obj4 = new $cls();
+                    $obj4->hydrate($row, $startcol4);
+                    PacientefacturacionPeer::addInstanceToPool($obj4, $key4);
+                } // if $obj4 already loaded
+
+                // Add the $obj1 (Factura) to the collection in $obj4 (Pacientefacturacion)
+                $obj4->addFactura($obj1);
 
             } // if joined row is not null
 

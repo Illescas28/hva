@@ -22,7 +22,7 @@ CREATE TABLE `admision`
     `admision_status` enum('pagada','no pagada','pendiente') DEFAULT 'pendiente',
     `admision_total` DECIMAL(10,2),
     `admision_pagadaen` DATETIME,
-    `admision_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque','no identificado'),
+    `admision_tipodepago` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     `admision_referenciapago` VARCHAR(45),
     `admision_facturada` TINYINT(1),
     `admision_registrada` TINYINT(1),
@@ -60,6 +60,7 @@ CREATE TABLE `admisionanticipo`
     `admisionanticipo_fecha` DATETIME NOT NULL,
     `admisionanticipo_cantidad` DECIMAL(10,2) NOT NULL,
     `admisionanticipo_nota` TEXT,
+    `admisionanticipo_tipo` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     PRIMARY KEY (`idadmisionanticipo`),
     INDEX `idadmision` (`idadmision`),
     CONSTRAINT `idadmision_admisionanticipo`
@@ -196,7 +197,8 @@ CREATE TABLE `banco`
     `banco_fecha` VARCHAR(100) NOT NULL,
     `banco_tipomovimiento` enum('cargo','abono') NOT NULL,
     `banco_cantidad` DECIMAL(10,2) NOT NULL,
-    `banco_balance` DECIMAL(10,2) DEFAULT 0.00 NOT NULL,
+    `banco_balance` DECIMAL(10,2) DEFAULT 0.00,
+    `banco_comprobante` VARCHAR(255),
     `banco_nota` TEXT,
     PRIMARY KEY (`idbanco`),
     INDEX `idconceptobanco` (`idconceptobanco`),
@@ -221,7 +223,9 @@ CREATE TABLE `cajachica`
     `cajachica_cantidad` DECIMAL(10,2),
     `cajachica_fecha` DATE NOT NULL,
     `cajachica_balance` DECIMAL(10,2),
+    `cajachica_comprobante` VARCHAR(45),
     `cajachica_nota` TEXT,
+    `cajachica_pacientedoctor` VARCHAR(255),
     PRIMARY KEY (`idcajachica`),
     INDEX `idconceptocajachica` (`idconceptocajachica`),
     CONSTRAINT `idconceptocajachica_cajachica`
@@ -381,7 +385,7 @@ CREATE TABLE `conceptobanco`
 (
     `idbancotransaccion` INTEGER NOT NULL AUTO_INCREMENT,
     `bancotransaccion_nombre` VARCHAR(255) NOT NULL,
-    `bancotransaccion_descripcion` TEXT NOT NULL,
+    `bancotransaccion_descripcion` TEXT,
     PRIMARY KEY (`idbancotransaccion`)
 ) ENGINE=InnoDB;
 
@@ -395,7 +399,7 @@ CREATE TABLE `conceptocajachica`
 (
     `idconceptocajachica` INTEGER NOT NULL AUTO_INCREMENT,
     `conceptocajachica_nombre` VARCHAR(45) NOT NULL,
-    `conceptocajachica_descripcion` TEXT NOT NULL,
+    `conceptocajachica_descripcion` TEXT,
     PRIMARY KEY (`idconceptocajachica`)
 ) ENGINE=InnoDB;
 
@@ -417,7 +421,7 @@ CREATE TABLE `consulta`
     `consulta_observaciones` TEXT,
     `consulta_status` enum('pagada','no pagada','pendiente') DEFAULT 'pendiente',
     `consulta_total` DECIMAL(10,2),
-    `consulta_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque','no identificado'),
+    `consulta_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque'),
     `consulta_referenciapago` VARCHAR(45),
     `consulta_facturada` TINYINT(1),
     `consulta_registrada` TINYINT(1),
@@ -455,6 +459,7 @@ CREATE TABLE `consultaanticipo`
     `consultaanticipo_fecha` DATETIME NOT NULL,
     `consultaanticipo_cantidad` DECIMAL(10,2) NOT NULL,
     `consultaanticipo_nota` TEXT,
+    `consultaanticipo_tipo` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     PRIMARY KEY (`idconsultaanticipo`),
     INDEX `idconsulta` (`idconsulta`),
     CONSTRAINT `idconsulta_consultaanticipo`
@@ -474,7 +479,7 @@ CREATE TABLE `consultorio`
 (
     `idconsultorio` INTEGER NOT NULL AUTO_INCREMENT,
     `consultorio_nombre` VARCHAR(300) NOT NULL,
-    `consultorio_descripcion` TEXT NOT NULL,
+    `consultorio_descripcion` TEXT,
     `consultorio_enuso` TINYINT(1) NOT NULL,
     `consultorio_extension` VARCHAR(45),
     PRIMARY KEY (`idconsultorio`)
@@ -490,7 +495,7 @@ CREATE TABLE `cuarto`
 (
     `idcuarto` INTEGER NOT NULL AUTO_INCREMENT,
     `cuarto_nombre` VARCHAR(300) NOT NULL,
-    `cuarto_descripcion` TEXT NOT NULL,
+    `cuarto_descripcion` TEXT,
     `cuarto_enuso` TINYINT(1) NOT NULL,
     `cuarto_extension` VARCHAR(45),
     PRIMARY KEY (`idcuarto`)
@@ -577,7 +582,9 @@ CREATE TABLE `factura`
 (
     `idfactura` INTEGER NOT NULL AUTO_INCREMENT,
     `iddatosfacturacion` INTEGER NOT NULL,
-    `idconsulta` INTEGER NOT NULL,
+    `idconsulta` INTEGER,
+    `idadmision` INTEGER,
+    `idventa` INTEGER,
     `factura_url_xml` VARCHAR(45) NOT NULL,
     `factura_url_pdf` VARCHAR(45) NOT NULL,
     `factura_fecha` DATETIME NOT NULL,
@@ -593,6 +600,11 @@ CREATE TABLE `factura`
     PRIMARY KEY (`idfactura`),
     INDEX `iddatosfacturacion` (`iddatosfacturacion`),
     INDEX `idconsulta` (`idconsulta`),
+    INDEX `idadmision` (`idadmision`),
+    INDEX `idventa` (`idventa`),
+    CONSTRAINT `idadmision_factura`
+        FOREIGN KEY (`idadmision`)
+        REFERENCES `admision` (`idadmision`),
     CONSTRAINT `idconsulta_factura`
         FOREIGN KEY (`idconsulta`)
         REFERENCES `consulta` (`idconsulta`)
@@ -602,7 +614,10 @@ CREATE TABLE `factura`
         FOREIGN KEY (`iddatosfacturacion`)
         REFERENCES `pacientefacturacion` (`idpacientefacturacion`)
         ON UPDATE CASCADE
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT `idventa_factura`
+        FOREIGN KEY (`idventa`)
+        REFERENCES `venta` (`idventa`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -1047,7 +1062,8 @@ DROP TABLE IF EXISTS `traspaso`;
 
 CREATE TABLE `traspaso`
 (
-    `idinventariolugar` INTEGER NOT NULL AUTO_INCREMENT,
+    `idinventariolugar` INTEGER NOT NULL,
+    `idordencompra` INTEGER NOT NULL,
     `idlugarremitente` INTEGER NOT NULL,
     `idlugardestinatario` INTEGER NOT NULL,
     `traspaso_fecha` DATETIME NOT NULL,
@@ -1055,6 +1071,7 @@ CREATE TABLE `traspaso`
     PRIMARY KEY (`idinventariolugar`,`idlugarremitente`,`idlugardestinatario`),
     INDEX `idlugarremitente` (`idlugarremitente`),
     INDEX `idlugardestinantario` (`idlugardestinatario`),
+    INDEX `idordencompra` (`idordencompra`),
     CONSTRAINT `idlugardestinatario_traspaso`
         FOREIGN KEY (`idlugardestinatario`)
         REFERENCES `lugar` (`idlugar`)
@@ -1063,6 +1080,11 @@ CREATE TABLE `traspaso`
     CONSTRAINT `idlugarremitente_traspaso`
         FOREIGN KEY (`idlugarremitente`)
         REFERENCES `lugar` (`idlugar`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT `idordencompra_traspaso`
+        FOREIGN KEY (`idordencompra`)
+        REFERENCES `ordencompra` (`idordencompra`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -1119,7 +1141,7 @@ CREATE TABLE `venta`
     `idventa` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `venta_fecha` DATETIME NOT NULL,
-    `venta_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque'),
+    `venta_tipodepago` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     `venta_status` enum('pagada','no pagada','pendiente'),
     `venta_facturada` TINYINT(1),
     `venta_registrada` TINYINT(1),

@@ -6,6 +6,11 @@ $this->headTitle($title);
 <div>
     <div class="row" id="table-header">
         <form class="col s12">
+            <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+            <?php endif;?>
             <div class="row" style="position: relative">
                 <div class="col s6" id="new-container">
                     <a href="<?php echo $this->url('consultorio', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo consultorio</a>
@@ -34,7 +39,11 @@ $this->headTitle($title);
             <tr>
                 <td><?php echo $consultorioEntity->getConsultorioNombre() ?></td>
                 <td><?php echo $consultorioEntity->getConsultorioDescripcion() ?></td>
-                <td><?php echo $consultorioEntity->getConsultorioEnuso() ?></td>
+                <?php if($consultorioEntity->getConsultorioEnuso()) :?>
+                    <td>SI</td>
+                <?php else :?>
+                    <td>NO</td>
+                <?php endif;?>
                 <td><?php echo $consultorioEntity->getConsultorioExtension() ?></td>
                 <td>
                     <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-consultorio-".$consultorioEntity->getIdconsultorio()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
@@ -64,7 +73,11 @@ $this->headTitle($title);
                             <div class="col s6">
                                 <div class="label-container">
                                     <label>En uso:</label>
-                                    <p><?php echo $consultorioEntity->getConsultorioEnuso()?></p>
+                                    <?php if($consultorioEntity->getConsultorioEnuso()) :?>
+                                        <p>SI</p>
+                                    <?php else :?>
+                                        <p>NO</p>
+                                    <?php endif;?>
                                 </div>
                                 <div class="label-container">
                                     <label>Extención:</label>
@@ -84,7 +97,7 @@ $this->headTitle($title);
             <div id="delete-modal-consultorio-<?php echo $consultorioEntity->getIdconsultorio()?>" class="modal">
                 <div class="modal-content" id="delete-modal-container">
                     <div class="row" id="delete-modal-header-container">
-                        <div class="col s4 offset-s4">
+                        <div class="col s6 offset-s4">
                             <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
                         </div>
                     </div>

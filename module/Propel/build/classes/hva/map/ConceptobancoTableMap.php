@@ -40,7 +40,7 @@ class ConceptobancoTableMap extends TableMap
         // columns
         $this->addPrimaryKey('idbancotransaccion', 'Idbancotransaccion', 'INTEGER', true, null, null);
         $this->addColumn('bancotransaccion_nombre', 'BancotransaccionNombre', 'VARCHAR', true, 255, null);
-        $this->addColumn('bancotransaccion_descripcion', 'BancotransaccionDescripcion', 'LONGVARCHAR', true, null, null);
+        $this->addColumn('bancotransaccion_descripcion', 'BancotransaccionDescripcion', 'LONGVARCHAR', false, null, null);
         // validators
     } // initialize()
 

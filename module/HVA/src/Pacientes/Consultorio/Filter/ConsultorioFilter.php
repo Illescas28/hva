@@ -34,16 +34,13 @@ class ConsultorioFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'consultorio_descripcion',
-                'required' => true,
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
                 ),
             ));
-            $inputFilter->add(array(
-                'name'     => 'consultorio_enuso',
-                'required' => true
-            ));
+            
             $inputFilter->add(array(
                 'name'     => 'consultorio_extension',
                 'required' => false,

@@ -24,13 +24,13 @@ abstract class BaseAdmisionanticipoPeer
     const TM_CLASS = 'AdmisionanticipoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 6;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /** the column name for the idadmisionanticipo field */
     const IDADMISIONANTICIPO = 'admisionanticipo.idadmisionanticipo';
@@ -46,6 +46,17 @@ abstract class BaseAdmisionanticipoPeer
 
     /** the column name for the admisionanticipo_nota field */
     const ADMISIONANTICIPO_NOTA = 'admisionanticipo.admisionanticipo_nota';
+
+    /** the column name for the admisionanticipo_tipo field */
+    const ADMISIONANTICIPO_TIPO = 'admisionanticipo.admisionanticipo_tipo';
+
+    /** The enumerated values for the admisionanticipo_tipo field */
+    const ADMISIONANTICIPO_TIPO_EFECTIVO = 'Efectivo';
+    const ADMISIONANTICIPO_TIPO_TARJETA_DE_DEBITO = 'Tarjeta de debito';
+    const ADMISIONANTICIPO_TIPO_TARJETA_DE_CREDITO = 'Tarjeta de credito';
+    const ADMISIONANTICIPO_TIPO_CHEQUE = 'Cheque';
+    const ADMISIONANTICIPO_TIPO_NO_IDENTIFICADO = 'No identificado';
+    const ADMISIONANTICIPO_TIPO_SPEI = 'SPEI';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -66,12 +77,12 @@ abstract class BaseAdmisionanticipoPeer
      * e.g. AdmisionanticipoPeer::$fieldNames[AdmisionanticipoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idadmisionanticipo', 'Idadmision', 'AdmisionanticipoFecha', 'AdmisionanticipoCantidad', 'AdmisionanticipoNota', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idadmisionanticipo', 'idadmision', 'admisionanticipoFecha', 'admisionanticipoCantidad', 'admisionanticipoNota', ),
-        BasePeer::TYPE_COLNAME => array (AdmisionanticipoPeer::IDADMISIONANTICIPO, AdmisionanticipoPeer::IDADMISION, AdmisionanticipoPeer::ADMISIONANTICIPO_FECHA, AdmisionanticipoPeer::ADMISIONANTICIPO_CANTIDAD, AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDADMISIONANTICIPO', 'IDADMISION', 'ADMISIONANTICIPO_FECHA', 'ADMISIONANTICIPO_CANTIDAD', 'ADMISIONANTICIPO_NOTA', ),
-        BasePeer::TYPE_FIELDNAME => array ('idadmisionanticipo', 'idadmision', 'admisionanticipo_fecha', 'admisionanticipo_cantidad', 'admisionanticipo_nota', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idadmisionanticipo', 'Idadmision', 'AdmisionanticipoFecha', 'AdmisionanticipoCantidad', 'AdmisionanticipoNota', 'AdmisionanticipoTipo', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idadmisionanticipo', 'idadmision', 'admisionanticipoFecha', 'admisionanticipoCantidad', 'admisionanticipoNota', 'admisionanticipoTipo', ),
+        BasePeer::TYPE_COLNAME => array (AdmisionanticipoPeer::IDADMISIONANTICIPO, AdmisionanticipoPeer::IDADMISION, AdmisionanticipoPeer::ADMISIONANTICIPO_FECHA, AdmisionanticipoPeer::ADMISIONANTICIPO_CANTIDAD, AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA, AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDADMISIONANTICIPO', 'IDADMISION', 'ADMISIONANTICIPO_FECHA', 'ADMISIONANTICIPO_CANTIDAD', 'ADMISIONANTICIPO_NOTA', 'ADMISIONANTICIPO_TIPO', ),
+        BasePeer::TYPE_FIELDNAME => array ('idadmisionanticipo', 'idadmision', 'admisionanticipo_fecha', 'admisionanticipo_cantidad', 'admisionanticipo_nota', 'admisionanticipo_tipo', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -81,12 +92,24 @@ abstract class BaseAdmisionanticipoPeer
      * e.g. AdmisionanticipoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idadmisionanticipo' => 0, 'Idadmision' => 1, 'AdmisionanticipoFecha' => 2, 'AdmisionanticipoCantidad' => 3, 'AdmisionanticipoNota' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idadmisionanticipo' => 0, 'idadmision' => 1, 'admisionanticipoFecha' => 2, 'admisionanticipoCantidad' => 3, 'admisionanticipoNota' => 4, ),
-        BasePeer::TYPE_COLNAME => array (AdmisionanticipoPeer::IDADMISIONANTICIPO => 0, AdmisionanticipoPeer::IDADMISION => 1, AdmisionanticipoPeer::ADMISIONANTICIPO_FECHA => 2, AdmisionanticipoPeer::ADMISIONANTICIPO_CANTIDAD => 3, AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDADMISIONANTICIPO' => 0, 'IDADMISION' => 1, 'ADMISIONANTICIPO_FECHA' => 2, 'ADMISIONANTICIPO_CANTIDAD' => 3, 'ADMISIONANTICIPO_NOTA' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('idadmisionanticipo' => 0, 'idadmision' => 1, 'admisionanticipo_fecha' => 2, 'admisionanticipo_cantidad' => 3, 'admisionanticipo_nota' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idadmisionanticipo' => 0, 'Idadmision' => 1, 'AdmisionanticipoFecha' => 2, 'AdmisionanticipoCantidad' => 3, 'AdmisionanticipoNota' => 4, 'AdmisionanticipoTipo' => 5, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idadmisionanticipo' => 0, 'idadmision' => 1, 'admisionanticipoFecha' => 2, 'admisionanticipoCantidad' => 3, 'admisionanticipoNota' => 4, 'admisionanticipoTipo' => 5, ),
+        BasePeer::TYPE_COLNAME => array (AdmisionanticipoPeer::IDADMISIONANTICIPO => 0, AdmisionanticipoPeer::IDADMISION => 1, AdmisionanticipoPeer::ADMISIONANTICIPO_FECHA => 2, AdmisionanticipoPeer::ADMISIONANTICIPO_CANTIDAD => 3, AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA => 4, AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO => 5, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDADMISIONANTICIPO' => 0, 'IDADMISION' => 1, 'ADMISIONANTICIPO_FECHA' => 2, 'ADMISIONANTICIPO_CANTIDAD' => 3, 'ADMISIONANTICIPO_NOTA' => 4, 'ADMISIONANTICIPO_TIPO' => 5, ),
+        BasePeer::TYPE_FIELDNAME => array ('idadmisionanticipo' => 0, 'idadmision' => 1, 'admisionanticipo_fecha' => 2, 'admisionanticipo_cantidad' => 3, 'admisionanticipo_nota' => 4, 'admisionanticipo_tipo' => 5, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+    );
+
+    /** The enumerated values for this table */
+    protected static $enumValueSets = array(
+        AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO => array(
+            AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO_EFECTIVO,
+            AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO_TARJETA_DE_DEBITO,
+            AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO_TARJETA_DE_CREDITO,
+            AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO_CHEQUE,
+            AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO_NO_IDENTIFICADO,
+            AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO_SPEI,
+        ),
     );
 
     /**
@@ -129,6 +152,51 @@ abstract class BaseAdmisionanticipoPeer
     }
 
     /**
+     * Gets the list of values for all ENUM columns
+     * @return array
+     */
+    public static function getValueSets()
+    {
+      return AdmisionanticipoPeer::$enumValueSets;
+    }
+
+    /**
+     * Gets the list of values for an ENUM column
+     *
+     * @param string $colname The ENUM column name.
+     *
+     * @return array list of possible values for the column
+     */
+    public static function getValueSet($colname)
+    {
+        $valueSets = AdmisionanticipoPeer::getValueSets();
+
+        if (!isset($valueSets[$colname])) {
+            throw new PropelException(sprintf('Column "%s" has no ValueSet.', $colname));
+        }
+
+        return $valueSets[$colname];
+    }
+
+    /**
+     * Gets the SQL value for the ENUM column value
+     *
+     * @param string $colname ENUM column name.
+     * @param string $enumVal ENUM value.
+     *
+     * @return int SQL value
+     */
+    public static function getSqlValueForEnum($colname, $enumVal)
+    {
+        $values = AdmisionanticipoPeer::getValueSet($colname);
+        if (!in_array($enumVal, $values)) {
+            throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $colname));
+        }
+
+        return array_search($enumVal, $values);
+    }
+
+    /**
      * Convenience method which changes table.column to alias.column.
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
@@ -165,12 +233,14 @@ abstract class BaseAdmisionanticipoPeer
             $criteria->addSelectColumn(AdmisionanticipoPeer::ADMISIONANTICIPO_FECHA);
             $criteria->addSelectColumn(AdmisionanticipoPeer::ADMISIONANTICIPO_CANTIDAD);
             $criteria->addSelectColumn(AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA);
+            $criteria->addSelectColumn(AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO);
         } else {
             $criteria->addSelectColumn($alias . '.idadmisionanticipo');
             $criteria->addSelectColumn($alias . '.idadmision');
             $criteria->addSelectColumn($alias . '.admisionanticipo_fecha');
             $criteria->addSelectColumn($alias . '.admisionanticipo_cantidad');
             $criteria->addSelectColumn($alias . '.admisionanticipo_nota');
+            $criteria->addSelectColumn($alias . '.admisionanticipo_tipo');
         }
     }
 
