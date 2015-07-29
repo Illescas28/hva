@@ -294,7 +294,7 @@ return array(
                 'options' => array(
                     'route'    => '/catalogos/medico[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar|getmedicos',
+                        'action' => 'nuevo|editar|eliminar|getmedicos|eliminarimagen',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
