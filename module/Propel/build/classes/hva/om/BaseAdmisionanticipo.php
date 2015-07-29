@@ -60,6 +60,12 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
     protected $admisionanticipo_nota;
 
     /**
+     * The value for the admisionanticipo_tipo field.
+     * @var        string
+     */
+    protected $admisionanticipo_tipo;
+
+    /**
      * @var        Admision
      */
     protected $aAdmision;
@@ -166,6 +172,17 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
     {
 
         return $this->admisionanticipo_nota;
+    }
+
+    /**
+     * Get the [admisionanticipo_tipo] column value.
+     *
+     * @return string
+     */
+    public function getAdmisionanticipoTipo()
+    {
+
+        return $this->admisionanticipo_tipo;
     }
 
     /**
@@ -280,6 +297,27 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
     } // setAdmisionanticipoNota()
 
     /**
+     * Set the value of [admisionanticipo_tipo] column.
+     *
+     * @param  string $v new value
+     * @return Admisionanticipo The current object (for fluent API support)
+     */
+    public function setAdmisionanticipoTipo($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->admisionanticipo_tipo !== $v) {
+            $this->admisionanticipo_tipo = $v;
+            $this->modifiedColumns[] = AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO;
+        }
+
+
+        return $this;
+    } // setAdmisionanticipoTipo()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -316,6 +354,7 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
             $this->admisionanticipo_fecha = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->admisionanticipo_cantidad = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->admisionanticipo_nota = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->admisionanticipo_tipo = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -325,7 +364,7 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = AdmisionanticipoPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = AdmisionanticipoPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Admisionanticipo object", $e);
@@ -568,6 +607,9 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
         if ($this->isColumnModified(AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA)) {
             $modifiedColumns[':p' . $index++]  = '`admisionanticipo_nota`';
         }
+        if ($this->isColumnModified(AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO)) {
+            $modifiedColumns[':p' . $index++]  = '`admisionanticipo_tipo`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `admisionanticipo` (%s) VALUES (%s)',
@@ -593,6 +635,9 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
                         break;
                     case '`admisionanticipo_nota`':
                         $stmt->bindValue($identifier, $this->admisionanticipo_nota, PDO::PARAM_STR);
+                        break;
+                    case '`admisionanticipo_tipo`':
+                        $stmt->bindValue($identifier, $this->admisionanticipo_tipo, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -755,6 +800,9 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
             case 4:
                 return $this->getAdmisionanticipoNota();
                 break;
+            case 5:
+                return $this->getAdmisionanticipoTipo();
+                break;
             default:
                 return null;
                 break;
@@ -789,6 +837,7 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
             $keys[2] => $this->getAdmisionanticipoFecha(),
             $keys[3] => $this->getAdmisionanticipoCantidad(),
             $keys[4] => $this->getAdmisionanticipoNota(),
+            $keys[5] => $this->getAdmisionanticipoTipo(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -848,6 +897,9 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
             case 4:
                 $this->setAdmisionanticipoNota($value);
                 break;
+            case 5:
+                $this->setAdmisionanticipoTipo($value);
+                break;
         } // switch()
     }
 
@@ -877,6 +929,7 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
         if (array_key_exists($keys[2], $arr)) $this->setAdmisionanticipoFecha($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setAdmisionanticipoCantidad($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setAdmisionanticipoNota($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setAdmisionanticipoTipo($arr[$keys[5]]);
     }
 
     /**
@@ -893,6 +946,7 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
         if ($this->isColumnModified(AdmisionanticipoPeer::ADMISIONANTICIPO_FECHA)) $criteria->add(AdmisionanticipoPeer::ADMISIONANTICIPO_FECHA, $this->admisionanticipo_fecha);
         if ($this->isColumnModified(AdmisionanticipoPeer::ADMISIONANTICIPO_CANTIDAD)) $criteria->add(AdmisionanticipoPeer::ADMISIONANTICIPO_CANTIDAD, $this->admisionanticipo_cantidad);
         if ($this->isColumnModified(AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA)) $criteria->add(AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA, $this->admisionanticipo_nota);
+        if ($this->isColumnModified(AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO)) $criteria->add(AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO, $this->admisionanticipo_tipo);
 
         return $criteria;
     }
@@ -960,6 +1014,7 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
         $copyObj->setAdmisionanticipoFecha($this->getAdmisionanticipoFecha());
         $copyObj->setAdmisionanticipoCantidad($this->getAdmisionanticipoCantidad());
         $copyObj->setAdmisionanticipoNota($this->getAdmisionanticipoNota());
+        $copyObj->setAdmisionanticipoTipo($this->getAdmisionanticipoTipo());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1080,6 +1135,7 @@ abstract class BaseAdmisionanticipo extends BaseObject implements Persistent
         $this->admisionanticipo_fecha = null;
         $this->admisionanticipo_cantidad = null;
         $this->admisionanticipo_nota = null;
+        $this->admisionanticipo_tipo = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

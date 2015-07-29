@@ -22,7 +22,7 @@ CREATE TABLE `admision`
     `admision_status` enum('pagada','no pagada','pendiente') DEFAULT 'pendiente',
     `admision_total` DECIMAL(10,2),
     `admision_pagadaen` DATETIME,
-    `admision_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque'),
+    `admision_tipodepago` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     `admision_referenciapago` VARCHAR(45),
     `admision_facturada` TINYINT(1),
     `admision_registrada` TINYINT(1),
@@ -60,6 +60,7 @@ CREATE TABLE `admisionanticipo`
     `admisionanticipo_fecha` DATETIME NOT NULL,
     `admisionanticipo_cantidad` DECIMAL(10,2) NOT NULL,
     `admisionanticipo_nota` TEXT,
+    `admisionanticipo_tipo` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     PRIMARY KEY (`idadmisionanticipo`),
     INDEX `idadmision` (`idadmision`),
     CONSTRAINT `idadmision_admisionanticipo`
@@ -458,6 +459,7 @@ CREATE TABLE `consultaanticipo`
     `consultaanticipo_fecha` DATETIME NOT NULL,
     `consultaanticipo_cantidad` DECIMAL(10,2) NOT NULL,
     `consultaanticipo_nota` TEXT,
+    `consultaanticipo_tipo` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     PRIMARY KEY (`idconsultaanticipo`),
     INDEX `idconsulta` (`idconsulta`),
     CONSTRAINT `idconsulta_consultaanticipo`
@@ -477,7 +479,7 @@ CREATE TABLE `consultorio`
 (
     `idconsultorio` INTEGER NOT NULL AUTO_INCREMENT,
     `consultorio_nombre` VARCHAR(300) NOT NULL,
-    `consultorio_descripcion` TEXT NOT NULL,
+    `consultorio_descripcion` TEXT,
     `consultorio_enuso` TINYINT(1) NOT NULL,
     `consultorio_extension` VARCHAR(45),
     PRIMARY KEY (`idconsultorio`)
@@ -493,7 +495,7 @@ CREATE TABLE `cuarto`
 (
     `idcuarto` INTEGER NOT NULL AUTO_INCREMENT,
     `cuarto_nombre` VARCHAR(300) NOT NULL,
-    `cuarto_descripcion` TEXT NOT NULL,
+    `cuarto_descripcion` TEXT,
     `cuarto_enuso` TINYINT(1) NOT NULL,
     `cuarto_extension` VARCHAR(45),
     PRIMARY KEY (`idcuarto`)
@@ -1129,7 +1131,7 @@ CREATE TABLE `venta`
     `idventa` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `venta_fecha` DATETIME NOT NULL,
-    `venta_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque'),
+    `venta_tipodepago` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     `venta_status` enum('pagada','no pagada','pendiente'),
     `venta_facturada` TINYINT(1),
     `venta_registrada` TINYINT(1),

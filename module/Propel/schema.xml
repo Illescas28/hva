@@ -13,7 +13,7 @@
     <column name="admision_status" phpName="AdmisionStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false" defaultValue="pendiente"/>
     <column name="admision_total" phpName="AdmisionTotal" type="DECIMAL" size="10" scale="2" required="false"/>
     <column name="admision_pagadaen" phpName="AdmisionPagadaen" type="TIMESTAMP" required="false"/>
-    <column name="admision_tipodepago" phpName="AdmisionTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
+    <column name="admision_tipodepago" phpName="AdmisionTipodepago" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
     <column name="admision_referenciapago" phpName="AdmisionReferenciapago" type="VARCHAR" size="45" required="false"/>
     <column name="admision_facturada" phpName="AdmisionFacturada" type="BOOLEAN" size="1" required="false"/>
     <column name="admision_registrada" phpName="AdmisionRegistrada" type="BOOLEAN" size="1" required="false"/>
@@ -45,6 +45,7 @@
     <column name="admisionanticipo_fecha" phpName="AdmisionanticipoFecha" type="TIMESTAMP" required="true"/>
     <column name="admisionanticipo_cantidad" phpName="AdmisionanticipoCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="admisionanticipo_nota" phpName="AdmisionanticipoNota" type="LONGVARCHAR" required="false"/>
+    <column name="admisionanticipo_tipo" phpName="AdmisionanticipoTipo" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
     <foreign-key foreignTable="admision" name="idadmision_admisionanticipo" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idadmision" foreign="idadmision"/>
     </foreign-key>
@@ -359,6 +360,7 @@
     <column name="consultaanticipo_fecha" phpName="ConsultaanticipoFecha" type="TIMESTAMP" required="true"/>
     <column name="consultaanticipo_cantidad" phpName="ConsultaanticipoCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="consultaanticipo_nota" phpName="ConsultaanticipoNota" type="LONGVARCHAR" required="false"/>
+    <column name="consultaanticipo_tipo" phpName="ConsultaanticipoTipo" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
     <foreign-key foreignTable="consulta" name="idconsulta_consultaanticipo" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idconsulta" foreign="idconsulta"/>
     </foreign-key>
@@ -372,7 +374,7 @@
   <table name="consultorio" phpName="Consultorio" idMethod="native">
     <column name="idconsultorio" phpName="Idconsultorio" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="consultorio_nombre" phpName="ConsultorioNombre" type="VARCHAR" size="300" required="true"/>
-    <column name="consultorio_descripcion" phpName="ConsultorioDescripcion" type="LONGVARCHAR" required="true"/>
+    <column name="consultorio_descripcion" phpName="ConsultorioDescripcion" type="LONGVARCHAR" required="false"/>
     <column name="consultorio_enuso" phpName="ConsultorioEnuso" type="BOOLEAN" size="1" required="true"/>
     <column name="consultorio_extension" phpName="ConsultorioExtension" type="VARCHAR" size="45" required="false"/>
     <vendor type="mysql">
@@ -382,7 +384,7 @@
   <table name="cuarto" phpName="Cuarto" idMethod="native">
     <column name="idcuarto" phpName="Idcuarto" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="cuarto_nombre" phpName="CuartoNombre" type="VARCHAR" size="300" required="true"/>
-    <column name="cuarto_descripcion" phpName="CuartoDescripcion" type="LONGVARCHAR" required="true"/>
+    <column name="cuarto_descripcion" phpName="CuartoDescripcion" type="LONGVARCHAR" required="false"/>
     <column name="cuarto_enuso" phpName="CuartoEnuso" type="BOOLEAN" size="1" required="true"/>
     <column name="cuarto_extension" phpName="CuartoExtension" type="VARCHAR" size="45" required="false"/>
     <vendor type="mysql">
@@ -862,7 +864,7 @@
     <column name="idventa" phpName="Idventa" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idpaciente" phpName="Idpaciente" type="INTEGER" required="true"/>
     <column name="venta_fecha" phpName="VentaFecha" type="TIMESTAMP" required="true"/>
-    <column name="venta_tipodepago" phpName="VentaTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
+    <column name="venta_tipodepago" phpName="VentaTipodepago" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
     <column name="venta_status" phpName="VentaStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false"/>
     <column name="venta_facturada" phpName="VentaFacturada" type="BOOLEAN" size="1" required="false"/>
     <column name="venta_registrada" phpName="VentaRegistrada" type="BOOLEAN" size="1" required="false"/>

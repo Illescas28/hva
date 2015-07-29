@@ -11,12 +11,14 @@
  * @method ConsultaanticipoQuery orderByConsultaanticipoFecha($order = Criteria::ASC) Order by the consultaanticipo_fecha column
  * @method ConsultaanticipoQuery orderByConsultaanticipoCantidad($order = Criteria::ASC) Order by the consultaanticipo_cantidad column
  * @method ConsultaanticipoQuery orderByConsultaanticipoNota($order = Criteria::ASC) Order by the consultaanticipo_nota column
+ * @method ConsultaanticipoQuery orderByConsultaanticipoTipo($order = Criteria::ASC) Order by the consultaanticipo_tipo column
  *
  * @method ConsultaanticipoQuery groupByIdconsultaanticipo() Group by the idconsultaanticipo column
  * @method ConsultaanticipoQuery groupByIdconsulta() Group by the idconsulta column
  * @method ConsultaanticipoQuery groupByConsultaanticipoFecha() Group by the consultaanticipo_fecha column
  * @method ConsultaanticipoQuery groupByConsultaanticipoCantidad() Group by the consultaanticipo_cantidad column
  * @method ConsultaanticipoQuery groupByConsultaanticipoNota() Group by the consultaanticipo_nota column
+ * @method ConsultaanticipoQuery groupByConsultaanticipoTipo() Group by the consultaanticipo_tipo column
  *
  * @method ConsultaanticipoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ConsultaanticipoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -33,12 +35,14 @@
  * @method Consultaanticipo findOneByConsultaanticipoFecha(string $consultaanticipo_fecha) Return the first Consultaanticipo filtered by the consultaanticipo_fecha column
  * @method Consultaanticipo findOneByConsultaanticipoCantidad(string $consultaanticipo_cantidad) Return the first Consultaanticipo filtered by the consultaanticipo_cantidad column
  * @method Consultaanticipo findOneByConsultaanticipoNota(string $consultaanticipo_nota) Return the first Consultaanticipo filtered by the consultaanticipo_nota column
+ * @method Consultaanticipo findOneByConsultaanticipoTipo(string $consultaanticipo_tipo) Return the first Consultaanticipo filtered by the consultaanticipo_tipo column
  *
  * @method array findByIdconsultaanticipo(int $idconsultaanticipo) Return Consultaanticipo objects filtered by the idconsultaanticipo column
  * @method array findByIdconsulta(int $idconsulta) Return Consultaanticipo objects filtered by the idconsulta column
  * @method array findByConsultaanticipoFecha(string $consultaanticipo_fecha) Return Consultaanticipo objects filtered by the consultaanticipo_fecha column
  * @method array findByConsultaanticipoCantidad(string $consultaanticipo_cantidad) Return Consultaanticipo objects filtered by the consultaanticipo_cantidad column
  * @method array findByConsultaanticipoNota(string $consultaanticipo_nota) Return Consultaanticipo objects filtered by the consultaanticipo_nota column
+ * @method array findByConsultaanticipoTipo(string $consultaanticipo_tipo) Return Consultaanticipo objects filtered by the consultaanticipo_tipo column
  *
  * @package    propel.generator.hva.om
  */
@@ -146,7 +150,7 @@ abstract class BaseConsultaanticipoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idconsultaanticipo`, `idconsulta`, `consultaanticipo_fecha`, `consultaanticipo_cantidad`, `consultaanticipo_nota` FROM `consultaanticipo` WHERE `idconsultaanticipo` = :p0';
+        $sql = 'SELECT `idconsultaanticipo`, `idconsulta`, `consultaanticipo_fecha`, `consultaanticipo_cantidad`, `consultaanticipo_nota`, `consultaanticipo_tipo` FROM `consultaanticipo` WHERE `idconsultaanticipo` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -433,6 +437,35 @@ abstract class BaseConsultaanticipoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA, $consultaanticipoNota, $comparison);
+    }
+
+    /**
+     * Filter the query on the consultaanticipo_tipo column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByConsultaanticipoTipo('fooValue');   // WHERE consultaanticipo_tipo = 'fooValue'
+     * $query->filterByConsultaanticipoTipo('%fooValue%'); // WHERE consultaanticipo_tipo LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $consultaanticipoTipo The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ConsultaanticipoQuery The current query, for fluid interface
+     */
+    public function filterByConsultaanticipoTipo($consultaanticipoTipo = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($consultaanticipoTipo)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $consultaanticipoTipo)) {
+                $consultaanticipoTipo = str_replace('*', '%', $consultaanticipoTipo);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO, $consultaanticipoTipo, $comparison);
     }
 
     /**
