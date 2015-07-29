@@ -179,7 +179,8 @@
              $('img#empleado_imagen + input').val('');
              $('p#eliminar_imagen').hide();
              $.get('/empleados/eliminarimagen',
-                {id:idempleado}
+                {id:idempleado},
+                
             );
             
         });

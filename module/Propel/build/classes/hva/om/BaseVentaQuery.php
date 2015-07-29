@@ -38,6 +38,10 @@
  * @method VentaQuery rightJoinCargoventa($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cargoventa relation
  * @method VentaQuery innerJoinCargoventa($relationAlias = null) Adds a INNER JOIN clause to the query using the Cargoventa relation
  *
+ * @method VentaQuery leftJoinFactura($relationAlias = null) Adds a LEFT JOIN clause to the query using the Factura relation
+ * @method VentaQuery rightJoinFactura($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Factura relation
+ * @method VentaQuery innerJoinFactura($relationAlias = null) Adds a INNER JOIN clause to the query using the Factura relation
+ *
  * @method Venta findOne(PropelPDO $con = null) Return the first Venta matching the query
  * @method Venta findOneOrCreate(PropelPDO $con = null) Return the first Venta matching the query, or a new Venta object populated from the query conditions when no match is found
  *
@@ -715,6 +719,80 @@ abstract class BaseVentaQuery extends ModelCriteria
         return $this
             ->joinCargoventa($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Cargoventa', 'CargoventaQuery');
+    }
+
+    /**
+     * Filter the query by a related Factura object
+     *
+     * @param   Factura|PropelObjectCollection $factura  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 VentaQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByFactura($factura, $comparison = null)
+    {
+        if ($factura instanceof Factura) {
+            return $this
+                ->addUsingAlias(VentaPeer::IDVENTA, $factura->getIdventa(), $comparison);
+        } elseif ($factura instanceof PropelObjectCollection) {
+            return $this
+                ->useFacturaQuery()
+                ->filterByPrimaryKeys($factura->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByFactura() only accepts arguments of type Factura or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Factura relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return VentaQuery The current query, for fluid interface
+     */
+    public function joinFactura($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Factura');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Factura');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Factura relation Factura object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   FacturaQuery A secondary query class using the current class as primary query
+     */
+    public function useFacturaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinFactura($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Factura', 'FacturaQuery');
     }
 
     /**

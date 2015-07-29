@@ -76,17 +76,34 @@ $this->headTitle($title);
                         </select>
                     </div>
                     <div class="col s4">
-                         <label>Por estatus pago</label>
+                         <label>Por estatus de pago</label>
                         <select multiple="multiple" class="browser-default" id="statuspago_filter">
                             <option value="pagada">Pagada</option>
                             <option value="no pagada">No pagada</option>
                         </select>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col s4">
+                         <label>Por estatus</label>
+                        <select multiple="multiple" class="browser-default" id="status_filter">
+                            <option value="admision">Admisión</option>
+                            <option value="alta">Alta</option>
+                            <option value="en consulta">En Consulta</option>
+                            <option value="consultado">Consultado</option>
+                        </select>
+                    </div>
+                    <div class="col s4">
+                         <label>Por razon social</label>
+                        <select multiple="multiple" class="browser-default" id="rs_filter">
+                            <option value="">Sin facturar</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
         </div>
             </fieldset>
-        </div>
-    
+   
     <table id="tabla-reporte-general" class="bordered">
         <thead>
             <tr>

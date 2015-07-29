@@ -47,6 +47,8 @@
                paciente: new Array(),
                movimiento: new Array(),
                statuspago : new Array(),
+               rs: new Array(),
+               status: new Array()
            },
        };
        
@@ -63,7 +65,7 @@
         */
        
        calcularTotales = function(){
-           
+          
             $table.find('#row_report').remove();
             var $row_report = $('<tr id="row_report" class="green lighten-5"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
             var $td_total = $row_report.find('td').eq(7);
@@ -91,7 +93,6 @@
             $td_tarjeta.text(accounting.formatMoney(tarjeta));
             $td_total.text(accounting.formatMoney(total));
             $td_efectivo.text(accounting.formatMoney(efectivo));
-            
             $table.find('tbody').after($row_report);
             
             
@@ -122,11 +123,32 @@
                 $table.find('tbody').children('tr:visible').filter(function(){
                     var tr_date = $(this).find('td').eq(0).text();
                     tr_date = appToJsDate(tr_date);
-                    //console.log(filterDate);
                     if(settings.filters.fecha_to < tr_date.getTime()){
                         $(this).hide();
                     }
                 });
+            }
+            
+            //Razon social
+            if(settings.filters.rs.length > 0){
+                $table.find('tbody').children('tr:visible').filter(function(){
+                    var tr_rs = $(this).find('td').eq(6).text();
+                    if($.inArray(tr_rs,settings.filters.rs) == -1){
+                        $(this).hide();   
+                    }
+                     
+                });  
+            }
+            
+            //status 
+            if(settings.filters.status.length > 0){
+                $table.find('tbody').children('tr:visible').filter(function(){
+                    var tr_status = $(this).find('td').eq(12).text(); 
+                    if($.inArray(' '+tr_status,settings.filters.status) == -1){
+                        $(this).hide();   
+                    }
+                     
+                });  
             }
 
            //Tipo(admision/consulta)
@@ -373,6 +395,60 @@
                 }
             );
     
+            $.getJSON(
+                '/reportes/general/getrazonessociales',
+                function(data){
+        
+                    $.each(data,function(index,element){
+                        //Inicilizamos el filtro de los conceptos
+                         $container.find('select#rs_filter').append('<option value="'+element+'">'+element+'</option>');
+                    });
+
+                    $("select#rs_filter").multipleSelect({
+                         selectAll:true,
+                         filter: true,
+                         allSelected:'Todos las razones sociales',
+                         selectAllText:'Todos las razones sociales',
+                         onClick : function(){
+                            settings.filters.rs = $("select#rs_filter").multipleSelect('getSelects');
+                            filter();
+                         },
+                         onCheckAll: function(){
+                            settings.filters.rs = $("select#rs_filter").multipleSelect('getSelects');
+                            filter();
+                         },
+                         onUncheckAll:function(){
+                            settings.filters.rs = $("select#rs_filter").multipleSelect('getSelects');
+                            filter();
+                         },
+                     });
+
+                     $("select#rs_filter").multipleSelect("checkAll");
+
+                }
+            );
+    
+            $("select#status_filter").multipleSelect({
+                 selectAll:true,
+                 filter: true,
+                 allSelected:'Todos los estatus',
+                 selectAllText:'Todos los estatus',
+                 onClick : function(){
+                    settings.filters.status = $("select#status_filter").multipleSelect('getSelects','text');
+                    filter();
+                 },
+                 onCheckAll: function(){
+                    settings.filters.status = $("select#status_filter").multipleSelect('getSelects','text');
+                    filter();
+                 },
+                 onUncheckAll:function(){
+                    settings.filters.status = $("select#status_filter").multipleSelect('getSelects','text');
+                    filter();
+                 },
+             });
+    
+    
+    
             //Inicializamos la fecha
             container.find('input#fecha_from').pickadate({
                 monthsFull: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -410,7 +486,7 @@
             });
              
              
-              
+              $("select#status_filter").multipleSelect("checkAll");
               $("select#statuspago_filter").multipleSelect("checkAll");
               $("select#tipo_filter").multipleSelect("checkAll");
 

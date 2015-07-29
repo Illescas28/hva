@@ -447,7 +447,9 @@
   <table name="factura" phpName="Factura" idMethod="native">
     <column name="idfactura" phpName="Idfactura" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="iddatosfacturacion" phpName="Iddatosfacturacion" type="INTEGER" required="true"/>
-    <column name="idconsulta" phpName="Idconsulta" type="INTEGER" required="true"/>
+    <column name="idconsulta" phpName="Idconsulta" type="INTEGER" required="false"/>
+    <column name="idadmision" phpName="Idadmision" type="INTEGER" required="false"/>
+    <column name="idventa" phpName="Idventa" type="INTEGER" required="false"/>
     <column name="factura_url_xml" phpName="FacturaUrlXml" type="VARCHAR" size="45" required="true"/>
     <column name="factura_url_pdf" phpName="FacturaUrlPdf" type="VARCHAR" size="45" required="true"/>
     <column name="factura_fecha" phpName="FacturaFecha" type="TIMESTAMP" required="true"/>
@@ -460,17 +462,29 @@
     <column name="factura_tipodepago" phpName="FacturaTipodepago" type="CHAR" sqlType="enum('unico','parcial')" required="false"/>
     <column name="factura_status" phpName="FacturaStatus" type="CHAR" sqlType="enum('creada','cancelada')" required="false"/>
     <column name="factura_tipo" phpName="FacturaTipo" type="CHAR" sqlType="enum('ingreso','egreso')" required="false"/>
+    <foreign-key foreignTable="admision" name="idadmision_factura" onDelete="RESTRICT" onUpdate="RESTRICT">
+      <reference local="idadmision" foreign="idadmision"/>
+    </foreign-key>
     <foreign-key foreignTable="consulta" name="idconsulta_factura" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idconsulta" foreign="idconsulta"/>
     </foreign-key>
     <foreign-key foreignTable="pacientefacturacion" name="iddatosfacturacion_factura" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="iddatosfacturacion" foreign="idpacientefacturacion"/>
     </foreign-key>
+    <foreign-key foreignTable="venta" name="idventa_factura" onDelete="RESTRICT" onUpdate="RESTRICT">
+      <reference local="idventa" foreign="idventa"/>
+    </foreign-key>
     <index name="iddatosfacturacion">
       <index-column name="iddatosfacturacion"/>
     </index>
     <index name="idconsulta">
       <index-column name="idconsulta"/>
+    </index>
+    <index name="idadmision">
+      <index-column name="idadmision"/>
+    </index>
+    <index name="idventa">
+      <index-column name="idventa"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>

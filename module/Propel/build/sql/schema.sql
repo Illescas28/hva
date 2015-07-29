@@ -582,7 +582,9 @@ CREATE TABLE `factura`
 (
     `idfactura` INTEGER NOT NULL AUTO_INCREMENT,
     `iddatosfacturacion` INTEGER NOT NULL,
-    `idconsulta` INTEGER NOT NULL,
+    `idconsulta` INTEGER,
+    `idadmision` INTEGER,
+    `idventa` INTEGER,
     `factura_url_xml` VARCHAR(45) NOT NULL,
     `factura_url_pdf` VARCHAR(45) NOT NULL,
     `factura_fecha` DATETIME NOT NULL,
@@ -598,6 +600,11 @@ CREATE TABLE `factura`
     PRIMARY KEY (`idfactura`),
     INDEX `iddatosfacturacion` (`iddatosfacturacion`),
     INDEX `idconsulta` (`idconsulta`),
+    INDEX `idadmision` (`idadmision`),
+    INDEX `idventa` (`idventa`),
+    CONSTRAINT `idadmision_factura`
+        FOREIGN KEY (`idadmision`)
+        REFERENCES `admision` (`idadmision`),
     CONSTRAINT `idconsulta_factura`
         FOREIGN KEY (`idconsulta`)
         REFERENCES `consulta` (`idconsulta`)
@@ -607,7 +614,10 @@ CREATE TABLE `factura`
         FOREIGN KEY (`iddatosfacturacion`)
         REFERENCES `pacientefacturacion` (`idpacientefacturacion`)
         ON UPDATE CASCADE
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT `idventa_factura`
+        FOREIGN KEY (`idventa`)
+        REFERENCES `venta` (`idventa`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------

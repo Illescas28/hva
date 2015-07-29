@@ -9,7 +9,6 @@ class GeneralController extends AbstractActionController
 {
     public function indexAction()
     {
-        
         //Hacemos una peticion a todas nuestras admisiones
         $admisiones = \AdmisionQuery::create()->orderByIdadmision('asc')->find();
         
@@ -25,7 +24,14 @@ class GeneralController extends AbstractActionController
             $tmp['diagnostico'] = $admision->getAdmisionDiagnostico();
             $tmp['status_pago'] = $admision->getAdmisionStatus();
             //Verificar con George
-            $tmp['razon_social'] = NULL;
+            $rs = \FacturaQuery::create()->findOneByIdadmision($admision->getIdadmision());
+            $tmp['razon_social'] = $rs;
+            if(!is_null($rs)){
+                $tmp['razon_social'] = $rs->getPacientefacturacion()->getPacientefacturacionRazonsocial();
+            }else{
+                $tmp['razon_social'] = NULL;
+            }
+            
             //Pagos
             $tmp['total'] = $admision->getAdmisionTotal();
             
@@ -41,8 +47,13 @@ class GeneralController extends AbstractActionController
             $tmp['spei'] = \AdmisionanticipoQuery::create()->filterByIdadmision($admision->getIdadmision())->filterByAdmisionanticipoTipo('SPEI')->withColumn('SUM(admisionanticipo_cantidad)','total')->findOne()->toArray();
             $tmp['spei'] = $tmp['spei']['total'];
             //Verificar con George (status alta/admision)
-            $tmp['status'] = NULL;
-            
+            $admision_salida = $admision->getAdmisionFechasalida();
+            if(is_null($admision_salida)){
+                $tmp['status'] = 'Admisión';
+            }else{
+                $tmp['status'] = 'Alta';
+            }
+
             $general_array[] = $tmp;
 
         }
@@ -58,7 +69,14 @@ class GeneralController extends AbstractActionController
             $tmp['diagnostico'] = $consulta->getConsultaDiagnostico();
             $tmp['status_pago'] = $consulta->getConsultaStatus();
             //Verificar con George
-            $tmp['razon_social'] = NULL;
+            $rs = \FacturaQuery::create()->findOneByIdconsulta($consulta->getIdconsulta());
+            if(!is_null($rs)){
+                $tmp['razon_social'] = $rs->getPacientefacturacion()->getPacientefacturacionRazonsocial();
+            }else{
+                $tmp['razon_social'] = NULL;
+            }
+            
+           
             //Pagos
             $tmp['total'] = $consulta->getConsultaTotal();
             
@@ -73,8 +91,13 @@ class GeneralController extends AbstractActionController
             
             $tmp['spei'] = \ConsultaanticipoQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->filterByConsultaanticipoTipo('SPEI')->withColumn('SUM(consultaanticipo_cantidad)','total')->findOne()->toArray();
             $tmp['spei'] = $tmp['spei']['total'];
-            //Verificar con George (status alta/admision)
-            $tmp['status'] = NULL;
+           //Verificar con George (status alta/admision)
+            $consulta_status = $consulta->getConsultaStatus();
+            if($consulta_status != 'pagada'){
+                $tmp['status'] = 'En Consulta';
+            }else{
+                 $tmp['status'] = 'Consultado';
+            }
             
             $general_array[] = $tmp;
 
@@ -103,6 +126,21 @@ class GeneralController extends AbstractActionController
         
         return $this->getResponse()->setContent(\Zend\Json\Json::encode($movimientos_array));
 
+    }
+    
+    public function getrazonessocialesAction(){
+        
+        $paciente_facturacion = \PacientefacturacionQuery::create()->find();
+        
+        $rs_array = array();
+        foreach ($paciente_facturacion as $datosfacturacion){
+             $razon_social = $datosfacturacion->getPacientefacturacionRazonsocial();
+             if(!is_null($razon_social) || !empty($razon_social)){
+                 $rs_array[$razon_social] = $razon_social;
+             }
+        }
+        
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($rs_array));
     }
 
     
