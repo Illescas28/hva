@@ -68,6 +68,7 @@ class VentaTableMap extends TableMap
     {
         $this->addRelation('Paciente', 'Paciente', RelationMap::MANY_TO_ONE, array('idpaciente' => 'idpaciente', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Cargoventa', 'Cargoventa', RelationMap::ONE_TO_MANY, array('idventa' => 'idventa', ), 'CASCADE', 'CASCADE', 'Cargoventas');
+        $this->addRelation('Factura', 'Factura', RelationMap::ONE_TO_MANY, array('idventa' => 'idventa', ), 'CASCADE', 'CASCADE', 'Facturas');
     } // buildRelations()
 
 } // VentaTableMap
