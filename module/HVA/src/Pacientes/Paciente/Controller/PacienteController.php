@@ -412,19 +412,18 @@ class PacienteController extends AbstractActionController
         if($request->getPost()->ver_admisionanticipo == "true"){
 
             $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
-            if($admisionanticipoQuery->getArrayCopy()){
+            if($admisionanticipoQuery->count() != 0){
                 $admisionanticipoArray = array();
                 foreach($admisionanticipoQuery as $admisionanticipoEntity){
-                        $admisionanticipo = array(
-                            'idadmisionanticipo' => $admisionanticipoEntity->getIdadmisionanticipo(),
-                            'idadmision' => $admisionanticipoEntity->getIdadmision(),
-                            'idcuarto' => $admisionanticipoEntity->getIdcuarto(),
-                            'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
-                            'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
-                            'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionAnticipoNota(),
-                            'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionAnticipoTipo()
-                        );
-                        array_push($admisionanticipoArray, $admisionanticipo);
+                    $admisionanticipo = array(
+                        'idadmisionanticipo' => $admisionanticipoEntity->getIdadmisionanticipo(),
+                        'idadmision' => $admisionanticipoEntity->getIdadmision(),
+                        'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
+                        'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
+                        'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionanticipoNota(),
+                        'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionanticipoTipo()
+                    );
+                    array_push($admisionanticipoArray, $admisionanticipo);
                 }
             }
             return new JsonModel(array(

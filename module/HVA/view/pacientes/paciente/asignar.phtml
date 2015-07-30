@@ -8214,7 +8214,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
     tabla.className = "hoverable striped";
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
-    var thArray = ['Fecha', 'Cantidad', 'Nota', 'Opciones']
+    var thArray = ['Fecha', 'Cantidad', 'Nota', 'Tipo de pago', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -8269,6 +8269,11 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                 hilera.appendChild(celda);
             }
             if(j == 3){
+                var textoCelda = document.createTextNode(admisionanticipoArray[i]["admisionanticipo_tipo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 4){
 
                 /*
 
@@ -8281,6 +8286,9 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                  hilera.appendChild(celda);
                  */
 
+                /*
+                 * el edit ya no será necesario
+                 *
                 var link2 = document.createElement("a");
                 link2.className = "modal-trigger";
                 link2.setAttribute ( 'data-position', 'right' );
@@ -8288,6 +8296,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                 link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
                 var editar = document.createElement("i");
                 editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
+                */
 
                 var link3 = document.createElement("a");
                 link3.className = "tooltipped modal-trigger";
@@ -8297,12 +8306,15 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                 //link3.setAttribute ( 'id', 'delete-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
                 var eliminar = document.createElement("i");
                 eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
+                /*
                 link2.appendChild(editar);
                 celda.appendChild(link2);
+                */
                 link3.appendChild(eliminar);
                 celda.appendChild(link3);
                 hilera.appendChild(celda);
 
+                /*
                 <!-- Edit Modal Structure -->
                 var divcargosAdmisionEdit = document.getElementById('cargosAdmision')
                 var divEditModalCargoadmision = document.createElement('div')
@@ -8364,6 +8376,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                 divEditModalCargoadmision.appendChild(divEditModalFooter);
                 divcargosAdmisionEdit.appendChild(divEditModalCargoadmision);
                 <!-- End Edit Modal Structure -->
+                */
 
                 <!-- Start Delete Structure -->
                 var divcargosAdmisionDelete = document.getElementById('cargosAdmision')
