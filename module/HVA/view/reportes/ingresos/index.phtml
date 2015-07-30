@@ -44,7 +44,6 @@ $this->headTitle($title);
                        <input placeholder="31-12-2014" type="text" id="fecha_to" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false">
                  </div>
                 <button id="generar_reporte" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light">Generar reporte
-                    <i class="material-icons left"></i>
                 </button>
              </div>
         </fieldset>
@@ -57,15 +56,15 @@ $this->headTitle($title);
                 <th>Concepto</th>
                 <th>Total</th>
             </tr>
-        </thead>
+        </thead>    
         <tbody>
             <tr>
                 <td>Servicios</td>
-                <td>0.00</td>
+                <td id="total_servicios">0.00</td>
             </tr>
              <tr>
                 <td>Productos</td>
-                <td>0.00</td>
+                <td id="total_productos">0.00</td>
             </tr>
         </tbody>
     </table>

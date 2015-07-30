@@ -17,12 +17,18 @@ class ProveedorForm extends Form
             'options' => array(
                 'label' => 'Nombre de la empresa *',
             ),
+            'attributes' => array(
+                'required' => 'required',
+            ),
         ));
         $this->add(array(
             'name' => 'proveedor_contacto',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre de Contácto',
+                'label' => 'Nombre de Contácto *',
+            ),
+            'attributes' => array(
+                'required' => 'required',
             ),
         ));
         $this->add(array(
@@ -78,21 +84,30 @@ class ProveedorForm extends Form
             'name' => 'proveedor_email',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Email',
+                'label' => 'Correo electronico *',
+            ),
+            'attributes' => array(
+                'required' => 'required',
             ),
         ));
         $this->add(array(
             'name' => 'proveedor_telefono',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Teléfono',
+                'label' => 'Teléfono *',
+            ),
+            'attributes' => array(
+                'required' => 'required',
             ),
         ));
         $this->add(array(
             'name' => 'proveedor_telefonocelular',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Celular',
+                'label' => 'Celular *',
+            ),
+            'attributes' => array(
+                'required' => 'required',
             ),
         ));
         $this->add(array(
@@ -101,6 +116,17 @@ class ProveedorForm extends Form
             'options' => array(
                 'label' => 'Fax',
             ),
+        ));
+        $this->add(array(
+            'name' => 'proveedor_rfc',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'RFC *',
+            ),
+            'attributes' => array(
+                'required' => 'required',
+            ),
+            
         ));
 
     }

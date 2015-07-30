@@ -65,7 +65,7 @@
             
             $td_report.text(accounting.formatMoney(total));
             
-            $table.find('tbody').append($row_report);
+            $table.find('tbody').after($row_report);
             
             
         }
@@ -88,6 +88,7 @@
                 close: 'Cerrar',
                 clear: 'Eliminar',
                 formatSubmit: 'yyyy-mm-dd',
+                format: 'dd-mm-yyyy',
 
             });
             
@@ -105,9 +106,33 @@
             
             
             //El evento generar reporte
-            $container.find('#generar_reporte').on('click',function(){
+            $container.find('#generar_reporte').on('click',function(e){
+                $container.find('p.input-error-show').remove();
+                if($('input#fecha_from').val() == '' ){
+                    e.preventDefault();
+                    $('input#fecha_from').after('<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>');
+                }else{
+                
+                    //Hacemos la peticion ajax
+                    $.ajax({
+                        method:'POST',
+                        url:'/reportes/ingresos',
+                        dataType: 'json',
+                        data:{fecha_from:$('input#fecha_from').val(),fecha_to:$('input#fecha_to').val()},
+                        success:function(data){
+                            
+                            $('#total_productos').text(accounting.formatMoney(data.total_productos));
+                            $('#total_servicios').text(accounting.formatMoney(data.total_servicios));
+                            calcularTotalIngresos();
+                            
+                        }
+                    });
+                    
+                }
                 
             });
+            
+            
             
             calcularTotalIngresos();
             

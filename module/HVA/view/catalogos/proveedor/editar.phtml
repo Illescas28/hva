@@ -18,6 +18,13 @@
                 </div>
                  <p id="proveedor_nombre" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
+            <div class="col s4">
+                <div class="input-field">
+                    <?php echo $this->formText($proveedorForm->get('proveedor_rfc')); ?>
+                    <?php echo $this->formLabel($proveedorForm->get('proveedor_rfc')); ?>
+                </div>
+                 <p id="proveedor_nombre" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+            </div>
         </div>
         <div class="col s4">
             <div class="input-field">
@@ -80,6 +87,7 @@
         </div>
     </fieldset>
 </div>
+<p style="color: rgb(158, 158, 158); margin-top: 0px; padding-left: 24px;">(*) Campos obligatorios</p>
 <div class="row">
     <div class="col s4 offset-s4">
         <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
@@ -94,39 +102,23 @@
          $('select').material_select();
         
 
-           //Validacion de campos obligatorios 
-        $(document).on('click', 'form button[type=submit]', function(e) {
-            $('p.input-error').hide();
+         $('button[type=submit]').on('click',function(e){
+            $('p.input-error-show').remove();
+            var error_message = '<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>';
             var isValid = true;
-            //console.log($('select[name=idtipo]').val());
-            if(!$('input[name=proveedor_nombre]').val().length){
-               isValid = false;
-               $('p#proveedor_nombre').show();
-               e.preventDefault(); 
-            }
-            if(!$('input[name=proveedor_telefono]').val().length){
-               isValid = false;
-               $('p#proveedor_telefono').show();
-               e.preventDefault(); 
-            }
-            if(!$('input[name=proveedor_contacto]').val().length){
-               isValid = false;
-               $('p#proveedor_contacto').show();
-               e.preventDefault(); 
-            }
-            if(!$('input[name=proveedor_ciudad]').val().length){
-               isValid = false;
-               $('p#proveedor_ciudad').show();
-               e.preventDefault(); 
-            }
-            if(!$('input[name=proveedor_estado]').val().length){
-               isValid = false;
-               $('p#proveedor_estado').show();
-               e.preventDefault(); 
+            $(document).find('input[required],select[required]').filter(function(){
+                if($(this).val() == ''){
+                    $(this).after(error_message);
+                    isValid = false;
+                }
+                
+            });
+            
+            if(!isValid){
+                e.preventDefault();
             }
             
         });
-          
 
     });
 </script>

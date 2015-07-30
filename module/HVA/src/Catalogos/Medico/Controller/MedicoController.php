@@ -54,7 +54,23 @@ class MedicoController extends AbstractActionController
                 foreach ($medicoForm->getData() as $medicoKey => $medicoValue){
                     $medico->setByName($medicoKey, $medicoValue, \BasePeer::TYPE_FIELDNAME);
                 }
-                         
+                
+
+
+                //La imagen
+                if(!empty($_FILES['name'])){
+                    $date = new \DateTime();
+                    $upload_folder ='/img/medicos/';
+                    $tipo_archivo = $_FILES['medico_imagen']['type']; $tipo_archivo = explode('/', $tipo_archivo); $tipo_archivo = $tipo_archivo[1];   
+                    $nombre_archivo = 'medico-'.$date->getTimestamp().'.'.$tipo_archivo;
+                    $tmp_archivo = $_FILES['medico_imagen']['tmp_name'];
+                    $archivador = $upload_folder.$nombre_archivo;
+                    if(!move_uploaded_file($tmp_archivo, $_SERVER["DOCUMENT_ROOT"].$archivador)) {
+                        return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false, 'msg' => 'Ocurrio un error al subir el archivo. No pudo guardarse.', 'status' => 'error')));
+                    }    
+                   $medico->setMedicoFotografia($archivador);
+                }
+    
                 //Guardamos en nuestra base de datos
                 $medico->save();
                 
@@ -67,6 +83,7 @@ class MedicoController extends AbstractActionController
                     }    
                 }
                 $medico->setMedicoPerfilcompleto($perfilcompleto);
+                
                 $medico->save();
                 
                 //Agregamos un mensaje
@@ -137,6 +154,12 @@ class MedicoController extends AbstractActionController
             //Le ponemos los datos de nuestro medico a nuestro formulario
             $medicoForm->setData($medico->toArray(BasePeer::TYPE_FIELDNAME));
             
+            //La imagen del empleado
+            $medico_imagen = $medico->getMedicoFotografia();
+            if(is_null($medico_imagen)){
+                $medico_imagen = '/img/empleados/default_profile.jpg';
+            }
+            
             if ($request->isPost()) { //Si hicieron POST
                
                 //Instanciamos nuestro filtro
@@ -156,7 +179,41 @@ class MedicoController extends AbstractActionController
                         $medico->setByName($medicoKey, $medicoValue, \BasePeer::TYPE_FIELDNAME);
                     }
                     
+                    //La imagen
+                    if(!empty($_FILES["medico_imagen"]["name"])){
+
+                        $date = new \DateTime();
+                        $upload_folder ='/img/medicos/';
+                        $tipo_archivo = $_FILES['medico_imagen']['type']; $tipo_archivo = explode('/', $tipo_archivo); $tipo_archivo = $tipo_archivo[1];   
+                        $nombre_archivo = 'medico-'.$date->getTimestamp().'.'.$tipo_archivo;
+                        $tmp_archivo = $_FILES['medico_imagen']['tmp_name'];
+                        $archivador = $upload_folder.$nombre_archivo;
+                        if(!move_uploaded_file($tmp_archivo, $_SERVER["DOCUMENT_ROOT"].$archivador)) {
+                            return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false, 'msg' => 'Ocurrio un error al subir el archivo. No pudo guardarse.', 'status' => 'error')));
+                        }
+
+                        //Tiene alguna imagen actualmente?
+                        if(!is_null($medico->getMedicoFotografia())){
+                            $medico_imagen = $medico->getMedicoFotografia();
+                            unlink($_SERVER["DOCUMENT_ROOT"].$medico_imagen);
+                        }
+
+                       $medico->setMedicoFotografia($archivador);
+                    }
+                    
                     //Guardamos en nuestra base de datos
+                    $medico->save();
+                    
+                    //Verificamos si el perfil esta competo
+                    $perfilcompleto = true;
+                    $excludedColumns = array('medico_perfilcompleto','medico_nointerior',);
+                    foreach ($medico->toArray(BasePeer::TYPE_FIELDNAME) as $key => $value){
+                        if(empty($value) && !in_array($key, $excludedColumns)){
+                            $perfilcompleto = false;
+                        }    
+                    }
+                    $medico->setMedicoPerfilcompleto($perfilcompleto);
+
                     $medico->save();
 
                     //Agregamos un mensaje
@@ -173,6 +230,7 @@ class MedicoController extends AbstractActionController
             return new ViewModel(array(
                 'id'  => $id,
                 'medicoForm' => $medicoForm,
+                'medico_imagen' => $medico_imagen,
             ));
         
 
@@ -217,5 +275,24 @@ class MedicoController extends AbstractActionController
             $conceptos_autcomplete[] = $tmp;
         }
         return $this->getResponse()->setContent(\Zend\Json\Json::encode($conceptos_autcomplete));
+    }
+    
+    
+    public function eliminarimagenAction(){
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromQuery('id');
+        
+        $medico = \MedicoQuery::create()->findPk($id);
+        
+        if(!is_null($medico->getMedicoFotografia())){
+            $medico_imagen = $medico->getMedicoFotografia();
+            $medico->setMedicoFotografia(NULL);
+            $medico->save();
+            unlink($_SERVER["DOCUMENT_ROOT"].$medico_imagen);
+            return true;
+        }
+        
+        return false;
+        
     }
 }

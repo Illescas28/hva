@@ -64,7 +64,7 @@
        
        var appToJsDate = function(appdate){
            
-           date_array = appdate.split('-');
+           var date_array = appdate.split('-');
            var dateJS = new Date();
            dateJS.setDate(parseInt(date_array[0]));
            dateJS.setMonth(parseInt(date_array[1]) - 1);
