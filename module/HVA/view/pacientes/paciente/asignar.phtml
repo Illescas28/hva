@@ -7539,7 +7539,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         select.style.width = "auto";
         select.style.height = "auto";
         select.setAttribute ( 'id', 'select_metodo_de_pago' );
-        var metodosArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "No identificado"];
+        var metodosArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "SPEI", "No identificado"];
         // agregamos los valores <option> a seleccionar
         for($i=0; $i<=metodosArray.length; $i++){
             var selectOption = new Option(metodosArray[$i],metodosArray[$i]);
@@ -7682,6 +7682,44 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var brAnticipo1 = document.createElement('br')
         anticipoAdmision.appendChild(brAnticipo1);
 
+        var divMetodoDeAnticipo = document.createElement('div')
+        divMetodoDeAnticipo.className = "col s12";
+        divMetodoDeAnticipo.setAttribute ( 'id', 'divMetodoDeAnticipo' );
+        var spanMetodoDeAnticipo = document.createElement('span')
+        var metodoDeAnticipo = document.createTextNode("Método de pago: ");
+        spanMetodoDeAnticipo.appendChild(metodoDeAnticipo);
+        divMetodoDeAnticipo.appendChild(spanMetodoDeAnticipo);
+
+        var selectAnticipo = document.createElement('select');
+        selectAnticipo.style.display = "inline";
+        selectAnticipo.style.width = "auto";
+        selectAnticipo.style.height = "auto";
+        selectAnticipo.setAttribute ( 'id', 'select_metodo_de_anticipo' );
+        var metodosAnticipoArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "SPEI", "No identificado"];
+        // agregamos los valores <option> a seleccionar
+        for($i=0; $i<=metodosAnticipoArray.length; $i++){
+            var selectAnticipoOption = new Option(metodosAnticipoArray[$i],metodosAnticipoArray[$i]);
+            selectAnticipo.appendChild(selectAnticipoOption);
+        }
+        divMetodoDeAnticipo.appendChild(selectAnticipo);
+
+        var span2Anticipo = document.createElement('span')
+        var espacioAnticipo = document.createTextNode("   ");
+        span2Anticipo.appendChild(espacioAnticipo);
+        divMetodoDeAnticipo.appendChild(span2Anticipo);
+
+        var inputAnticipo = document.createElement('input')
+        inputAnticipo.style.width = "auto";
+        inputAnticipo.setAttribute ( 'id', 'input_anticipo_admision' );
+        inputAnticipo.type = 'number';
+        inputAnticipo.min ="1";
+        inputAnticipo.max = subTotal;
+        inputAnticipo.setAttribute ( 'name', 'anticipo' );
+        inputAnticipo.setAttribute ( 'value', subTotal );
+        divMetodoDeAnticipo.appendChild(inputAnticipo);
+        anticipoAdmision.appendChild(divMetodoDeAnticipo);
+
+        /*
         var divInputAnticipo = document.createElement('div')
         divInputAnticipo.className = "col s12";
         var inputAnticipo = document.createElement('input')
@@ -7694,6 +7732,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         inputAnticipo.setAttribute ( 'value', subTotal );
         divInputAnticipo.appendChild(inputAnticipo);
         anticipoAdmision.appendChild(divInputAnticipo);
+        */
 
         var divInputNotaAnticipo = document.createElement('div')
         divInputNotaAnticipo.className = "input-field col s12";
@@ -7750,7 +7789,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         select.style.width = "auto";
         select.style.height = "auto";
         select.setAttribute ( 'id', 'select_metodo_de_pago' );
-        var metodosArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "No identificado"];
+        var metodosArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "SPEI", "No identificado"];
         // agregamos los valores <option> a seleccionar
         for($i=0; $i<=metodosArray.length; $i++){
             var selectOption = new Option(metodosArray[$i],metodosArray[$i]);
@@ -7886,6 +7925,11 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     }
     $("#divBotonAdmisionPagarAnticipo").click(function() {
 
+        // Si el método de pago es con tarjeta, le solicitamos al usuario la referencia de la tarjeta)
+        if($("#select_metodo_de_anticipo").val() == 'Tarjeta de credito' || $("#select_metodo_de_anticipo").val() == 'Tarjeta de debito'){
+            var admision_referenciapagoAnticipo = prompt("Por favor ingresa la referencia de la tarjeta", "1234");
+        }
+
         //Obtenemos el valor del input de divInputAnticipo
         var anticipoAdmision = $("input#input_anticipo_admision").val();
 
@@ -7897,7 +7941,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var notaAnticipoAdmision = $("input#input_nota_anticipo").val();
 
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idadmision=' + idadmision + '&admisionanticipo_cantidad=' + anticipoAdmision + '&admisionanticipo_nota=' + notaAnticipoAdmision ;
+        var dataString = 'idadmision=' + idadmision + '&admisionanticipo_cantidad=' + anticipoAdmision + '&admisionanticipo_nota=' + notaAnticipoAdmision + '&admisionanticipo_tipo=' + $("#select_metodo_de_anticipo").val();
 
         $.ajax({
             type: "POST",
@@ -7917,11 +7961,12 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                         "idadmision" : value.idadmision,
                         "admisionanticipo_fecha" : value.admisionanticipo_fecha,
                         "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
-                        "admisionanticipo_nota" : value.admisionanticipo_nota
+                        "admisionanticipo_nota" : value.admisionanticipo_nota,
+                        "admisionanticipo_tipo" : value.admisionanticipo_tipo
                     });
                 });
 
-                subTotalResponse(status, -(anticipoAdmision), null, 'admision', anticipoAdmision)
+                subTotalResponse(status, -(anticipoAdmision), null, 'admision', anticipoAdmision, $("#select_metodo_de_anticipo").val(), admision_referenciapagoAnticipo)
 
             },
             error: function(data){
@@ -7950,7 +7995,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var notaAnticipoAdmision = $("input#input_nota_anticipo").val();
 
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idadmision=' + idadmision + '&admisionanticipo_cantidad=' + pagoAdmision + '&admisionanticipo_nota=' + notaAnticipoAdmision ;
+        var dataString = 'idadmision=' + idadmision + '&admisionanticipo_cantidad=' + pagoAdmision + '&admisionanticipo_nota=' + notaAnticipoAdmision + '&admisionanticipo_tipo=' + $("#select_metodo_de_pago").val();
 
         $.ajax({
             type: "POST",
@@ -7970,7 +8015,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                         "idadmision" : value.idadmision,
                         "admisionanticipo_fecha" : value.admisionanticipo_fecha,
                         "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
-                        "admisionanticipo_nota" : value.admisionanticipo_nota
+                        "admisionanticipo_nota" : value.admisionanticipo_nota,
+                        "admisionanticipo_tipo" : value.admisionanticipo_tipo
                     });
                 });
 
@@ -8001,7 +8047,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var notaAnticipoConsulta = $("input#input_nota_consulta").val();
 
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idconsulta=' + idconsulta + '&consultaanticipo_cantidad=' + pagoConsulta + '&consultaanticipo_nota=' + notaAnticipoConsulta;
+        var dataString = 'idconsulta=' + idconsulta + '&consultaanticipo_cantidad=' + pagoConsulta + '&consultaanticipo_nota=' + notaAnticipoConsulta + '&consultaanticipo_tipo=' + $("#select_metodo_de_pago").val();
 
         $.ajax({
             type: "POST",
@@ -8021,7 +8067,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                         "idconsulta" : value.idconsulta,
                         "consultaanticipo_fecha" : value.consultaanticipo_fecha,
                         "consultaanticipo_cantidad" : value.consultaanticipo_cantidad,
-                        "consultaanticipo_nota" : value.consultaanticipo_nota
+                        "consultaanticipo_nota" : value.consultaanticipo_nota,
+                        "consultaanticipo_tipo" : value.consultaanticipo_tipo
                     });
                 });
 
@@ -8057,7 +8104,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                             "idadmision" : value.idadmision,
                             "admisionanticipo_fecha" : value.admisionanticipo_fecha,
                             "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
-                            "admisionanticipo_nota" : value.admisionanticipo_nota
+                            "admisionanticipo_nota" : value.admisionanticipo_nota,
+                            "admisionanticipo_tipo" : value.admisionanticipo_tipo
                         });
                     });
                 }

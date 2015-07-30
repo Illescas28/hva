@@ -60,6 +60,12 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
     protected $consultaanticipo_nota;
 
     /**
+     * The value for the consultaanticipo_tipo field.
+     * @var        string
+     */
+    protected $consultaanticipo_tipo;
+
+    /**
      * @var        Consulta
      */
     protected $aConsulta;
@@ -166,6 +172,17 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
     {
 
         return $this->consultaanticipo_nota;
+    }
+
+    /**
+     * Get the [consultaanticipo_tipo] column value.
+     *
+     * @return string
+     */
+    public function getConsultaanticipoTipo()
+    {
+
+        return $this->consultaanticipo_tipo;
     }
 
     /**
@@ -280,6 +297,27 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
     } // setConsultaanticipoNota()
 
     /**
+     * Set the value of [consultaanticipo_tipo] column.
+     *
+     * @param  string $v new value
+     * @return Consultaanticipo The current object (for fluent API support)
+     */
+    public function setConsultaanticipoTipo($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->consultaanticipo_tipo !== $v) {
+            $this->consultaanticipo_tipo = $v;
+            $this->modifiedColumns[] = ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO;
+        }
+
+
+        return $this;
+    } // setConsultaanticipoTipo()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -316,6 +354,7 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
             $this->consultaanticipo_fecha = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->consultaanticipo_cantidad = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->consultaanticipo_nota = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->consultaanticipo_tipo = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -325,7 +364,7 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = ConsultaanticipoPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = ConsultaanticipoPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Consultaanticipo object", $e);
@@ -568,6 +607,9 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
         if ($this->isColumnModified(ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA)) {
             $modifiedColumns[':p' . $index++]  = '`consultaanticipo_nota`';
         }
+        if ($this->isColumnModified(ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO)) {
+            $modifiedColumns[':p' . $index++]  = '`consultaanticipo_tipo`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `consultaanticipo` (%s) VALUES (%s)',
@@ -593,6 +635,9 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
                         break;
                     case '`consultaanticipo_nota`':
                         $stmt->bindValue($identifier, $this->consultaanticipo_nota, PDO::PARAM_STR);
+                        break;
+                    case '`consultaanticipo_tipo`':
+                        $stmt->bindValue($identifier, $this->consultaanticipo_tipo, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -755,6 +800,9 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
             case 4:
                 return $this->getConsultaanticipoNota();
                 break;
+            case 5:
+                return $this->getConsultaanticipoTipo();
+                break;
             default:
                 return null;
                 break;
@@ -789,6 +837,7 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
             $keys[2] => $this->getConsultaanticipoFecha(),
             $keys[3] => $this->getConsultaanticipoCantidad(),
             $keys[4] => $this->getConsultaanticipoNota(),
+            $keys[5] => $this->getConsultaanticipoTipo(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -848,6 +897,9 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
             case 4:
                 $this->setConsultaanticipoNota($value);
                 break;
+            case 5:
+                $this->setConsultaanticipoTipo($value);
+                break;
         } // switch()
     }
 
@@ -877,6 +929,7 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
         if (array_key_exists($keys[2], $arr)) $this->setConsultaanticipoFecha($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setConsultaanticipoCantidad($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setConsultaanticipoNota($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setConsultaanticipoTipo($arr[$keys[5]]);
     }
 
     /**
@@ -893,6 +946,7 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
         if ($this->isColumnModified(ConsultaanticipoPeer::CONSULTAANTICIPO_FECHA)) $criteria->add(ConsultaanticipoPeer::CONSULTAANTICIPO_FECHA, $this->consultaanticipo_fecha);
         if ($this->isColumnModified(ConsultaanticipoPeer::CONSULTAANTICIPO_CANTIDAD)) $criteria->add(ConsultaanticipoPeer::CONSULTAANTICIPO_CANTIDAD, $this->consultaanticipo_cantidad);
         if ($this->isColumnModified(ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA)) $criteria->add(ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA, $this->consultaanticipo_nota);
+        if ($this->isColumnModified(ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO)) $criteria->add(ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO, $this->consultaanticipo_tipo);
 
         return $criteria;
     }
@@ -960,6 +1014,7 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
         $copyObj->setConsultaanticipoFecha($this->getConsultaanticipoFecha());
         $copyObj->setConsultaanticipoCantidad($this->getConsultaanticipoCantidad());
         $copyObj->setConsultaanticipoNota($this->getConsultaanticipoNota());
+        $copyObj->setConsultaanticipoTipo($this->getConsultaanticipoTipo());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1080,6 +1135,7 @@ abstract class BaseConsultaanticipo extends BaseObject implements Persistent
         $this->consultaanticipo_fecha = null;
         $this->consultaanticipo_cantidad = null;
         $this->consultaanticipo_nota = null;
+        $this->consultaanticipo_tipo = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

@@ -43,6 +43,15 @@ class ConsultaanticipoTableMap extends TableMap
         $this->addColumn('consultaanticipo_fecha', 'ConsultaanticipoFecha', 'TIMESTAMP', true, null, null);
         $this->addColumn('consultaanticipo_cantidad', 'ConsultaanticipoCantidad', 'DECIMAL', true, 10, null);
         $this->addColumn('consultaanticipo_nota', 'ConsultaanticipoNota', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('consultaanticipo_tipo', 'ConsultaanticipoTipo', 'CHAR', false, null, null);
+        $this->getColumn('consultaanticipo_tipo', false)->setValueSet(array (
+  0 => 'Efectivo',
+  1 => 'Tarjeta de debito',
+  2 => 'Tarjeta de credito',
+  3 => 'Cheque',
+  4 => 'No identificado',
+  5 => 'SPEI',
+));
         // validators
     } // initialize()
 

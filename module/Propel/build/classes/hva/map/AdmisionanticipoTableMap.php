@@ -43,6 +43,15 @@ class AdmisionanticipoTableMap extends TableMap
         $this->addColumn('admisionanticipo_fecha', 'AdmisionanticipoFecha', 'TIMESTAMP', true, null, null);
         $this->addColumn('admisionanticipo_cantidad', 'AdmisionanticipoCantidad', 'DECIMAL', true, 10, null);
         $this->addColumn('admisionanticipo_nota', 'AdmisionanticipoNota', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('admisionanticipo_tipo', 'AdmisionanticipoTipo', 'CHAR', false, null, null);
+        $this->getColumn('admisionanticipo_tipo', false)->setValueSet(array (
+  0 => 'Efectivo',
+  1 => 'Tarjeta de debito',
+  2 => 'Tarjeta de credito',
+  3 => 'Cheque',
+  4 => 'No identificado',
+  5 => 'SPEI',
+));
         // validators
     } // initialize()
 

@@ -24,13 +24,13 @@ abstract class BaseConsultaanticipoPeer
     const TM_CLASS = 'ConsultaanticipoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 6;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /** the column name for the idconsultaanticipo field */
     const IDCONSULTAANTICIPO = 'consultaanticipo.idconsultaanticipo';
@@ -46,6 +46,17 @@ abstract class BaseConsultaanticipoPeer
 
     /** the column name for the consultaanticipo_nota field */
     const CONSULTAANTICIPO_NOTA = 'consultaanticipo.consultaanticipo_nota';
+
+    /** the column name for the consultaanticipo_tipo field */
+    const CONSULTAANTICIPO_TIPO = 'consultaanticipo.consultaanticipo_tipo';
+
+    /** The enumerated values for the consultaanticipo_tipo field */
+    const CONSULTAANTICIPO_TIPO_EFECTIVO = 'Efectivo';
+    const CONSULTAANTICIPO_TIPO_TARJETA_DE_DEBITO = 'Tarjeta de debito';
+    const CONSULTAANTICIPO_TIPO_TARJETA_DE_CREDITO = 'Tarjeta de credito';
+    const CONSULTAANTICIPO_TIPO_CHEQUE = 'Cheque';
+    const CONSULTAANTICIPO_TIPO_NO_IDENTIFICADO = 'No identificado';
+    const CONSULTAANTICIPO_TIPO_SPEI = 'SPEI';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -66,12 +77,12 @@ abstract class BaseConsultaanticipoPeer
      * e.g. ConsultaanticipoPeer::$fieldNames[ConsultaanticipoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idconsultaanticipo', 'Idconsulta', 'ConsultaanticipoFecha', 'ConsultaanticipoCantidad', 'ConsultaanticipoNota', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsultaanticipo', 'idconsulta', 'consultaanticipoFecha', 'consultaanticipoCantidad', 'consultaanticipoNota', ),
-        BasePeer::TYPE_COLNAME => array (ConsultaanticipoPeer::IDCONSULTAANTICIPO, ConsultaanticipoPeer::IDCONSULTA, ConsultaanticipoPeer::CONSULTAANTICIPO_FECHA, ConsultaanticipoPeer::CONSULTAANTICIPO_CANTIDAD, ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTAANTICIPO', 'IDCONSULTA', 'CONSULTAANTICIPO_FECHA', 'CONSULTAANTICIPO_CANTIDAD', 'CONSULTAANTICIPO_NOTA', ),
-        BasePeer::TYPE_FIELDNAME => array ('idconsultaanticipo', 'idconsulta', 'consultaanticipo_fecha', 'consultaanticipo_cantidad', 'consultaanticipo_nota', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idconsultaanticipo', 'Idconsulta', 'ConsultaanticipoFecha', 'ConsultaanticipoCantidad', 'ConsultaanticipoNota', 'ConsultaanticipoTipo', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsultaanticipo', 'idconsulta', 'consultaanticipoFecha', 'consultaanticipoCantidad', 'consultaanticipoNota', 'consultaanticipoTipo', ),
+        BasePeer::TYPE_COLNAME => array (ConsultaanticipoPeer::IDCONSULTAANTICIPO, ConsultaanticipoPeer::IDCONSULTA, ConsultaanticipoPeer::CONSULTAANTICIPO_FECHA, ConsultaanticipoPeer::CONSULTAANTICIPO_CANTIDAD, ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA, ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTAANTICIPO', 'IDCONSULTA', 'CONSULTAANTICIPO_FECHA', 'CONSULTAANTICIPO_CANTIDAD', 'CONSULTAANTICIPO_NOTA', 'CONSULTAANTICIPO_TIPO', ),
+        BasePeer::TYPE_FIELDNAME => array ('idconsultaanticipo', 'idconsulta', 'consultaanticipo_fecha', 'consultaanticipo_cantidad', 'consultaanticipo_nota', 'consultaanticipo_tipo', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -81,12 +92,24 @@ abstract class BaseConsultaanticipoPeer
      * e.g. ConsultaanticipoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idconsultaanticipo' => 0, 'Idconsulta' => 1, 'ConsultaanticipoFecha' => 2, 'ConsultaanticipoCantidad' => 3, 'ConsultaanticipoNota' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsultaanticipo' => 0, 'idconsulta' => 1, 'consultaanticipoFecha' => 2, 'consultaanticipoCantidad' => 3, 'consultaanticipoNota' => 4, ),
-        BasePeer::TYPE_COLNAME => array (ConsultaanticipoPeer::IDCONSULTAANTICIPO => 0, ConsultaanticipoPeer::IDCONSULTA => 1, ConsultaanticipoPeer::CONSULTAANTICIPO_FECHA => 2, ConsultaanticipoPeer::CONSULTAANTICIPO_CANTIDAD => 3, ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTAANTICIPO' => 0, 'IDCONSULTA' => 1, 'CONSULTAANTICIPO_FECHA' => 2, 'CONSULTAANTICIPO_CANTIDAD' => 3, 'CONSULTAANTICIPO_NOTA' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('idconsultaanticipo' => 0, 'idconsulta' => 1, 'consultaanticipo_fecha' => 2, 'consultaanticipo_cantidad' => 3, 'consultaanticipo_nota' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idconsultaanticipo' => 0, 'Idconsulta' => 1, 'ConsultaanticipoFecha' => 2, 'ConsultaanticipoCantidad' => 3, 'ConsultaanticipoNota' => 4, 'ConsultaanticipoTipo' => 5, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsultaanticipo' => 0, 'idconsulta' => 1, 'consultaanticipoFecha' => 2, 'consultaanticipoCantidad' => 3, 'consultaanticipoNota' => 4, 'consultaanticipoTipo' => 5, ),
+        BasePeer::TYPE_COLNAME => array (ConsultaanticipoPeer::IDCONSULTAANTICIPO => 0, ConsultaanticipoPeer::IDCONSULTA => 1, ConsultaanticipoPeer::CONSULTAANTICIPO_FECHA => 2, ConsultaanticipoPeer::CONSULTAANTICIPO_CANTIDAD => 3, ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA => 4, ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO => 5, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTAANTICIPO' => 0, 'IDCONSULTA' => 1, 'CONSULTAANTICIPO_FECHA' => 2, 'CONSULTAANTICIPO_CANTIDAD' => 3, 'CONSULTAANTICIPO_NOTA' => 4, 'CONSULTAANTICIPO_TIPO' => 5, ),
+        BasePeer::TYPE_FIELDNAME => array ('idconsultaanticipo' => 0, 'idconsulta' => 1, 'consultaanticipo_fecha' => 2, 'consultaanticipo_cantidad' => 3, 'consultaanticipo_nota' => 4, 'consultaanticipo_tipo' => 5, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+    );
+
+    /** The enumerated values for this table */
+    protected static $enumValueSets = array(
+        ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO => array(
+            ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO_EFECTIVO,
+            ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO_TARJETA_DE_DEBITO,
+            ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO_TARJETA_DE_CREDITO,
+            ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO_CHEQUE,
+            ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO_NO_IDENTIFICADO,
+            ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO_SPEI,
+        ),
     );
 
     /**
@@ -129,6 +152,51 @@ abstract class BaseConsultaanticipoPeer
     }
 
     /**
+     * Gets the list of values for all ENUM columns
+     * @return array
+     */
+    public static function getValueSets()
+    {
+      return ConsultaanticipoPeer::$enumValueSets;
+    }
+
+    /**
+     * Gets the list of values for an ENUM column
+     *
+     * @param string $colname The ENUM column name.
+     *
+     * @return array list of possible values for the column
+     */
+    public static function getValueSet($colname)
+    {
+        $valueSets = ConsultaanticipoPeer::getValueSets();
+
+        if (!isset($valueSets[$colname])) {
+            throw new PropelException(sprintf('Column "%s" has no ValueSet.', $colname));
+        }
+
+        return $valueSets[$colname];
+    }
+
+    /**
+     * Gets the SQL value for the ENUM column value
+     *
+     * @param string $colname ENUM column name.
+     * @param string $enumVal ENUM value.
+     *
+     * @return int SQL value
+     */
+    public static function getSqlValueForEnum($colname, $enumVal)
+    {
+        $values = ConsultaanticipoPeer::getValueSet($colname);
+        if (!in_array($enumVal, $values)) {
+            throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $colname));
+        }
+
+        return array_search($enumVal, $values);
+    }
+
+    /**
      * Convenience method which changes table.column to alias.column.
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
@@ -165,12 +233,14 @@ abstract class BaseConsultaanticipoPeer
             $criteria->addSelectColumn(ConsultaanticipoPeer::CONSULTAANTICIPO_FECHA);
             $criteria->addSelectColumn(ConsultaanticipoPeer::CONSULTAANTICIPO_CANTIDAD);
             $criteria->addSelectColumn(ConsultaanticipoPeer::CONSULTAANTICIPO_NOTA);
+            $criteria->addSelectColumn(ConsultaanticipoPeer::CONSULTAANTICIPO_TIPO);
         } else {
             $criteria->addSelectColumn($alias . '.idconsultaanticipo');
             $criteria->addSelectColumn($alias . '.idconsulta');
             $criteria->addSelectColumn($alias . '.consultaanticipo_fecha');
             $criteria->addSelectColumn($alias . '.consultaanticipo_cantidad');
             $criteria->addSelectColumn($alias . '.consultaanticipo_nota');
+            $criteria->addSelectColumn($alias . '.consultaanticipo_tipo');
         }
     }
 

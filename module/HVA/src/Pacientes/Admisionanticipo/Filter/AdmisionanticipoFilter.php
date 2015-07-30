@@ -54,6 +54,14 @@ class AdmisionanticipoFilter implements InputFilterAwareInterface
                     array('name' => 'StringTrim'),
                 ),
             ));
+            $inputFilter->add(array(
+                'name'     => 'admisionanticipo_tipo',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
 
             $this->inputFilter = $inputFilter;
         }

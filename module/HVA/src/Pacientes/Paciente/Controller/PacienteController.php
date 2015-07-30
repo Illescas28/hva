@@ -421,7 +421,8 @@ class PacienteController extends AbstractActionController
                             'idcuarto' => $admisionanticipoEntity->getIdcuarto(),
                             'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
                             'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
-                            'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionAnticipoNota()
+                            'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionAnticipoNota(),
+                            'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionAnticipoTipo()
                         );
                         array_push($admisionanticipoArray, $admisionanticipo);
                 }
