@@ -40,7 +40,13 @@ class ReferenciaabonoTableMap extends TableMap
         // columns
         $this->addPrimaryKey('idreferenciaabono', 'Idreferenciaabono', 'INTEGER', true, null, null);
         $this->addForeignKey('idbanco', 'Idbanco', 'INTEGER', 'banco', 'idbanco', false, null, null);
-        $this->addColumn('referenciaabono_archivo', 'ReferenciaabonoArchivo', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('referenciaabono_tipo', 'ReferenciaabonoTipo', 'CHAR', false, null, null);
+        $this->getColumn('referenciaabono_tipo', false)->setValueSet(array (
+  0 => 'consulta',
+  1 => 'admision',
+  2 => 'venta',
+));
+        $this->addColumn('referenciaabono_referencia', 'ReferenciaabonoReferencia', 'INTEGER', false, null, null);
         // validators
     } // initialize()
 

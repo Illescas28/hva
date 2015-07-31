@@ -36,10 +36,9 @@ class TraspasoTableMap extends TableMap
         $this->setPhpName('Traspaso');
         $this->setClassname('Traspaso');
         $this->setPackage('hva');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idinventariolugar', 'Idinventariolugar', 'INTEGER', true, null, null);
-        $this->addForeignKey('idordencompra', 'Idordencompra', 'INTEGER', 'ordencompra', 'idordencompra', true, null, null);
         $this->addForeignPrimaryKey('idlugarremitente', 'Idlugarremitente', 'INTEGER' , 'lugar', 'idlugar', true, null, null);
         $this->addForeignPrimaryKey('idlugardestinatario', 'Idlugardestinatario', 'INTEGER' , 'lugar', 'idlugar', true, null, null);
         $this->addColumn('traspaso_fecha', 'TraspasoFecha', 'TIMESTAMP', true, null, null);
@@ -60,7 +59,6 @@ class TraspasoTableMap extends TableMap
     {
         $this->addRelation('LugarRelatedByIdlugardestinatario', 'Lugar', RelationMap::MANY_TO_ONE, array('idlugardestinatario' => 'idlugar', ), 'CASCADE', 'CASCADE');
         $this->addRelation('LugarRelatedByIdlugarremitente', 'Lugar', RelationMap::MANY_TO_ONE, array('idlugarremitente' => 'idlugar', ), 'CASCADE', 'CASCADE');
-        $this->addRelation('Ordencompra', 'Ordencompra', RelationMap::MANY_TO_ONE, array('idordencompra' => 'idordencompra', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Traspasodetalles', 'Traspasodetalles', RelationMap::ONE_TO_MANY, array('idinventariolugar' => 'idtraspaso', ), 'CASCADE', 'CASCADE', 'Traspasodetalless');
     } // buildRelations()
 

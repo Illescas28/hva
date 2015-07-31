@@ -58,5 +58,15 @@ class AdmisionanticipoForm extends Form
                 'id' => 'admisionanticipo_nota'
             )
         ));
+        $this->add(array(
+            'name' => 'admisionanticipo_tipo',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Tipo de pago',
+            ),
+            'attributes' => array(
+                'id' => 'admisionanticipo_tipo'
+            )
+        ));
     }
 }

@@ -1139,10 +1139,9 @@ abstract class BaseAdmision extends BaseObject implements Persistent
 
             if ($this->facturasScheduledForDeletion !== null) {
                 if (!$this->facturasScheduledForDeletion->isEmpty()) {
-                    foreach ($this->facturasScheduledForDeletion as $factura) {
-                        // need to save related object because we set the relation to null
-                        $factura->save($con);
-                    }
+                    FacturaQuery::create()
+                        ->filterByPrimaryKeys($this->facturasScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
                     $this->facturasScheduledForDeletion = null;
                 }
             }

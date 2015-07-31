@@ -56,7 +56,7 @@ return array(
                 'options' => array(
                     'route'    => '/pacientes[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|asignar|editar|eliminar|actuales|detalles|getpacientes|historico',
+                        'action' => 'nuevo|asignar|editar|eliminar|actuales|detalles|getpacientes|historicos',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(

@@ -40,7 +40,7 @@ class ConsultorioTableMap extends TableMap
         // columns
         $this->addPrimaryKey('idconsultorio', 'Idconsultorio', 'INTEGER', true, null, null);
         $this->addColumn('consultorio_nombre', 'ConsultorioNombre', 'VARCHAR', true, 300, null);
-        $this->addColumn('consultorio_descripcion', 'ConsultorioDescripcion', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('consultorio_descripcion', 'ConsultorioDescripcion', 'LONGVARCHAR', true, null, null);
         $this->addColumn('consultorio_enuso', 'ConsultorioEnuso', 'BOOLEAN', true, 1, null);
         $this->addColumn('consultorio_extension', 'ConsultorioExtension', 'VARCHAR', false, 45, null);
         // validators

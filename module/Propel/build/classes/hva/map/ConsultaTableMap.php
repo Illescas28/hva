@@ -55,10 +55,12 @@ class ConsultaTableMap extends TableMap
         $this->addColumn('consulta_total', 'ConsultaTotal', 'DECIMAL', false, 10, null);
         $this->addColumn('consulta_tipodepago', 'ConsultaTipodepago', 'CHAR', false, null, null);
         $this->getColumn('consulta_tipodepago', false)->setValueSet(array (
-  0 => 'efectivo',
-  1 => 'tarjeta debito',
-  2 => 'tarjeta credito',
-  3 => 'cheque',
+  0 => 'Efectivo',
+  1 => 'Tarjeta de debito',
+  2 => 'Tarjeta de credito',
+  3 => 'Cheque',
+  4 => 'No identificado',
+  5 => 'SPEI',
 ));
         $this->addColumn('consulta_referenciapago', 'ConsultaReferenciapago', 'VARCHAR', false, 45, null);
         $this->addColumn('consulta_facturada', 'ConsultaFacturada', 'BOOLEAN', false, 1, null);

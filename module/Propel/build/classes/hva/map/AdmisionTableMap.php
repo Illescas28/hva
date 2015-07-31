@@ -79,7 +79,7 @@ class AdmisionTableMap extends TableMap
         $this->addRelation('Paciente', 'Paciente', RelationMap::MANY_TO_ONE, array('idpaciente' => 'idpaciente', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Admisionanticipo', 'Admisionanticipo', RelationMap::ONE_TO_MANY, array('idadmision' => 'idadmision', ), 'CASCADE', 'CASCADE', 'Admisionanticipos');
         $this->addRelation('Cargoadmision', 'Cargoadmision', RelationMap::ONE_TO_MANY, array('idadmision' => 'idadmision', ), 'CASCADE', 'CASCADE', 'Cargoadmisions');
-        $this->addRelation('Factura', 'Factura', RelationMap::ONE_TO_MANY, array('idadmision' => 'idadmision', ), null, null, 'Facturas');
+        $this->addRelation('Factura', 'Factura', RelationMap::ONE_TO_MANY, array('idadmision' => 'idadmision', ), 'CASCADE', 'CASCADE', 'Facturas');
     } // buildRelations()
 
 } // AdmisionTableMap

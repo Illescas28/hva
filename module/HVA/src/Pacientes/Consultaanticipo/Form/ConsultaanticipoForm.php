@@ -58,5 +58,15 @@ class ConsultaanticipoForm extends Form
                 'id' => 'consultaanticipo_nota'
             )
         ));
+        $this->add(array(
+            'name' => 'consultaanticipo_tipo',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Nota',
+            ),
+            'attributes' => array(
+                'id' => 'consultaanticipo_tipo'
+            )
+        ));
     }
 }

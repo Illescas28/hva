@@ -985,7 +985,7 @@ abstract class BaseFacturaQuery extends ModelCriteria
      *
      * @return FacturaQuery The current query, for fluid interface
      */
-    public function joinConsulta($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinConsulta($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Consulta');
@@ -1020,7 +1020,7 @@ abstract class BaseFacturaQuery extends ModelCriteria
      *
      * @return   ConsultaQuery A secondary query class using the current class as primary query
      */
-    public function useConsultaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useConsultaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinConsulta($relationAlias, $joinType)

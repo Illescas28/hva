@@ -60,12 +60,10 @@ abstract class BaseVentaPeer
     const VENTA_REFERENCIAPAGO = 'venta.venta_referenciapago';
 
     /** The enumerated values for the venta_tipodepago field */
-    const VENTA_TIPODEPAGO_EFECTIVO = 'Efectivo';
-    const VENTA_TIPODEPAGO_TARJETA_DE_DEBITO = 'Tarjeta de debito';
-    const VENTA_TIPODEPAGO_TARJETA_DE_CREDITO = 'Tarjeta de credito';
-    const VENTA_TIPODEPAGO_CHEQUE = 'Cheque';
-    const VENTA_TIPODEPAGO_NO_IDENTIFICADO = 'No identificado';
-    const VENTA_TIPODEPAGO_SPEI = 'SPEI';
+    const VENTA_TIPODEPAGO_EFECTIVO = 'efectivo';
+    const VENTA_TIPODEPAGO_TARJETA_DEBITO = 'tarjeta debito';
+    const VENTA_TIPODEPAGO_TARJETA_CREDITO = 'tarjeta credito';
+    const VENTA_TIPODEPAGO_CHEQUE = 'cheque';
 
     /** The enumerated values for the venta_status field */
     const VENTA_STATUS_PAGADA = 'pagada';
@@ -118,11 +116,9 @@ abstract class BaseVentaPeer
     protected static $enumValueSets = array(
         VentaPeer::VENTA_TIPODEPAGO => array(
             VentaPeer::VENTA_TIPODEPAGO_EFECTIVO,
-            VentaPeer::VENTA_TIPODEPAGO_TARJETA_DE_DEBITO,
-            VentaPeer::VENTA_TIPODEPAGO_TARJETA_DE_CREDITO,
+            VentaPeer::VENTA_TIPODEPAGO_TARJETA_DEBITO,
+            VentaPeer::VENTA_TIPODEPAGO_TARJETA_CREDITO,
             VentaPeer::VENTA_TIPODEPAGO_CHEQUE,
-            VentaPeer::VENTA_TIPODEPAGO_NO_IDENTIFICADO,
-            VentaPeer::VENTA_TIPODEPAGO_SPEI,
         ),
         VentaPeer::VENTA_STATUS => array(
             VentaPeer::VENTA_STATUS_PAGADA,
@@ -473,6 +469,9 @@ abstract class BaseVentaPeer
         // Invalidate objects in CargoventaPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         CargoventaPeer::clearInstancePool();
+        // Invalidate objects in FacturaPeer instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        FacturaPeer::clearInstancePool();
     }
 
     /**
@@ -1050,6 +1049,12 @@ abstract class BaseVentaPeer
 
             $criteria->add(CargoventaPeer::IDVENTA, $obj->getIdventa());
             $affectedRows += CargoventaPeer::doDelete($criteria, $con);
+
+            // delete related Factura objects
+            $criteria = new Criteria(FacturaPeer::DATABASE_NAME);
+
+            $criteria->add(FacturaPeer::IDVENTA, $obj->getIdventa());
+            $affectedRows += FacturaPeer::doDelete($criteria, $con);
         }
 
         return $affectedRows;

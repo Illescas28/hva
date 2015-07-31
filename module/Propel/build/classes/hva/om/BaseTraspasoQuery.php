@@ -7,14 +7,12 @@
  *
  *
  * @method TraspasoQuery orderByIdinventariolugar($order = Criteria::ASC) Order by the idinventariolugar column
- * @method TraspasoQuery orderByIdordencompra($order = Criteria::ASC) Order by the idordencompra column
  * @method TraspasoQuery orderByIdlugarremitente($order = Criteria::ASC) Order by the idlugarremitente column
  * @method TraspasoQuery orderByIdlugardestinatario($order = Criteria::ASC) Order by the idlugardestinatario column
  * @method TraspasoQuery orderByTraspasoFecha($order = Criteria::ASC) Order by the traspaso_fecha column
  * @method TraspasoQuery orderByTraspasoStatus($order = Criteria::ASC) Order by the traspaso_status column
  *
  * @method TraspasoQuery groupByIdinventariolugar() Group by the idinventariolugar column
- * @method TraspasoQuery groupByIdordencompra() Group by the idordencompra column
  * @method TraspasoQuery groupByIdlugarremitente() Group by the idlugarremitente column
  * @method TraspasoQuery groupByIdlugardestinatario() Group by the idlugardestinatario column
  * @method TraspasoQuery groupByTraspasoFecha() Group by the traspaso_fecha column
@@ -32,10 +30,6 @@
  * @method TraspasoQuery rightJoinLugarRelatedByIdlugarremitente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the LugarRelatedByIdlugarremitente relation
  * @method TraspasoQuery innerJoinLugarRelatedByIdlugarremitente($relationAlias = null) Adds a INNER JOIN clause to the query using the LugarRelatedByIdlugarremitente relation
  *
- * @method TraspasoQuery leftJoinOrdencompra($relationAlias = null) Adds a LEFT JOIN clause to the query using the Ordencompra relation
- * @method TraspasoQuery rightJoinOrdencompra($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Ordencompra relation
- * @method TraspasoQuery innerJoinOrdencompra($relationAlias = null) Adds a INNER JOIN clause to the query using the Ordencompra relation
- *
  * @method TraspasoQuery leftJoinTraspasodetalles($relationAlias = null) Adds a LEFT JOIN clause to the query using the Traspasodetalles relation
  * @method TraspasoQuery rightJoinTraspasodetalles($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Traspasodetalles relation
  * @method TraspasoQuery innerJoinTraspasodetalles($relationAlias = null) Adds a INNER JOIN clause to the query using the Traspasodetalles relation
@@ -44,14 +38,12 @@
  * @method Traspaso findOneOrCreate(PropelPDO $con = null) Return the first Traspaso matching the query, or a new Traspaso object populated from the query conditions when no match is found
  *
  * @method Traspaso findOneByIdinventariolugar(int $idinventariolugar) Return the first Traspaso filtered by the idinventariolugar column
- * @method Traspaso findOneByIdordencompra(int $idordencompra) Return the first Traspaso filtered by the idordencompra column
  * @method Traspaso findOneByIdlugarremitente(int $idlugarremitente) Return the first Traspaso filtered by the idlugarremitente column
  * @method Traspaso findOneByIdlugardestinatario(int $idlugardestinatario) Return the first Traspaso filtered by the idlugardestinatario column
  * @method Traspaso findOneByTraspasoFecha(string $traspaso_fecha) Return the first Traspaso filtered by the traspaso_fecha column
  * @method Traspaso findOneByTraspasoStatus(string $traspaso_status) Return the first Traspaso filtered by the traspaso_status column
  *
  * @method array findByIdinventariolugar(int $idinventariolugar) Return Traspaso objects filtered by the idinventariolugar column
- * @method array findByIdordencompra(int $idordencompra) Return Traspaso objects filtered by the idordencompra column
  * @method array findByIdlugarremitente(int $idlugarremitente) Return Traspaso objects filtered by the idlugarremitente column
  * @method array findByIdlugardestinatario(int $idlugardestinatario) Return Traspaso objects filtered by the idlugardestinatario column
  * @method array findByTraspasoFecha(string $traspaso_fecha) Return Traspaso objects filtered by the traspaso_fecha column
@@ -150,7 +142,7 @@ abstract class BaseTraspasoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idinventariolugar`, `idordencompra`, `idlugarremitente`, `idlugardestinatario`, `traspaso_fecha`, `traspaso_status` FROM `traspaso` WHERE `idinventariolugar` = :p0 AND `idlugarremitente` = :p1 AND `idlugardestinatario` = :p2';
+        $sql = 'SELECT `idinventariolugar`, `idlugarremitente`, `idlugardestinatario`, `traspaso_fecha`, `traspaso_status` FROM `traspaso` WHERE `idinventariolugar` = :p0 AND `idlugarremitente` = :p1 AND `idlugardestinatario` = :p2';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -295,50 +287,6 @@ abstract class BaseTraspasoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(TraspasoPeer::IDINVENTARIOLUGAR, $idinventariolugar, $comparison);
-    }
-
-    /**
-     * Filter the query on the idordencompra column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByIdordencompra(1234); // WHERE idordencompra = 1234
-     * $query->filterByIdordencompra(array(12, 34)); // WHERE idordencompra IN (12, 34)
-     * $query->filterByIdordencompra(array('min' => 12)); // WHERE idordencompra >= 12
-     * $query->filterByIdordencompra(array('max' => 12)); // WHERE idordencompra <= 12
-     * </code>
-     *
-     * @see       filterByOrdencompra()
-     *
-     * @param     mixed $idordencompra The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return TraspasoQuery The current query, for fluid interface
-     */
-    public function filterByIdordencompra($idordencompra = null, $comparison = null)
-    {
-        if (is_array($idordencompra)) {
-            $useMinMax = false;
-            if (isset($idordencompra['min'])) {
-                $this->addUsingAlias(TraspasoPeer::IDORDENCOMPRA, $idordencompra['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idordencompra['max'])) {
-                $this->addUsingAlias(TraspasoPeer::IDORDENCOMPRA, $idordencompra['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(TraspasoPeer::IDORDENCOMPRA, $idordencompra, $comparison);
     }
 
     /**
@@ -651,82 +599,6 @@ abstract class BaseTraspasoQuery extends ModelCriteria
         return $this
             ->joinLugarRelatedByIdlugarremitente($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'LugarRelatedByIdlugarremitente', 'LugarQuery');
-    }
-
-    /**
-     * Filter the query by a related Ordencompra object
-     *
-     * @param   Ordencompra|PropelObjectCollection $ordencompra The related object(s) to use as filter
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return                 TraspasoQuery The current query, for fluid interface
-     * @throws PropelException - if the provided filter is invalid.
-     */
-    public function filterByOrdencompra($ordencompra, $comparison = null)
-    {
-        if ($ordencompra instanceof Ordencompra) {
-            return $this
-                ->addUsingAlias(TraspasoPeer::IDORDENCOMPRA, $ordencompra->getIdordencompra(), $comparison);
-        } elseif ($ordencompra instanceof PropelObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
-            return $this
-                ->addUsingAlias(TraspasoPeer::IDORDENCOMPRA, $ordencompra->toKeyValue('PrimaryKey', 'Idordencompra'), $comparison);
-        } else {
-            throw new PropelException('filterByOrdencompra() only accepts arguments of type Ordencompra or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the Ordencompra relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return TraspasoQuery The current query, for fluid interface
-     */
-    public function joinOrdencompra($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Ordencompra');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'Ordencompra');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the Ordencompra relation Ordencompra object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   OrdencompraQuery A secondary query class using the current class as primary query
-     */
-    public function useOrdencompraQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinOrdencompra($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Ordencompra', 'OrdencompraQuery');
     }
 
     /**
