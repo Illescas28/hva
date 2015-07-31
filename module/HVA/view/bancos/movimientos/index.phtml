@@ -29,15 +29,40 @@
     }
 </style>
 <link href="/css/multiple.css" rel="stylesheet"/>
+<link href="/css/uploadfile.css" rel="stylesheet"/>
 <script src="/js/movimientos_bancos.js"></script>
 <script src="/js/multiple.js"></script>
 <script src="/js/accounting.js"></script>
+<script src="/js/uploadfile.js"></script>
 <?php
     setlocale(LC_MONETARY, 'en_US');
     $title = 'Movimientos';
     $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row ajax-file-upload-container">
+    <div class="col s4">
+        <div class=" row ajax-file-upload-statusbar">
+            <div class="col s4 material-placeholder">
+                <img style="width: 90px; height: 90px;" class=" responsive-img materialboxed ajax-file-upload-preview intialized"  src="/img/comprobantes-bancos/comprbante-banco-32-0.93728400 1438297124.png">
+            </div>
+            <div class="col s8" style="margin-top: 25px;">
+                <div class="ajax-file-upload-filename">1). Screen Shot 2015-07-20 at 7.19.28 PM.png (131.54 KB)</div>
+                <div class="ajax-file-upload-progress" style="display: none;">
+                    <div class="ajax-file-upload-bar"></div>
+                </div>
+            </div>
+            <div class="col s12" style="margin-top: 12px;">
+                <div class="ajax-file-upload-red ajax-file-upload-1438305521835 ajax-file-upload-abort" style="display: none;">Abort</div>
+                <div class="ajax-file-upload-red ajax-file-upload-1438305521835 ajax-file-upload-cancel" style="">cancelar</div>
+                <div class="ajax-file-upload-green" style="display: none;">Done</div>
+                <div class="ajax-file-upload-green" style="display: none;">Download</div>
+                <div class="ajax-file-upload-red" style="display: none;">Delete</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="bancos-movimientos-contaiener">
 <div class="row">
     <fieldset>  
@@ -73,10 +98,7 @@
                 <p id="banco_cantidad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
             <div class="col s6">
-                <div class="input-field">
-                    <input name="banco_comprobante" type="text">
-                    <label>Comprobante</label>
-                </div>
+                <div id="fileuploader" style="padding-top: 0px; margin-top: 40px;"></div>
             </div>
             <div class="col s8">
                 <div class="input-field">
@@ -167,7 +189,11 @@
                     <td class="egreso"><?php echo money_format('%(#10n', $entity['banco_cantidad'])?></td> 
                 <?php endif;?>
                 <!--<td><?php //echo $entity['banco_balance']?></td>-->   
-                <td><?php echo $entity['banco_comprobante']?></td>        
+                <td>
+                    <?php foreach ($entity['comprobantes'] as $comprobante) :?>
+                    <a href="<?php echo $comprobante['referenciaabono_archivo']?>"><img src="/img/comprobantes-bancos/comprobante-icon.png"</a>
+                    <?php endforeach;?>
+                </td>        
                 <td><?php echo $entity['banco_nota']?></td>
                 <td>
                     <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-".$entity['idbanco']?>'><i class="tiny mdi-action-assignment"></i></a>

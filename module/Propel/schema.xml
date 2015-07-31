@@ -757,7 +757,7 @@
     </vendor>
   </table>
   <table name="referenciaabono" phpName="Referenciaabono" idMethod="native">
-    <column name="idreferenciaabono" phpName="Idreferenciaabono" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idreferenciaabono" phpName="Idreferenciaabono" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idbanco" phpName="Idbanco" type="INTEGER" required="false"/>
     <column name="referenciaabono_archivo" phpName="ReferenciaabonoArchivo" type="LONGVARCHAR" required="false"/>
     <foreign-key foreignTable="banco" name="idbanco_referenciaabono" onDelete="CASCADE" onUpdate="CASCADE">

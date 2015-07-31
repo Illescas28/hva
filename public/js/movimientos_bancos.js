@@ -27,14 +27,16 @@
         */
        
        var conceptos;
-       
+       var uploadObj;
        /* 
         * Public methods
         */
        
        
        plugin.init = function(){
-
+           
+           var idbanco = null;
+           var last_row = null;
            //Inicialiazamos la fecha
            var Objfecha = new Date();
            var fecha = Objfecha.getDate() + '/' + (Objfecha.getMonth() + 1) +'/' + Objfecha.getFullYear();
@@ -140,6 +142,7 @@
                         success: function (response) {
                             
                             if(response.response == true){
+                                idbanco = response.data.id;
                                 var tr = $('<tr>').attr('id',response.data.id).attr('data-time',response.data.fecha_js);
                                 tr.append('<td>'+response.data.fecha+'</td>');
                                 tr.append('<td class="banco_concepto" id='+$('input[name=idconcepto]').val()+'>'+$container.find('input[name=banco_concepto]').val()+'</td>');
@@ -150,25 +153,30 @@
                                     tr.append('<td class="movmiento_vacio" > ---- </td>');
                                     tr.append('<td>'+accounting.formatMoney($container.find('input[name=banco_cantidad]').val())+'</td>');      
                                 }
-                                tr.append('<td>'+$container.find('input[name=banco_comprobante]').val()+'</td>');
+                                 tr.append('<td class="comprobantes_banco"></td>');
                                 tr.append('<td>'+$container.find('input[name=banco_nota]').val()+'</td>');
                                 var td_opciones = $('<td>');
                                 td_opciones.append('<a class="tooltipped" href="#" data-tooltip="Editar" data-position="right"><i class="tiny mdi-action-assignment"></i></a>');
                                 td_opciones.append('<a style="margin-left: 10px;" class="tooltipped modal-trigger" href="#delete-modal-8" data-tooltip="Eliminar" data-position="right"><i class="tiny mdi-action-delete"></i></a>');
                                 
-                                
-                                
+
                                 //Adjuntamos el evento eliminar movmiento
                                 td_opciones.find('i.mdi-action-assignment').on('click',function(){
                                     var id = response.data.id;
                                     editarMovimiento(id);
                                 });
                                 
-                                //Adjuntamos el evento eliminar movmiento
+                                //Adjuntamos el evento editar movmiento
                                 td_opciones.find('i.mdi-action-delete').on('click',function(){
                                     var id = response.data.id;
                                     eliminarMovmiento(id);
                                 });
+                                
+                                //Comenzamos a subir nuestros archivos
+                                uploadObj.startUpload();
+                                uploadObj.reset();
+                                
+                     
                                 
                                 tr.append(td_opciones);
                                 
@@ -195,11 +203,13 @@
                                 
                                 calcularTotalIngresosEgresos();
                                 
+                                last_row = tr;
+                                
                             }
                         }
                         
                     });
-
+                    
                 }
             });
             
@@ -226,6 +236,35 @@
                 var id = $(this).closest('tr').attr('id');
                 editarMovimiento(id);
             });
+            
+            //File upload
+            uploadObj = $("#fileuploader").uploadFile({
+                url:"/bancos/movimientos/uploadcomprobante",
+                fileName:"myfile",
+                uploadStr: 'Comprobante',
+                dragDropStr: "<span><b>Arrestre y sulte sus archivos</b></span>",
+                autoSubmit:false,
+                cancelStr:"cancelar",
+                showPreview: true,
+                previewHeight: 90,
+                previewWidth:90,
+                dynamicFormData: function()
+                {
+                    var data ={ idbanco:idbanco}
+                    return data;
+                },
+                afterUploadAll:function(obj)
+                {
+                    //Jalamos los comprobantes subidos
+                    $.getJSON('/bancos/movimientos/getcomprobantesbyid',{id:idbanco},function(data){
+                        var td_comprobantes = last_row.find('td.comprobantes_banco');
+                        $.each(data,function(index,element){
+                            td_comprobantes.append('<a href="'+element.referenciaabono_archivo+'"><img src="/img/comprobantes-bancos/comprobante-icon.png"><a/>');
+                        });
+
+                    });
+                }
+            });
                 
             
 
@@ -244,6 +283,37 @@
                 success: function (modalHTML) {
                     var source = $('<div id="active_modal">' + modalHTML + '</div>');
                     $container.after(source);
+                    //Inicializamos el file uploader
+                    source.find("#fileuploader").uploadFile({
+                        url:"/bancos/movimientos/uploadcomprobante",
+                        fileName:"myfile",
+                        uploadStr: 'Comprobante',
+                        dragDropStr: "<span><b>Arrestre y sulte sus archivos</b></span>",
+                        autoSubmit:false,
+                        cancelStr:"cancelar",
+                        onLoad:function(obj){
+                            $.ajax({
+                                url:'/bancos/movimientos/getcomprobantesbyid',
+                                method:'GET',
+                                dataType:'JSON',
+                                async:false,
+                                data:{id:id},
+                                success:function(data){
+                                     for(var i=0;i<data.length;i++){
+                                         obj.createProgress(data[i]["referenciaabono_archivo"],data[i]["referenciaabono_archivo"]);
+                                     }
+                                }
+                            })
+                        }
+    
+
+                    });
+
+                    
+                    
+                    
+                    
+                    
                     //Inicializamos el evento guardar
                     source.find('a.guardar').on('click',function(){
                         
@@ -261,6 +331,7 @@
                             $.ajax({
                                 type: 'POST',
                                 dataType: 'json',
+                                enctype: "multipart/form-data",
                                 async: false,
                                 data: movimiento,
                                 url:'/bancos/movimientos/editarmovmiento',
@@ -280,7 +351,10 @@
                                         }
                                         $container.find('tr#'+data.banco.idbanco).children('td').eq(4).text(data.banco.banco_comprobante);
                                         $container.find('tr#'+data.banco.idbanco).children('td').eq(5).text(data.banco.banco_nota);
-
+                                        
+                                        
+                                        
+                                        
                                          $container.find('#balance').text(accounting.formatMoney(data.banco.new_balance));
                                         //Eliminamos el row
                                         $('#active_modal').remove();
@@ -373,7 +447,7 @@
         calcularTotalIngresosEgresos = function(){
             
             $container.find('#row_report').remove();
-            $row_report = $('<tr id="row_report" class="green lighten-5"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
+            $row_report = $('<tr id="row_report" class="green lighten-5"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
             $td_ingresos = $row_report.find('td').eq(2);
             $td_egresos = $row_report.find('td').eq(3);
 

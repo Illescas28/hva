@@ -754,6 +754,10 @@ abstract class BaseReferenciaabonoPeer
             $criteria = $values->buildCriteria(); // build Criteria from Referenciaabono object
         }
 
+        if ($criteria->containsKey(ReferenciaabonoPeer::IDREFERENCIAABONO) && $criteria->keyContainsValue(ReferenciaabonoPeer::IDREFERENCIAABONO) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ReferenciaabonoPeer::IDREFERENCIAABONO.')');
+        }
+
 
         // Set the correct dbName
         $criteria->setDbName(ReferenciaabonoPeer::DATABASE_NAME);

@@ -972,7 +972,7 @@ DROP TABLE IF EXISTS `referenciaabono`;
 
 CREATE TABLE `referenciaabono`
 (
-    `idreferenciaabono` INTEGER NOT NULL,
+    `idreferenciaabono` INTEGER NOT NULL AUTO_INCREMENT,
     `idbanco` INTEGER,
     `referenciaabono_archivo` TEXT,
     PRIMARY KEY (`idreferenciaabono`),

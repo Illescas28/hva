@@ -596,7 +596,7 @@ return array(
                         'action'     => 'index',
                     ),
                     'constraints' => array(
-                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento',
+                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento|uploadcomprobante|getcomprobantesbyid',
                     ),
                 ),
             ),

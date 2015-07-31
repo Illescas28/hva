@@ -36,7 +36,7 @@ class ReferenciaabonoTableMap extends TableMap
         $this->setPhpName('Referenciaabono');
         $this->setClassname('Referenciaabono');
         $this->setPackage('hva');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idreferenciaabono', 'Idreferenciaabono', 'INTEGER', true, null, null);
         $this->addForeignKey('idbanco', 'Idbanco', 'INTEGER', 'banco', 'idbanco', false, null, null);
