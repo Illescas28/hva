@@ -694,12 +694,10 @@ $this->headTitle($title);
                     });
                 }
 
-                tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray);
-                tablaCargoconsultaArticuloAgregado(cargoconsultaArray);
-
-                // Refrescamos
-                buscarCargoconsultaArticulo(idordencompradetalle);
-
+                for(count = 1; count<=cargoconsultaArray.length; count++){
+                    tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray);
+                    tablaCargoconsultaArticuloAgregado(cargoconsultaArray);
+                }
 
             },
             error: function(){
@@ -737,8 +735,11 @@ $this->headTitle($title);
                     });
                 }
 
-                tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray);
-                tablaCargoconsultaServicioAgregado(cargoconsultaArray);
+                for(count = 1; count<=cargoconsultaArray.length; count++){
+                    tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray);
+                    tablaCargoconsultaServicioAgregado(cargoconsultaArray);
+                }
+
                 // Refrescamos
                 buscarCargoconsultaServicio(idservicio);
             },
@@ -776,10 +777,10 @@ $this->headTitle($title);
                     });
                 });
 
-                tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray);
-                tablaCargoadmisionArticuloAgregado(cargoadmisionArray);
-                // Refrescamos
-                buscarCargoadmisionArticulo(idordencompradetalle);
+                for(count = 1; count<=cargoadmisionArray.length; count++){
+                    tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray);
+                    tablaCargoadmisionArticuloAgregado(cargoadmisionArray);
+                }
 
             },
             error: function(){
@@ -815,9 +816,11 @@ $this->headTitle($title);
                     });
                 });
 
+                for(count = 1; count<=cargoadmisionArray.length; count++){
+                    tablaCargoadmisionServicioAgregadoModal(cargoadmisionArray);
+                    tablaCargoadmisionServicioAgregado(cargoadmisionArray);
+                }
 
-                tablaCargoadmisionServicioAgregadoModal(cargoadmisionArray);
-                tablaCargoadmisionServicioAgregado(cargoadmisionArray);
                 // Refrescamos
                 buscarCargoadmisionServicio(idservicio);
 
