@@ -72,7 +72,7 @@
             uploadStr:"Upload",
             abortStr: "Abort",
             cancelStr: "Cancel",
-            deletelStr: "Delete",
+            deletelStr: "Eliminar",
             doneStr: "Done",
             multiDragErrorStr: "Multiple File Drag &amp; Drop is not allowed.",
             extErrorStr: "is not allowed. Allowed extensions: ",
@@ -133,7 +133,7 @@
    				if(s.showQueueDiv)
 		        	obj.container =$("#"+s.showQueueDiv);
         		else
-		            obj.container = $("<div class='ajax-file-upload-container'></div>").insertAfter($(obj));
+		            obj.container = $("<div class='row ajax-file-upload-container'></div>").insertAfter($(obj));
         
                 s.onLoad.call(this, obj);
                 createCutomInputFile(obj, formGroup, s, uploadLabel);
@@ -188,7 +188,7 @@
         //This is for showing Old files to user.
         this.createProgress = function (filename,filepath,filesize) {
             var pd = new createProgressDiv(this, s);
-            pd.progressDiv.show();
+            //pd.progressDiv.show();
             pd.progressbar.width('100%');
 
             var fileNameStr = "";
@@ -633,8 +633,8 @@
 
 		function defaultProgressBar(obj,s)
 		{
-		
-			this.statusbar = $("<div class='ajax-file-upload-statusbar'></div>").width(s.statusBarWidth);
+            
+            this.statusbar = $('<div class=" col s3 ajax-file-upload-statusbar" style="padding-top: 10px; padding-bottom: 10px;"></div>');
             this.preview = $("<img class='ajax-file-upload-preview' />").width(s.previewWidth).height(s.previewHeight).appendTo(this.statusbar).hide();
             this.filename = $("<div class='ajax-file-upload-filename'></div>").appendTo(this.statusbar);
             this.progressDiv = $("<div class='ajax-file-upload-progress'>").appendTo(this.statusbar).hide();
@@ -650,8 +650,9 @@
 			this.download.addClass("ajax-file-upload-green");            
             this.cancel.addClass("ajax-file-upload-red");
             this.del.addClass("ajax-file-upload-red");
+
+            return this;
             
-			return this;
 		}
         function createProgressDiv(obj, s) {
 	        var bar = null;

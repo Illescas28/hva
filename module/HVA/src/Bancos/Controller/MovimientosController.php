@@ -259,7 +259,7 @@ class MovimientosController extends AbstractActionController
         
         $request = $this->getRequest();
         if($request->isPost()){
-            
+
             $post_data = $request->getPost();
             
             $referencia = new \Referenciaabono();
@@ -296,7 +296,7 @@ class MovimientosController extends AbstractActionController
             $id = $this->params()->fromQuery('id');
             
             $comprobantes = \ReferenciaabonoQuery::create()->findByIdbanco($id)->toArray(null,false,\BasePeer::TYPE_FIELDNAME);
-          
+           
             return $this->getResponse()->setContent(\Zend\Json\Json::encode($comprobantes));
             
             
@@ -307,6 +307,31 @@ class MovimientosController extends AbstractActionController
         
         
     }
+    
+     public function eliminarcomprobanteAction(){
+         
+         $request = $this->getRequest();
+         
+         if($request->isPost()){
+             
+             $post_data = $request->getPost();
+             
+             $imagen = $post_data['imagen'];
+             
+             $comprobante = \ReferenciaabonoQuery::create()->filterByReferenciaabonoArchivo($imagen)->findOne();
+             $archivo = $comprobante->getReferenciaabonoArchivo();
+             //Eliminamos del sistema de archivos
+             unlink($_SERVER["DOCUMENT_ROOT"].$archivo);
+             //Eliminamos de la base de datos
+             $comprobante->delete();
+             
+             return true;
+         }
+         
+         $this->getResponse()->setStatusCode(404);
+         return;
+         
+     }
     
     
 }

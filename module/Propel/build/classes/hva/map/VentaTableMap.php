@@ -43,10 +43,12 @@ class VentaTableMap extends TableMap
         $this->addColumn('venta_fecha', 'VentaFecha', 'TIMESTAMP', true, null, null);
         $this->addColumn('venta_tipodepago', 'VentaTipodepago', 'CHAR', false, null, null);
         $this->getColumn('venta_tipodepago', false)->setValueSet(array (
-  0 => 'efectivo',
-  1 => 'tarjeta debito',
-  2 => 'tarjeta credito',
-  3 => 'cheque',
+  0 => 'Efectivo',
+  1 => 'Tarjeta de debito',
+  2 => 'Tarjeta de credito',
+  3 => 'Cheque',
+  4 => 'No identificado',
+  5 => 'SPEI',
 ));
         $this->addColumn('venta_status', 'VentaStatus', 'CHAR', false, null, null);
         $this->getColumn('venta_status', false)->setValueSet(array (
@@ -68,7 +70,7 @@ class VentaTableMap extends TableMap
     {
         $this->addRelation('Paciente', 'Paciente', RelationMap::MANY_TO_ONE, array('idpaciente' => 'idpaciente', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Cargoventa', 'Cargoventa', RelationMap::ONE_TO_MANY, array('idventa' => 'idventa', ), 'CASCADE', 'CASCADE', 'Cargoventas');
-        $this->addRelation('Factura', 'Factura', RelationMap::ONE_TO_MANY, array('idventa' => 'idventa', ), 'CASCADE', 'CASCADE', 'Facturas');
+        $this->addRelation('Factura', 'Factura', RelationMap::ONE_TO_MANY, array('idventa' => 'idventa', ), null, null, 'Facturas');
     } // buildRelations()
 
 } // VentaTableMap

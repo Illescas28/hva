@@ -506,9 +506,6 @@ abstract class BaseAdmisionPeer
         // Invalidate objects in CargoadmisionPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         CargoadmisionPeer::clearInstancePool();
-        // Invalidate objects in FacturaPeer instance pool,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        FacturaPeer::clearInstancePool();
     }
 
     /**
@@ -1831,12 +1828,6 @@ abstract class BaseAdmisionPeer
 
             $criteria->add(CargoadmisionPeer::IDADMISION, $obj->getIdadmision());
             $affectedRows += CargoadmisionPeer::doDelete($criteria, $con);
-
-            // delete related Factura objects
-            $criteria = new Criteria(FacturaPeer::DATABASE_NAME);
-
-            $criteria->add(FacturaPeer::IDADMISION, $obj->getIdadmision());
-            $affectedRows += FacturaPeer::doDelete($criteria, $con);
         }
 
         return $affectedRows;

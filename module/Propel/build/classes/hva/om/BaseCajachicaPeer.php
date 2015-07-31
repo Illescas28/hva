@@ -24,13 +24,13 @@ abstract class BaseCajachicaPeer
     const TM_CLASS = 'CajachicaTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 9;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 9;
 
     /** the column name for the idcajachica field */
     const IDCAJACHICA = 'cajachica.idcajachica';
@@ -50,8 +50,14 @@ abstract class BaseCajachicaPeer
     /** the column name for the cajachica_balance field */
     const CAJACHICA_BALANCE = 'cajachica.cajachica_balance';
 
+    /** the column name for the cajachica_comprobante field */
+    const CAJACHICA_COMPROBANTE = 'cajachica.cajachica_comprobante';
+
     /** the column name for the cajachica_nota field */
     const CAJACHICA_NOTA = 'cajachica.cajachica_nota';
+
+    /** the column name for the cajachica_pacientedoctor field */
+    const CAJACHICA_PACIENTEDOCTOR = 'cajachica.cajachica_pacientedoctor';
 
     /** The enumerated values for the cajachica_tipomovimiento field */
     const CAJACHICA_TIPOMOVIMIENTO_CARGO = 'cargo';
@@ -76,12 +82,12 @@ abstract class BaseCajachicaPeer
      * e.g. CajachicaPeer::$fieldNames[CajachicaPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idcajachica', 'Idconceptocajachica', 'CajachicaTipomovimiento', 'CajachicaCantidad', 'CajachicaFecha', 'CajachicaBalance', 'CajachicaNota', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idcajachica', 'idconceptocajachica', 'cajachicaTipomovimiento', 'cajachicaCantidad', 'cajachicaFecha', 'cajachicaBalance', 'cajachicaNota', ),
-        BasePeer::TYPE_COLNAME => array (CajachicaPeer::IDCAJACHICA, CajachicaPeer::IDCONCEPTOCAJACHICA, CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO, CajachicaPeer::CAJACHICA_CANTIDAD, CajachicaPeer::CAJACHICA_FECHA, CajachicaPeer::CAJACHICA_BALANCE, CajachicaPeer::CAJACHICA_NOTA, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCAJACHICA', 'IDCONCEPTOCAJACHICA', 'CAJACHICA_TIPOMOVIMIENTO', 'CAJACHICA_CANTIDAD', 'CAJACHICA_FECHA', 'CAJACHICA_BALANCE', 'CAJACHICA_NOTA', ),
-        BasePeer::TYPE_FIELDNAME => array ('idcajachica', 'idconceptocajachica', 'cajachica_tipomovimiento', 'cajachica_cantidad', 'cajachica_fecha', 'cajachica_balance', 'cajachica_nota', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idcajachica', 'Idconceptocajachica', 'CajachicaTipomovimiento', 'CajachicaCantidad', 'CajachicaFecha', 'CajachicaBalance', 'CajachicaComprobante', 'CajachicaNota', 'CajachicaPacientedoctor', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idcajachica', 'idconceptocajachica', 'cajachicaTipomovimiento', 'cajachicaCantidad', 'cajachicaFecha', 'cajachicaBalance', 'cajachicaComprobante', 'cajachicaNota', 'cajachicaPacientedoctor', ),
+        BasePeer::TYPE_COLNAME => array (CajachicaPeer::IDCAJACHICA, CajachicaPeer::IDCONCEPTOCAJACHICA, CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO, CajachicaPeer::CAJACHICA_CANTIDAD, CajachicaPeer::CAJACHICA_FECHA, CajachicaPeer::CAJACHICA_BALANCE, CajachicaPeer::CAJACHICA_COMPROBANTE, CajachicaPeer::CAJACHICA_NOTA, CajachicaPeer::CAJACHICA_PACIENTEDOCTOR, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCAJACHICA', 'IDCONCEPTOCAJACHICA', 'CAJACHICA_TIPOMOVIMIENTO', 'CAJACHICA_CANTIDAD', 'CAJACHICA_FECHA', 'CAJACHICA_BALANCE', 'CAJACHICA_COMPROBANTE', 'CAJACHICA_NOTA', 'CAJACHICA_PACIENTEDOCTOR', ),
+        BasePeer::TYPE_FIELDNAME => array ('idcajachica', 'idconceptocajachica', 'cajachica_tipomovimiento', 'cajachica_cantidad', 'cajachica_fecha', 'cajachica_balance', 'cajachica_comprobante', 'cajachica_nota', 'cajachica_pacientedoctor', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -91,12 +97,12 @@ abstract class BaseCajachicaPeer
      * e.g. CajachicaPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idcajachica' => 0, 'Idconceptocajachica' => 1, 'CajachicaTipomovimiento' => 2, 'CajachicaCantidad' => 3, 'CajachicaFecha' => 4, 'CajachicaBalance' => 5, 'CajachicaNota' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idcajachica' => 0, 'idconceptocajachica' => 1, 'cajachicaTipomovimiento' => 2, 'cajachicaCantidad' => 3, 'cajachicaFecha' => 4, 'cajachicaBalance' => 5, 'cajachicaNota' => 6, ),
-        BasePeer::TYPE_COLNAME => array (CajachicaPeer::IDCAJACHICA => 0, CajachicaPeer::IDCONCEPTOCAJACHICA => 1, CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO => 2, CajachicaPeer::CAJACHICA_CANTIDAD => 3, CajachicaPeer::CAJACHICA_FECHA => 4, CajachicaPeer::CAJACHICA_BALANCE => 5, CajachicaPeer::CAJACHICA_NOTA => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCAJACHICA' => 0, 'IDCONCEPTOCAJACHICA' => 1, 'CAJACHICA_TIPOMOVIMIENTO' => 2, 'CAJACHICA_CANTIDAD' => 3, 'CAJACHICA_FECHA' => 4, 'CAJACHICA_BALANCE' => 5, 'CAJACHICA_NOTA' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('idcajachica' => 0, 'idconceptocajachica' => 1, 'cajachica_tipomovimiento' => 2, 'cajachica_cantidad' => 3, 'cajachica_fecha' => 4, 'cajachica_balance' => 5, 'cajachica_nota' => 6, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idcajachica' => 0, 'Idconceptocajachica' => 1, 'CajachicaTipomovimiento' => 2, 'CajachicaCantidad' => 3, 'CajachicaFecha' => 4, 'CajachicaBalance' => 5, 'CajachicaComprobante' => 6, 'CajachicaNota' => 7, 'CajachicaPacientedoctor' => 8, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idcajachica' => 0, 'idconceptocajachica' => 1, 'cajachicaTipomovimiento' => 2, 'cajachicaCantidad' => 3, 'cajachicaFecha' => 4, 'cajachicaBalance' => 5, 'cajachicaComprobante' => 6, 'cajachicaNota' => 7, 'cajachicaPacientedoctor' => 8, ),
+        BasePeer::TYPE_COLNAME => array (CajachicaPeer::IDCAJACHICA => 0, CajachicaPeer::IDCONCEPTOCAJACHICA => 1, CajachicaPeer::CAJACHICA_TIPOMOVIMIENTO => 2, CajachicaPeer::CAJACHICA_CANTIDAD => 3, CajachicaPeer::CAJACHICA_FECHA => 4, CajachicaPeer::CAJACHICA_BALANCE => 5, CajachicaPeer::CAJACHICA_COMPROBANTE => 6, CajachicaPeer::CAJACHICA_NOTA => 7, CajachicaPeer::CAJACHICA_PACIENTEDOCTOR => 8, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCAJACHICA' => 0, 'IDCONCEPTOCAJACHICA' => 1, 'CAJACHICA_TIPOMOVIMIENTO' => 2, 'CAJACHICA_CANTIDAD' => 3, 'CAJACHICA_FECHA' => 4, 'CAJACHICA_BALANCE' => 5, 'CAJACHICA_COMPROBANTE' => 6, 'CAJACHICA_NOTA' => 7, 'CAJACHICA_PACIENTEDOCTOR' => 8, ),
+        BasePeer::TYPE_FIELDNAME => array ('idcajachica' => 0, 'idconceptocajachica' => 1, 'cajachica_tipomovimiento' => 2, 'cajachica_cantidad' => 3, 'cajachica_fecha' => 4, 'cajachica_balance' => 5, 'cajachica_comprobante' => 6, 'cajachica_nota' => 7, 'cajachica_pacientedoctor' => 8, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /** The enumerated values for this table */
@@ -229,7 +235,9 @@ abstract class BaseCajachicaPeer
             $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_CANTIDAD);
             $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_FECHA);
             $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_BALANCE);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_COMPROBANTE);
             $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_NOTA);
+            $criteria->addSelectColumn(CajachicaPeer::CAJACHICA_PACIENTEDOCTOR);
         } else {
             $criteria->addSelectColumn($alias . '.idcajachica');
             $criteria->addSelectColumn($alias . '.idconceptocajachica');
@@ -237,7 +245,9 @@ abstract class BaseCajachicaPeer
             $criteria->addSelectColumn($alias . '.cajachica_cantidad');
             $criteria->addSelectColumn($alias . '.cajachica_fecha');
             $criteria->addSelectColumn($alias . '.cajachica_balance');
+            $criteria->addSelectColumn($alias . '.cajachica_comprobante');
             $criteria->addSelectColumn($alias . '.cajachica_nota');
+            $criteria->addSelectColumn($alias . '.cajachica_pacientedoctor');
         }
     }
 

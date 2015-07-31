@@ -135,6 +135,20 @@ return array(
                     ),
                 ),
             ),
+            'pacientes-historicos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/historicos[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Historicos\Controller\Historicos',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             /*
              * Citas 
              */
@@ -596,7 +610,7 @@ return array(
                         'action'     => 'index',
                     ),
                     'constraints' => array(
-                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento|uploadcomprobante|getcomprobantesbyid',
+                        'action' => 'getconceptos|nuevomovimiento|eliminarmovmiento|editarmovmiento|uploadcomprobante|getcomprobantesbyid|eliminarcomprobante',
                     ),
                 ),
             ),
@@ -693,6 +707,7 @@ return array(
             'Pacientes\Cargoconsulta\Controller\Cargoconsulta'                  => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
             'Pacientes\Citas\Controller\Citas'                                  => 'Pacientes\Citas\Controller\CitasController',
             'Pacientes\Citas\Controller\Agendarcita'                            => 'Pacientes\Citas\Controller\AgendarcitaController',
+            'Pacientes\Historicos\Controller\Historicos'                        => 'Pacientes\Historicos\Controller\HistoricosController',
             
             //Modulo Compras
             'Compras\Controller\Compras'                                        => 'Compras\Controller\ComprasController',

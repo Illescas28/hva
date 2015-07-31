@@ -284,35 +284,68 @@
                     var source = $('<div id="active_modal">' + modalHTML + '</div>');
                     $container.after(source);
                     //Inicializamos el file uploader
-                    source.find("#fileuploader").uploadFile({
+                    var upObj = source.find("#fileuploader").uploadFile({
                         url:"/bancos/movimientos/uploadcomprobante",
                         fileName:"myfile",
                         uploadStr: 'Comprobante',
                         dragDropStr: "<span><b>Arrestre y sulte sus archivos</b></span>",
                         autoSubmit:false,
                         cancelStr:"cancelar",
-                        onLoad:function(obj){
+                        showPreview:true,
+                        previewWidth:'90px',
+                        previewHeight:'90px',
+                        showDelete: true,
+                        showFileSize: false,
+                        deleteCallback: function(data,pd){
+                            
                             $.ajax({
-                                url:'/bancos/movimientos/getcomprobantesbyid',
-                                method:'GET',
-                                dataType:'JSON',
-                                async:false,
-                                data:{id:id},
-                                success:function(data){
-                                     for(var i=0;i<data.length;i++){
-                                         obj.createProgress(data[i]["referenciaabono_archivo"],data[i]["referenciaabono_archivo"]);
-                                     }
-                                }
-                            })
+                                async: false,
+                                url:'/bancos/movimientos/eliminarcomprobante',
+                                method: 'POST',
+                                data:{imagen:pd.preview.attr('src')},
+                            });
+                            
+                            $.getJSON('/bancos/movimientos/getcomprobantesbyid',{id:id},function(data){
+                                var td_comprobantes = $container.find('tbody').find('tr#'+id).children('td').eq(4);
+                                td_comprobantes.text('');
+                                $.each(data,function(index,element){
+                                    td_comprobantes.append('<a href="'+element.referenciaabono_archivo+'"><img src="/img/comprobantes-bancos/comprobante-icon.png"><a/>');
+                                });
+
+                            });
+                            
+                        },
+                        dynamicFormData: function()
+                        {
+                            var data ={ idbanco:id}
+                            return data;
+                        },
+                        afterUploadAll:function(obj)
+                        {
+                            //Jalamos los comprobantes subidos
+                            $.getJSON('/bancos/movimientos/getcomprobantesbyid',{id:id},function(data){
+                                var td_comprobantes = $container.find('tr#'+id).find('td').eq(4);
+                                td_comprobantes.text('');
+                                $.each(data,function(index,element){
+                                    td_comprobantes.append('<a href="'+element.referenciaabono_archivo+'"><img src="/img/comprobantes-bancos/comprobante-icon.png"><a/>');
+                                });
+
+                            });
                         }
-    
 
                     });
+                    
+                    
+                   $.getJSON('/bancos/movimientos/getcomprobantesbyid',{id:id},function(data){
+                        
+                        for(var i=0;i<data.length;i++)
+                        {
+                            var filename = data[i].referenciaabono_archivo.split('/img/comprobantes-bancos/comprbante-banco-');
+                            filename = filename[1].split(" ");
+                            upObj.createProgress(filename[1],data[i].referenciaabono_archivo,500);
+                        }
 
-                    
-                    
-                    
-                    
+                    });
                     
                     //Inicializamos el evento guardar
                     source.find('a.guardar').on('click',function(){
@@ -349,10 +382,11 @@
                                              $container.find('tr#'+data.banco.idbanco).children('td').eq(2).addClass('movmiento_vacio').text(' ---- ');
                                             $container.find('tr#'+data.banco.idbanco).children('td').eq(3).removeClass('movmiento_vacio').text(accounting.formatMoney(data.banco.banco_cantidad));  
                                         }
-                                        $container.find('tr#'+data.banco.idbanco).children('td').eq(4).text(data.banco.banco_comprobante);
+                                        
                                         $container.find('tr#'+data.banco.idbanco).children('td').eq(5).text(data.banco.banco_nota);
                                         
-                                        
+                                        //subimos archivos
+                                        upObj.startUpload();
                                         
                                         
                                          $container.find('#balance').text(accounting.formatMoney(data.banco.new_balance));
@@ -527,6 +561,7 @@
                                 $('#active_modal').remove();
                                 $container.find('tr#'+id).remove();
                                 $('#movmiento_mensaje_eliminar').show();
+                                calcularTotalIngresosEgresos();
                             }
                         }
                     });

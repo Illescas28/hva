@@ -48,7 +48,9 @@ class CajachicaTableMap extends TableMap
         $this->addColumn('cajachica_cantidad', 'CajachicaCantidad', 'DECIMAL', false, 10, null);
         $this->addColumn('cajachica_fecha', 'CajachicaFecha', 'DATE', true, null, null);
         $this->addColumn('cajachica_balance', 'CajachicaBalance', 'DECIMAL', false, 10, null);
+        $this->addColumn('cajachica_comprobante', 'CajachicaComprobante', 'VARCHAR', false, 45, null);
         $this->addColumn('cajachica_nota', 'CajachicaNota', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('cajachica_pacientedoctor', 'CajachicaPacientedoctor', 'VARCHAR', false, 255, null);
         // validators
     } // initialize()
 
