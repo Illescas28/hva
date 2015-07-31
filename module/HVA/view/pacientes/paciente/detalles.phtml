@@ -2227,6 +2227,7 @@ $this->headTitle($title);
 
     function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
+        var subTotalArticulo = 0;
         // Obtener la referencia del elemento div con id = cargoconsultaArticuloResult
         var div = document.getElementById("cargoconsultaArticuloResult");
         div.innerHTML = div.dir;
@@ -2263,7 +2264,7 @@ $this->headTitle($title);
         // Crea las celdas
         for (var i = 0; i < cargoconsultaArray.length; i++) {
 
-            var subTotalArticulo = parseFloat(cargoconsultaArray[i]["subtotal"]);
+            subTotalArticulo += parseFloat(cargoconsultaArray[i]["subtotal"]);
             var status = cargoconsultaArray[i]["status"];
 
             // Crea las hileras de la tabla
@@ -3142,6 +3143,7 @@ $this->headTitle($title);
 
     function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
 
+        var subTotalServicio = 0;
         // Obtener la referencia del elemento div con id = cargoconsultaServicioResult
         var div = document.getElementById("cargoconsultaServicioResult");
         div.innerHTML = div.dir;
@@ -3178,9 +3180,8 @@ $this->headTitle($title);
         // Crea las celdas
         for (var i = 0; i < cargoconsultaArray.length; i++) {
 
-            var subTotalServicio = parseFloat(cargoconsultaArray[i]["subtotal"]);
+           subTotalServicio += parseFloat(cargoconsultaArray[i]["subtotal"]);
             var status = cargoconsultaArray[i]["status"];
-
             // Crea las hileras de la tabla
             var hilera = document.createElement("tr");
 
@@ -5395,6 +5396,8 @@ $this->headTitle($title);
     };
     function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
 
+        var subTotalArticulo = 0;
+
         // Obtener la referencia del elemento div con id = cargoadmisionArticuloResult
         var div = document.getElementById("cargoadmisionArticuloResult");
         div.innerHTML = div.dir;
@@ -5431,7 +5434,7 @@ $this->headTitle($title);
         // Crea las celdas
         for (var i = 0; i < cargoadmisionArray.length; i++) {
 
-            var subTotalArticulo = parseFloat(cargoadmisionArray[i]["subtotal"]);
+            subTotalArticulo += parseFloat(cargoadmisionArray[i]["subtotal"]);
             var status = cargoadmisionArray[i]["status"];
 
             // Crea las hileras de la tabla
@@ -6351,6 +6354,8 @@ $this->headTitle($title);
 
     function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
 
+        var subTotalServicio = 0;
+
         // Obtener la referencia del elemento div con id = cargoadmisionServicioResult
         var div = document.getElementById("cargoadmisionServicioResult");
         div.innerHTML = div.dir;
@@ -6387,7 +6392,7 @@ $this->headTitle($title);
         // Crea las celdas
         for (var i = 0; i < cargoadmisionArray.length; i++) {
 
-            var subTotalServicio = parseFloat(cargoadmisionArray[i]["subtotal"]);
+            subTotalServicio += parseFloat(cargoadmisionArray[i]["subtotal"]);
             var status = cargoadmisionArray[i]["status"];
 
             // Crea las hileras de la tabla
