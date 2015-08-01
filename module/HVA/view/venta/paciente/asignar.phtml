@@ -3611,7 +3611,9 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                     $("#botonAltaPacienteVenta").removeClass('disabled')
                     $('#buttonGenerarFacturaVenta').removeClass('disabled')
                     $("#buttonGenerarNotaVenta").removeClass('disabled')
-                    $( "a" ).off();
+                    //$( "a" ).off();
+                    $( "div#cargoventaArticuloResult a" ).off()
+
                 },
                 error: function(){
                     alert("Error al intentar liquidar la cuenta.")

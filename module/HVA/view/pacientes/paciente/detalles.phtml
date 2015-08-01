@@ -10323,8 +10323,21 @@ if($pacienteEntity){
 
         });
 
-        /*
+
         var href = $(this).attr("href", "#delete-modal-admisionanticipo-"+idadmisionanticipo)
+
+        /*
+        for (var i=0; i<href.length; i++) {
+            // Añadimos el evento onclick al div
+            crearEvento(href[i], "click", function(){
+                // Hacemos que muestre el contenido del DIV
+                alert(this.innerHTML);
+            });
+        }
+        */
+
+       // alert(href.text())
+        /*
         // Si dan clic en delete-modal-admisionanticipo-id
         href.click({idadmisionanticipo:idadmisionanticipo},function() {
             $('#tabla-admisionanticipo').closeModal();
