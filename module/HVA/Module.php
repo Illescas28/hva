@@ -61,7 +61,7 @@ class Module
         $route = $e -> getRouteMatch() -> getMatchedRouteName();
         //you set your role
         $userRole = SessionManager::getRol();
-        echo '<pre>';var_dump($userRole); echo '<pre>';exit();
+       
         //echo '<pre>';var_dump($route); echo '<pre>';
        // echo '<pre>';var_dump(SessionManager::getRol()); echo '<pre>';exit();
 
