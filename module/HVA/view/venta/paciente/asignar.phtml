@@ -1,6 +1,7 @@
 <?php
 $title = "Ventas al público";
 $this->headTitle($title);
+date_default_timezone_set('America/Mexico_City');
 ?>
 
 <h3><?php echo $this->escapeHtml($title); ?></h3>
@@ -397,7 +398,6 @@ $("#guardarVenta").click(function() {
             if ($('#cargosVenta').hasClass('hiddendiv')){
                 $('#cargosVenta').removeClass('hiddendiv')
                 $('#botonGuardarVenta').addClass('hiddendiv')
-                $('#cargosVenta').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Venta guardada exitosamente</div>')
                 $('#cargosVenta').removeClass('hiddendiv')
             }
         }
@@ -3578,6 +3578,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
     if (isNaN(subTotal)) subTotal = 0;
 
     anticipoCantidad += Number(AnticipoCantidad);
+
+    if (isNaN(referenciapago)) referenciapago = "";
 
     if(subTotal == 0){
 
