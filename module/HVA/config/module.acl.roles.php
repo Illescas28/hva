@@ -2,6 +2,7 @@
 return array(
     'Administrador'=> array(
         //Catalogos
+            
         'proveedor',
         'articulo',
         'medico',
@@ -40,7 +41,9 @@ return array(
         'pacientes-historicos',
         'citas-agendar',
         'citas',
-        'admisionanticipo', 
+        'admisionanticipo',
+        //venta
+        'venta',
     ),
     'Caja'=> array(
         //Caja

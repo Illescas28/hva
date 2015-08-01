@@ -28,6 +28,7 @@ class Module
         
         $this -> initAcl($e);
         $e -> getApplication() -> getEventManager() -> attach('route', array($this, 'checkAcl'));
+        //echo '<pre>';var_dump(SessionManager::getRol()); echo '<pre>';exit();
     }
     
     public function initAcl(MvcEvent $e) {
@@ -37,8 +38,20 @@ class Module
         foreach ($roles as $role => $resources) {
             $role = new \Zend\Permissions\Acl\Role\GenericRole($role); 
             $acl -> addRole($role);
+            //Agregamos todos los recursos
+            $allResources = array_merge($resources, $allResources);
+                //adding resources
+                foreach ($resources as $resource) {
+                     // Edit 4
+                     if(!$acl ->hasResource($resource))
+                        $acl -> addResource(new \Zend\Permissions\Acl\Resource\GenericResource($resource));
+                } 
+                //adding restrictions
+                foreach ($allResources as $resource) {
+                    $acl -> allow($role, $resource);
+                }
         }
-        //echo '<pre>';var_dump($roles); echo '</pre>';exit();
+
         //setting to view
         $e -> getViewModel() -> acl = $acl;
 
@@ -46,17 +59,17 @@ class Module
     
     public function checkAcl(MvcEvent $e) {
         $route = $e -> getRouteMatch() -> getMatchedRouteName();
-
         //you set your role
         $userRole = SessionManager::getRol();
-       
-         //echo '<pre>';var_dump($e -> getViewModel() -> acl -> isAllowed($userRole, $route)); echo '</pre>';exit();
-        if (!$e -> getViewModel() -> acl ->hasResource($route)) {
-            $response = $e -> getResponse();
+        
+        //echo '<pre>';var_dump($route); echo '<pre>';
+       // echo '<pre>';var_dump(SessionManager::getRol()); echo '<pre>';exit();
 
+        if ($e -> getViewModel() -> acl ->hasResource($route) && !$e -> getViewModel() -> acl -> isAllowed($userRole, $route)) {
+            $response = $e -> getResponse();
             //location to page or what ever
-            //$response -> getHeaders() -> addHeaderLine('Location', $e -> getRequest() -> getBaseUrl() . '/404');
-            //$response -> setStatusCode(404);
+            $response -> getHeaders() -> addHeaderLine('Location', $e -> getRequest() -> getBaseUrl() . '/404');
+            $response -> setStatusCode(404);
 
 
         }
