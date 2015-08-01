@@ -105,32 +105,22 @@ class PacienteController extends AbstractActionController
 
     public function listarAction()
     {
-        $pacienteQuery = \PacienteQuery::create()->find();
-        $pacienteArray = array();
-        foreach($pacienteQuery as $pacienteValue){
-            array_push($pacienteArray, $pacienteValue);
+        $ventasQuery = \VentaQuery::create()->find();
+        $ventasArray = array();
+        foreach($ventasQuery as $ventasValue){
+            array_push($ventasArray, $ventasValue);
         }
-        $this->flashMessenger()->addMessage('Paciente guardado exitosamente!');
 
         return new ViewModel(array(
-            'pacientes' => $pacienteArray,
-            'flashMessages' => $this->flashMessenger()->getMessages(),
+            'ventas' => $ventasArray,
         ));
-        /*
-        // Instanciamos nuestro formulario pacienteForm
-        $pacienteQuery = new PacienteQuery();
-        $result = $pacienteQuery->paginate($page,$limit);
-        $dataCollection = $result->getResults();
-        $this->flashMessenger()->addMessage('Paciente guardado exitosamente!');
 
-        return new ViewModel(array(
-            'pacientes' => $dataCollection,
-            'flashMessages' => $this->flashMessenger()->getMessages(),
-        ));
-        */
     }
 
     public function asignarAction(){
+
+        $pacienteQuery = \PacienteQuery::create()->filterByPacienteNombre('publico en general')->filterByPacienteAp('publico en general')->filterByPacienteAm('publico en general')->findOne();
+        $id = $pacienteQuery->getIdpaciente();
 
         $request = $this->getRequest();
 
@@ -282,7 +272,6 @@ class PacienteController extends AbstractActionController
         }
         // End Eliminar cargoventa
 
-        $id = (int) $this->params()->fromRoute('id', 0);
         if($id){
             $paciente = PacienteQuery::create()->filterByIdpaciente($id)->findOne();
 

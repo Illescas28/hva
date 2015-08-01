@@ -4,52 +4,46 @@ $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div>
-    <div class="row" id="table-header">
-        <form class="col s12">
-            <div class="row" style="position: relative">
-                <div class="col s6" id="new-container">
-                    <a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo paciente</a>
-                </div>
-                <div class="input-field col s4 offset-s2" id="search-container">
-                    <i class="mdi-action-search prefix"></i>
-                    <input id="icon_prefix" type="text">
-                    <label for="icon_prefix">Buscar</label>
-                </div>
-            </div>
-        </form>
-    </div>
-    <table id="tabla-paciente" class="striped hoverable">
+    <table id="tabla-ventas" class="striped hoverable">
         <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Apellido paterno</th>
-            <th>Apellido materno</th>
-            <th>Fecha de nacimiento</th>
-            <th>Dirección</th>
-            <th>Opciones</th>
+            <th>Fecha</th>
+            <th>Tipo de pago</th>
+            <th>Status</th>
+            <th>¿Venta facturada?</th>
+            <th>¿Venta registrada?</th>
+            <th>Venta total</th>
+            <th>Referencia de pago</th>
+            <?php /*<th>Opciones</th> */ ?>
         </tr>
         </thead>
         <tbody>
         <?php $direction = 'right'?>
-        <?php foreach ($pacientes as $pacienteEntity) :?>
+        <?php foreach ($ventas as $ventasEntity) :?>
             <tr>
-                <td><?php echo $pacienteEntity->getPacienteNombre() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteAp() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteAm() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteFechanacimiento() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteCalle()." ".$pacienteEntity->getPacienteNoexterior()." ".$pacienteEntity->getPacienteNointerior()." ".$pacienteEntity->getPacienteColonia() ?></td>
+                <td><?php echo $ventasEntity->getVentaFecha() ?></td>
+                <td><?php echo $ventasEntity->getVentaTipodepago() ?></td>
+                <td><?php echo $ventasEntity->getVentaStatus() ?></td>
+                <td><?php echo $ventasEntity->getVentaFacturada() ?></td>
+                <td><?php echo $ventasEntity->getVentaRegistrada() ?></td>
+                <td><?php echo $ventasEntity->getVentaTotal() ?></td>
+                <td><?php echo $ventasEntity->getVentaReferenciapago() ?></td>
+                <?php /* ?>
                 <td>
-                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$ventasEntity->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                     &nbsp;&nbsp;
-                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/pacientes/editar/".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-editor-border-color"></i></a>
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/pacientes/editar/".$ventasEntity->getIdpaciente()?>'><i class="tiny mdi-editor-border-color"></i></a>
                     &nbsp;&nbsp;
-                    <a href='<?php echo $this->url('venta', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <a href='<?php echo $this->url('venta', array('action'=>'asignar', 'id' => $ventasEntity->getIdpaciente()));?>'><i class="tiny mdi-action-assignment"></i></a>
                     <?php /*
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-action-delete"></i></a>
                     */ ?>
                 </td>
             </tr>
+
+            <?php /* ?>
             <!-- View Modal Structure -->
+
             <div id="view-modal-paciente-<?php echo $pacienteEntity->getIdPaciente()?>" class="modal">
                 <div class="modal-content">
                     <h4><?php echo "Paciente: ". $pacienteEntity->getPacienteNombre(). " ". $pacienteEntity->getPacienteAp(). " ". $pacienteEntity->getPacienteAm() ?></h4>
@@ -139,6 +133,7 @@ $this->headTitle($title);
                 </div>
             </div>
             <!-- End Delete Modal Structure -->
+            <?php */ ?>
         <?php endforeach; ?>
         </tbody>
     </table>
