@@ -10323,16 +10323,12 @@ if($pacienteEntity){
 
         });
 
-        /*
-         // Si dan clic en delete-modal-admisionanticipo-id
-         $("#delete-admisionanticipo-"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo},function() {
-
-         alert("Entro");
-         $('#tabla-admisionanticipo').closeModal();
-         $('#delete-modal-admisionanticipo-'+idadmisionanticipo).openModal();
-
-         });
-         */
+        var href = $(this).attr("href", "#delete-modal-admisionanticipo-"+idadmisionanticipo)
+        // Si dan clic en delete-modal-admisionanticipo-id
+        href.click({idadmisionanticipo:idadmisionanticipo},function() {
+            $('#tabla-admisionanticipo').closeModal();
+            $('#delete-modal-admisionanticipo-'+idadmisionanticipo).openModal();
+        });
 
         divModalContentTablaAdmisionanticipo.appendChild(tabla);
 
