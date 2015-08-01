@@ -195,16 +195,6 @@ return array(
                 ),
             ),
             // Catalogos
-            'upload' => array(
-                'type'    => 'literal',
-                'options' => array(
-                    'route'    => '/upload',
-                    'defaults' => array(
-                        'controller' => 'HVA\Controller\Index',
-                        'action'     => 'upload',
-                    ),
-                ),
-            ),
             'proveedor' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -219,34 +209,6 @@ return array(
                     ),
                 ),
             ),
-            'tipo' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/articulo/tipo[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Tipo\Controller\Tipo',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'udm' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/udm[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\UDM\Controller\UDM',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
             'articulo' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -257,48 +219,6 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Articulo\Controller\Articulo',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'articulovariante' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/articulovariante[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Articulovariante\Controller\Articulovariante',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'propiedad' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/propiedad[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Propiedad\Controller\Propiedad',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'producto' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/producto[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Producto\Controller\Producto',
                         'action'     => 'listar',
                     ),
                 ),
@@ -341,34 +261,6 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Cuarto\Controller\Cuarto',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            /*'servicio' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/servicio[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Servicio\Controller\Servicio',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),*/
-            'banco' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/banco[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Banco\Controller\Banco',
                         'action'     => 'listar',
                     ),
                 ),
@@ -528,16 +420,6 @@ return array(
                     'route'    => '/empleados[/:action][/:id]',
                     'defaults' => array(
                         'controller' => 'Empleados\Controller\Empleados',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'empleados-roles' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/empleados/roles[/:action][/:id]',
-                    'defaults' => array(
-                        'controller' => 'Empleados\Controller\Roles',
                         'action'     => 'listar',
                     ),
                 ),
@@ -737,6 +619,7 @@ return array(
             'layout/layout'                 => __DIR__ . '/../view/layout/layout.phtml',
             'hva/index/index'               => __DIR__ . '/../view/hva/index/index.phtml',
             'error/404'                     => __DIR__ . '/../view/error/404.phtml',
+            'error/403'                     => __DIR__ . '/../view/error/403.phtml',
             'error/index'                   => __DIR__ . '/../view/error/index.phtml',
         ),
         'template_path_stack' => array(
