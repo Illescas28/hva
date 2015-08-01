@@ -188,6 +188,7 @@ class PacienteController extends AbstractActionController
 
         // Start Alta paciente - consulta alta_consultorio = true
         if($request->getPost()->alta_consultorio == "true"){
+            var_dump($request->getPost()->idconsultorio);
             if(\ConsultorioQuery::create()->filterByIdconsultorio($request->getPost()->idconsultorio)->exists()){
 
                 $consultorioActualizar = \ConsultorioQuery::create()->filterByIdconsultorio($request->getPost()->idconsultorio)->findOne();
@@ -207,8 +208,18 @@ class PacienteController extends AbstractActionController
                 $cuartoActualizar = \CuartoQuery::create()->filterByIdcuarto($request->getPost()->idcuarto)->findOne();
                 $cuartoActualizar->setCuartoEnuso(0)->save();
                 $cuartoArray = $cuartoActualizar->toArray(BasePeer::TYPE_FIELDNAME);
+                if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
+
+                    $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
+                    $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->save();
+                    $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
+
+                }else{
+                    $admisionArray = null;
+                }
                 return new JsonModel(array(
                     'cuartoArray' => $cuartoArray,
+                    'admisionArray' => $admisionArray,
                 ));
             }
         }
@@ -220,7 +231,7 @@ class PacienteController extends AbstractActionController
             if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
 
                 $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
-                $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
+                $admisionActualizarStatus->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
                 $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
                 return new JsonModel(array(
                     'admisionArray' => $admisionArray,
@@ -1405,8 +1416,18 @@ class PacienteController extends AbstractActionController
                 $cuartoActualizar = \CuartoQuery::create()->filterByIdcuarto($request->getPost()->idcuarto)->findOne();
                 $cuartoActualizar->setCuartoEnuso(0)->save();
                 $cuartoArray = $cuartoActualizar->toArray(BasePeer::TYPE_FIELDNAME);
+                if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
+
+                    $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
+                    $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->save();
+                    $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
+
+                }else{
+                    $admisionArray = null;
+                }
                 return new JsonModel(array(
                     'cuartoArray' => $cuartoArray,
+                    'admisionArray' => $admisionArray,
                 ));
             }
         }
@@ -1418,7 +1439,7 @@ class PacienteController extends AbstractActionController
             if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
 
                 $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
-                $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
+                $admisionActualizarStatus->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
                 $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
                 return new JsonModel(array(
                     'admisionArray' => $admisionArray,

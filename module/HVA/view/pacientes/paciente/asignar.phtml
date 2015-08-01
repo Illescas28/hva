@@ -8132,6 +8132,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
             //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
             var dataString = 'alta_consultorio=true'+'&idconsultorio='+idconsultorio;
+
             $.ajax({
                 type: "POST",
                 url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
@@ -8157,10 +8158,11 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         if(status == 'pagada'){
 
+            var idadmision = $("input#idadmision").val();
             var idcuarto = $("select#idcuarto").val();
 
             //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-            var dataString = 'alta_cuarto=true'+'&idcuarto='+idcuarto;
+            var dataString = 'alta_cuarto=true'+'&idcuarto='+idcuarto+'&idadmision='+idadmision;
             $.ajax({
                 type: "POST",
                 url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",

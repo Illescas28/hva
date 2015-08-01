@@ -352,7 +352,7 @@ $this->headTitle($title);
                     <p><?php echo $admisionByPaciente->getMedico()->getMedicoNombre()?></p>
                 </div>
                 <div class="label-container">
-                    <label>Consultorio:</label>
+                    <label>Cuarto:</label>
                     <p><?php echo $admisionByPaciente->getCuarto()->getCuartoNombre()?></p>
                 </div>
             </div>
@@ -1355,7 +1355,6 @@ $this->headTitle($title);
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
         var dataString = 'idconsulta=' + idconsulta + '&idlugarinventario=' + idlugarinventario + '&cargoconsulta_tipo=' + cargoconsulta_tipo + '&cargoconsulta_fecha=' + cargoconsulta_fecha + '&cantidad=' + cantidad;
 
-        alert(dataString);
         $.ajax({
             type: "POST",
             url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
@@ -2707,7 +2706,8 @@ $this->headTitle($title);
                             });
                         });
                     }
-                    subTotalResponse(status, -(cargoconsultaEliminadoArray[0]['subtotal']), null, 'consulta')
+
+                        subTotalResponse(status, -(cargoconsultaEliminadoArray[0]['subtotal']), null, 'consulta')
                 },
                 error: function(){
                     alert("Error al intentar eliminar idcargoconsulta")
@@ -5575,6 +5575,7 @@ $this->headTitle($title);
 
                 tablaCargoadmisionServicioAgregadoModal(cargoadmisionArray);
                 tablaCargoadmisionServicioAgregado(cargoadmisionArray);
+
                 // Refrescamos
                 buscarCargoadmisionServicio(idservicio);
 
@@ -7324,7 +7325,7 @@ $this->headTitle($title);
 
             $.ajax({
                 type: "POST",
-                url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
                 dataType : 'json',
                 data: dataString,
                 jsonpCallback: 'callback',
@@ -8285,6 +8286,41 @@ $this->headTitle($title);
         });
 
         subTotalResponse(status, null, subTotalServicio, 'admision')
+
+        var dataStringVerAdmisionanticipo = "ver_admisionanticipo=true" + "&idadmision=" + idadmision;
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataStringVerAdmisionanticipo,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                admisionanticipoArray = []
+                var admisionanticipoEntity = data.admisionanticipoArray
+                if(admisionanticipoEntity){
+                    $.each( admisionanticipoEntity, function( key, value ) {
+                        admisionanticipoArray.push({
+                            "idadmisionanticipo" : value.idadmisionanticipo,
+                            "idadmision" : value.idadmision,
+                            "admisionanticipo_fecha" : value.admisionanticipo_fecha,
+                            "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
+                            "admisionanticipo_nota" : value.admisionanticipo_nota,
+                            "admisionanticipo_tipo" : value.admisionanticipo_tipo
+                        });
+                    });
+                }
+
+                var AnticipoCantidad = 0;
+                for(count=0; count<=admisionanticipoArray.length; count++){
+                    AnticipoCantidad = Number(admisionanticipoArray[count]["admisionanticipo_cantidad"]);
+                    subTotalResponse(null, -AnticipoCantidad, null, 'admision', AnticipoCantidad)
+                }
+
+            },
+            error: function(){
+                $('#modalCargoconsultaServicio').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
+            }
+        });
     }
 
     function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
@@ -8692,7 +8728,7 @@ $this->headTitle($title);
 
             $.ajax({
                 type: "POST",
-                url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
                 dataType : 'json',
                 data: dataString,
                 jsonpCallback: 'callback',
@@ -8749,6 +8785,7 @@ $this->headTitle($title);
 
         subTotalResponse(status, null, subTotalServicio, 'admision')
     }
+
 
     function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
 
@@ -9879,10 +9916,12 @@ $this->headTitle($title);
 
             if(status == 'pagada'){
 
-                var idcuarto = $("select#idcuarto").val();
+                // No obtiene el valor del idcuarto
+                var idadmision = $("input#idadmision").val();
+                var idcuarto = <?php echo $admisionByPaciente->getCuarto()->getIdcuarto() ?>
 
                 //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-                var dataString = 'alta_cuarto=true'+'&idcuarto='+idcuarto;
+                var dataString = 'alta_cuarto=true'+'&idcuarto='+idcuarto+'&idadmision='+idadmision;
                 $.ajax({
                     type: "POST",
                     url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
@@ -10216,7 +10255,6 @@ $this->headTitle($title);
         // Si dan clic en eliminarAnticipoadmision-id
         $("#eliminarAdmisionanticipo"+idadmisionanticipo).click({idadmisionanticipo:idadmisionanticipo, idadmision:idadmision, cantidad:cantidad},function() {
 
-            alert("Entro");
             //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
             var dataString = 'eliminar_admisionanticipo=true'+'&idadmisionanticipo=' + idadmisionanticipo + '&idadmision=' + idadmision + '&cantidad=' + cantidad;
 
