@@ -869,7 +869,7 @@ class PacienteController extends AbstractActionController
                     if($request->getPost()->cargoconsultaservicio_by == 'nombre'){
                         if($request->getPost()->busquedaServicio != null){
                             $servicioQuery = \ServicioQuery::create()
-                                ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
+                                ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
                                 ->find();
                         }else{
                             $servicioQuery = \ServicioQuery::create()->find();
@@ -1230,7 +1230,7 @@ class PacienteController extends AbstractActionController
                     if($request->getPost()->cargoadmisionservicio_by == 'nombre'){
                         if($request->getPost()->busquedaAdmisionServicio != null){
                             $servicioQuery = \ServicioQuery::create()
-                                ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
+                                ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
                                 ->find();
 
                         }else{
@@ -2037,7 +2037,7 @@ class PacienteController extends AbstractActionController
                 if($request->getPost()->cargoconsultaservicio_by == 'nombre'){
                     if($request->getPost()->busquedaServicio != null){
                         $servicioQuery = \ServicioQuery::create()
-                            ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
                             ->find();
                     }else{
                         $servicioQuery = \ServicioQuery::create()->find();
@@ -2187,7 +2187,7 @@ class PacienteController extends AbstractActionController
                 if($request->getPost()->cargoadmisionservicio_by == 'nombre'){
                     if($request->getPost()->busquedaAdmisionServicio != null){
                         $servicioQuery = \ServicioQuery::create()
-                            ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
                             ->find();
 
                     }else{

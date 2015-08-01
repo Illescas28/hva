@@ -399,9 +399,10 @@ class PacienteController extends AbstractActionController
             if($request->getPost()->cargoventaservicio_by != null){
 
                 if($request->getPost()->cargoventaservicio_by == 'nombre'){
+
                     if($request->getPost()->busquedaServicio != null){
                         $servicioQuery = \ServicioQuery::create()
-                            ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
                             ->find();
                     }else{
                         $servicioQuery = \ServicioQuery::create()->find();
