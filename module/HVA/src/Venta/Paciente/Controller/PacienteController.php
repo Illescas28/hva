@@ -665,26 +665,29 @@ class PacienteController extends AbstractActionController
     public function eliminarAction()
     {
         //Cachamos el valor desde nuestro params
-        $id = (int) $this->params()->fromRoute('id', 0);
-        //Si es incorrecto redireccionavos al action nuevo
-        if (!$id) {
-            return $this->redirect()->toRoute('paciente', array('action' => 'asignar'));
-        }
+        $id = (int) $this->params()->fromRoute('id');
 
         //Verificamos que el Id medico que se quiere eliminar exista
-        if(PacienteQuery::create()->filterByIdpaciente($id)->exists()){
-
-            //Instanciamos nuestro paciente
-            $paciente = PacienteQuery::create()->findPk($id);
-
-            $paciente->delete();
-
-            //Agregamos un mensaje
-            $this->flashMessenger()->addMessage('Paciente eliminado exitosamente!');
-            //Redireccionamos a nuestro list
-            return $this->redirect()->toRoute('pacientes');
-
+        if(\VentaQuery::create()->filterByIdventa($id)->exists()){
+            $id=0;
         }
+        //Si es incorrecto redireccionavos al action nuevo
+        if (!$id) {
+            return $this->redirect()->toRoute('venta');
+        }
+
+
+
+        //Instanciamos nuestro medico
+        $venta = \VentaQuery::create()->findPk($id);
+
+        $venta->delete();
+
+        //Agregamos un mensaje
+        $this->flashMessenger()->addMessage('Venta eliminado exitosamente!');
+
+        //Redireccionamos a nuestro list
+        return $this->redirect()->toRoute('venta');
     }
     
     public  function getpacientesAction(){
