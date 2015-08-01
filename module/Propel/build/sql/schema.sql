@@ -1136,7 +1136,7 @@ CREATE TABLE `venta`
     `idventa` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `venta_fecha` DATETIME NOT NULL,
-    `venta_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque'),
+    `venta_tipodepago` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
     `venta_status` enum('pagada','no pagada','pendiente'),
     `venta_facturada` TINYINT(1),
     `venta_registrada` TINYINT(1),

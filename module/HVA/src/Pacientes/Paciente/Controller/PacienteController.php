@@ -219,7 +219,7 @@ class PacienteController extends AbstractActionController
                 }
                 return new JsonModel(array(
                     'cuartoArray' => $cuartoArray,
-                    'admisionArray' => $admisionArray,
+                    //'admisionArray' => $admisionArray,
                 ));
             }
         }
@@ -382,6 +382,7 @@ class PacienteController extends AbstractActionController
 
         // Start Ver admisionanticipo
         if($request->getPost()->ver_admisionanticipo == "true"){
+            $existeServicio = false;
 
             $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
             if($admisionanticipoQuery->count() != 0){
@@ -396,10 +397,20 @@ class PacienteController extends AbstractActionController
                         'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionanticipoTipo()
                     );
                     array_push($admisionanticipoArray, $admisionanticipo);
+
+                    $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($admisionanticipoEntity->getIdadmision())->find();
+                    foreach($cargoadmisionQuery as $cargoadmisionEntity){
+                        if($cargoadmisionEntity->getIdservicio()){
+                            $existeServicio = true;
+                        }
+
+                    }
                 }
             }
+
             return new JsonModel(array(
                 'admisionanticipoArray' => $admisionanticipoArray,
+                'existeServicio' => $existeServicio,
             ));
         }
         // End Ver admisionanticipo

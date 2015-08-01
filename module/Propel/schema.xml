@@ -869,7 +869,7 @@
     <column name="idventa" phpName="Idventa" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idpaciente" phpName="Idpaciente" type="INTEGER" required="true"/>
     <column name="venta_fecha" phpName="VentaFecha" type="TIMESTAMP" required="true"/>
-    <column name="venta_tipodepago" phpName="VentaTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
+    <column name="venta_tipodepago" phpName="VentaTipodepago" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
     <column name="venta_status" phpName="VentaStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false"/>
     <column name="venta_facturada" phpName="VentaFacturada" type="BOOLEAN" size="1" required="false"/>
     <column name="venta_registrada" phpName="VentaRegistrada" type="BOOLEAN" size="1" required="false"/>
