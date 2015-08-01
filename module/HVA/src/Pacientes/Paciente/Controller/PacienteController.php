@@ -116,7 +116,9 @@ class PacienteController extends AbstractActionController
 
     public function listarAction()
     {
-        $pacienteQuery = \PacienteQuery::create()->find();
+        $pacienteQuery = \PacienteQuery::create()
+            ->filterBy(BasePeer::translateFieldname('paciente', 'paciente_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), 'Publico', \Criteria::NOT_EQUAL)
+            ->find();
         $pacienteArray = array();
         foreach($pacienteQuery as $pacienteValue){
             array_push($pacienteArray, $pacienteValue);

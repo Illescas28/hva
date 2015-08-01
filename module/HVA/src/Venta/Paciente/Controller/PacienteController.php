@@ -119,7 +119,7 @@ class PacienteController extends AbstractActionController
 
     public function asignarAction(){
 
-        $pacienteQuery = \PacienteQuery::create()->filterByPacienteNombre('publico en general')->filterByPacienteAp('publico en general')->filterByPacienteAm('publico en general')->findOne();
+        $pacienteQuery = \PacienteQuery::create()->filterByPacienteNombre('Publico')->filterByPacienteAp('en')->filterByPacienteAm('general')->findOne();
         $id = $pacienteQuery->getIdpaciente();
 
         $request = $this->getRequest();
