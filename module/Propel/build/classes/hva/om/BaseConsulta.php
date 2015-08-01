@@ -2679,7 +2679,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                 $this->facturasScheduledForDeletion = clone $this->collFacturas;
                 $this->facturasScheduledForDeletion->clear();
             }
-            $this->facturasScheduledForDeletion[]= clone $factura;
+            $this->facturasScheduledForDeletion[]= $factura;
             $factura->setConsulta(null);
         }
 

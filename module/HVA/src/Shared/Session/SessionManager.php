@@ -30,4 +30,17 @@ class SessionManager {
         }
         return false;
     }
+    
+    public static function getRol(){
+        $session_data = new Container('empleado_session');
+        $token = $session_data->empleado_rol;
+        return $token;
+    }
+        
+        public static function getInfo(){
+        $session_data = new Container('empleado_session');
+        $token = $session_data->empleado_info;
+        return $token;
+    }
+    
 }

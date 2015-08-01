@@ -44,7 +44,7 @@ class PacienteTableMap extends TableMap
         $this->addColumn('paciente_am', 'PacienteAm', 'VARCHAR', true, 45, null);
         $this->addColumn('paciente_calle', 'PacienteCalle', 'VARCHAR', true, 45, null);
         $this->addColumn('paciente_noexterior', 'PacienteNoexterior', 'VARCHAR', true, 45, null);
-        $this->addColumn('paciente_nointerior', 'PacienteNointerior', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_nointerior', 'PacienteNointerior', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_colonia', 'PacienteColonia', 'VARCHAR', true, 45, null);
         $this->addColumn('paciente_codigopostal', 'PacienteCodigopostal', 'VARCHAR', true, 5, null);
         $this->addColumn('paciente_ciudad', 'PacienteCiudad', 'VARCHAR', true, 45, null);
@@ -63,7 +63,7 @@ class PacienteTableMap extends TableMap
   0 => 'Soltero(a',
 ));
         $this->addColumn('paciente_ocupacion', 'PacienteOcupacion', 'VARCHAR', true, 45, null);
-        $this->addColumn('paciente_conyuge', 'PacienteConyuge', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_conyuge', 'PacienteConyuge', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_padre', 'PacientePadre', 'VARCHAR', true, 45, null);
         $this->addColumn('paciente_madre', 'PacienteMadre', 'VARCHAR', true, 45, null);
         $this->addColumn('paciente_responsable', 'PacienteResponsable', 'VARCHAR', true, 45, null);

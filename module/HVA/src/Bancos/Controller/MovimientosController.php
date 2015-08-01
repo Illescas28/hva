@@ -10,7 +10,19 @@ class MovimientosController extends AbstractActionController
     public function indexAction()
     {
         
-        $collection = \BancoQuery::create()->joinConceptobanco()->orderBy('idbanco', 'asc')->withColumn('bancotransaccion_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        //$collection = \BancoQuery::create()->joinConceptobanco()->orderBy('idbanco', 'asc')->withColumn('bancotransaccion_nombre')->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+        $collection = \BancoQuery::create()->find();
+        $movimientos = array();
+        foreach ($collection as $movimiento){
+            $comprobantes = $movimiento->getReferenciaabonos()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
+            $bancotransaccion_nombre = $movimiento->getConceptobanco()->getBancotransaccionNombre();
+            $tmp = $movimiento->toArray(\BasePeer::TYPE_FIELDNAME);
+            $tmp['comprobantes'] = $comprobantes;
+            $tmp['bancotransaccion_nombre'] = $bancotransaccion_nombre;
+            $movimientos[] = $tmp;
+        }
+
+        //bancotransaccion_nombre
         $current_balance = 0.00;
         if(\BancoQuery::create()->exists()){
             $bancos = \BancoQuery::create()->orderByIdbanco('asc')->findOne();
@@ -19,7 +31,7 @@ class MovimientosController extends AbstractActionController
        
         return new ViewModel(array(
             'current_balance' => $current_balance,
-            'collection'   => $collection,
+            'collection'   => $movimientos,
             'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
         
@@ -108,6 +120,14 @@ class MovimientosController extends AbstractActionController
             
             $id = $post_data['id'];
             
+            //Eliminamos del sistema de archivos
+             $comprobantes = \ReferenciaabonoQuery::create()->findByIdbanco($id);
+
+            foreach ($comprobantes as $comprobante){
+                $archivo = $comprobante->getReferenciaabonoArchivo();
+                unlink($_SERVER["DOCUMENT_ROOT"].$archivo);
+            }
+            
             $movmiento = \BancoQuery::create()->findPk($id);
             $movmiento_array = $movmiento->toArray(\BasePeer::TYPE_FIELDNAME);
 
@@ -148,6 +168,8 @@ class MovimientosController extends AbstractActionController
                 
                 $first_row->setBancoBalance($new_balance);
                 $first_row->save();
+                
+               
                 return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'data' => array('new_balance' => $new_balance))));
             }else{
                 return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true,'data' => array('new_balance' => 0))));
@@ -233,5 +255,85 @@ class MovimientosController extends AbstractActionController
         
     }
     
+    public function uploadcomprobanteAction(){
+        
+        $request = $this->getRequest();
+        if($request->isPost()){
+
+            $post_data = $request->getPost();
+            
+            $referencia = new \Referenciaabono();
+            
+            $referencia->setIdbanco($post_data['idbanco']);
+         
+            $date = new \DateTime();
+            $upload_folder ='/img/comprobantes-bancos/';
+            $tipo_archivo = $_FILES['myfile']['type']; $tipo_archivo = explode('/', $tipo_archivo); $tipo_archivo = $tipo_archivo[1];
+            $nombre_archivo = 'comprbante-banco-'.$post_data['idbanco'].'-'.microtime().'.'.$tipo_archivo;
+            $tmp_archivo = $_FILES['myfile']['tmp_name'];
+            $archivador = $upload_folder.$nombre_archivo;
+            if(!move_uploaded_file($tmp_archivo, $_SERVER["DOCUMENT_ROOT"].$archivador)) {
+                return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false, 'msg' => 'Ocurrio un error al subir el archivo. No pudo guardarse.', 'status' => 'error')));
+            }
+            
+            $referencia->setReferenciaabonoArchivo($archivador);
+     
+            $referencia->save();
+            
+            return true;
+
+        }
+        
+        $this->getResponse()->setStatusCode(404);
+        return;
+
+    }
+    
+    public function getcomprobantesbyidAction(){
+        
+        if($this->params()->fromQuery('id')){
+            
+            $id = $this->params()->fromQuery('id');
+            
+            $comprobantes = \ReferenciaabonoQuery::create()->findByIdbanco($id)->toArray(null,false,\BasePeer::TYPE_FIELDNAME);
+           
+            return $this->getResponse()->setContent(\Zend\Json\Json::encode($comprobantes));
+            
+            
+        }
+        
+        $this->getResponse()->setStatusCode(404);
+        return;
+        
+        
+    }
+    
+     public function eliminarcomprobanteAction(){
+         
+         $request = $this->getRequest();
+         
+         if($request->isPost()){
+             
+             $post_data = $request->getPost();
+             
+             $imagen = $post_data['imagen'];
+             
+             $comprobante = \ReferenciaabonoQuery::create()->filterByReferenciaabonoArchivo($imagen)->findOne();
+             $archivo = $comprobante->getReferenciaabonoArchivo();
+             //Eliminamos del sistema de archivos
+             unlink($_SERVER["DOCUMENT_ROOT"].$archivo);
+             //Eliminamos de la base de datos
+             $comprobante->delete();
+             
+             return true;
+         }
+         
+         $this->getResponse()->setStatusCode(404);
+         return;
+         
+     }
+    
     
 }
+
+

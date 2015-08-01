@@ -29,9 +29,11 @@
     }
 </style>
 <link href="/css/multiple.css" rel="stylesheet"/>
+<link href="/css/uploadfile.css" rel="stylesheet"/>
 <script src="/js/movimientos_bancos.js"></script>
 <script src="/js/multiple.js"></script>
 <script src="/js/accounting.js"></script>
+<script src="/js/uploadfile.js"></script>
 <?php
     setlocale(LC_MONETARY, 'en_US');
     $title = 'Movimientos';
@@ -72,11 +74,8 @@
                 </div>
                 <p id="banco_cantidad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
-            <div class="col s6">
-                <div class="input-field">
-                    <input name="banco_comprobante" type="text">
-                    <label>Comprobante</label>
-                </div>
+            <div class="col s12">
+                <div id="fileuploader" style="padding-top: 0px; margin-top: 40px;"></div>
             </div>
             <div class="col s8">
                 <div class="input-field">
@@ -167,7 +166,11 @@
                     <td class="egreso"><?php echo money_format('%(#10n', $entity['banco_cantidad'])?></td> 
                 <?php endif;?>
                 <!--<td><?php //echo $entity['banco_balance']?></td>-->   
-                <td><?php echo $entity['banco_comprobante']?></td>        
+                <td>
+                    <?php foreach ($entity['comprobantes'] as $comprobante) :?>
+                    <a href="<?php echo $comprobante['referenciaabono_archivo']?>"><img src="/img/comprobantes-bancos/comprobante-icon.png"</a>
+                    <?php endforeach;?>
+                </td>        
                 <td><?php echo $entity['banco_nota']?></td>
                 <td>
                     <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-".$entity['idbanco']?>'><i class="tiny mdi-action-assignment"></i></a>
