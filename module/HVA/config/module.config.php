@@ -135,6 +135,7 @@ return array(
                     ),
                 ),
             ),
+
             'pacientes-historicos' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -145,6 +146,20 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Pacientes\Historicos\Controller\Historicos',
+                    ),
+                ),
+            ),
+            // Módulo Venta
+            'venta' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/venta[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|asignar|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Venta\Paciente\Controller\Paciente',
                         'action'     => 'listar',
                     ),
                 ),
@@ -589,8 +604,14 @@ return array(
             'Pacientes\Cargoconsulta\Controller\Cargoconsulta'                  => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
             'Pacientes\Citas\Controller\Citas'                                  => 'Pacientes\Citas\Controller\CitasController',
             'Pacientes\Citas\Controller\Agendarcita'                            => 'Pacientes\Citas\Controller\AgendarcitaController',
+
             'Pacientes\Historicos\Controller\Historicos'                        => 'Pacientes\Historicos\Controller\HistoricosController',
             
+
+
+            // Módulo Venta
+            'Venta\Paciente\Controller\Paciente'                                => 'Venta\Paciente\Controller\PacienteController',
+
             //Modulo Compras
             'Compras\Controller\Compras'                                        => 'Compras\Controller\ComprasController',
             

@@ -78,6 +78,7 @@ class Module
                     'HVA' => __DIR__ . '/src/' . 'HVA/',
                     'Productos' => __DIR__ . '/src/' . 'Productos/',
                     'Pacientes' => __DIR__ . '/src/' . 'Pacientes/',
+                    'Venta'     => __DIR__ . '/src/' . 'Venta/',
                     'Catalogos' => __DIR__ . '/src/' . 'Catalogos/',
                     'Auth' => __DIR__ . '/src/' . 'Auth/',
                     'Compras' => __DIR__ . '/src/' . 'Compras/',

@@ -2,7 +2,7 @@
 return array(
     'Administrador'=> array(
         //Catalogos
-        'proveedor' => array('nuevo','editar','listar','eliminar'),
+        'proveedor',
         'articulo',
         'medico',
         'especialidad',

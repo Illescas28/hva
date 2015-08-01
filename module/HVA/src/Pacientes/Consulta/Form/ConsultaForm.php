@@ -90,8 +90,8 @@ class ConsultaForm extends Form
             'name' => 'consulta_status',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'Estado Civil',
-                'empty_option' => 'Seleccione su estado civil',
+                'label' => 'Status',
+                'empty_option' => 'Seleccione su status',
                 'value_options' => array('pagada' => 'pagada','no pagada' => 'no pagada','pendiente' => 'pendiente'),
             ),
             'attributes' => array(

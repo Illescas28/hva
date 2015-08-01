@@ -116,7 +116,9 @@ class PacienteController extends AbstractActionController
 
     public function listarAction()
     {
-        $pacienteQuery = \PacienteQuery::create()->find();
+        $pacienteQuery = \PacienteQuery::create()
+            ->filterBy(BasePeer::translateFieldname('paciente', 'paciente_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), 'Publico', \Criteria::NOT_EQUAL)
+            ->find();
         $pacienteArray = array();
         foreach($pacienteQuery as $pacienteValue){
             array_push($pacienteArray, $pacienteValue);
@@ -188,6 +190,7 @@ class PacienteController extends AbstractActionController
 
         // Start Alta paciente - consulta alta_consultorio = true
         if($request->getPost()->alta_consultorio == "true"){
+            var_dump($request->getPost()->idconsultorio);
             if(\ConsultorioQuery::create()->filterByIdconsultorio($request->getPost()->idconsultorio)->exists()){
 
                 $consultorioActualizar = \ConsultorioQuery::create()->filterByIdconsultorio($request->getPost()->idconsultorio)->findOne();
@@ -207,8 +210,18 @@ class PacienteController extends AbstractActionController
                 $cuartoActualizar = \CuartoQuery::create()->filterByIdcuarto($request->getPost()->idcuarto)->findOne();
                 $cuartoActualizar->setCuartoEnuso(0)->save();
                 $cuartoArray = $cuartoActualizar->toArray(BasePeer::TYPE_FIELDNAME);
+                if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
+
+                    $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
+                    $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->save();
+                    $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
+
+                }else{
+                    $admisionArray = null;
+                }
                 return new JsonModel(array(
                     'cuartoArray' => $cuartoArray,
+                    //'admisionArray' => $admisionArray,
                 ));
             }
         }
@@ -220,7 +233,7 @@ class PacienteController extends AbstractActionController
             if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
 
                 $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
-                $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
+                $admisionActualizarStatus->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
                 $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
                 return new JsonModel(array(
                     'admisionArray' => $admisionArray,
@@ -371,6 +384,7 @@ class PacienteController extends AbstractActionController
 
         // Start Ver admisionanticipo
         if($request->getPost()->ver_admisionanticipo == "true"){
+            $existeServicio = false;
 
             $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
             if($admisionanticipoQuery->count() != 0){
@@ -385,10 +399,20 @@ class PacienteController extends AbstractActionController
                         'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionanticipoTipo()
                     );
                     array_push($admisionanticipoArray, $admisionanticipo);
+
+                    $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($admisionanticipoEntity->getIdadmision())->find();
+                    foreach($cargoadmisionQuery as $cargoadmisionEntity){
+                        if($cargoadmisionEntity->getIdservicio()){
+                            $existeServicio = true;
+                        }
+
+                    }
                 }
             }
+
             return new JsonModel(array(
                 'admisionanticipoArray' => $admisionanticipoArray,
+                'existeServicio' => $existeServicio,
             ));
         }
         // End Ver admisionanticipo
@@ -847,7 +871,7 @@ class PacienteController extends AbstractActionController
                     if($request->getPost()->cargoconsultaservicio_by == 'nombre'){
                         if($request->getPost()->busquedaServicio != null){
                             $servicioQuery = \ServicioQuery::create()
-                                ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
+                                ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
                                 ->find();
                         }else{
                             $servicioQuery = \ServicioQuery::create()->find();
@@ -1208,7 +1232,7 @@ class PacienteController extends AbstractActionController
                     if($request->getPost()->cargoadmisionservicio_by == 'nombre'){
                         if($request->getPost()->busquedaAdmisionServicio != null){
                             $servicioQuery = \ServicioQuery::create()
-                                ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
+                                ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
                                 ->find();
 
                         }else{
@@ -1405,8 +1429,18 @@ class PacienteController extends AbstractActionController
                 $cuartoActualizar = \CuartoQuery::create()->filterByIdcuarto($request->getPost()->idcuarto)->findOne();
                 $cuartoActualizar->setCuartoEnuso(0)->save();
                 $cuartoArray = $cuartoActualizar->toArray(BasePeer::TYPE_FIELDNAME);
+                if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
+
+                    $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
+                    $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->save();
+                    $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
+
+                }else{
+                    $admisionArray = null;
+                }
                 return new JsonModel(array(
                     'cuartoArray' => $cuartoArray,
+                    'admisionArray' => $admisionArray,
                 ));
             }
         }
@@ -1418,7 +1452,7 @@ class PacienteController extends AbstractActionController
             if(\AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->exists()){
 
                 $admisionActualizarStatus = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
-                $admisionActualizarStatus->setAdmisionFechasalida(date('Y-m-d H:i:s'))->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
+                $admisionActualizarStatus->setAdmisionStatus($request->getPost()->admision_status)->setAdmisionTipodepago($request->getPost()->admision_tipodepago)->setAdmisionPagadaen(date('Y-m-d H:i:s'))->setAdmisionFacturada(0)->setAdmisionTotal($request->getPost()->admision_total)->setAdmisionReferenciapago($request->getPost()->admision_referenciapago)->save();
                 $admisionArray = $admisionActualizarStatus->toArray(BasePeer::TYPE_FIELDNAME);
                 return new JsonModel(array(
                     'admisionArray' => $admisionArray,
@@ -2005,7 +2039,7 @@ class PacienteController extends AbstractActionController
                 if($request->getPost()->cargoconsultaservicio_by == 'nombre'){
                     if($request->getPost()->busquedaServicio != null){
                         $servicioQuery = \ServicioQuery::create()
-                            ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaServicio.'%', \Criteria::LIKE)
                             ->find();
                     }else{
                         $servicioQuery = \ServicioQuery::create()->find();
@@ -2155,7 +2189,7 @@ class PacienteController extends AbstractActionController
                 if($request->getPost()->cargoadmisionservicio_by == 'nombre'){
                     if($request->getPost()->busquedaAdmisionServicio != null){
                         $servicioQuery = \ServicioQuery::create()
-                            ->filterBy(BasePeer::translateFieldname('servicio', 'servivio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('servicio', 'servicio_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busquedaAdmisionServicio.'%', \Criteria::LIKE)
                             ->find();
 
                     }else{

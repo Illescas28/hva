@@ -1,0 +1,392 @@
+<?php
+$title = 'Nuevo Paciente';
+$this->headTitle($title);
+?>
+<br>
+<?php if(count($flashMessages)) :?>
+    <?php foreach ($flashMessages as $message) :?>
+        <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+    <?php endforeach;?>
+<?php endif;?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<?php $pacienteForm->setAttribute('action', '/pacientes/nuevo');?>
+<?php $pacienteForm->setAttribute('class', 'hva-form');?>
+<?php $pacienteForm->prepare();?>
+<?php echo $this->form()->openTag($pacienteForm); ?>
+<div class="row">
+<fieldset>
+<legend>Datos Generales</legend>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_nombre')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_nombre')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_nombre'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_ap')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_ap')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_ap'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_am')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_am')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_am'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_fechanacimiento')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_fechanacimiento')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_fechanacimiento'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formSelect($pacienteForm->get('paciente_sexo')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_sexo'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formSelect($pacienteForm->get('paciente_estadocivil')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_estadocivil'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_calle')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_calle')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_calle'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_noexterior')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_noexterior')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_noexterior'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+     <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_nointerior')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_nointerior')); ?>
+    </div>
+</div>
+<div class="col s8">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_colonia')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_colonia')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_colonia'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_codigopostal')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_codigopostal')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_codigopostal'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('pacientefacturacion_rfc')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('pacientefacturacion_rfc')); ?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_ciudad')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_ciudad')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_ciudad'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formSelect($pacienteForm->get('paciente_estado')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_fechanacimiento'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s8">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_ocupacion')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_ocupacion')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_ocupacion'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_telefono')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_telefono')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_telefono'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s12">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_padre')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_padre')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_padre'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s12">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_madre')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_madre')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_madre'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s12">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_conyuge')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_conyuge')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_conyuge'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s8">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_responsable')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_responsable')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_responsable'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="col s4">
+    <div class="input-field">
+        <?php echo $this->formText($pacienteForm->get('paciente_telefonoresponsable')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_telefonoresponsable')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_telefonoresponsable'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+</fieldset>
+</div>
+<div class="row">
+<?php echo $this->form()->closeTag(); ?>
+<?php if($pacienteQuery){?>
+    <div class="col s4">
+        <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>asignar/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
+    </div>
+<?php }else{?>
+    <div id="guardar" class="col s4">
+        <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+<?php };?>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+        $("#fecha").datepicker();
+    });
+</script>
