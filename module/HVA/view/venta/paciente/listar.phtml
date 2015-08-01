@@ -1,0 +1,152 @@
+<?php
+$title = 'Ventas al Público';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div>
+    <div class="row" id="table-header">
+        <form class="col s12">
+            <div class="row" style="position: relative">
+                <div class="col s6" id="new-container">
+                    <a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo paciente</a>
+                </div>
+                <div class="input-field col s4 offset-s2" id="search-container">
+                    <i class="mdi-action-search prefix"></i>
+                    <input id="icon_prefix" type="text">
+                    <label for="icon_prefix">Buscar</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table id="tabla-paciente" class="striped hoverable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido paterno</th>
+            <th>Apellido materno</th>
+            <th>Fecha de nacimiento</th>
+            <th>Dirección</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php $direction = 'right'?>
+        <?php foreach ($pacientes as $pacienteEntity) :?>
+            <tr>
+                <td><?php echo $pacienteEntity->getPacienteNombre() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteAp() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteAm() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteFechanacimiento() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteCalle()." ".$pacienteEntity->getPacienteNoexterior()." ".$pacienteEntity->getPacienteNointerior()." ".$pacienteEntity->getPacienteColonia() ?></td>
+                <td>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    &nbsp;&nbsp;
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/pacientes/editar/".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-editor-border-color"></i></a>
+                    &nbsp;&nbsp;
+                    <a href='<?php echo $this->url('venta', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>'><i class="tiny mdi-action-assignment"></i></a>
+                    <?php /*
+                    <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-action-delete"></i></a>
+                    */ ?>
+                </td>
+            </tr>
+            <!-- View Modal Structure -->
+            <div id="view-modal-paciente-<?php echo $pacienteEntity->getIdPaciente()?>" class="modal">
+                <div class="modal-content">
+                    <h4><?php echo "Paciente: ". $pacienteEntity->getPacienteNombre(). " ". $pacienteEntity->getPacienteAp(). " ". $pacienteEntity->getPacienteAm() ?></h4>
+                    <div class="row">
+                        <fieldset>
+                            <legend>Datos Generales</legend>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>Calle:</label>
+                                    <p><?php echo $pacienteEntity->getPacienteCalle()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Colonia:</label>
+                                    <p><?php echo $pacienteEntity->getPacienteColonia()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Estado:</label>
+                                    <p><?php echo $pacienteEntity->getPacienteEstado()?></p>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>No. Exterior:</label>
+                                    <p><?php echo $pacienteEntity->getPacienteNoexterior()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Codigo Postal:</label>
+                                    <p><?php echo $pacienteEntity->getPacienteCodigopostal()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Pais:</label>
+                                    <p><?php echo $pacienteEntity->getPacientePais()?></p>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>No. Interior:</label>
+                                    <p><?php echo $pacienteEntity->getPacienteNoInterior()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Ciudad:</label>
+                                    <p><?php echo $pacienteEntity->getPacienteCiudad()?></p>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="row">
+                        <fieldset>
+                            <legend>Teléfonos</legend>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>Casa:</label>
+                                    <p><?php echo $pacienteEntity->getPacienteTelefono()?></p>
+                                </div>
+                            </div>
+                            <div class="label-container">
+                                <label>Celular:</label>
+                                <p><?php echo $pacienteEntity->getPacienteTelefonocelular()?></p>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    <a href='<?php echo $this->url('pacientes', array('action'=>'editar', 'id'  => $pacienteEntity->getIdpaciente()));?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                </div>
+            </div>
+            <!-- End View Modal Structure -->
+            <!-- Delete Modal Structure -->
+            <div id="delete-modal-paciente-<?php echo $pacienteEntity->getIdpaciente()?>" class="modal">
+                <div class="modal-content" id="delete-modal-container">
+                    <div class="row" id="delete-modal-header-container">
+                        <div class="col s4 offset-s4">
+                            <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <p><?php echo "Esta seguro que desea eliminar al Paciete: ". $pacienteEntity->getPacienteNombre(). " ". $pacienteEntity->getPacienteAp(). " ". $pacienteEntity->getPAcienteAm(). "?" ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    <a href="/pacientes/eliminar/<?php echo $pacienteEntity->getIdpaciente()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+
+                </div>
+            </div>
+            <!-- End Delete Modal Structure -->
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.modal-trigger').leanModal();
+        $("#tabla-paciente").tablesorter({headers:{5:{sorter:false}}});
+        $("#tabla-paciente").filterTable({inputSelector: '#search-container input',minRows:2});
+    });
+</script>
