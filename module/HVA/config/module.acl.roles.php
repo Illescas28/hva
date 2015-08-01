@@ -1,6 +1,8 @@
 <?php
 return array(
     'Administrador'=> array(
+        'home',
+        'auth',
         //Catalogos
             
         'proveedor',
@@ -16,7 +18,7 @@ return array(
         'cajachica-movimientos-conceptos',
         //Bancos
         'bancos-concepto',
-        'bancos-movimiento',
+        'bancos-movimientos ',
         //Reportes
         'reportes-ingresos',
         'reportes-general',
@@ -46,6 +48,8 @@ return array(
         'venta',
     ),
     'Caja'=> array(
+        'auth',
+        'home',
         //Caja
         'cajachica-concepto',
         'cajachica-movimientos',
@@ -63,8 +67,11 @@ return array(
         'admisionanticipo', 
         //venta
         'venta',
+
     ),
     'Enfermeria'=> array(
+        'auth',
+        'home',
         //Almacen
         'almacen-transferencias',
         //compras
@@ -75,22 +82,30 @@ return array(
         'venta',
     ),
     'Admision'=> array(
+        'auth',
+        'home',
         //pacientes
         'pacientes',
         'citas-agendar',
         'citas',
     ),
     'Quirofano'=> array(
+        'auth',
+        'home',
         //Almacen
         'almacen-transferencias',
     ),
     'Farmacia'=> array(
+        'auth',
+        'home',
         //Almacen
         'almacen-transferencias',
         //venta
         'venta',
     ),
     'Almacen'=> array(
+        'auth',
+        'home',
         //Almacen
         'almacen-transferencias',
         //Productos
