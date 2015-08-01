@@ -61,6 +61,8 @@ return array(
         'citas-agendar',
         'citas',
         'admisionanticipo', 
+        //venta
+        'venta',
     ),
     'Enfermeria'=> array(
         //Almacen
@@ -69,6 +71,8 @@ return array(
         'productos-producto',
         //pacientes
         'cargoconsulta',
+        //venta
+        'venta',
     ),
     'Admision'=> array(
         //pacientes
@@ -83,6 +87,8 @@ return array(
     'Farmacia'=> array(
         //Almacen
         'almacen-transferencias',
+        //venta
+        'venta',
     ),
     'Almacen'=> array(
         //Almacen
