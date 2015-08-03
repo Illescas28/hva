@@ -50,6 +50,20 @@ return array(
                     ),
                 ),
             ),
+            //Facturacion
+            'facturacion-facturar' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/facturacion/facturar[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'listar|generar|nuevodatosfacturacion',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Facturacion\Controller\facturar',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             // Módulo Pacientes
             'pacientes' => array(
                 'type'    => 'segment',
@@ -627,7 +641,11 @@ return array(
             'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController',
             //Reportes
             'Reportes\Controller\Ingresos'                                      => 'Reportes\Controller\IngresosController',
-            'Reportes\Controller\General'                                       => 'Reportes\Controller\GeneralController'
+            'Reportes\Controller\General'                                       => 'Reportes\Controller\GeneralController',
+            
+            //Facturacion
+            'Facturacion\Controller\facturar'                                   => 'Facturacion\Controller\facturarController'
+            
             ),
     ),
     'view_manager' => array(

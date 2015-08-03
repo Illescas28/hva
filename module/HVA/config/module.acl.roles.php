@@ -46,6 +46,8 @@ return array(
         'admisionanticipo',
         //venta
         'venta',
+        //facturacion
+        'facturacion-facturar',
     ),
     'Caja'=> array(
         'auth',
@@ -67,6 +69,8 @@ return array(
         'admisionanticipo', 
         //venta
         'venta',
+        //facturacion
+        'facturacion-facturar',
 
     ),
     'Enfermeria'=> array(
