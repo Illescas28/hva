@@ -2681,8 +2681,8 @@ class PacienteController extends AbstractActionController
                 }
                 return new ViewModel(array(
                     'pacienteEntity' => $pacienteEntity,
-                    'ConsultaArray' => $consultasQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME),
-                    'AdmisionArray' => $admisionesQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME),
+                    'consultasQuery' => $consultasQuery,
+                    'admisionesQuery' => $admisionesQuery,
                     'cargoconsultaArticuloArray' => $cargoconsultaArticuloArray,
                     'cargoconsultaServicioArray' => $cargoconsultaServicioArray,
                     'cargoadmisionArticuloArray' => $cargoadmisionArticuloArray,
