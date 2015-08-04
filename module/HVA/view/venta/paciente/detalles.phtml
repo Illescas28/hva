@@ -83,14 +83,14 @@ $this->headTitle($title);
             </tr>
             </thead>
             <tbody>
-            <?php foreach($cargoadmisionServicioArray as $cargoadmisionServicioEntity): ?>
+            <?php foreach($cargoventaServicioArray as $cargoventaServicioEntity): ?>
                 <tr>
-                    <td><?php echo $cargoadmisionServicioEntity["cantidad"]?></td>
-                    <td><?php echo $cargoadmisionServicioEntity["servicio"] ?></td>
-                    <td><?php echo $cargoadmisionServicioEntity["descripcion"] ?></td>
-                    <td><?php echo $cargoadmisionServicioEntity["fechahora"] ?></td>
-                    <td><?php echo $cargoadmisionServicioEntity["precio"] ?></td>
-                    <td><?php echo $cargoadmisionServicioEntity["subtotal"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["cantidad"]?></td>
+                    <td><?php echo $cargoventaServicioEntity["servicio"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["descripcion"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["fechahora"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["precio"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["subtotal"] ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
