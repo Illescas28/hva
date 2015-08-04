@@ -444,7 +444,11 @@ class PacienteController extends AbstractActionController
 
                     //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Venta
                     foreach ($ventaForm->getData() as $ventaKey => $ventaValue){
-                        $venta->setByName($ventaKey, $ventaValue, \BasePeer::TYPE_FIELDNAME);
+                        if($ventaKey == 'venta_fecha'){
+                            $venta->setVentaFecha($ventaValue.date('H:i:s'));
+                        }else{
+                            $venta->setByName($ventaKey, $ventaValue, \BasePeer::TYPE_FIELDNAME);
+                        }
                         $venta->setVentaStatus('no pagada');
                     }
                     //Guardamos en nuestra base de datos
