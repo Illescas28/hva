@@ -291,7 +291,7 @@ date_default_timezone_set('America/Mexico_City');
     </table>
 </div>
 <div class="col s12">
-    <div id="botonPagarAnticipoVenta" class="col s2">
+    <div id="botonPagarAnticipoVenta" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
     <!-- Create Modal Structure -->
@@ -317,20 +317,26 @@ date_default_timezone_set('America/Mexico_City');
     </div>
     <br>
     <br>
+    <?php /*
     <div id="botonGenerarFactura" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
+     * 
+     */?>
     <div id="botonGenerarNota" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
-    <div id="totalInferior" class="col s3">
+    <div id="totalInferior" class="col s6">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
 </div>
 <div class="col s12">
+    <?php /*
     <div id="botonVerFactura" class="col s3 offset-s2">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
+     * 
+     */?>
     <div id="botonCancelar" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
@@ -3741,6 +3747,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         //botonPagarAnticipo
         $('.modal-trigger').leanModal();
 
+        <?php /*
         var divbotonGenerarFactura = document.getElementById("botonGenerarFactura");
         divbotonGenerarFactura.innerHTML = divbotonGenerarFactura.dir;
         var buttonGenerarFactura = document.createElement('button')
@@ -3753,6 +3760,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
         buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
         divbotonGenerarFactura.appendChild(buttonGenerarFactura)
+         * 
+         */?>
 
         var divbotonGenerarNota = document.getElementById("botonGenerarNota");
         divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
@@ -3768,6 +3777,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         buttonGenerarNota.appendChild(textoButtonGenerarNota)
         divbotonGenerarNota.appendChild(buttonGenerarNota)
 
+        <?php /*
         var divbotoVerFactura = document.getElementById("botonVerFactura");
         divbotoVerFactura.innerHTML = divbotoVerFactura.dir;
         var buttonVerFactura = document.createElement('button')
@@ -3779,6 +3789,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonVerFactura = document.createTextNode("Ver Factura");
         buttonVerFactura.appendChild(textoButtonVerFactura)
         divbotoVerFactura.appendChild(buttonVerFactura)
+         * 
+         */?>
 
         var divbotonCancelar = document.getElementById("botonCancelar");
         divbotonCancelar.innerHTML = divbotonCancelar.dir;

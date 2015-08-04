@@ -510,7 +510,7 @@ $this->headTitle($title);
     </table>
 </div>
 <div class="col s12">
-    <div id="botonPagarAnticipoConsulta" class="col s2">
+    <div id="botonPagarAnticipoConsulta" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
     <!-- Create Modal Structure -->
@@ -536,21 +536,27 @@ $this->headTitle($title);
     </div>
     <br>
     <br>
+    <?php /*
     <div id="botonGenerarFactura" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
-    <div id="botonGenerarNota" class="col s2">
+     * 
+     */?>
+    <div id="botonGenerarNota" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
-    <div id="totalInferior" class="col s3">
+    <div id="totalInferior" class="col s6">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
 </div>
+<?php /*
 <div class="col s12">
     <div id="botonVerFactura" class="col s3 offset-s2">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
 </div>
+ * 
+ */?>
 </fieldset>
 </div>
 
@@ -765,7 +771,7 @@ $this->headTitle($title);
     </table>
 </div>
 <div class="col s12">
-    <div id="botonPagarAnticipoAdmision" class="col s2">
+    <div id="botonPagarAnticipoAdmision" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
     <!-- Create Modal Structure -->
@@ -800,21 +806,27 @@ $this->headTitle($title);
     </div>
     <br>
     <br>
+    <?php /*
     <div id="botonGenerarFacturaAdmision" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
-    <div id="botonGenerarNotaAdmision" class="col s2">
+     * 
+     */?>
+    <div id="botonGenerarNotaAdmision" class="col s3">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
-    <div id="totalInferiorAdmision" class="col s3">
+    <div id="totalInferiorAdmision" class="col s6">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
 </div>
+<?php /*
 <div class="col s12">
     <div id="botonVerFacturaAdmision" class="col s3 offset-s2">
         <!-- Aquí agregamos los elementos con javascript -->
     </div>
 </div>
+ * 
+ */?>
 </fieldset>
 </div>
 </div>
@@ -7629,6 +7641,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         //botonPagarAnticipo
         $('.modal-trigger').leanModal();
 
+        <?php /*
         var divbotonGenerarFactura = document.getElementById("botonGenerarFactura");
         divbotonGenerarFactura.innerHTML = divbotonGenerarFactura.dir;
         var buttonGenerarFactura = document.createElement('button')
@@ -7641,6 +7654,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
         buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
         divbotonGenerarFactura.appendChild(buttonGenerarFactura)
+         * 
+         */?>
 
         var divbotonGenerarNota = document.getElementById("botonGenerarNota");
         divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
@@ -7656,6 +7671,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         buttonGenerarNota.appendChild(textoButtonGenerarNota)
         divbotonGenerarNota.appendChild(buttonGenerarNota)
 
+        <?php /*
         var divbotoVerFactura = document.getElementById("botonVerFactura");
         divbotoVerFactura.innerHTML = divbotoVerFactura.dir;
         var buttonVerFactura = document.createElement('button')
@@ -7667,6 +7683,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonVerFactura = document.createTextNode("Ver Factura");
         buttonVerFactura.appendChild(textoButtonVerFactura)
         divbotoVerFactura.appendChild(buttonVerFactura)
+         * 
+         */?>
     }
 
     if(tipo == "admision"){
@@ -7888,6 +7906,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         //botonPagarAnticipo
         $('.modal-trigger').leanModal();
 
+        <?php /*
         var divbotonGenerarFactura = document.getElementById("botonGenerarFacturaAdmision");
         divbotonGenerarFactura.innerHTML = divbotonGenerarFactura.dir;
         var buttonGenerarFactura = document.createElement('button')
@@ -7900,7 +7919,9 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
         buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
         divbotonGenerarFactura.appendChild(buttonGenerarFactura)
-
+         * 
+         */?>
+        
         var divbotonGenerarNota = document.getElementById("botonGenerarNotaAdmision");
         divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
         var buttonGenerarNota = document.createElement('button')
@@ -7914,6 +7935,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         buttonGenerarNota.appendChild(textoButtonGenerarNota)
         divbotonGenerarNota.appendChild(buttonGenerarNota)
 
+        <?php /*
         var divbotoVerFactura = document.getElementById("botonVerFacturaAdmision");
         divbotoVerFactura.innerHTML = divbotoVerFactura.dir;
         var buttonVerFactura = document.createElement('button')
@@ -7925,6 +7947,8 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonVerFactura = document.createTextNode("Ver Factura");
         buttonVerFactura.appendChild(textoButtonVerFactura)
         divbotoVerFactura.appendChild(buttonVerFactura)
+         * 
+         */?>
     }
     $("#divBotonAdmisionPagarAnticipo").click(function() {
 
