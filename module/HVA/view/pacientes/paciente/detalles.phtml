@@ -49,7 +49,7 @@ if($pacienteEntity){
                 <div class="col s4">
                     <div class="label-container">
                         <label>Médico:</label>
-                        <p><?php echo $consultaByPaciente->getMedico()->getMedicoNombre()?></p>
+                        <p><?php echo $consultaByPaciente->getMedico()->getMedicoNombre()." ".$consultaByPaciente->getMedico()->getMedicoApellidopaterno()." ".$consultaByPaciente->getMedico()->getMedicoApellidomaterno();?></p>
                     </div>
                     <div class="label-container">
                         <label>Consultorio:</label>
@@ -349,7 +349,7 @@ if($pacienteEntity){
             <div class="col s4">
                 <div class="label-container">
                     <label>Médico:</label>
-                    <p><?php echo $admisionByPaciente->getMedico()->getMedicoNombre()?></p>
+                    <p><?php echo $consultaByPaciente->getMedico()->getMedicoNombre()." ".$consultaByPaciente->getMedico()->getMedicoApellidopaterno()." ".$consultaByPaciente->getMedico()->getMedicoApellidomaterno();?></p>
                 </div>
                 <div class="label-container">
                     <label>Cuarto:</label>

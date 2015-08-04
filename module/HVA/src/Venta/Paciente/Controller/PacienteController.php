@@ -444,7 +444,11 @@ class PacienteController extends AbstractActionController
 
                     //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Venta
                     foreach ($ventaForm->getData() as $ventaKey => $ventaValue){
-                        $venta->setByName($ventaKey, $ventaValue, \BasePeer::TYPE_FIELDNAME);
+                        if($ventaKey == 'venta_fecha'){
+                            $venta->setVentaFecha($ventaValue.date('H:i:s'));
+                        }else{
+                            $venta->setByName($ventaKey, $ventaValue, \BasePeer::TYPE_FIELDNAME);
+                        }
                         $venta->setVentaStatus('no pagada');
                     }
                     //Guardamos en nuestra base de datos
@@ -560,7 +564,7 @@ class PacienteController extends AbstractActionController
                                         'descripcion' => $cargoventaEntity->getServicio()->getServicioDescripcion(),
                                         'precio' => $cargoventaEntity->getServicio()->getServicioPrecio(),
                                         'subtotal' => $cargoventaEntity->getMonto(),
-                                        'fechahora' => date('Y-m-d H:i:s'),
+                                        'fechahora' => $cargoventaEntity->getCargoventaFecha(),
                                     );
                                     array_push($cargoventaArray, $cargoventa);
                                 }
@@ -595,6 +599,71 @@ class PacienteController extends AbstractActionController
 
         }else{
             return $this->redirect()->toRoute('pacientes');
+        }
+    }
+
+    public function detallesAction(){
+
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if($id){
+            if(\VentaQuery::create()->filterByIdventa($id)->exists()){
+
+                $ventaEntity = \VentaQuery::create()->filterByIdventa($id)->findOne();
+                $cargoventaQuery = $ventaEntity->getCargoventas();
+
+                if($cargoventaQuery->getArrayCopy()){
+                    $cargoventaArticuloArray = array();
+                    $cargoventaServicioArray = array();
+                    foreach($cargoventaQuery as $cargoventaEntity){
+                        if($cargoventaEntity->getIdlugarinventario() != null){
+                            $articulovarianteEntity = $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                            $propiedadvalorNombre = null;
+                            foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
+                            }
+
+                            $cargoventaArticulo = array(
+                                'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
+                                'idventa' => $cargoventaEntity->getIdventa(),
+                                'venta_status' => $cargoventaEntity->getVenta()->getVentaStatus(),
+                                'cantidad' => $cargoventaEntity->getCantidad(),
+                                'articulo' => $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                                'descripcion' => utf8_encode($propiedadvalorNombre),
+                                'salida' => $cargoventaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
+                                'fechahora' => $cargoventaEntity->getCargoventaFecha(),
+                                'precio' => $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
+                                'subtotal' => $cargoventaEntity->getMonto(),
+                            );
+                            array_push($cargoventaArticuloArray, $cargoventaArticulo);
+                        }
+
+                        if($cargoventaEntity->getIdservicio() != null){
+                            $cargoventaServicio = array(
+                                'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
+                                'idventa' => $cargoventaEntity->getIdventa(),
+                                'venta_status' => $cargoventaEntity->getVenta()->getVentaStatus(),
+                                'cantidad' => $cargoventaEntity->getCantidad(),
+                                'servicio' => $cargoventaEntity->getServicio()->getServicioNombre(),
+                                'descripcion' => $cargoventaEntity->getServicio()->getServicioDescripcion(),
+                                'precio' => $cargoventaEntity->getServicio()->getServicioPrecio(),
+                                'subtotal' => $cargoventaEntity->getMonto(),
+                                'fechahora' => $cargoventaEntity->getCargoventaFecha(),
+                            );
+                            array_push($cargoventaServicioArray, $cargoventaServicio);
+                        }
+                    }
+                }
+
+                return new ViewModel(array(
+                    'ventaEntity' => $ventaEntity,
+                    'cargoventaArticuloArray' => $cargoventaArticuloArray,
+                    'cargoventaServicioArray' => $cargoventaServicioArray,
+                ));
+            }
+        }else{
+            return $this->redirect()->toRoute('venta');
         }
     }
 
@@ -675,7 +744,6 @@ class PacienteController extends AbstractActionController
         if (!$id) {
             return $this->redirect()->toRoute('venta');
         }
-
 
 
         //Instanciamos nuestro medico

@@ -29,228 +29,69 @@ $this->headTitle($title);
                 <td><?php echo $ventasEntity->getVentaTotal() ?></td>
                 <td><?php echo $ventasEntity->getVentaReferenciapago() ?></td>
                 <td>
-                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-venta-".$ventasEntity->getIdventa()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo $this->url('venta', array('action'=>'detalles', 'id' => $ventasEntity->getIdventa()))?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                     &nbsp;&nbsp;
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-venta-".$ventasEntity->getIdventa()?>'><i class="tiny mdi-action-delete"></i></a>
                 </td>
             </tr>
-
-            <?php
-
-            foreach($ventasEntity->getCargoventas() as $cargoventa) :
-                if($cargoventa->getLugarinventario()):?>
-                    <!-- View Modal Structure -->
-                    <div id="view-modal-venta-<?php echo $cargoventa->getIdventa()?>" class="modal">
-                        <div class="modal-content">
-                            <h4><?php echo "Artículo: ".  $cargoventa->getLugarinventario()->getOrdencompradetalle()->getArticuloVariante()->getArticulo()->getArticuloNombre();?></h4>
+            <!-- Delete Modal Structure -->
+            <div id="delete-modal-venta-<?php echo $ventasEntity->getIdventa()?>" class="modal">
+                <div class="modal-content" id="delete-modal-container">
+                    <div class="row" id="delete-modal-header-container">
+                        <div class="col s4 offset-s4">
+                            <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <p><?php echo "¿Está seguro que desea eliminar la Venta?: " ?></p>
                             <div class="row">
                                 <fieldset>
                                     <legend>Datos Generales</legend>
                                     <div class="col s4">
                                         <div class="label-container">
                                             <label>Fecha:</label>
-                                            <p><?php echo "Fecha: ".  $cargoventa->getVenta()->getVentaFecha();?></p>
+                                            <p><?php echo $ventasEntity->getVentaFecha();?></p>
                                         </div>
                                         <div class="label-container">
                                             <label>Tipo de pago:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaTipodepago()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Status:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaStatus()?></p>
+                                            <p><?php echo $ventasEntity->getVentaTipodepago()?></p>
                                         </div>
                                         <div class="label-container">
                                             <label>¿Facturada?:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaFacturada()?></p>
+                                            <p><?php echo $ventasEntity->getVentaFacturada()?></p>
+                                        </div>
+                                        <div class="label-container">
+                                            <label>Total:</label>
+                                            <p><?php echo $ventasEntity->getVentaTotal()?></p>
                                         </div>
                                     </div>
                                     <div class="col s4">
                                         <div class="label-container">
-                                            <label>¿Registrada?:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaRegistrada()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Total:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaTotal()?></p>
+                                            <label>Status:</label>
+                                            <p><?php echo $ventasEntity->getVentaStatus()?></p>
                                         </div>
                                         <div class="label-container">
                                             <label>Referencia de pago:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaReferenciapago()?></p>
+                                            <p><?php echo $ventasEntity->getVentaReferenciapago()?></p>
+                                        </div>
+                                        <div class="label-container">
+                                            <label>¿Registrada?:</label>
+                                            <p><?php echo $ventasEntity->getVentaRegistrada()?></p>
                                         </div>
                                     </div>
                                 </fieldset>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                        </div>
                     </div>
-                    <!-- End View Modal Structure -->
-                    <!-- Delete Modal Structure -->
-                    <div id="delete-modal-venta-<?php echo $cargoventa->getVenta()->getIdventa()?>" class="modal">
-                        <div class="modal-content" id="delete-modal-container">
-                            <div class="row" id="delete-modal-header-container">
-                                <div class="col s4 offset-s4">
-                                    <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12">
-                                    <p><?php echo "¿Está seguro que desea eliminar la Venta?: " ?></p>
-                                    <h4><?php echo "Artículo: ".  $cargoventa->getLugarinventario()->getOrdencompradetalle()->getArticuloVariante()->getArticulo()->getArticuloNombre();?></h4>
-                                    <div class="row">
-                                        <fieldset>
-                                            <legend>Datos Generales</legend>
-                                            <div class="col s4">
-                                                <div class="label-container">
-                                                    <label>Fecha:</label>
-                                                    <p><?php echo "Fecha: ".  $cargoventa->getVenta()->getVentaFecha();?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>Tipo de pago:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaTipodepago()?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>Status:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaStatus()?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>¿Facturada?:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaFacturada()?></p>
-                                                </div>
-                                            </div>
-                                            <div class="col s4">
-                                                <div class="label-container">
-                                                    <label>¿Registrada?:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaRegistrada()?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>Total:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaTotal()?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>Referencia de pago:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaReferenciapago()?></p>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                            <a href="/venta/eliminar/<?php echo $cargoventa->getVenta()->getIdventa()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+                </div>
+                <div class="modal-footer">
+                    <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    <a href="/venta/eliminar/<?php echo $ventasEntity->getIdventa()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
 
-                        </div>
-                    </div>
-                    <!-- End Delete Modal Structure -->
-                <?php elseif($cargoventa->getServicio()):?>
-                    <!-- View Modal Structure -->
-                    <div id="view-modal-venta-<?php echo $cargoventa->getIdventa()?>" class="modal">
-                        <div class="modal-content">
-                            <h4><?php echo "Servicio: ".  $cargoventa->getServicio()->getServicioNombre();?></h4>
-
-                            <div class="row">
-                                <fieldset>
-                                    <legend>Datos Generales</legend>
-                                    <div class="col s4">
-                                        <div class="label-container">
-                                            <label>Fecha:</label>
-                                            <p><?php echo "Fecha: ".  $cargoventa->getVenta()->getVentaFecha();?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Tipo de pago:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaTipodepago()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Status:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaStatus()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>¿Facturada?:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaFacturada()?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col s4">
-                                        <div class="label-container">
-                                            <label>¿Registrada?:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaRegistrada()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Total:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaTotal()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Referencia de pago:</label>
-                                            <p><?php echo $cargoventa->getVenta()->getVentaReferenciapago()?></p>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                        </div>
-                    </div>
-                    <!-- End View Modal Structure -->
-                    <!-- Delete Modal Structure -->
-                    <div id="delete-modal-venta-<?php echo $cargoventa->getVenta()->getIdventa()?>" class="modal">
-                        <div class="modal-content" id="delete-modal-container">
-                            <div class="row" id="delete-modal-header-container">
-                                <div class="col s4 offset-s4">
-                                    <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12">
-                                    <p><?php echo "¿Está seguro que desea eliminar la Venta? " ?></p>
-                                    <h4><?php echo "Servicio: ".  $cargoventa->getServicio()->getServicioNombre();?></h4>
-                                    <div class="row">
-                                        <fieldset>
-                                            <legend>Datos Generales</legend>
-                                            <div class="col s4">
-                                                <div class="label-container">
-                                                    <label>Tipo de pago:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaTipodepago()?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>Status:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaStatus()?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>¿Facturada?:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaFacturada()?></p>
-                                                </div>
-                                            </div>
-                                            <div class="col s4">
-                                                <div class="label-container">
-                                                    <label>¿Registrada?:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaRegistrada()?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>Total:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaTotal()?></p>
-                                                </div>
-                                                <div class="label-container">
-                                                    <label>Referencia de pago:</label>
-                                                    <p><?php echo $cargoventa->getVenta()->getVentaReferenciapago()?></p>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                            <a href="/venta/eliminar/<?php echo $cargoventa->getVenta()->getIdventa()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
-
-                        </div>
-                    </div>
-                    <!-- End Delete Modal Structure -->
-                <?php endif; ?>
-            <?php endforeach; ?>
+                </div>
+            </div>
+            <!-- End Delete Modal Structure -->
         <?php endforeach; ?>
         </tbody>
     </table>

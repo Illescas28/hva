@@ -1891,7 +1891,7 @@ class PacienteController extends AbstractActionController
             $medicoCollection = \MedicoQuery::create()->find();
             $medicoArray = array();
             foreach ($medicoCollection as $medicoEntity){
-                $medicoArray[$medicoEntity->getIdmedico()] = $medicoEntity->getMedicoNombre();
+                $medicoArray[$medicoEntity->getIdmedico()] = $medicoEntity->getMedicoNombre()." ".$medicoEntity->getMedicoApellidopaterno()." ".$medicoEntity->getMedicoApellidomaterno();
             }
             // Almacenamos en un array los registros de todos los cuartos existentes en la base de datos
             $cuartoCollection = \CuartoQuery::create()->filterByCuartoEnuso(false)->find();
@@ -2563,6 +2563,134 @@ class PacienteController extends AbstractActionController
 
         }else{
             return $this->redirect()->toRoute('pacientes');
+        }
+    }
+
+    public function historicodetallesAction(){
+
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if($id){
+            if(\PacienteQuery::create()->filterByIdpaciente($id)->exists()){
+
+                $pacienteEntity = \PacienteQuery::create()->filterByIdpaciente($id)->findOne();
+                $consultasQuery = $pacienteEntity->getConsultas();
+                $admisionesQuery = $pacienteEntity->getAdmisions();
+
+                if($consultasQuery->count() != 0){
+
+                    foreach($consultasQuery as $consultaEntity){
+
+                        $cargoconsultas = $consultaEntity->getCargoconsultas();
+                        if($cargoconsultas->count() != 0){
+
+                            $cargoconsultaArticuloArray = array();
+                            $cargoconsultaServicioArray = array();
+                            foreach($cargoconsultas as $cargoconsultaEntity){
+                                if($cargoconsultaEntity->getIdlugarinventario() != null){
+                                    $articulovarianteEntity = $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+
+                                    $propiedadvalorNombre = null;
+                                    foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                        $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                        $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                        $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
+                                    }
+                                    $cargoconsultaArticulo = array(
+                                        'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                                        'idconsulta' => $cargoconsultaEntity->getIdconsulta(),
+                                        'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
+                                        'cantidad' => $cargoconsultaEntity->getCantidad(),
+                                        'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                                        'descripcion' => utf8_encode($propiedadvalorNombre),
+                                        'salida' => $cargoconsultaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
+                                        'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
+                                        'precio' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
+                                        'subtotal' => $cargoconsultaEntity->getMonto(),
+                                    );
+                                    array_push($cargoconsultaArticuloArray, $cargoconsultaArticulo);
+                                }
+
+                                if($cargoconsultaEntity->getIdservicio() != null){
+                                    $cargoconsultaServicio = array(
+                                        'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                                        'idconsulta' => $cargoconsultaEntity->getIdconsulta(),
+                                        'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
+                                        'cantidad' => $cargoconsultaEntity->getCantidad(),
+                                        'servicio' => $cargoconsultaEntity->getServicio()->getServicioNombre(),
+                                        'descripcion' => $cargoconsultaEntity->getServicio()->getServicioDescripcion(),
+                                        'precio' => $cargoconsultaEntity->getServicio()->getServicioPrecio(),
+                                        'subtotal' => $cargoconsultaEntity->getMonto(),
+                                        'fechahora' => $cargoconsultaEntity->getConsulta()->getConsultaFecha(),
+                                    );
+                                    array_push($cargoconsultaServicioArray, $cargoconsultaServicio);
+                                }
+                            }
+                        }
+                    }
+                }
+                if($admisionesQuery->count() != 0){
+                    foreach($admisionesQuery as $admisionEntity){
+                        $cargoadmisiones = $admisionEntity->getCargoadmisions();
+                        if($cargoadmisiones->count() != 0){
+
+                            $cargoadmisionArticuloArray = array();
+                            $cargoadmisionServicioArray = array();
+                            foreach($cargoadmisiones as $cargoadmisionEntity){
+                                if($cargoadmisionEntity->getIdlugarinventario() != null){
+                                    $articulovarianteEntity = $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                                    foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                        $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                        $propiedadNombre = $propiedadQuery->getPropiedadNombre();
+                                    }
+                                    foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                        $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                        $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                                    }
+                                    $cargoadmisionArticulo = array(
+                                        'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
+                                        'idadmision' => $cargoadmisionEntity->getIdadmision(),
+                                        'status' => $cargoadmisionEntity->getAdmision()->getAdmisionStatus(),
+                                        'cargoadmision_cantidad' => $cargoadmisionEntity->getCargoadmisionCantidad(),
+                                        'articulo' => $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                                        'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
+                                        'salida' => $cargoadmisionEntity->getLugarinventario()->getLugar()->getLugarNombre(),
+                                        'fechahora' => $cargoadmisionEntity->getCargoadmisionFecha(),
+                                        'precio' => $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
+                                        'subtotal' => $cargoadmisionEntity->getCargoadmisionMonto(),
+                                    );
+                                    array_push($cargoadmisionArticuloArray, $cargoadmisionArticulo);
+                                }
+
+                                if($cargoadmisionEntity->getIdservicio() != null){
+                                    $cargoadmisionServicio = array(
+                                        'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
+                                        'idadmision' => $cargoadmisionEntity->getIdadmision(),
+                                        'status' => $cargoadmisionEntity->getAdmision()->getAdmisionStatus(),
+                                        'cargoadmision_cantidad' => $cargoadmisionEntity->getCargoadmisionCantidad(),
+                                        'servicio' => $cargoadmisionEntity->getServicio()->getServicioNombre(),
+                                        'descripcion' => $cargoadmisionEntity->getServicio()->getServicioDescripcion(),
+                                        'precio' => $cargoadmisionEntity->getServicio()->getServicioPrecio(),
+                                        'subtotal' => $cargoadmisionEntity->getCargoadmisionMonto(),
+                                        'fechahora' => $cargoadmisionEntity->getAdmision()->getAdmisionFechaadmision(),
+                                    );
+                                    array_push($cargoadmisionServicioArray, $cargoadmisionServicio);
+                                }
+                            }
+                        }
+                    }
+                }
+                return new ViewModel(array(
+                    'pacienteEntity' => $pacienteEntity,
+                    'consultasQuery' => $consultasQuery,
+                    'admisionesQuery' => $admisionesQuery,
+                    'cargoconsultaArticuloArray' => $cargoconsultaArticuloArray,
+                    'cargoconsultaServicioArray' => $cargoconsultaServicioArray,
+                    'cargoadmisionArticuloArray' => $cargoadmisionArticuloArray,
+                    'cargoadmisionServicioArray' => $cargoadmisionServicioArray,
+                ));
+            }
+        }else{
+            return $this->redirect()->toRoute('pacientes', array('action' => 'historicos'));
         }
     }
 
