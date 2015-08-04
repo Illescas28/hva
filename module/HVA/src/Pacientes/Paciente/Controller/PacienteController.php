@@ -2579,9 +2579,9 @@ class PacienteController extends AbstractActionController
                 if($consultasQuery->count() != 0){
 
                     foreach($consultasQuery as $consultaEntity){
-                        if($consultaEntity->count() != 0){
 
-                            $cargoconsultas = $consultaEntity->getCargoconsultas();
+                        $cargoconsultas = $consultaEntity->getCargoconsultas();
+                        if($cargoconsultas->count() != 0){
 
                             $cargoconsultaArticuloArray = array();
                             $cargoconsultaServicioArray = array();
@@ -2630,9 +2630,8 @@ class PacienteController extends AbstractActionController
                 }
                 if($admisionesQuery->count() != 0){
                     foreach($admisionesQuery as $admisionEntity){
-                        if($admisionEntity->count() != 0){
-
-                            $cargoadmisiones = $admisionEntity->getCargoadmisions();
+                        $cargoadmisiones = $admisionEntity->getCargoadmisions();
+                        if($cargoadmisiones->count() != 0){
 
                             $cargoadmisionArticuloArray = array();
                             $cargoadmisionServicioArray = array();
@@ -2662,7 +2661,7 @@ class PacienteController extends AbstractActionController
                                     array_push($cargoadmisionArticuloArray, $cargoadmisionArticulo);
                                 }
 
-                                if($cargoconsultaEntity->getIdservicio() != null){
+                                if($cargoadmisionEntity->getIdservicio() != null){
                                     $cargoadmisionServicio = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
                                         'idadmision' => $cargoadmisionEntity->getIdadmision(),
