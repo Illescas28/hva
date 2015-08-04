@@ -1,10 +1,235 @@
 <?php
-$title = "Detalles de venta";
+$title = "Detalles del paciente: ".$pacienteEntity->getPacienteNombre()." ".$pacienteEntity->getPacienteAp()." ".$pacienteEntity->getPacienteAm();;
 $this->headTitle($title);
-date_default_timezone_set('America/Mexico_City');
 ?>
 
 <h3><?php echo $this->escapeHtml($title); ?></h3>
+<div>
+    <fieldset>
+        <legend>Histórico de consultas</legend>
+        <div class="col s4">
+            <div class="label-container">
+                <label>Fecha de nacimiento:</label>
+                <p><?php echo $pacienteEntity->getPacienteFechanacimiento()?></p>
+            </div>
+            <div class="label-container">
+                <label>Responsable:</label>
+                <p><?php echo $pacienteEntity->getPacienteResponsable()?></p>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="label-container">
+                <label>Edad:</label>
+                <p><?php echo $edad . " años"?></p>
+            </div>
+            <div class="label-container">
+                <label>Teléfono responsable:</label>
+                <p><?php echo $pacienteEntity->getPacienteTelefonoresponsable()?></p>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="label-container">
+                <label>Sexo:</label>
+                <p><?php echo $pacienteEntity->getPacienteSexo()?></p>
+            </div>
+        </div>
+    </fieldset>
+    <div class="row">
+        <fieldset>
+            <legend>Para uso exclusivo del hospital</legend>
+            <div class="col s12">
+                <div id="radioConsulta" class="col s4">
+                    <input class="with-gap" name="grupo1" type="radio" id="test3" checked/>
+                    <label for="test3">Consulta</label>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="label-container">
+                    <label>Médico:</label>
+                    <p><?php echo $consultaByPaciente->getMedico()->getMedicoNombre()?></p>
+                </div>
+                <div class="label-container">
+                    <label>Consultorio:</label>
+                    <p><?php echo $consultaByPaciente->getConsultorio()->getConsultorioNombre()?></p>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="label-container">
+                    <label>Fecha de consulta:</label>
+                    <p><?php echo $consultaByPaciente->getConsultaFecha()?></p>
+                </div>
+                <div class="label-container">
+                    <label>Hora de consulta:</label>
+                    <p><?php echo $consultaByPaciente->getConsultaHora()?></p>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="label-container">
+                    <label>Diagnóstico:</label>
+                    <p><?php echo $consultaByPaciente->getConsultaDiagnostico()?></p>
+                </div>
+                <div class="label-container">
+                    <label>Observación:</label>
+                    <p><?php echo $consultaByPaciente->getConsultaObservaciones()?></p>
+                </div>
+            </div>
+            <div class="right col s4">
+                <button id="botonAltaPacienteConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" name="action">Alta Paciente - Consulta
+                    <i class="mdi-action-accessibility left"></i>
+                </button>
+            </div>
+        </fieldset>
+    </div>
+    <div>
+        <fieldset>
+        <legend>Cargos al paciente</legend>
+        <div id="totalSuperior" class="col s9">
+            <!-- Aquí agregamos los elementos con javascript -->
+        </div>
+        <div class=" col s3 offset-s9">
+            <a id="nuevoCargoConsultaArticulo" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+        </div>
+        <div id="cargoconsultaArticuloResult" class="col s12">
+            <table class="hoverable striped">
+                <thead>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Articulo</th>
+                    <th>Descripción</th>
+                    <th>Salida</th>
+                    <th>Fecha/hora</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Aquí agregamos los elementos con javascript -->
+                </tbody>
+            </table>
+        </div>
+        <div id="cargoconsultaServicioResult" class="col s12">
+            <table class="hoverable striped">
+                <thead>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Servicio</th>
+                    <th>Descripción</th>
+                    <th>Fecha/hora</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Aquí agregamos los elementos con javascript -->
+                </tbody>
+            </table>
+        </div>
+        <div class="col s12">
+            <div id="totalInferior" class="col s3">
+                <!-- Aquí agregamos los elementos con javascript -->
+            </div>
+        </div>
+        </fieldset>
+    </div>
+    <div class="row">
+        <fieldset>
+            <legend>Histórico de admisiones</legend>
+            <div class="col s12">
+                <div id="radioAdmision" class="col s4">
+                    <input class="with-gap" name="grupo1" type="radio" id="test4" checked />
+                    <label for="test4">Admisión</label>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="label-container">
+                    <label>Médico:</label>
+                    <p><?php echo $admisionByPaciente->getMedico()->getMedicoNombre()?></p>
+                </div>
+                <div class="label-container">
+                    <label>Cuarto:</label>
+                    <p><?php echo $admisionByPaciente->getCuarto()->getCuartoNombre()?></p>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="label-container">
+                    <label>Fecha de admisión:</label>
+                    <p><?php echo $admisionByPaciente->getAdmisionFechaadmision()?></p>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="label-container">
+                    <label>Diagnóstico:</label>
+                    <p><?php echo $admisionByPaciente->getAdmisionDiagnostico()?></p>
+                </div>
+                <div class="label-container">
+                    <label>Observación:</label>
+                    <p><?php echo $admisionByPaciente->getAdmisionObservaciones()?></p>
+                </div>
+            </div>
+            <div class="right col s4">
+                <button id="botonAltaPacienteAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Admisión
+                    <i class="mdi-action-accessibility left"></i>
+                </button>
+            </div>
+        </fieldset>
+    </div>
+
+    <!-- Cargos de Admision -->
+    <div id="cargosAdmision">
+    <fieldset>
+    <legend>Cargos al paciente</legend>
+    <div id="totalSuperiorAdmision" class="col s9">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <div id="cargoadmisionArticuloResult" class="col s12">
+        <table class="hoverable striped">
+            <thead>
+            <tr>
+                <th>Cantidad</th>
+                <th>Articulo</th>
+                <th>Descripción</th>
+                <th>Fecha/hora</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+                <th>Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Aquí agregamos los elementos con javascript -->
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <div id="cargoadmisionServicioResult" class="col s12">
+        <table class="hoverable striped">
+            <thead>
+            <tr>
+                <th>Cantidad</th>
+                <th>Servicio</th>
+                <th>Descripción</th>
+                <th>Fecha/hora</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+                <th>Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Aquí agregamos los elementos con javascript -->
+            </tbody>
+        </table>
+    </div>
+    <div class="col s12">
+        <div id="totalInferiorAdmision" class="col s3">
+            <!-- Aquí agregamos los elementos con javascript -->
+        </div>
+    </div>
+    </fieldset>
+    </div>
+    </div>
+<?php /*
 <div>
 <fieldset>
     <legend>Datos generales</legend>
