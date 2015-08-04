@@ -153,8 +153,8 @@
             
             var pagada_date = appToJsDate(settings.general_info.pagada);
             var pagada_month = pagada_date.getMonth();
-            
-            if(pagada_date != pagada_month){
+
+            if(current_month != pagada_month){
                 var message = $(' <div class="card-panel white-text red darken-4">Lo sentimos pero no es posible generar esta factura ya que no fue pagada en el mes en curso</div>');
                 $container.find('#generar').prop('disabled',true);
                 $container.prepend(message);
