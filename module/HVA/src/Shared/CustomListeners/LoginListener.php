@@ -15,7 +15,7 @@ class LoginListener implements ListenerAggregateInterface
     */
    public function attach(EventManagerInterface $events){
        
-        $this->listeners[]=$events->attach(MvcEvent::EVENT_DISPATCH,array($this,'onDispatch'),1);
+        $this->listeners[]=$events->attach(MvcEvent::EVENT_DISPATCH,array($this,'onDispatch'),1001);
          
    }
 
@@ -32,12 +32,10 @@ class LoginListener implements ListenerAggregateInterface
 
    //Decisiones personalizadas
    public function onDispatch (MvcEvent $e){
-      
        //Verificamos si no existe una sesion creada
        if(!SessionManager::sessionExist()){
            $e->getRouteMatch()->setParam('controller', 'Auth\Controller\Auth');
            $e->getRouteMatch()->setParam('action', 'login');
-           //$e->getRouteMatch()->setParam('redirect_url' ,$_SERVER['REDIRECT_URL']);
        }
       
        
