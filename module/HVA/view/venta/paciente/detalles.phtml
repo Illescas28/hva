@@ -25,14 +25,13 @@ $this->headTitle($title);
 <div id="cargosVenta">
 <fieldset>
     <legend>Cargos al paciente</legend>
-    <div id="totalSuperior" class="col s2">
+    <div class="col s2">
         <div class="label-container">
             <label>Total:</label>
             <p><?php echo $ventaEntity->getVentaTotal()?></p>
         </div>
     </div>
-    <div id="totalSuperior" class="col s2">
-
+    <div class="col s2">
         <div class="label-container">
             <label>Status:</label>
             <p><?php echo $ventaEntity->getVentaStatus()?></p>
@@ -84,14 +83,14 @@ $this->headTitle($title);
             </tr>
             </thead>
             <tbody>
-            <?php foreach($cargoventaServicioArray as $cargoventaServicioEntity): ?>
+            <?php foreach($cargoadmisionServicioArray as $cargoadmisionServicioEntity): ?>
                 <tr>
-                    <td><?php echo $cargoventaServicioEntity["cantidad"]?></td>
-                    <td><?php echo $cargoventaServicioEntity["servicio"] ?></td>
-                    <td><?php echo $cargoventaServicioEntity["descripcion"] ?></td>
-                    <td><?php echo $cargoventaServicioEntity["fechahora"] ?></td>
-                    <td><?php echo $cargoventaServicioEntity["precio"] ?></td>
-                    <td><?php echo $cargoventaServicioEntity["subtotal"] ?></td>
+                    <td><?php echo $cargoadmisionServicioEntity["cantidad"]?></td>
+                    <td><?php echo $cargoadmisionServicioEntity["servicio"] ?></td>
+                    <td><?php echo $cargoadmisionServicioEntity["descripcion"] ?></td>
+                    <td><?php echo $cargoadmisionServicioEntity["fechahora"] ?></td>
+                    <td><?php echo $cargoadmisionServicioEntity["precio"] ?></td>
+                    <td><?php echo $cargoadmisionServicioEntity["subtotal"] ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

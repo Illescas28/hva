@@ -7464,7 +7464,9 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                     $("#botonAltaPacienteConsulta").removeClass('disabled')
                     $('#buttonGenerarFacturaConsulta').removeClass('disabled')
                     $("#buttonGenerarNotaConsulta").removeClass('disabled')
-                    $( "a" ).off();
+                    //$( "a" ).off();
+                    $( "div#cargoadmisionArticuloResult a" ).off()
+                    $( "div#cargoadmisionServicioResult a" ).off()
                 },
                 error: function(){
                     alert("Error al intentar liquidar la cuenta.")
@@ -7500,8 +7502,9 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
                     $("#botonAltaPacienteAdmision").removeClass('disabled')
                     $('#buttonGenerarFacturaAdmision').removeClass('disabled')
                     $("#buttonGenerarNotaAdmision").removeClass('disabled')
-                    $( "a" ).off();
-
+                    //$( "a" ).off();
+                    $( "div#cargoadmisionArticuloResult a" ).off()
+                    $( "div#cargoadmisionServicioResult a" ).off()
                 },
                 error: function(){
                     alert("Error al intentar liquidar la cuenta.")

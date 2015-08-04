@@ -76,6 +76,7 @@ class PacienteController extends AbstractActionController
                         $paciente->setByName($pacienteKey, $pacienteValue, \BasePeer::TYPE_FIELDNAME);
                     }
                 }
+
                 //Guardamos en nuestra base de datos
                 $paciente->save();
 
@@ -106,7 +107,20 @@ class PacienteController extends AbstractActionController
 
                 //Redireccionamos a nuestro list
                 //return $this->redirect()->toRoute('pacientes');
-            }
+            }/*else{
+                $messageArray = array();
+                foreach ($pacienteForm->getMessages() as $key => $value){
+                    foreach($value as $val){
+                        //Obtenemos el valor de la columna con error
+                        $message = $key.' '.$val;
+                        array_push($messageArray, $message);
+                    }
+                }
+                var_dump($messageArray);
+                return new ViewModel(array(
+                    'input_error' => $messageArray
+                ));
+            }*/
         }
 
         return new ViewModel(array(
@@ -2631,6 +2645,7 @@ class PacienteController extends AbstractActionController
                 if($admisionesQuery->count() != 0){
                     foreach($admisionesQuery as $admisionEntity){
                         $cargoadmisiones = $admisionEntity->getCargoadmisions();
+                        $admisionanticiposQuery = $admisionEntity->getAdmisionAnticipos();
                         if($cargoadmisiones->count() != 0){
 
                             $cargoadmisionArticuloArray = array();
@@ -2679,10 +2694,12 @@ class PacienteController extends AbstractActionController
                         }
                     }
                 }
+
                 return new ViewModel(array(
                     'pacienteEntity' => $pacienteEntity,
                     'consultasQuery' => $consultasQuery,
                     'admisionesQuery' => $admisionesQuery,
+                    'admisionanticiposQuery' => $admisionanticiposQuery,
                     'cargoconsultaArticuloArray' => $cargoconsultaArticuloArray,
                     'cargoconsultaServicioArray' => $cargoconsultaServicioArray,
                     'cargoadmisionArticuloArray' => $cargoadmisionArticuloArray,
@@ -2705,6 +2722,7 @@ class PacienteController extends AbstractActionController
         if(!PacienteQuery::create()->filterByIdpaciente($id)->exists()){
             $id =0;
         }
+
         //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('pacientes');
@@ -2740,6 +2758,7 @@ class PacienteController extends AbstractActionController
                     }
                 }
 
+                $paciente->setIdpaciente($id);
                 //Guardamos en nuestra base de datos
                 $paciente->save();
 

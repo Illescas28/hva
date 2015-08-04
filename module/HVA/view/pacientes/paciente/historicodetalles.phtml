@@ -1,12 +1,18 @@
 <?php
 $title = "Detalles del paciente: ".$pacienteEntity->getPacienteNombre()." ".$pacienteEntity->getPacienteAp()." ".$pacienteEntity->getPacienteAm();;
 $this->headTitle($title);
+
+$subTotalConsultaArticulo = 0;
+$subTotalConsultaServicio = 0;
+
+$subTotalAdmisionArticulo = 0;
+$subTotaladmisionServicio = 0;
 ?>
 
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div>
     <fieldset>
-        <legend>Histórico de consultas</legend>
+        <legend>Histórico</legend>
         <div class="col s4">
             <div class="label-container">
                 <label>Fecha de nacimiento:</label>
@@ -33,273 +39,292 @@ $this->headTitle($title);
                 <p><?php echo $pacienteEntity->getPacienteSexo()?></p>
             </div>
         </div>
-    </fieldset>
-    <div class="row">
-        <fieldset>
-            <legend>Consultas</legend>
-            <?php foreach($consultasQuery as $consultaByPaciente): ?>
-                <div class="col s4">
-                    <div class="label-container">
-                        <label>Médico:</label>
-                        <p><?php echo $consultaByPaciente->getMedico()->getMedicoNombre()." ".$consultaByPaciente->getMedico()->getMedicoApellidopaterno()." ".$consultaByPaciente->getMedico()->getMedicoApellidomaterno();?></p>
-                    </div>
-                    <div class="label-container">
-                        <label>Consultorio:</label>
-                        <p><?php echo $consultaByPaciente->getConsultorio()->getConsultorioNombre()?></p>
-                    </div>
-                </div>
-                <div class="col s4">
-                    <div class="label-container">
-                        <label>Fecha de consulta:</label>
-                        <p><?php echo $consultaByPaciente->getConsultaFecha()?></p>
-                    </div>
-                    <div class="label-container">
-                        <label>Hora de consulta:</label>
-                        <p><?php echo $consultaByPaciente->getConsultaHora()?></p>
-                    </div>
-                </div>
-                <div class="col s4">
-                    <div class="label-container">
-                        <label>Diagnóstico:</label>
-                        <p><?php echo $consultaByPaciente->getConsultaDiagnostico()?></p>
-                    </div>
-                    <div class="label-container">
-                        <label>Observación:</label>
-                        <p><?php echo $consultaByPaciente->getConsultaObservaciones()?></p>
-                    </div>
-                </div>
-                <div>
-                    <fieldset>
-                        <legend>Cargos al paciente</legend>
-                        <div id="totalSuperior" class="col s9">
-                            <!-- Aquí agregamos los elementos con javascript -->
-                        </div>
-                        <div class=" col s3 offset-s9">
-                            <a id="nuevoCargoConsultaArticulo" class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
-                        </div>
-                        <div id="cargoconsultaArticuloResult" class="col s12">
-                            <table class="hoverable striped">
-                                <thead>
-                                <tr>
-                                    <th>Cantidad</th>
-                                    <th>Articulo</th>
-                                    <th>Descripción</th>
-                                    <th>Salida</th>
-                                    <th>Fecha/hora</th>
-                                    <th>Precio</th>
-                                    <th>Subtotal</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!-- Aquí agregamos los elementos con javascript -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="cargoconsultaServicioResult" class="col s12">
-                            <table class="hoverable striped">
-                                <thead>
-                                <tr>
-                                    <th>Cantidad</th>
-                                    <th>Servicio</th>
-                                    <th>Descripción</th>
-                                    <th>Fecha/hora</th>
-                                    <th>Precio</th>
-                                    <th>Subtotal</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!-- Aquí agregamos los elementos con javascript -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col s12">
-                            <div id="totalInferior" class="col s3">
-                                <!-- Aquí agregamos los elementos con javascript -->
+        <div class="row">
+            <div class="col s12">
+                <fieldset>
+                    <legend>Consultas</legend>
+                    <?php foreach($consultasQuery as $consultaByPaciente): ?>
+                        <div class="col s4">
+                            <div class="label-container">
+                                <label>Médico:</label>
+                                <p><?php echo $consultaByPaciente->getMedico()->getMedicoNombre()." ".$consultaByPaciente->getMedico()->getMedicoApellidopaterno()." ".$consultaByPaciente->getMedico()->getMedicoApellidomaterno();?></p>
+                            </div>
+                            <div class="label-container">
+                                <label>Consultorio:</label>
+                                <p><?php echo $consultaByPaciente->getConsultorio()->getConsultorioNombre()?></p>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-            <?php endforeach ?>
-        </fieldset>
-    </div>
-    <div class="row">
-        <fieldset>
-            <legend>Histórico de admisiones</legend>
-            <div class="col s4">
-                <div class="label-container">
-                    <label>Médico:</label>
-                    <p><?php echo $admisionByPaciente->getMedico()->getMedicoNombre()." ".$admisionByPaciente->getMedico()->getMedicoApellidopaterno()." ".$admisionByPaciente->getMedico()->getMedicoApellidomaterno();?></p>
-                </div>
-                <div class="label-container">
-                    <label>Cuarto:</label>
-                    <p><?php echo $admisionByPaciente->getCuarto()->getCuartoNombre()?></p>
-                </div>
-            </div>
-            <div class="col s4">
-                <div class="label-container">
-                    <label>Fecha de admisión:</label>
-                    <p><?php echo $admisionByPaciente->getAdmisionFechaadmision()?></p>
-                </div>
-            </div>
-            <div class="col s4">
-                <div class="label-container">
-                    <label>Diagnóstico:</label>
-                    <p><?php echo $admisionByPaciente->getAdmisionDiagnostico()?></p>
-                </div>
-                <div class="label-container">
-                    <label>Observación:</label>
-                    <p><?php echo $admisionByPaciente->getAdmisionObservaciones()?></p>
-                </div>
-            </div>
-            <!-- Cargos de Admision -->
-            <div id="cargosAdmision">
-                <fieldset>
-                    <legend>Cargos al paciente</legend>
-                    <div id="totalSuperiorAdmision" class="col s9">
-                        <!-- Aquí agregamos los elementos con javascript -->
-                    </div>
-                    <div id="cargoadmisionArticuloResult" class="col s12">
-                        <table class="hoverable striped">
-                            <thead>
-                            <tr>
-                                <th>Cantidad</th>
-                                <th>Articulo</th>
-                                <th>Descripción</th>
-                                <th>Fecha/hora</th>
-                                <th>Precio</th>
-                                <th>Subtotal</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- Aquí agregamos los elementos con javascript -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <br>
-                    <br>
-                    <div id="cargoadmisionServicioResult" class="col s12">
-                        <table class="hoverable striped">
-                            <thead>
-                            <tr>
-                                <th>Cantidad</th>
-                                <th>Servicio</th>
-                                <th>Descripción</th>
-                                <th>Fecha/hora</th>
-                                <th>Precio</th>
-                                <th>Subtotal</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- Aquí agregamos los elementos con javascript -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col s12">
-                        <div id="totalInferiorAdmision" class="col s3">
-                            <!-- Aquí agregamos los elementos con javascript -->
+                        <div class="col s4">
+                            <div class="label-container">
+                                <label>Fecha de consulta:</label>
+                                <p><?php echo $consultaByPaciente->getConsultaFecha()?></p>
+                            </div>
+                            <div class="label-container">
+                                <label>Hora de consulta:</label>
+                                <p><?php echo $consultaByPaciente->getConsultaHora()?></p>
+                            </div>
                         </div>
-                    </div>
+                        <div class="col s4">
+                            <div class="label-container">
+                                <label>Diagnóstico:</label>
+                                <p><?php echo $consultaByPaciente->getConsultaDiagnostico()?></p>
+                            </div>
+                            <div class="label-container">
+                                <label>Observación:</label>
+                                <p><?php echo $consultaByPaciente->getConsultaObservaciones()?></p>
+                            </div>
+                        </div>
+                        <fieldset>
+                            <legend>Cargos de consultas</legend>
+                            <div id="totalSuperior" class="col s3">
+                                <div class="label-container">
+                                    <label>Total:</label>
+                                    <p><?php echo $consultaByPaciente->getConsultaTotal()?></p>
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <div class="label-container">
+                                    <label>Status:</label>
+                                    <p><?php echo $consultaByPaciente->getConsultaStatus()?></p>
+                                </div>
+                            </div>
+                            <div id="cargoconsultaArticuloResult" class="col s12">
+                                <table class="hoverable striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Articulo</th>
+                                        <th>Descripción</th>
+                                        <th>Salida</th>
+                                        <th>Fecha/hora</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($cargoconsultaArticuloArray as $cargoconsultaArticuloEntity): ?>
+                                        <tr>
+                                            <td><?php echo $cargoconsultaArticuloEntity["cantidad"]?></td>
+                                            <td><?php echo $cargoconsultaArticuloEntity["articulo"] ?></td>
+                                            <td><?php echo $cargoconsultaArticuloEntity["descripcion"] ?></td>
+                                            <td><?php echo $cargoconsultaArticuloEntity["salida"] ?></td>
+                                            <td><?php echo $cargoconsultaArticuloEntity["fechahora"] ?></td>
+                                            <td><?php echo $cargoconsultaArticuloEntity["precio"] ?></td>
+                                            <td><?php echo $cargoconsultaArticuloEntity["subtotal"] ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="cargoconsultaServicioResult" class="col s12">
+                                <table class="hoverable striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Servicio</th>
+                                        <th>Descripción</th>
+                                        <th>Fecha/hora</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($cargoconsultaServicioArray as $cargoconsultaServicioEntity): ?>
+                                        <tr>
+                                            <td><?php echo $cargoconsultaServicioEntity["cantidad"]?></td>
+                                            <td><?php echo $cargoconsultaServicioEntity["servicio"] ?></td>
+                                            <td><?php echo $cargoconsultaServicioEntity["descripcion"] ?></td>
+                                            <td><?php echo $cargoconsultaServicioEntity["fechahora"] ?></td>
+                                            <td><?php echo $cargoconsultaServicioEntity["precio"] ?></td>
+                                            <td><?php echo $cargoconsultaServicioEntity["subtotal"] ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="totalInferior" class="col s12">
+                                <h4 class="right-align">Total: <?php echo $consultaByPaciente->getConsultaTotal()?> MXN</h4>
+                            </div>
+                        </fieldset>
+                    <?php endforeach ?>
                 </fieldset>
             </div>
-        </fieldset>
-    </div>
-</div>
-<?php /*
-<div>
-<fieldset>
-    <legend>Datos generales</legend>
-    <div class="col s4">
-        <div class="label-container">
-            <label>Atendió:</label>
-            <p><?php echo $_SESSION["empleado_session"]["empleado_info"]["empleado_nombre"].' '.$_SESSION["empleado_session"]["empleado_info"]["empleado_apellidopaterno"]?></p>
         </div>
-    </div>
-    <div class="col s4">
-        <div class="label-container">
-            <label>Fecha/hora:</label>
-            <p><?php echo $ventaEntity->getVentaFecha()?></p>
-        </div>
-    </div>
-</fieldset>
-<br>
-<div class="row">
-<div id="cargosVenta">
-<fieldset>
-    <legend>Cargos al paciente</legend>
-    <div id="totalSuperior" class="col s2">
-        <div class="label-container">
-            <label>Total:</label>
-            <p><?php echo $ventaEntity->getVentaTotal()?></p>
-        </div>
-    </div>
-    <div id="totalSuperior" class="col s2">
+        <div class="row">
+        <div class="col s12">
+                <fieldset>
+                    <legend>Admisiones</legend>
+                    <?php foreach($admisionesQuery as $admisionByPaciente): ?>
+                        <fieldset>
+                            <legend>Detalles</legend>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>Médico:</label>
+                                    <p><?php echo $admisionByPaciente->getMedico()->getMedicoNombre()." ".$admisionByPaciente->getMedico()->getMedicoApellidopaterno()." ".$admisionByPaciente->getMedico()->getMedicoApellidomaterno();?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Cuarto:</label>
+                                    <p><?php echo $admisionByPaciente->getCuarto()->getCuartoNombre()?></p>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>Fecha de admisión:</label>
+                                    <p><?php echo $admisionByPaciente->getAdmisionFechaadmision()?></p>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>Diagnóstico:</label>
+                                    <p><?php echo $admisionByPaciente->getAdmisionDiagnostico()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Observación:</label>
+                                    <p><?php echo $admisionByPaciente->getAdmisionObservaciones()?></p>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>Cargos de admisiones</legend>
+                                <div id="totalSuperiorAdmision" class="col s3">
+                                    <div class="label-container">
+                                        <label>Total:</label>
+                                        <p><?php echo $admisionByPaciente->getAdmisiontotal()?> MXN</p>
+                                    </div>
+                                </div>
+                                <div class="col s3">
+                                    <div class="label-container">
+                                        <label>Anticipos:</label>
+                                        <p><?php echo $admisionByPaciente->getAdmisionStatus()?> MXN</p>
 
-        <div class="label-container">
-            <label>Status:</label>
-            <p><?php echo $ventaEntity->getVentaStatus()?></p>
+                                        <a class="modal-trigger" href="#modalAdmisionanticipo-<?php echo $admisionByPaciente->getIdadmision()?>"><i class="blue-text text-darken-2 tiny mdi-action-assignment pointer"></i></a>
+
+                                        <!-- Modal Structure -->
+                                        <div id="modalAdmisionanticipo-<?php echo $admisionByPaciente->getIdadmision()?>" class="modal">
+                                            <div class="modal-content">
+                                                <fieldset>
+                                                    <legend>Anticipos</legend>
+                                                    <table class="hoverable striped">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Fecha</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Nota</th>
+                                                            <th>Tipo de pago</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <?php
+                                                        if(count($admisionanticiposQuery) != 0):
+                                                            foreach($admisionanticiposQuery as $admisionanticipoEntity):?>
+                                                                <tr>
+                                                                    <td><?php echo $admisionanticipoEntity->getAdmisionanticipoFecha()?></td>
+                                                                    <td><?php echo $admisionanticipoEntity->getAdmisionanticipoCantidad()?></td>
+                                                                    <td><?php echo $admisionanticipoEntity->getAdmisionanticipoNota()?></td>
+                                                                    <td><?php echo $admisionanticipoEntity->getAdmisionanticipoTipo()?></td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                        <?php endif ?>
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a class="modal-action modal-close waves-effect waves-green btn cerrar">
+                                                    <i class="mdi-navigation-close left">Cerrar</i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col s3">
+                                    <div class="label-container">
+                                        <label>Estátus:</label>
+                                        <p><?php echo $admisionByPaciente->getAdmisionStatus()?></p>
+                                    </div>
+                                </div>
+                                <div id="cargoadmisionArticuloResult" class="col s12">
+                                    <table class="hoverable striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Cantidad</th>
+                                            <th>Articulo</th>
+                                            <th>Descripción</th>
+                                            <th>Salida</th>
+                                            <th>Fecha/hora</th>
+                                            <th>Precio</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                            if(count($cargoadmisionArticuloArray) != 0):
+                                                foreach($cargoadmisionArticuloArray as $cargoadmisionArticuloEntity):
+                                                    if($admisionByPaciente->getIdadmision() == $cargoadmisionArticuloEntity['idadmision']):?>
+                                                        <tr>
+                                                            <td><?php echo $cargoadmisionArticuloEntity["cargoadmision_cantidad"]?></td>
+                                                            <td><?php echo $cargoadmisionArticuloEntity["articulo"] ?></td>
+                                                            <td><?php echo $cargoadmisionArticuloEntity["descripcion"] ?></td>
+                                                            <td><?php echo $cargoadmisionArticuloEntity["salida"] ?></td>
+                                                            <td><?php echo $cargoadmisionArticuloEntity["fechahora"] ?></td>
+                                                            <td><?php echo $cargoadmisionArticuloEntity["precio"] ?></td>
+                                                            <td><?php echo $cargoadmisionArticuloEntity["subtotal"] ?></td>
+                                                        </tr>
+                                                    <?php endif ?>
+                                                <?php endforeach; ?>
+                                            <?php endif ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                                <br>
+                                <div id="cargoadmisionServicioResult" class="col s12">
+                                    <table class="hoverable striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Cantidad</th>
+                                            <th>Servicio</th>
+                                            <th>Descripción</th>
+                                            <th>Fecha/hora</th>
+                                            <th>Precio</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if(count($cargoadmisionServicioArray) != 0):
+                                                foreach($cargoadmisionServicioArray as $cargoadmisionServicioEntity):
+                                                    if($admisionByPaciente->getIdadmision() == $cargoadmisionServicioEntity['idadmision']):?>
+                                                        <tr>
+                                                            <td><?php echo $cargoadmisionServicioEntity["cargoadmision_cantidad"]?></td>
+                                                            <td><?php echo $cargoadmisionServicioEntity["servicio"] ?></td>
+                                                            <td><?php echo $cargoadmisionServicioEntity["descripcion"] ?></td>
+                                                            <td><?php echo $cargoadmisionServicioEntity["fechahora"] ?></td>
+                                                            <td><?php echo $cargoadmisionServicioEntity["precio"] ?></td>
+                                                            <td><?php echo $cargoadmisionServicioEntity["subtotal"] ?></td>
+                                                        </tr>
+                                                    <?php endif ?>
+                                                <?php endforeach; ?>
+                                            <?php endif ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="totalInferior" class="col s12">
+                                    <h4 class="right-align">Total: <?php echo $admisionByPaciente->getAdmisionTotal()?> MXN</h4>
+                                </div>
+                            </fieldset>
+                        </fieldset>
+                    <?php endforeach ?>
+                </fieldset>
+            </div>
         </div>
-    </div>
-    <div id="cargoventaArticuloResult" class="col s12">
-        <table class="hoverable striped">
-            <thead>
-            <tr>
-                <th>Cantidad</th>
-                <th>Articulo</th>
-                <th>Descripción</th>
-                <th>Salida</th>
-                <th>Fecha/hora</th>
-                <th>Precio</th>
-                <th>Subtotal</th>
-            </tr>
-            </thead>
-            <tbody>
-                <?php foreach($cargoventaArticuloArray as $cargoventaArticuloEntity): ?>
-                    <tr>
-                        <td><?php echo $cargoventaArticuloEntity["cantidad"]?></td>
-                        <td><?php echo $cargoventaArticuloEntity["articulo"] ?></td>
-                        <td><?php echo $cargoventaArticuloEntity["descripcion"] ?></td>
-                        <td><?php echo $cargoventaArticuloEntity["salida"] ?></td>
-                        <td><?php echo $cargoventaArticuloEntity["fechahora"] ?></td>
-                        <td><?php echo $cargoventaArticuloEntity["precio"] ?></td>
-                        <td><?php echo $cargoventaArticuloEntity["subtotal"] ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
-    <div id="cargoventaServicioResult" class="col s12">
-        <table class="hoverable striped">
-            <thead>
-            <tr>
-                <th>Cantidad</th>
-                <th>Servicio</th>
-                <th>Descripción</th>
-                <th>Fecha/hora</th>
-                <th>Precio</th>
-                <th>Subtotal</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach($cargoventaServicioArray as $cargoventaServicioEntity): ?>
-                <tr>
-                    <td><?php echo $cargoventaServicioEntity["cantidad"]?></td>
-                    <td><?php echo $cargoventaServicioEntity["servicio"] ?></td>
-                    <td><?php echo $cargoventaServicioEntity["descripcion"] ?></td>
-                    <td><?php echo $cargoventaServicioEntity["fechahora"] ?></td>
-                    <td><?php echo $cargoventaServicioEntity["precio"] ?></td>
-                    <td><?php echo $cargoventaServicioEntity["subtotal"] ?></td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <div id="totalInferior" class="col s12">
-        <h4 class="right-align">Total: <?php echo $ventaEntity->getVentaTotal()?> MXN</h4>
-    </div>
-</fieldset>
+    </fieldset>
 </div>
+<script>
+
+    $(document).ready(function(){
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal-trigger').leanModal();
+    });
+
+</script>

@@ -125,7 +125,8 @@ class ServicioController extends AbstractActionController
                     foreach ($servicioForm->getData() as $servicioKey => $servicioValue){
                         $servicio->setByName($servicioKey, $servicioValue, \BasePeer::TYPE_FIELDNAME);
                     }
-                    
+
+                    $servicio->setIdservicio($id);
                     //Guardamos en nuestra base de datos
                     $servicio->save();
 
