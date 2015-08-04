@@ -213,8 +213,6 @@ class Cfds {
         $conceptos = $this->xml->createElement("cfdi:Conceptos");
         $conceptos = $this->root->appendChild($conceptos);
 
-        //$this->pre($arr);
-        //for ($i = 0; $i <= sizeof($arr['Conceptos']); $i++) {
         foreach ($arr['Conceptos'] as $item) {
             $concepto = $this->xml->createElement("cfdi:Concepto");
             $concepto = $conceptos->appendChild($concepto);
@@ -233,21 +231,23 @@ class Cfds {
     //=======================================
     // Impuesto (IVA)
     private function impuestos($arr) {  //, $edidata, $dir,$nodo,$addenda
+    
         // global $root, $xml;
         $impuestos = $this->xml->createElement("cfdi:Impuestos");
         $impuestos = $this->root->appendChild($impuestos);
-        if (isset($arr['Traslados']['importe'])) {
-            $traslados = $this->xml->createElement("cfdi:Traslados");
-            $traslados = $impuestos->appendChild($traslados);
+        $traslados = $this->xml->createElement("cfdi:Traslados");
+        $traslados = $impuestos->appendChild($traslados);
+        $totalImpuestosTrasladados = 0;
+        foreach ($arr['Traslados'] as $item){
             $traslado = $this->xml->createElement("cfdi:Traslado");
-            $traslado = $traslados->appendChild($traslado);
-            $this->cargaAtt($traslado, array("impuesto" => $arr['Traslados']['impuesto'],
-                "tasa" => $arr['Traslados']['tasa'],
-                "importe" => $arr['Traslados']['importe']
-                    )
-            );
+            $this->cargaAtt($traslado, array("impuesto" => $item['impuesto'],
+                "tasa" => $item['tasa'],
+                "importe" => $item['importe']
+            ));
+            $totalImpuestosTrasladados+=$item['importe'];
+            $traslados->appendChild($traslado);        
         }
-        $impuestos->SetAttribute("totalImpuestosTrasladados", $arr['Traslados']['importe']);
+        $impuestos->SetAttribute("totalImpuestosTrasladados", $totalImpuestosTrasladados);
     }
 
     //=======================================

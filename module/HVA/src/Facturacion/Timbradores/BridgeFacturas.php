@@ -123,7 +123,9 @@ class BridgeFacturas {
                     $arr['Receptor']['rfc'] = $receptor['clienttaxaddress_taxesid'];
                 }
                 
+                date_default_timezone_set('America/Mexico_city');
                 $arr['fecha'] = date('Y-m-d H:i:s'); // $order['externalorder_paymentdate'];
+    
                 //$arr['fecha'] = $order['externalorder_date'];
                 $arr['formaDePago'] = 'Pago en una sola exhibición'; // Pago en una sola exhibición o número de parcialidad
 
@@ -135,7 +137,7 @@ class BridgeFacturas {
                         $arr['metodoDePago'] = strtolower($order['admision_tipodepago']);
 
                         $arr['id'] = 'ADM_'.$order['idadmision'];
-                        $arr['subTotal'] = $order['admision_total'];
+                        $arr['subTotal'] = 0;
                         $arr['total'] = $order['admision_total'];
 
                         $arr['descuento'] = 0;
@@ -144,21 +146,34 @@ class BridgeFacturas {
                         $i = 0;
                         foreach ($items as $item) {
                             
-                            $arr['Conceptos'][$i]['cantidad'] = $item['cargoadmision_cantidad'];
+                            $tasa = !is_null($item['servicio_tasa']) ? $item['servicio_tasa'] : $item['articulo_tasa'];
+                            if($tasa == 16){
+                                $operadorSuma = 1.16;
+                                $operadorResta = 0.16;
+                            }else{
+                                $operadorSuma = 1.0;
+                                $operadorResta=0;
+                            }
+                            $arr['Conceptos'][$i]['cantidad'] = (int)$item['cargoadmision_cantidad'];
                             $arr['Conceptos'][$i]['unidad'] = !is_null($item['servicio_unidad']) ? $item['servicio_unidad'] : $item['articulo_unidad'];
                             $arr['Conceptos'][$i]['descripcion'] = !is_null($item['servicio_nombre']) ? $item['servicio_nombre'] : $item['articulo_nombre'];
-                            $arr['Conceptos'][$i]['valorUnitario'] = !is_null($item['servicio_valorunitario']) ? $item['servicio_valorunitario'] : $item['articulo_valorunitario'];
-                            $arr['Conceptos'][$i]['importe'] = $item['cargoadmision_monto'];
-
+                            $valor_unitario = !is_null($item['servicio_valorunitario']) ? $item['servicio_valorunitario'] : $item['articulo_valorunitario']; 
+                            //Restamos el iva           
+                            $arr['Conceptos'][$i]['valorUnitario'] = number_format($valor_unitario / $operadorSuma,2, '.', '');
+                            $arr['Conceptos'][$i]['importe'] = $arr['Conceptos'][$i]['valorUnitario'] * $arr['Conceptos'][$i]['cantidad'];
+                            $arr['subTotal'] += $arr['Conceptos'][$i]['importe'];
+            
+                            // Impuestos 
+                            $importe =  $valor_unitario - $arr['Conceptos'][$i]['valorUnitario'];   
+                            $arr['Traslados'][$i]['impuesto'] = 'IVA';
+                            $arr['Traslados'][$i]['tasa'] = $tasa;
+                            $arr['Traslados'][$i]['importe'] = $importe * $arr['Conceptos'][$i]['cantidad']; //revisar formula
+                            
                             $i++;
                         }
                         
-                        // Impuestos 
-                        $arr['Traslados']['impuesto'] = 'IVA';
-                        $arr['Traslados']['tasa'] = $this->taxTypes[$arr['Traslados']['impuesto']];
-                        $arr['Traslados']['importe'] = $arr['total'] / $arr['Traslados']['tasa']; //revisar formula
-                       
                         
+                     
                         break;
 
 

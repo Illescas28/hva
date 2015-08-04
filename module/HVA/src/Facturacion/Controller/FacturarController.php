@@ -4,26 +4,26 @@ namespace Facturacion\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-
+use Facturacion\FPDF\FPDF;
 class FacturarController extends AbstractActionController
 {
     
     public $emisorArr = array(
         'noCertificado' => '20001000000200000293', 
-        'LugarExpedicion' => 'Guadalajara',
+        'LugarExpedicion' => 'ZAPOPAN',
         'rfc' => 'AAD990814BP7',
-        'nombre' => 'HVA',
+        'nombre' => 'HOSPITAL DEL VALLE DE ATEMAJAC',
         'regimen' => 'S.A. de C.V.',
         'Domicilio' => array(
-            'calle' => 'Punchan',
-            'noExterior' => '4816',
-            'colonia' => 'Mirador del sol',
+            'calle' => 'RAMON CORONA',
+            'noExterior' => '55',
+            'colonia' => 'ATEMAJAC',
             'noInterior' => '',
             'localidad' => '',
-            'municipio' => 'Guadalajara',
-            'estado' => 'Jalisco',
-            'pais'  => 'México',
-            'codigoPostal' => '45054',
+            'municipio' => 'ZAPOPAN',
+            'estado' => 'JALISCO',
+            'pais'  => 'MEXICO',
+            'codigoPostal' => '45190',
         ),
         
         
@@ -88,6 +88,15 @@ class FacturarController extends AbstractActionController
     
     
     public function generarAction(){
+        require(__DIR__.'/../FPDF/'.'fpdf.php');
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(40,10,'¡Hola, Mundo!');
+        $pdf->Output();
+        
+        echo '<pre>';var_dump($request); echo '</pre>';exit();
+        
         
         $request = $this->getRequest();
         
@@ -120,7 +129,7 @@ class FacturarController extends AbstractActionController
                       
                        $servicio_nombre = $detalle->getServicio()->getServicioNombre();
                        $servicio_valorunitario = $detalle->getServicio()->getServicioPrecio();
-                       
+                       $item['servicio_tasa'] = $detalle->getServicio()->getServicioIva();
                        $item['servicio_nombre'] = $servicio_nombre;
                        $item['servicio_valorunitario'] = $servicio_valorunitario;
                        $item['servicio_unidad'] = 'No aplica';
@@ -155,6 +164,7 @@ class FacturarController extends AbstractActionController
                         $item['articulo_nombre'] = $articulo_nombre;
                         $item['articulo_unidad']  = 'pieza';
                         $item['articulo_valorunitario']  = $articulo_variante->getArticulovariantePrecio();
+                         $item['articulo_tasa']  = $articulo_variante->getArticulovarianteIva();
                        
                         $admision['detalles'][] = $item;
                        
@@ -164,14 +174,20 @@ class FacturarController extends AbstractActionController
                 }
             }
             
-            
+
             // Aqui hacer conexion con el timbrador
             $bridgeFacturas = new \Facturacion\Timbradores\BridgeFacturas('finkok');
             
             //// A la pasarela  ------------------------------------------------------------
             $res = $bridgeFacturas->timbrar('factura', $type, $generalOrder, $this->emisorArr, $receptorArr);
-            echo '<pre>';var_dump($res); echo '<pre>';exit();
-            return;
+            
+            //Verificamos que no exista error al timbrar
+            if (isset($res['error']) && $res['error'] != '') {
+                $details = $res['error'];
+                return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false, 'details' =>  $details)));
+            }else{
+                echo '<pre>';var_dump('entro'); echo '</pre>';exit();
+            } 
         }
         
         if($this->params()->fromRoute('id')){
