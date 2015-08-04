@@ -103,15 +103,17 @@ $subTotaladmisionServicio = 0;
                                     </thead>
                                     <tbody>
                                     <?php foreach($cargoconsultaArticuloArray as $cargoconsultaArticuloEntity): ?>
-                                        <tr>
-                                            <td><?php echo $cargoconsultaArticuloEntity["cantidad"]?></td>
-                                            <td><?php echo $cargoconsultaArticuloEntity["articulo"] ?></td>
-                                            <td><?php echo $cargoconsultaArticuloEntity["descripcion"] ?></td>
-                                            <td><?php echo $cargoconsultaArticuloEntity["salida"] ?></td>
-                                            <td><?php echo $cargoconsultaArticuloEntity["fechahora"] ?></td>
-                                            <td><?php echo $cargoconsultaArticuloEntity["precio"] ?></td>
-                                            <td><?php echo $cargoconsultaArticuloEntity["subtotal"] ?></td>
-                                        </tr>
+                                        <?php if($consultaByPaciente->getIdconsulta() == $cargoconsultaArticuloEntity['idconsulta']): ?>
+                                            <tr>
+                                                <td><?php echo $cargoconsultaArticuloEntity["cantidad"]?></td>
+                                                <td><?php echo $cargoconsultaArticuloEntity["articulo"] ?></td>
+                                                <td><?php echo $cargoconsultaArticuloEntity["descripcion"] ?></td>
+                                                <td><?php echo $cargoconsultaArticuloEntity["salida"] ?></td>
+                                                <td><?php echo $cargoconsultaArticuloEntity["fechahora"] ?></td>
+                                                <td><?php echo $cargoconsultaArticuloEntity["precio"] ?></td>
+                                                <td><?php echo $cargoconsultaArticuloEntity["subtotal"] ?></td>
+                                            </tr>
+                                        <?php endif; ?>
                                     <?php endforeach; ?>
                                     </tbody>
                                 </table>
@@ -130,14 +132,16 @@ $subTotaladmisionServicio = 0;
                                     </thead>
                                     <tbody>
                                     <?php foreach($cargoconsultaServicioArray as $cargoconsultaServicioEntity): ?>
-                                        <tr>
-                                            <td><?php echo $cargoconsultaServicioEntity["cantidad"]?></td>
-                                            <td><?php echo $cargoconsultaServicioEntity["servicio"] ?></td>
-                                            <td><?php echo $cargoconsultaServicioEntity["descripcion"] ?></td>
-                                            <td><?php echo $cargoconsultaServicioEntity["fechahora"] ?></td>
-                                            <td><?php echo $cargoconsultaServicioEntity["precio"] ?></td>
-                                            <td><?php echo $cargoconsultaServicioEntity["subtotal"] ?></td>
-                                        </tr>
+                                        <?php if($consultaByPaciente->getIdconsulta() == $cargoconsultaServicioEntity['idconsulta']): ?>
+                                            <tr>
+                                                <td><?php echo $cargoconsultaServicioEntity["cantidad"]?></td>
+                                                <td><?php echo $cargoconsultaServicioEntity["servicio"] ?></td>
+                                                <td><?php echo $cargoconsultaServicioEntity["descripcion"] ?></td>
+                                                <td><?php echo $cargoconsultaServicioEntity["fechahora"] ?></td>
+                                                <td><?php echo $cargoconsultaServicioEntity["precio"] ?></td>
+                                                <td><?php echo $cargoconsultaServicioEntity["subtotal"] ?></td>
+                                            </tr>
+                                        <?php endif; ?>
                                     <?php endforeach; ?>
                                     </tbody>
                                 </table>
@@ -214,14 +218,16 @@ $subTotaladmisionServicio = 0;
                                                         </thead>
                                                         <tbody>
                                                         <?php
-                                                        if(count($admisionanticiposQuery) != 0):
-                                                            foreach($admisionanticiposQuery as $admisionanticipoEntity):?>
-                                                                <tr>
-                                                                    <td><?php echo $admisionanticipoEntity->getAdmisionanticipoFecha()?></td>
-                                                                    <td><?php echo $admisionanticipoEntity->getAdmisionanticipoCantidad()?></td>
-                                                                    <td><?php echo $admisionanticipoEntity->getAdmisionanticipoNota()?></td>
-                                                                    <td><?php echo $admisionanticipoEntity->getAdmisionanticipoTipo()?></td>
-                                                                </tr>
+                                                        if(count($admisionanticiposArray) != 0):
+                                                            foreach($admisionanticiposArray as $admisionanticipoEntity):?>
+                                                                <?php if($admisionByPaciente->getIdadmision() == $admisionanticipoEntity['idadmision']): ?>
+                                                                    <tr>
+                                                                        <td><?php echo $admisionanticipoEntity['admisionanticipo_fecha']?></td>
+                                                                        <td><?php echo $admisionanticipoEntity['admisionanticipo_cantidad']?></td>
+                                                                        <td><?php echo $admisionanticipoEntity['admisionanticipo_nota']?></td>
+                                                                        <td><?php echo $admisionanticipoEntity['admisionanticipo_tipo']?></td>
+                                                                    </tr>
+                                                                <?php endif; ?>
                                                             <?php endforeach; ?>
                                                         <?php endif ?>
                                                         </tbody>

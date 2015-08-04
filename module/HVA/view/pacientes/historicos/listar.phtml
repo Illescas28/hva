@@ -4,16 +4,16 @@ $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div class="row" id="table-header">
-    <div class="col s12"> 
+    <div class="col s12">
         <div class="row" style="position: relative">
             <div class="col s6" id="new-container">
-                
+
             </div>
               <div class="input-field col s4 offset-s2" id="search-container">
               <i class="mdi-action-search prefix"></i>
               <input id="icon_prefix" type="text">
               <label for="icon_prefix">Buscar</label>
-            </div>     
+            </div>
         </div>
     </div>
 </div>
@@ -39,7 +39,7 @@ $this->headTitle($title);
                 <td><?php echo $entity['medico']?></td>
                 <td><?php echo $entity['tipo']?></td>
                 <td><a href="/pacientes/historicodetalles/<?php echo $entity['idpaciente']?>">Detalles</a></td>
-            </tr>  
+            </tr>
         <?php endforeach; ?>
         </tbody>
     </table>

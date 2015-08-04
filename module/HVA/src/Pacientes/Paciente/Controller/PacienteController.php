@@ -159,12 +159,12 @@ class PacienteController extends AbstractActionController
 
     public function historicosAction()
     {
-        $pacienteQuery = \PacienteQuery::create()->find();
+        $pacienteQuery = \PacienteQuery::create()
+            ->filterBy(BasePeer::translateFieldname('paciente', 'paciente_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), 'Publico', \Criteria::NOT_EQUAL)
+            ->find();
         $pacienteArray = array();
         foreach($pacienteQuery as $pacienteValue){
-
             array_push($pacienteArray, $pacienteValue);
-
         }
 
         return new ViewModel(array(
@@ -2586,6 +2586,14 @@ class PacienteController extends AbstractActionController
         if($id){
             if(\PacienteQuery::create()->filterByIdpaciente($id)->exists()){
 
+                $cargoconsultaArticuloArray = array();
+                $cargoconsultaServicioArray = array();
+                
+                $cargoadmisionArticuloArray = array();
+                $cargoadmisionServicioArray = array();
+                         
+                $admisionanticiposArray = array();
+                
                 $pacienteEntity = \PacienteQuery::create()->filterByIdpaciente($id)->findOne();
                 $consultasQuery = $pacienteEntity->getConsultas();
                 $admisionesQuery = $pacienteEntity->getAdmisions();
@@ -2596,9 +2604,6 @@ class PacienteController extends AbstractActionController
 
                         $cargoconsultas = $consultaEntity->getCargoconsultas();
                         if($cargoconsultas->count() != 0){
-
-                            $cargoconsultaArticuloArray = array();
-                            $cargoconsultaServicioArray = array();
                             foreach($cargoconsultas as $cargoconsultaEntity){
                                 if($cargoconsultaEntity->getIdlugarinventario() != null){
                                     $articulovarianteEntity = $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
@@ -2646,10 +2651,18 @@ class PacienteController extends AbstractActionController
                     foreach($admisionesQuery as $admisionEntity){
                         $cargoadmisiones = $admisionEntity->getCargoadmisions();
                         $admisionanticiposQuery = $admisionEntity->getAdmisionAnticipos();
+                        foreach ($admisionanticiposQuery as $admisionanticipoEntity){
+                            $admisionanticipo = array(
+                                'idadmisionanticipo' => $admisionanticipoEntity->getIdadmisionanticipo(),
+                                'idadmision' => $admisionanticipoEntity->getIdadmision(),
+                                'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
+                                'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
+                                'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionanticipoNota(),
+                                'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionanticipoTipo()
+                            );
+                            array_push($admisionanticiposArray, $admisionanticipo);
+                        }
                         if($cargoadmisiones->count() != 0){
-
-                            $cargoadmisionArticuloArray = array();
-                            $cargoadmisionServicioArray = array();
                             foreach($cargoadmisiones as $cargoadmisionEntity){
                                 if($cargoadmisionEntity->getIdlugarinventario() != null){
                                     $articulovarianteEntity = $cargoadmisionEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
@@ -2699,7 +2712,7 @@ class PacienteController extends AbstractActionController
                     'pacienteEntity' => $pacienteEntity,
                     'consultasQuery' => $consultasQuery,
                     'admisionesQuery' => $admisionesQuery,
-                    'admisionanticiposQuery' => $admisionanticiposQuery,
+                    'admisionanticiposArray' => $admisionanticiposArray,
                     'cargoconsultaArticuloArray' => $cargoconsultaArticuloArray,
                     'cargoconsultaServicioArray' => $cargoconsultaServicioArray,
                     'cargoadmisionArticuloArray' => $cargoadmisionArticuloArray,

@@ -175,7 +175,7 @@ return array(
                     ),
                 ),
             ),
-
+            /*
             'pacientes-historicos' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -190,6 +190,7 @@ return array(
                     ),
                 ),
             ),
+            */
             // Módulo Venta
             'venta' => array(
                 'type'    => 'segment',
