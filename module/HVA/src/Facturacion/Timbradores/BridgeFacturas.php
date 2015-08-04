@@ -220,41 +220,47 @@ class BridgeFacturas {
                         
                         break;
 
-
-
-                    case 'externalorder':
-
-                        //$arr['folio'] = $order['idexternalorder'];  
-                        // Acomodamos los datos para crear el XML, de acuerdo a la version que lo ocupa el SAT
-
-                        $arr['id'] = $order['idexternalorder'];
-                        //
-//                        $arr['idbranch'] = $order['idbranch'];
-//                        $arr['fecha'] = $order['externalorder_date']; //date('Y-m-d H:i:s'); // $order['externalorder_paymentdate'];
-//                        $arr['formaDePago'] = 'Pago en una sola exhibición'; // Pago en una sola exhibición o número de parcialidad
-
-                        $arr['subTotal'] = $order['externalorder_total'];
-                        $arr['total'] = $order['externalorder_total'];
+                    case 'VP':
+                         
+                        $arr['metodoDePago'] = strtolower($order['venta_tipodepago']);
+                        
+                        $arr['id'] = 'VP-'.$order['idventa'];
+                        $arr['subTotal'] = 0;
+                        $arr['total'] = $order['venta_total'];
 
                         $arr['descuento'] = 0;
-//                        var_dump($order['items']);
-                        $items = $order['items'];
+                        
+                        $items = $order['detalles'];
                         $i = 0;
-                        foreach ($order['items'] as $item) {
-
-                            $arr['Conceptos'][$i]['cantidad'] = $item['externalorderitem_quantity'];
-                            $arr['Conceptos'][$i]['unidad'] = $item['externalorderitem_unit'];
-                            $arr['Conceptos'][$i]['descripcion'] = $item['externalorderitem_concept'];
-                            $arr['Conceptos'][$i]['valorUnitario'] = $item['externalorderitem_unitprice'];
-                            $arr['Conceptos'][$i]['importe'] = $item['externalorderitem_unitprice'] * $item['externalorderitem_quantity'];
-
+                        foreach ($items as $item) {
+                            
+                            $tasa = !is_null($item['servicio_tasa']) ? $item['servicio_tasa'] : $item['articulo_tasa'];
+                            if($tasa == 16){
+                                $operadorSuma = 1.16;
+                                $operadorResta = 0.16;
+                            }else{
+                                $operadorSuma = 1.0;
+                                $operadorResta=0;
+                            }
+                            $arr['Conceptos'][$i]['cantidad'] = (int)$item['cantidad'];
+                            $arr['Conceptos'][$i]['unidad'] = !is_null($item['servicio_unidad']) ? $item['servicio_unidad'] : $item['articulo_unidad'];
+                            $arr['Conceptos'][$i]['descripcion'] = !is_null($item['servicio_nombre']) ? $item['servicio_nombre'] : $item['articulo_nombre'];
+                            $valor_unitario = !is_null($item['servicio_valorunitario']) ? $item['servicio_valorunitario'] : $item['articulo_valorunitario']; 
+                            //Restamos el iva           
+                            $arr['Conceptos'][$i]['valorUnitario'] = number_format($valor_unitario / $operadorSuma,2, '.', '');
+                            $arr['Conceptos'][$i]['importe'] = $arr['Conceptos'][$i]['valorUnitario'] * $arr['Conceptos'][$i]['cantidad'];
+                            $arr['subTotal'] += $arr['Conceptos'][$i]['importe'];
+            
+                            // Impuestos 
+                            $importe =  $valor_unitario - $arr['Conceptos'][$i]['valorUnitario'];   
+                            $arr['Traslados'][$i]['impuesto'] = 'IVA';
+                            $arr['Traslados'][$i]['tasa'] = $tasa;
+                            $arr['Traslados'][$i]['importe'] = $importe * $arr['Conceptos'][$i]['cantidad']; //revisar formula
+                            
                             $i++;
                         }
-
-                        // Impuestos 
-                        $arr['Traslados']['impuesto'] = 'IVA';
-                        $arr['Traslados']['tasa'] = $this->taxTypes[ $arr['Traslados']['impuesto'] ];
-                        $arr['Traslados']['importe'] = $arr['total'] * ($arr['Traslados']['tasa'] / 100); //revisar formula
+                        
+                       
                         
                         break;
 

@@ -26,6 +26,7 @@ $this->headTitle($title);
             <th>Paciente</th>
             <th>Medico</th>
             <th>Tipo</th>
+            <th>Opciones</th>
         </tr>
         </thead>
         <tbody>
@@ -37,14 +38,14 @@ $this->headTitle($title);
                 <td><?php echo $entity['paciente']?></td>
                 <td><?php echo $entity['medico']?></td>
                 <td><?php echo $entity['tipo']?></td>
+                <td><a href="/pacientes/historicodetalles/<?php echo $entity['idpaciente']?>">Detalles</a></td>
             </tr>  
         <?php endforeach; ?>
         </tbody>
     </table>
 <script type="text/javascript">
     $(document).ready(function(){
-
-        $("#tabla-paciente").tablesorter();
+        $("#tabla-paciente").tablesorter({headers:{6:{sorter:false}}});
         $("#tabla-paciente").filterTable({inputSelector: '#search-container input',minRows:1});
     });
 </script>

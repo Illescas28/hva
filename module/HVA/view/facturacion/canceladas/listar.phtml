@@ -1,5 +1,5 @@
 <?php
-    $title = 'Facturas emitidas';
+    $title = 'Facturas canceladas';
     $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
@@ -9,12 +9,7 @@
             <?php foreach ($flashMessages as $message) :?>
                 <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
             <?php endforeach;?>
-        <?php endif;?>
-        <?php if(count($flashErrorMessages)) :?>
-            <?php foreach ($flashErrorMessages as $message) :?>
-                <div class="card-panel white-text red darken-4"><?php echo $message?></div>
-            <?php endforeach;?>
-        <?php endif;?>        
+        <?php endif;?>    
         <div class="row" style="position: relative">
               <div class="input-field col s4 offset-s2" id="search-container">
               <i class="mdi-action-search prefix"></i>
@@ -27,7 +22,7 @@
 <table id="tabla-empleados" class="table striped">
     <thead>
         <tr>
-            <th>Fecha</th>
+            <th>Fecha de cancelacion</th>
             <th># Movimiento</th>
             <th>UUID</th>
             <th>Opciones</th>
@@ -43,32 +38,8 @@
                 <a download href="/tmp/xml/<?php echo $entity['movimiento'].'.xml'?>">XML</a>
                 &nbsp;&nbsp;
                 <a download href="/tmp/xml/<?php echo $entity['movimiento'].'.pdf'?>">PDF</a>
-                &nbsp;&nbsp;
-                <a class="modal-trigger" href="#cancel-modal-factura-<?php echo $entity['id']?>">Cancelar</a>
             </td>
         </tr>
-         <!-- Delete Modal Structure -->
-        <div id="cancel-modal-factura-<?php echo $entity['id']?>" class="modal ">
-            <div class="modal-content" id="delete-modal-container">
-                <div class="row" id="delete-modal-header-container">
-                    <div class="col s5 offset-s4">
-                        <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <p><?php echo "Esta seguro que desea cancelar la factura seleccionada   ?" ?></p>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="modal-footer">
-                <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                <a href="/facturacion/facturar/cancelar/<?php echo $entity['id']?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Cancelar</a>
-              
-            </div>
-        </div>
-        <!-- End Delete Modal Structure -->
         <?php endforeach;?>
     </tbody>
 </table>

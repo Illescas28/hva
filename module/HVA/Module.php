@@ -26,8 +26,8 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         
-        $this -> initAcl($e);
-        $e -> getApplication() -> getEventManager() -> attach('route', array($this, 'checkAcl'));
+        //$this -> initAcl($e);
+        //$e -> getApplication() -> getEventManager() -> attach('route', array($this, 'checkAcl'));
        
     }
     

@@ -6,12 +6,11 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 
-class EmitidasController extends AbstractActionController
+class CanceladasController extends AbstractActionController
 {
 
     public function listarAction(){
-        
-        $collection =  \FacturaQuery::create()->orderByIdfactura('DESC')->filterByFacturaStatus('creada')->find();
+        $collection =  \FacturaQuery::create()->orderByIdfactura('DESC')->filterByFacturaStatus('cancelada')->find();
         $arr = array();
         foreach ($collection->toArray(null,false,  \BasePeer::TYPE_FIELDNAME) as $entity){
             $fecha = new \DateTime($entity['factura_fecha']);
@@ -30,8 +29,7 @@ class EmitidasController extends AbstractActionController
         
         return new ViewModel(array(
             'collection' => $arr,
-            'flashErrorMessages' => $this->flashMessenger()->getErrorMessages(),
-            'flashMessages' => $this->flashMessenger()->getMessages(),
+            'flashMessages' => $this->flashMessenger()->getSuccessMessages(),
         ));
     }
 

@@ -228,9 +228,65 @@ class FacturarController extends AbstractActionController
                     $generalOrder = $consulta;
                     break;
                 }
-            }
-            
+                
+                case 'VP':{
+                    
+                    $venta = \VentaQuery::create()->findPk($idmovimiento)->toArray(\BasePeer::TYPE_FIELDNAME);
 
+                    //Los "items"
+                    $venta_detalles_servicios = \CargoventaQuery::create()->filterByCargoventaTipo('servicio')->filterByIdventa($idmovimiento)->find();
+                    
+                    foreach ($venta_detalles_servicios as $detalle){ 
+                       $item = $detalle->toArray(\BasePeer::TYPE_FIELDNAME);
+                      
+                       $servicio_nombre = $detalle->getServicio()->getServicioNombre();
+                       $servicio_valorunitario = $detalle->getServicio()->getServicioPrecio();
+                       $item['servicio_tasa'] = $detalle->getServicio()->getServicioIva();
+                       $item['servicio_nombre'] = $servicio_nombre;
+                       $item['servicio_valorunitario'] = $servicio_valorunitario;
+                       $item['servicio_unidad'] = 'No aplica';
+                       
+                       $venta['detalles'][] = $item;
+                       
+                    }
+                   
+                    $venta_detalles_articulo = \CargoventaQuery::create()->filterByCargoventaTipo('articulo')->filterByIdventa($idmovimiento)->find();
+                    foreach ($venta_detalles_articulo as $detalle){ 
+
+                        $articulo = $detalle->getLugarinventario()->getOrdencompradetalle()->getArticuloVariante()->getArticulo();
+                        $articulo_variante = $detalle->getLugarinventario()->getOrdencompradetalle()->getArticuloVariante();
+                        
+                        $articulo_nombre = '';
+                        $articulo_nombre.=$articulo->getArticuloNombre().' ';
+                        
+                        //Descripcion
+                        $articuloVarianteValorCollection = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($articulo_variante->getIdarticulovariante())->find();
+                        
+                        $propiedadCount = 0;
+                        foreach ($articuloVarianteValorCollection as $kavv => $vavv){
+                            $propiedadCount ++;
+                            $articulo_nombre.= \PropiedadQuery::create()->findOneByIdpropiedad($vavv->getIdpropiedad())->getPropiedadNombre(); //Propiedad
+                            $articulo_nombre.= ':'.\PropiedadvalorQuery::create()->findOneByIdpropiedadvalor($vavv->getIdpropiedadvalor())->getPropiedadvalorNombre(); //PropiedadValor
+                            if($propiedadCount<$articuloVarianteValorCollection->count()){
+                                $articulo_nombre.=' - ';
+                            }
+                        }
+                       
+                        $item = $detalle->toArray(\BasePeer::TYPE_FIELDNAME);
+                        $item['articulo_nombre'] = $articulo_nombre;
+                        $item['articulo_unidad']  = 'pieza';
+                        $item['articulo_valorunitario']  = $articulo_variante->getArticulovariantePrecio();
+                         $item['articulo_tasa']  = $articulo_variante->getArticulovarianteIva();
+                       
+                        $venta['detalles'][] = $item;
+                       
+                    }
+                    $generalOrder = $venta;
+                    break;
+                }
+            }
+                
+            
             // Aqui hacer conexion con el timbrador
             $bridgeFacturas = new \Facturacion\Timbradores\BridgeFacturas('finkok');
             
@@ -255,13 +311,16 @@ class FacturarController extends AbstractActionController
                     $admision->setAdmisionFacturada(1);
                     $admision->save();
                     
-                }else if($type = 'CON'){
+                }else if($type == 'CON'){
                     $factura->setIdconsulta($idmovimiento);
                     $consulta = \ConsultaQuery::create()->findPk($idmovimiento);
                     $consulta->setConsultaFacturada(1);
                     $consulta->save();
                 }else{
                     $factura->setIdventa($idmovimiento);
+                    $venta = \VentaQuery::create()->findPk($idmovimiento);
+                    $venta->setVentaFacturada(1);
+                    $venta->save();
                 }
                 
                 $factura->setFacturaUrlXml($filePathXML);
@@ -324,6 +383,7 @@ class FacturarController extends AbstractActionController
                 }
                 case 'VP':{
                     $venta = \VentaQuery::create()->findPk($id);
+                    $factura_info['fecha'] = $venta->getVentaFecha('d-m-Y H:i');
                     $factura_info['id'] = 'VP-'.$venta->getIdventa();
                     $factura_info['paciente'] = $venta->getPaciente()->getPacienteNombre().' '.$venta->getPaciente()->getPacienteAp().' '.$venta->getPaciente()->getPacienteAm();
                     $factura_info['idpaciente'] = $venta->getPaciente()->getIdpaciente();
@@ -333,7 +393,7 @@ class FacturarController extends AbstractActionController
                     $factura_info['total'] = $venta->getVentaTotal();
                     $factura_info['tipo'] = 'venta al publico';
                     
-                    $direcciones = \PacientefacturacionQuery::create()->find()->toArray(null,false,  \BasePeer::TYPE_FIELDNAME);
+                    $direcciones = \PacientefacturacionQuery::create()->filterByIdpaciente(1)->find()->toArray(null,false,  \BasePeer::TYPE_FIELDNAME);
                     break;
                 }
 
@@ -381,5 +441,57 @@ class FacturarController extends AbstractActionController
         
     }
     
+    public function cancelarAction(){
+        if($this->params()->fromRoute('id')){
+            
+            $id = $this->params()->fromRoute('id');
+            
+            $factura = \FacturaQuery::create()->findPk($id);
+            //Verificamos si la factura esta dentros del rango permitido
+            $current_date = new \DateTime();
+            $current_month = $current_date->format('m');
+            $factura_month = $factura->getFacturaFecha('m');
+            
+            if($current_month != $factura_month){
+                $this->flashMessenger()->addErrorMessage('Lo sentimos pero no es posible cancelar esta factura ya que no fue emitida en el mes en curso');
+                return $this->redirect()->toUrl('/facturacion/emitidas');
+            }
+           
+            # Read the x509 certificate file on PEM format and encode it on base64
+            $cerpem = file_get_contents(__DIR__.'/../Certificados/aad990814bp7_1210261233s.cer.pem');
+            # Read the Encrypted Private Key (des3) file on PEM format and encode it on base64
+            $keypem = file_get_contents(__DIR__.'/../Certificados/aad990814bp7_1210261233s.key.pem');
+            
+            $taxpayer_id = $this->emisorArr['rfc']; # The RFC of the Emisor
+            $invoices = array($factura->getFacturaCfdi()); # A list of UUIDs
+            
+            $url = "http://demo-facturacion.finkok.com/servicios/soap/cancel.wsdl";
+            $client = new \SoapClient($url);
+            $params = array(  
+              "UUIDS" => array('uuids' => $invoices),
+              "username" => 'jorgealvarez14@hotmail.com',
+              "password" => 'Hva2015#',
+              "taxpayer_id" => $taxpayer_id,
+              "cer" => $cerpem,
+              "key" => $keypem
+            );
+            $response = $client->__soapCall("cancel", array($params));
+            
+            if ($response->cancelResult->Folios->Folio->EstatusUUID == 202) {
+                $this->flashMessenger()->addErrorMessage('Se produjo un error al intentar cancelar la factura, por favor refresque e intente nuevamente');
+            } else { //Si no hubo problema al cancelar
+                $factura->setFacturaStatus('cancelada');
+                $factura->setFacturaFecha($response->cancelResult->Fecha);
+                $factura->save();
+                $this->flashMessenger()->addSuccessMessage('Factura cancelada exitosamente!');
+                return $this->redirect()->toUrl('/facturacion/canceladas');
+            }
+            
+        }    
+        $this->getResponse()->setStatusCode(404);
+        return;
+       
+        
+    }
   
 }

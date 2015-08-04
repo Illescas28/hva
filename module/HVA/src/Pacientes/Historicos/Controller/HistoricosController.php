@@ -19,6 +19,7 @@ class HistoricosController extends AbstractActionController
             $hora =  date("g:i A", strtotime($admision->getAdmisionFechaadmision('h:i')));
             $tmp['hora'] = $hora;
             $tmp['id'] = 'ADM-'.$admision->getIdadmision();
+            $tmp['idpaciente'] =  $admision->getPaciente()->getIdpaciente();
             $tmp['paciente'] = $admision->getPaciente()->getPacienteNombre().' '.$admision->getPaciente()->getPacienteAp().' '.$admision->getPaciente()->getPacienteAm();
             $tmp['medico'] = $admision->getMedico()->getMedicoNombre().' '.$admision->getMedico()->getMedicoApellidopaterno().' '.$admision->getMedico()->getMedicoApellidomaterno();
             $tmp['tipo'] = 'admision';
@@ -32,6 +33,7 @@ class HistoricosController extends AbstractActionController
             $hora =  date("g:i A", strtotime($consulta->getConsultaHora('h:i')));
             $tmp['hora'] = $hora;
             $tmp['id'] = 'CON-'.$consulta->getIdconsulta();
+            $tmp['idpaciente'] =  $consulta->getPaciente()->getIdpaciente();
             $tmp['paciente'] = $consulta->getPaciente()->getPacienteNombre().' '.$consulta->getPaciente()->getPacienteAp().' '.$consulta->getPaciente()->getPacienteAm();
             $tmp['medico'] = $consulta->getMedico()->getMedicoNombre().' '.$consulta->getMedico()->getMedicoApellidopaterno().' '.$consulta->getMedico()->getMedicoApellidomaterno();
             $tmp['tipo'] = 'consulta';
