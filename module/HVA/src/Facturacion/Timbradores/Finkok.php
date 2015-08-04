@@ -61,20 +61,20 @@ class Finkok {
                 // In newer PHP versions the SoapLib class automatically converts FILE parameters to base64, so the next line is not needed, otherwise uncomment it
                 //$xml_content = base64_encode($xml_content);
                 # Consuming the stamp service
-
+                
                 $params = array(
                     "xml" => $xml_content,
                     "username" => $this->username,
                     "password" => $this->password
                 );
-
+                 
                 try {
                     
                     $response = $this->soapClient->__soapCall($this->metodo, array($params));
                   
                 } catch (\Exception $e) {
                    
-                    var_dump($e);
+              
                 }
 
                

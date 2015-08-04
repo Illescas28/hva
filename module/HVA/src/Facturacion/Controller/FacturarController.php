@@ -172,6 +172,62 @@ class FacturarController extends AbstractActionController
                     $generalOrder = $admision;
                     break;
                 }
+                
+                case 'CON':{
+                    
+                    $consulta = \ConsultaQuery::create()->findPk($idmovimiento)->toArray(\BasePeer::TYPE_FIELDNAME);
+
+                    //Los "items"
+                    $consulta_detalles_servicios = \CargoconsultaQuery::create()->filterByCargoconsultaTipo('servicio')->filterByIdconsulta($idmovimiento)->find();
+                    
+                    foreach ($consulta_detalles_servicios as $detalle){ 
+                       $item = $detalle->toArray(\BasePeer::TYPE_FIELDNAME);
+                      
+                       $servicio_nombre = $detalle->getServicio()->getServicioNombre();
+                       $servicio_valorunitario = $detalle->getServicio()->getServicioPrecio();
+                       $item['servicio_tasa'] = $detalle->getServicio()->getServicioIva();
+                       $item['servicio_nombre'] = $servicio_nombre;
+                       $item['servicio_valorunitario'] = $servicio_valorunitario;
+                       $item['servicio_unidad'] = 'No aplica';
+                       
+                       $consulta['detalles'][] = $item;
+                       
+                    }
+                   
+                    $consulta_detalles_articulo = \CargoconsultaQuery::create()->filterByCargoconsultaTipo('articulo')->filterByIdconsulta($idmovimiento)->find();
+                    foreach ($consulta_detalles_articulo as $detalle){ 
+
+                        $articulo = $detalle->getLugarinventario()->getOrdencompradetalle()->getArticuloVariante()->getArticulo();
+                        $articulo_variante = $detalle->getLugarinventario()->getOrdencompradetalle()->getArticuloVariante();
+                        
+                        $articulo_nombre = '';
+                        $articulo_nombre.=$articulo->getArticuloNombre().' ';
+                        
+                        //Descripcion
+                        $articuloVarianteValorCollection = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($articulo_variante->getIdarticulovariante())->find();
+                        
+                        $propiedadCount = 0;
+                        foreach ($articuloVarianteValorCollection as $kavv => $vavv){
+                            $propiedadCount ++;
+                            $articulo_nombre.= \PropiedadQuery::create()->findOneByIdpropiedad($vavv->getIdpropiedad())->getPropiedadNombre(); //Propiedad
+                            $articulo_nombre.= ':'.\PropiedadvalorQuery::create()->findOneByIdpropiedadvalor($vavv->getIdpropiedadvalor())->getPropiedadvalorNombre(); //PropiedadValor
+                            if($propiedadCount<$articuloVarianteValorCollection->count()){
+                                $articulo_nombre.=' - ';
+                            }
+                        }
+                       
+                        $item = $detalle->toArray(\BasePeer::TYPE_FIELDNAME);
+                        $item['articulo_nombre'] = $articulo_nombre;
+                        $item['articulo_unidad']  = 'pieza';
+                        $item['articulo_valorunitario']  = $articulo_variante->getArticulovariantePrecio();
+                         $item['articulo_tasa']  = $articulo_variante->getArticulovarianteIva();
+                       
+                        $consulta['detalles'][] = $item;
+                       
+                    }
+                    $generalOrder = $consulta;
+                    break;
+                }
             }
             
 
@@ -186,7 +242,41 @@ class FacturarController extends AbstractActionController
                 $details = $res['error'];
                 return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false, 'details' =>  $details)));
             }else{
-                echo '<pre>';var_dump('entro'); echo '</pre>';exit();
+                $xmlTimbrado = $res['response'];
+                $filePathXML = '/tmp/xml/' . $res['xmlId'] . '.xml';
+                $filePathPDF = '/tmp/pdf/' . $res['xmlId'] . '.pdf';
+                //Guardamos los datos de la factura
+                $factura = new \Factura();
+                $factura->setIddatosfacturacion($post_data['idpacientefacturacion']);
+               
+                if($type == 'ADM'){
+                    $factura->setIdadmision($idmovimiento);
+                    $admision = \AdmisionQuery::create()->findPk($idmovimiento);
+                    $admision->setAdmisionFacturada(1);
+                    $admision->save();
+                    
+                }else if($type = 'CON'){
+                    $factura->setIdconsulta($idmovimiento);
+                    $consulta = \ConsultaQuery::create()->findPk($idmovimiento);
+                    $consulta->setConsultaFacturada(1);
+                    $consulta->save();
+                }else{
+                    $factura->setIdventa($idmovimiento);
+                }
+                
+                $factura->setFacturaUrlXml($filePathXML);
+                $factura->setFacturaUrlPdf($filePathPDF);
+                $factura->setFacturaFecha($xmlTimbrado['fecha']);
+                $factura->setFacturaSellosat($xmlTimbrado['SatSeal']);
+                $factura->setFacturaCertificadosat($xmlTimbrado['NoCertificadoSAT']);
+                $factura->setFacturaCfdi($xmlTimbrado['uuid']);
+                $factura->setFacturaMensaje($xmlTimbrado['codEstatus']);
+                $factura->setFacturaTipodepago('unico');
+                $factura->setFacturaTipo('ingreso');
+                $factura->setFacturaStatus('creada');
+                $factura->save();                
+                $this->flashMessenger()->addMessage('Factura emitida exitosamente!');
+                return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true)));
             } 
         }
         
@@ -216,7 +306,7 @@ class FacturarController extends AbstractActionController
                     break;
                 }
                 case 'CON':{
-                    echo '<pre>';var_dump('$producto'); echo '<pre>';exit();
+                   
                     $consulta = \ConsultaQuery::create()->findPk($id);
                     $factura_info['fecha'] =  $consulta->getConsultaFecha('d-m-Y');
                     $factura_info['fecha'].= ' '.$consulta->getConsultaHora();

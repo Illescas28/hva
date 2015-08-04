@@ -1,5 +1,5 @@
 <?php
-    $title = 'Cuentas por facturar';
+    $title = 'Facturas emitidas';
     $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
@@ -23,29 +23,23 @@
     <thead>
         <tr>
             <th>Fecha</th>
-            <th>#Movimiento</th>
-            <th>Paciente</th>
-            <th>Medico</th>
-            <th>Fecha de pago</th>
-            <th>Tipo de pago</th>
-            <th>Total</th>
-            <th>Tipo</th>
-            <th>opciones</th>
+            <th># Movimiento</th>
+            <th>UUID</th>
+            <th>Opciones</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($collection as $entity) :?>
         <tr id="<?php echo $entity['id']?>">
             <td><?php echo $entity['fecha']?></td>
-            <td><?php echo $entity['id']?></td>
-            <td><?php echo $entity['paciente']?></td>
-            <td><?php echo $entity['medico']?></td>
-            <td><?php echo $entity['pagada']?></td>
-            <td><?php echo $entity['tipo_pago']?></td>
-            <td class="money"><?php echo $entity['total']?></td>
-            <td><?php echo $entity['tipo']?></td>
+            <td><?php echo $entity['movimiento']?></td>
+            <td><?php echo $entity['uuid']?></td>
             <td>
-                <a href="/facturacion/facturar/generar/<?php echo $entity['id']?>">Generar factura</a>
+                <a download href="/tmp/xml/<?php echo $entity['movimiento'].'.xml'?>">XML</a>
+                &nbsp;&nbsp;
+                <a download href="/tmp/xml/<?php echo $entity['movimiento'].'.pdf'?>">PDF</a>
+                &nbsp;&nbsp;
+                <a download href="/tmp/xml/<?php echo $entity['movimiento'].'.pdf'?>">Cancelar</a>
             </td>
         </tr>
         <?php endforeach;?>
@@ -53,7 +47,7 @@
 </table>
 <script>
 $(document).ready(function(){
-         $("#tabla-empleados").tablesorter({headers:{8:{sorter:false}}});
+         $("#tabla-empleados").tablesorter({headers:{3:{sorter:false}}});
          $("#tabla-empleados").filterTable({inputSelector: '#search-container input',minRows:1});
          $('.modal-trigger').leanModal();
          $('.money').filter(function(){

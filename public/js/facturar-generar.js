@@ -107,9 +107,18 @@
                    url:'/facturacion/facturar/generar',
                    method: 'POST',
                    dataType: 'json',
+                   beforeSend: function () {
+                       $container.find('button').addClass('loading');
+                   },
                    data:{idpacientefacturacion:idpacientefacturacion, idmovimiento:idmovimiento},
                     success: function (data) {
-                        console.log(data);
+                         $container.find('button').removeClass('loading');
+                        if(data.response == false){
+                            alert(data.details);
+                        }else{
+                            $container.find('button').removeClass('loading');
+                            window.location.replace("/facturacion/emitidas");
+                        }
                     }
                });
            }else{

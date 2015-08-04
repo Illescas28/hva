@@ -49,18 +49,21 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
 
     /**
      * The value for the articulovariante_costo field.
+     * Note: this column has a database default value of: '0.00'
      * @var        string
      */
     protected $articulovariante_costo;
 
     /**
      * The value for the articulovariante_precio field.
+     * Note: this column has a database default value of: '0.00'
      * @var        string
      */
     protected $articulovariante_precio;
 
     /**
      * The value for the articulovariante_iva field.
+     * Note: this column has a database default value of: '16'
      * @var        string
      */
     protected $articulovariante_iva;
@@ -131,6 +134,29 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $ordencompradetallesScheduledForDeletion = null;
+
+    /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see        __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->articulovariante_costo = '0.00';
+        $this->articulovariante_precio = '0.00';
+        $this->articulovariante_iva = '16';
+    }
+
+    /**
+     * Initializes internal state of BaseArticulovariante object.
+     * @see        applyDefaults()
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->applyDefaultValues();
+    }
 
     /**
      * Get the [idarticulovariante] column value.
@@ -370,6 +396,18 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->articulovariante_costo !== '0.00') {
+                return false;
+            }
+
+            if ($this->articulovariante_precio !== '0.00') {
+                return false;
+            }
+
+            if ($this->articulovariante_iva !== '16') {
+                return false;
+            }
+
         // otherwise, everything was equal, so return true
         return true;
     } // hasOnlyDefaultValues()
@@ -2131,6 +2169,7 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

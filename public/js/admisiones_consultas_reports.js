@@ -141,7 +141,6 @@
                 $table.find('tbody').children('tr:visible').filter(function(){
                     var tr_time = $(this).find('td').eq(1).text();
                     tr_time = appToJsTime(tr_time);
-                    console.log(tr_time);
                     if(settings.filters.hora_to < tr_time.getTime()){
                         $(this).hide();
                     }

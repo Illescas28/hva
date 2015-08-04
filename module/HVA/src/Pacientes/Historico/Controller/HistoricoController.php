@@ -11,7 +11,7 @@ class HistoricoController extends AbstractActionController
     {
         
         $historico_array = array();
-        $movimiento_arraty = array();
+        $movimiento_array = array();
         
         $admisiones = \AdmisionQuery::create()->find();
         foreach ($admisiones as $admision){
@@ -40,6 +40,7 @@ class HistoricoController extends AbstractActionController
         }
         
         return new ViewModel(array(
+            'movimientos' => $movimiento_array,
             'collection' => $historico_array
         ));
         

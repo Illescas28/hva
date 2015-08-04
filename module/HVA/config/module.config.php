@@ -64,6 +64,19 @@ return array(
                     ),
                 ),
             ),
+            'facturacion-emitidas' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/facturacion/emitidas[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'listar',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Facturacion\Controller\emitidas',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             // Módulo Pacientes
             'pacientes' => array(
                 'type'    => 'segment',
@@ -645,8 +658,8 @@ return array(
             'Reportes\Controller\General'                                       => 'Reportes\Controller\GeneralController',
             
             //Facturacion
-            'Facturacion\Controller\facturar'                                   => 'Facturacion\Controller\facturarController'
-            
+            'Facturacion\Controller\facturar'                                   => 'Facturacion\Controller\facturarController',
+            'Facturacion\Controller\emitidas'                                   => 'Facturacion\Controller\EmitidasController',
             ),
     ),
     'view_manager' => array(

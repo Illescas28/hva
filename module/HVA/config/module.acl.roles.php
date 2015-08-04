@@ -49,6 +49,7 @@ return array(
         'venta',
         //facturacion
         'facturacion-facturar',
+        'facturacion-emitidas',
     ),
     'Caja' => array(
         'auth',
