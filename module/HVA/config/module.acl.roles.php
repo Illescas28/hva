@@ -1,10 +1,10 @@
 <?php
+
 return array(
-    'Administrador'=> array(
+    'Administrador' => array(
         'home',
         'auth',
         //Catalogos
-            
         'proveedor',
         'articulo',
         'medico',
@@ -40,6 +40,7 @@ return array(
         'pacientes',
         'cargoconsulta',
         'consultaanticipo',
+        'pacientes-historico',
         'pacientes-historicos',
         'citas-agendar',
         'citas',
@@ -49,7 +50,7 @@ return array(
         //facturacion
         'facturacion-facturar',
     ),
-    'Caja'=> array(
+    'Caja' => array(
         'auth',
         'home',
         //Caja
@@ -66,14 +67,13 @@ return array(
         'pacientes-historicos',
         'citas-agendar',
         'citas',
-        'admisionanticipo', 
+        'admisionanticipo',
         //venta
         'venta',
         //facturacion
         'facturacion-facturar',
-
     ),
-    'Enfermeria'=> array(
+    'Enfermeria' => array(
         'auth',
         'home',
         //Almacen
@@ -85,7 +85,7 @@ return array(
         //venta
         'venta',
     ),
-    'Admision'=> array(
+    'Admision' => array(
         'auth',
         'home',
         //pacientes
@@ -93,13 +93,13 @@ return array(
         'citas-agendar',
         'citas',
     ),
-    'Quirofano'=> array(
+    'Quirofano' => array(
         'auth',
         'home',
         //Almacen
         'almacen-transferencias',
     ),
-    'Farmacia'=> array(
+    'Farmacia' => array(
         'auth',
         'home',
         //Almacen
@@ -107,7 +107,7 @@ return array(
         //venta
         'venta',
     ),
-    'Almacen'=> array(
+    'Almacen' => array(
         'auth',
         'home',
         //Almacen
@@ -116,6 +116,4 @@ return array(
         'productos-existencias',
         'productos-reorden',
     ),
-    
-
 );
