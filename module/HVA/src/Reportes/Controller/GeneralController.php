@@ -26,7 +26,7 @@ class GeneralController extends AbstractActionController
             //Verificar con George
             $rs = \FacturaQuery::create()->findOneByIdadmision($admision->getIdadmision());
             $tmp['razon_social'] = $rs;
-            if(!is_null($rs)){
+            if(!is_null($rs) && $rs->getAdmision()->getAdmisionFacturada(true)){
                 $tmp['razon_social'] = $rs->getPacientefacturacion()->getPacientefacturacionRazonsocial();
             }else{
                 $tmp['razon_social'] = NULL;
@@ -70,7 +70,7 @@ class GeneralController extends AbstractActionController
             $tmp['status_pago'] = $consulta->getConsultaStatus();
             //Verificar con George
             $rs = \FacturaQuery::create()->findOneByIdconsulta($consulta->getIdconsulta());
-            if(!is_null($rs)){
+            if(!is_null($rs) && $rs->getConsulta()->getConsultaFacturada(true)){
                 $tmp['razon_social'] = $rs->getPacientefacturacion()->getPacientefacturacionRazonsocial();
             }else{
                 $tmp['razon_social'] = NULL;
