@@ -56,10 +56,36 @@ return array(
                 'options' => array(
                     'route'    => '/facturacion/facturar[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'listar|generar|nuevodatosfacturacion',
+                        'action' => 'listar|generar|nuevodatosfacturacion|cancelar',
                     ),
                     'defaults' => array(
                         'controller' => 'Facturacion\Controller\facturar',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'facturacion-emitidas' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/facturacion/emitidas[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'listar',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Facturacion\Controller\emitidas',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'facturacion-canceladas' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/facturacion/canceladas[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'listar',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Facturacion\Controller\Canceladas',
                         'action'     => 'listar',
                     ),
                 ),
@@ -645,8 +671,9 @@ return array(
             'Reportes\Controller\General'                                       => 'Reportes\Controller\GeneralController',
             
             //Facturacion
-            'Facturacion\Controller\facturar'                                   => 'Facturacion\Controller\facturarController'
-            
+            'Facturacion\Controller\facturar'                                   => 'Facturacion\Controller\facturarController',
+            'Facturacion\Controller\emitidas'                                   => 'Facturacion\Controller\EmitidasController',
+            'Facturacion\Controller\Canceladas'                                 => 'Facturacion\Controller\CanceladasController',
             ),
     ),
     'view_manager' => array(

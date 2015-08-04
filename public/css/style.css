@@ -678,6 +678,9 @@ img#empleado_imagen{
     z-index : auto !important;
 }
 
-.row_report{
-    
+/*Loading*/
+button.loading{
+    background-image: url("/img/ajax_loader_white.gif" ) ; 
+    background-repeat: no-repeat;
+    background-position: 3% 45%;
 }

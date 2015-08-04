@@ -36,6 +36,9 @@ return array(
         'productos-reorden',
         'productos-registro',
         'productos-existencias',
+        'productos-existencias',
+        'productos-existencias/productos-existencias-caducidadbylugar',
+        'productos-reorden/productos-reorden-definir',
         //pacientes
         'pacientes',
         'cargoconsulta',
@@ -49,6 +52,8 @@ return array(
         'venta',
         //facturacion
         'facturacion-facturar',
+        'facturacion-emitidas',
+        'facturacion-canceladas'
     ),
     'Caja' => array(
         'auth',

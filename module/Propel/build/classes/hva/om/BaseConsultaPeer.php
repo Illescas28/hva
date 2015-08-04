@@ -80,10 +80,12 @@ abstract class BaseConsultaPeer
     const CONSULTA_STATUS_PENDIENTE = 'pendiente';
 
     /** The enumerated values for the consulta_tipodepago field */
-    const CONSULTA_TIPODEPAGO_EFECTIVO = 'efectivo';
-    const CONSULTA_TIPODEPAGO_TARJETA_DEBITO = 'tarjeta debito';
-    const CONSULTA_TIPODEPAGO_TARJETA_CREDITO = 'tarjeta credito';
-    const CONSULTA_TIPODEPAGO_CHEQUE = 'cheque';
+    const CONSULTA_TIPODEPAGO_EFECTIVO = 'Efectivo';
+    const CONSULTA_TIPODEPAGO_TARJETA_DE_DEBITO = 'Tarjeta de debito';
+    const CONSULTA_TIPODEPAGO_TARJETA_DE_CREDITO = 'Tarjeta de credito';
+    const CONSULTA_TIPODEPAGO_CHEQUE = 'Cheque';
+    const CONSULTA_TIPODEPAGO_NO_IDENTIFICADO = 'No identificado';
+    const CONSULTA_TIPODEPAGO_SPEI = 'SPEI';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -136,9 +138,11 @@ abstract class BaseConsultaPeer
         ),
         ConsultaPeer::CONSULTA_TIPODEPAGO => array(
             ConsultaPeer::CONSULTA_TIPODEPAGO_EFECTIVO,
-            ConsultaPeer::CONSULTA_TIPODEPAGO_TARJETA_DEBITO,
-            ConsultaPeer::CONSULTA_TIPODEPAGO_TARJETA_CREDITO,
+            ConsultaPeer::CONSULTA_TIPODEPAGO_TARJETA_DE_DEBITO,
+            ConsultaPeer::CONSULTA_TIPODEPAGO_TARJETA_DE_CREDITO,
             ConsultaPeer::CONSULTA_TIPODEPAGO_CHEQUE,
+            ConsultaPeer::CONSULTA_TIPODEPAGO_NO_IDENTIFICADO,
+            ConsultaPeer::CONSULTA_TIPODEPAGO_SPEI,
         ),
     );
 

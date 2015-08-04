@@ -48,10 +48,10 @@ class FacturaTableMap extends TableMap
         $this->addColumn('factura_fecha', 'FacturaFecha', 'TIMESTAMP', true, null, null);
         $this->addColumn('factura_sellosat', 'FacturaSellosat', 'LONGVARCHAR', true, null, null);
         $this->addColumn('factura_certificadosat', 'FacturaCertificadosat', 'LONGVARCHAR', true, null, null);
-        $this->addColumn('factura_cadenaoriginal', 'FacturaCadenaoriginal', 'VARCHAR', true, 45, null);
+        $this->addColumn('factura_cadenaoriginal', 'FacturaCadenaoriginal', 'VARCHAR', false, 45, null);
         $this->addColumn('factura_cfdi', 'FacturaCfdi', 'VARCHAR', true, 45, null);
         $this->addColumn('factura_mensaje', 'FacturaMensaje', 'VARCHAR', true, 45, null);
-        $this->addColumn('factura_qrcode', 'FacturaQrcode', 'VARCHAR', true, 45, null);
+        $this->addColumn('factura_qrcode', 'FacturaQrcode', 'VARCHAR', false, 45, null);
         $this->addColumn('factura_tipodepago', 'FacturaTipodepago', 'CHAR', false, null, null);
         $this->getColumn('factura_tipodepago', false)->setValueSet(array (
   0 => 'unico',
