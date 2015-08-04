@@ -604,8 +604,6 @@ class PacienteController extends AbstractActionController
 
     public function detallesAction(){
 
-        $request = $this->getRequest();
-
         $id = (int) $this->params()->fromRoute('id', 0);
         if($id){
             if(\VentaQuery::create()->filterByIdventa($id)->exists()){

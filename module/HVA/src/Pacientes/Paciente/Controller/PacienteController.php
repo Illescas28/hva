@@ -2566,6 +2566,80 @@ class PacienteController extends AbstractActionController
         }
     }
 
+    public function hostoricodetallesAction(){
+
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if($id){
+            if(\PacienteQuery::create()->filterByIdpaciente($id)->exists()){
+
+                $pacienteEntity = \PacienteQuery::create()->filterByIdpaciente($id)->findOne();
+                $consultasQuery = $pacienteEntity->getConsultas();
+                $admisionesQuery = $pacienteEntity->getAdmisions();
+
+                if($consultasQuery->count() != 0){
+
+                    foreach($consultasQuery as $consultasEntity){
+                        if($consultasEntity->count() != 0){
+                            $cargoArticuloArray = array();
+                            $cargoventaServicioArray = array();
+                            foreach($cargoventaQuery as $cargoventaEntity){
+                                if($cargoventaEntity->getIdlugarinventario() != null){
+                                    $articulovarianteEntity = $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                                    $propiedadvalorNombre = null;
+                                    foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                        $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                        $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                        $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
+                                    }
+
+                                    $cargoventaArticulo = array(
+                                        'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
+                                        'idventa' => $cargoventaEntity->getIdventa(),
+                                        'venta_status' => $cargoventaEntity->getVenta()->getVentaStatus(),
+                                        'cantidad' => $cargoventaEntity->getCantidad(),
+                                        'articulo' => $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                                        'descripcion' => utf8_encode($propiedadvalorNombre),
+                                        'salida' => $cargoventaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
+                                        'fechahora' => $cargoventaEntity->getCargoventaFecha(),
+                                        'precio' => $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
+                                        'subtotal' => $cargoventaEntity->getMonto(),
+                                    );
+                                    array_push($cargoventaArticuloArray, $cargoventaArticulo);
+                                }
+
+                                if($cargoventaEntity->getIdservicio() != null){
+                                    $cargoventaServicio = array(
+                                        'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
+                                        'idventa' => $cargoventaEntity->getIdventa(),
+                                        'venta_status' => $cargoventaEntity->getVenta()->getVentaStatus(),
+                                        'cantidad' => $cargoventaEntity->getCantidad(),
+                                        'servicio' => $cargoventaEntity->getServicio()->getServicioNombre(),
+                                        'descripcion' => $cargoventaEntity->getServicio()->getServicioDescripcion(),
+                                        'precio' => $cargoventaEntity->getServicio()->getServicioPrecio(),
+                                        'subtotal' => $cargoventaEntity->getMonto(),
+                                        'fechahora' => $cargoventaEntity->getCargoventaFecha(),
+                                    );
+                                    array_push($cargoventaServicioArray, $cargoventaServicio);
+                                }
+                            }
+                        }
+                    }
+                }
+                if($admisionesQuery->count() != 0){
+
+                }
+
+                return new ViewModel(array(
+                    'ventaEntity' => $ventaEntity,
+                    'cargoventaArticuloArray' => $cargoventaArticuloArray,
+                    'cargoventaServicioArray' => $cargoventaServicioArray,
+                ));
+            }
+        }else{
+            return $this->redirect()->toRoute('venta');
+        }
+    }
+
     public function editarAction()
     {
 
