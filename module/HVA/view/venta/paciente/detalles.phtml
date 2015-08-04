@@ -1,0 +1,111 @@
+<?php
+$title = "Detalles de venta";
+$this->headTitle($title);
+date_default_timezone_set('America/Mexico_City');
+?>
+
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div>
+<fieldset>
+    <legend>Datos generales</legend>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Atendió:</label>
+            <p><?php echo $_SESSION["empleado_session"]["empleado_info"]["empleado_nombre"].' '.$_SESSION["empleado_session"]["empleado_info"]["empleado_apellidopaterno"]?></p>
+        </div>
+    </div>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Fecha:</label>
+            <p><?php echo $ventaEntity->getVentaFecha()?></p>
+        </div>
+    </div>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Hora:</label>
+            <p><?php echo date('H:i:s')?></p>
+        </div>
+    </div>
+</fieldset>
+<br>
+<div class="row">
+<div id="cargosVenta">
+<fieldset>
+    <legend>Cargos al paciente</legend>
+    <div id="totalSuperior" class="col s2">
+        <div class="label-container">
+            <label>Total:</label>
+            <p><?php echo $ventaEntity->getVentaTotal()?></p>
+        </div>
+    </div>
+    <div id="totalSuperior" class="col s2">
+
+        <div class="label-container">
+            <label>Status:</label>
+            <p><?php echo $ventaEntity->getVentaStatus()?></p>
+        </div>
+    </div>
+    <div id="cargoventaArticuloResult" class="col s12">
+        <table class="hoverable striped">
+            <thead>
+            <tr>
+                <th>Cantidad</th>
+                <th>Articulo</th>
+                <th>Descripción</th>
+                <th>Salida</th>
+                <th>Fecha/hora</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach($cargoventaArticuloArray as $cargoventaArticuloEntity): ?>
+                    <tr>
+                        <td><?php echo $cargoventaArticuloEntity["cantidad"]?></td>
+                        <td><?php echo $cargoventaArticuloEntity["articulo"] ?></td>
+                        <td><?php echo $cargoventaArticuloEntity["descripcion"] ?></td>
+                        <td><?php echo $cargoventaArticuloEntity["salida"] ?></td>
+                        <td><?php echo $cargoventaArticuloEntity["fechahora"] ?></td>
+                        <td><?php echo $cargoventaArticuloEntity["precio"] ?></td>
+                        <td><?php echo $cargoventaArticuloEntity["subtotal"] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <div id="cargoventaServicioResult" class="col s12">
+        <table class="hoverable striped">
+            <thead>
+            <tr>
+                <th>Cantidad</th>
+                <th>Servicio</th>
+                <th>Descripción</th>
+                <th>Fecha/hora</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($cargoventaServicioArray as $cargoventaServicioEntity): ?>
+                <tr>
+                    <td><?php echo $cargoventaServicioEntity["cantidad"]?></td>
+                    <td><?php echo $cargoventaServicioEntity["servicio"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["descripcion"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["fechahora"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["precio"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["subtotal"] ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div id="totalInferior" class="col s12">
+        <h4 class="right-align">Total: <?php echo $ventaEntity->getVentaTotal()?> MXN</h4>
+    </div>
+</fieldset>
+</div>

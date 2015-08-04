@@ -155,7 +155,7 @@ return array(
                 'options' => array(
                     'route'    => '/venta[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|asignar|editar|eliminar',
+                        'action' => 'nuevo|asignar|editar|eliminar|detalles',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
