@@ -28,6 +28,7 @@
             <th>Nombre</th>
             <th>Usuario</th>
             <th>Correo Electronico</th>
+            <th>Rol</th>
             <th>Opciones</th>
         </tr>
     </thead>
@@ -37,6 +38,7 @@
             <td><?php echo $empleado['nombre'] ?></td>
             <td><?php echo $empleado['usuario'] ?></td>
             <td><?php echo $empleado['email'] ?></td>
+            <td><?php echo $empleado['rol'] ?></td>
             <td>
                 <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/empleados/editar/".$empleado['id']?>'><i class="tiny mdi-action-assignment"></i></a>
                 &nbsp;&nbsp;    

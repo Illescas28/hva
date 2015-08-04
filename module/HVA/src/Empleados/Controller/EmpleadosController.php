@@ -16,9 +16,10 @@ class EmpleadosController extends AbstractActionController
             $tmp['nombre'] = $empleado->getEmpleadoNombre(). ' '. $empleado->getEmpleadoApellidopaterno(). ' '. $empleado->getEmpleadoApellidomaterno();
             $tmp['email'] = $empleado->getEmpleadoEmail();
             $tmp['usuario'] = $empleado->getEmpleadoNombreusuario();
+            $tmp['rol'] = $empleado->getRol()->getRolNombre();
             $empleadoTable[] = $tmp;
         }
-        
+
         return new ViewModel(array(
             'empleados'         => $empleadoTable,
             'flashMessages' => $this->flashMessenger()->getMessages(),

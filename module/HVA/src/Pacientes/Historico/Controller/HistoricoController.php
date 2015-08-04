@@ -40,7 +40,6 @@ class HistoricoController extends AbstractActionController
         }
         
         return new ViewModel(array(
-            'movimientos' => json_encode($movimiento_array),
             'collection' => $historico_array
         ));
         
