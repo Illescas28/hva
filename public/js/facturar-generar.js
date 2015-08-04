@@ -126,13 +126,40 @@
            }
        };
        
+       var appToJsDate = function(appdate){
+           
+           var date_array = appdate.split('-');
+           var dateJS = new Date();
+           dateJS.setDate(parseInt(date_array[0]));
+           dateJS.setMonth(parseInt(date_array[1]) - 1);
+           //dateJS.setYear(date_array[2]);
+           //dateJS.setHours(0,0,0);
+           
+           return dateJS;
+           
+       }
+       
        /*
         * Public methods
         */
         
         plugin.init = function(){
+            
             settings = plugin.settings = $.extend({}, defaults, options);
             
+            //Verificamos si es posible factura
+            var current_month = new Date();
+            current_month = current_month.getMonth();
+            
+            var pagada_date = appToJsDate(settings.general_info.pagada);
+            var pagada_month = pagada_date.getMonth();
+            
+            if(pagada_date != pagada_month){
+                var message = $(' <div class="card-panel white-text red darken-4">Lo sentimos pero no es posible generar esta factura ya que no fue pagada en el mes en curso</div>');
+                $container.find('#generar').prop('disabled',true);
+                $container.prepend(message);
+            }
+
             $container.find('#new_taxdata').on('click',newTaxdata);
             $container.find('button#generar').on('click',generarFactura);
         }

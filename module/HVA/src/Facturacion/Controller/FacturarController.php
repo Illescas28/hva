@@ -483,6 +483,20 @@ class FacturarController extends AbstractActionController
                 $factura->setFacturaStatus('cancelada');
                 $factura->setFacturaFecha($response->cancelResult->Fecha);
                 $factura->save();
+                //Cambiamos el status de la admision/venta/consutla
+                if(!is_null($factura->getIdadmision())){
+                    $admision = $factura->getAdmision();
+                    $admision->setAdmisionFacturada(0);
+                    $admision->save();
+                }elseif(!is_null($factura->getIdconsulta ())){
+                    $consulta = $factura->getConsulta();
+                    $consulta->setConsultaFacturada(0);
+                    $consulta->save();
+                }else{
+                    $venta = $factura->getVenta();
+                    $venta->setVentaFacturada(0);
+                    $venta->save();
+                }
                 $this->flashMessenger()->addSuccessMessage('Factura cancelada exitosamente!');
                 return $this->redirect()->toUrl('/facturacion/canceladas');
             }
