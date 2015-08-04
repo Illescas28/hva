@@ -9983,13 +9983,11 @@ if($pacienteEntity){
         });
 
         $("#botonAltaPacienteAdmision").click(function() {
-
             if(status == 'pagada'){
 
                 // No obtiene el valor del idcuarto
                 var idadmision = $("input#idadmision").val();
-                var idcuarto = <?php echo $admisionByPaciente->getCuarto()->getIdcuarto() ?>
-
+                var idcuarto = <?php echo $admisionByPaciente->getIdcuarto() ?>
                 //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
                 var dataString = 'alta_cuarto=true'+'&idcuarto='+idcuarto+'&idadmision='+idadmision;
                 $.ajax({
