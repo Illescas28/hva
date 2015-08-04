@@ -159,6 +159,7 @@ return array(
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
+                        'action' => 'listar',
                         'controller' => 'Pacientes\Historicos\Controller\Historicos',
                     ),
                 ),

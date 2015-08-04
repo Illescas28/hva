@@ -88,14 +88,14 @@ class FacturarController extends AbstractActionController
     
     
     public function generarAction(){
-        require(__DIR__.'/../FPDF/'.'fpdf.php');
-        $pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','B',16);
-        $pdf->Cell(40,10,'¡Hola, Mundo!');
-        $pdf->Output();
-        
-        echo '<pre>';var_dump($request); echo '</pre>';exit();
+//        require(__DIR__.'/../FPDF/'.'fpdf.php');
+//        $pdf = new FPDF();
+//        $pdf->AddPage();
+//        $pdf->SetFont('Arial','B',16);
+//        $pdf->Cell(40,10,'¡Hola, Mundo!');
+//        $pdf->Output();
+//        
+//        echo '<pre>';var_dump($request); echo '</pre>';exit();
         
         
         $request = $this->getRequest();
