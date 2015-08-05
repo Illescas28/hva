@@ -204,7 +204,6 @@ class PacienteController extends AbstractActionController
 
         // Start Alta paciente - consulta alta_consultorio = true
         if($request->getPost()->alta_consultorio == "true"){
-            var_dump($request->getPost()->idconsultorio);
             if(\ConsultorioQuery::create()->filterByIdconsultorio($request->getPost()->idconsultorio)->exists()){
 
                 $consultorioActualizar = \ConsultorioQuery::create()->filterByIdconsultorio($request->getPost()->idconsultorio)->findOne();
