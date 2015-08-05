@@ -9277,8 +9277,8 @@ if($pacienteEntity){
                         $('#buttonGenerarFacturaConsulta').removeClass('disabled')
                         $("#buttonGenerarNotaConsulta").removeClass('disabled')
                         //$( "a" ).off();
-                        $( "div#cargoadmisionArticuloResult a" ).off()
-                        $( "div#cargoadmisionServicioResult a" ).off()
+                        $( "div#cargoconsultaArticuloResult a" ).off()
+                        $( "div#cargoconsultaServicioResult a" ).off()
 
                     },
                     error: function(){
@@ -9955,9 +9955,11 @@ if($pacienteEntity){
         });
 
         $("#botonAltaPacienteConsulta").click(function() {
+
             if(status == 'pagada'){
 
-                var idconsultorio = $("select#idconsultorio").val();
+                <?php $idconsulta = isset($idconsultorio)? $idconsultorio:null ?>
+                var idconsultorio = "<?php echo $idconsulta ?>";
 
                 //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
                 var dataString = 'alta_consultorio=true'+'&idconsultorio='+idconsultorio;
@@ -9985,9 +9987,12 @@ if($pacienteEntity){
         $("#botonAltaPacienteAdmision").click(function() {
             if(status == 'pagada'){
 
-                // No obtiene el valor del idcuarto
-                var idadmision = $("input#idadmision").val();
-                var idcuarto = <?php echo $admisionByPaciente->getIdcuarto() ?>
+                <?php $idadmision = isset($idadmision)? $idadmision:null ?>
+                var idadmision = "<?php echo $idadmision ?>";
+
+                <?php $idcuarto = isset($idcuarto)? $idcuarto:null ?>
+                var idcuarto = "<?php echo $idcuarto ?>";
+
                 //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
                 var dataString = 'alta_cuarto=true'+'&idcuarto='+idcuarto+'&idadmision='+idadmision;
                 $.ajax({
