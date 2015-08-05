@@ -32,6 +32,22 @@ class FacturarController extends AbstractActionController
     
     public function listarAction()
     {
+        $xml = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/tmp/xml/CON-4.xml');
+        $fields = array(
+            'data' => $xml,
+            'design' => 1,
+        );
+        $curl_connect = curl_init();
+        curl_setopt($curl_connect, CURLOPT_URL, 'http://www.facturamix.com.mx/factura-generada.php');
+        curl_setopt($curl_connect, CURLOPT_POST, 1);
+        curl_setopt($curl_connect, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($curl_connect, CURLOPT_RETURNTRANSFER, 1);
+        
+        $response = curl_exec($curl_connect);
+        curl_close($curl_connect);
+        
+        echo '<pre>';var_dump($response); echo '<pre>';exit();
+        
         $historico_array = array();
         $movimiento_arraty = array();
         
@@ -299,11 +315,12 @@ class FacturarController extends AbstractActionController
                 $xmlArray = $this->cfdiToArray($xmlTimbrado['xml']);
                 
                 //Generamos la url del qrcode 
-                $qr_url = 'http://chart.googleapis.com/chart?cht=qr';
-                $qr_url.='&chl=re='.$this->emisorArr['rfc']; //Emisor
+                $qr_main = 'http://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=';
+                $qr_url.='re='.$this->emisorArr['rfc']; //Emisor
                 $qr_url.='&rr='.$receptorArr['pacientefacturacion_rfc']; //Receptor
                 $qr_url.='&tt='.$this->numberTo17Digits($xmlArray["Comprobante"]["total"]);
-                echo '<pre>';var_dump($qr_url); echo '</pre>';exit();
+                $qr_url.='&id='.$xmlArray['TimbreFiscalDigital']['UUID'];
+                $qr_url = $qr_main.urlencode($qr_url);
                 //http://chart.googleapis.com/chart?cht=qr&chl=Hello+world&choe=UTF-8&chs=200x200
                 
                 //Guardamos los datos de la factura
@@ -338,6 +355,7 @@ class FacturarController extends AbstractActionController
                 $factura->setFacturaTipodepago('unico');
                 $factura->setFacturaTipo('ingreso');
                 $factura->setFacturaStatus('creada');
+                $factura->setFacturaQrcode($qr_url);
                 $factura->save();                
                 $this->flashMessenger()->addMessage('Factura emitida exitosamente!');
                 return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true)));
