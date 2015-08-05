@@ -10,7 +10,7 @@ class FacturarController extends AbstractActionController
     
     public $emisorArr = array(
         'noCertificado' => '20001000000200000293', 
-        'LugarExpedicion' => 'ZAPOPAN',
+        'LugarExpedicion' => 'ZAPOPAN,JALISCO',
         'rfc' => 'AAD990814BP7',
         'nombre' => 'HOSPITAL DEL VALLE DE ATEMAJAC',
         'regimen' => 'S.A. de C.V.',
@@ -80,6 +80,7 @@ class FacturarController extends AbstractActionController
         }
        
        return new ViewModel(array(
+           'qr' => $qr,
             'movimientos' => json_encode($movimiento_array),
             'collection' => $historico_array
         ));
@@ -88,14 +89,7 @@ class FacturarController extends AbstractActionController
     
     
     public function generarAction(){
-//        require(__DIR__.'/../FPDF/'.'fpdf.php');
-//        $pdf = new FPDF();
-//        $pdf->AddPage();
-//        $pdf->SetFont('Arial','B',16);
-//        $pdf->Cell(40,10,'¡Hola, Mundo!');
-//        $pdf->Output();
-//        
-//        echo '<pre>';var_dump($request); echo '</pre>';exit();
+        
         
         
         $request = $this->getRequest();
@@ -301,6 +295,17 @@ class FacturarController extends AbstractActionController
                 $xmlTimbrado = $res['response'];
                 $filePathXML = '/tmp/xml/' . $res['xmlId'] . '.xml';
                 $filePathPDF = '/tmp/pdf/' . $res['xmlId'] . '.pdf';
+                
+                $xmlArray = $this->cfdiToArray($xmlTimbrado['xml']);
+                
+                //Generamos la url del qrcode 
+                $qr_url = 'http://chart.googleapis.com/chart?cht=qr';
+                $qr_url.='&chl=re='.$this->emisorArr['rfc']; //Emisor
+                $qr_url.='&rr='.$receptorArr['pacientefacturacion_rfc']; //Receptor
+                $qr_url.='&tt='.$this->numberTo17Digits($xmlArray["Comprobante"]["total"]);
+                echo '<pre>';var_dump($qr_url); echo '</pre>';exit();
+                //http://chart.googleapis.com/chart?cht=qr&chl=Hello+world&choe=UTF-8&chs=200x200
+                
                 //Guardamos los datos de la factura
                 $factura = new \Factura();
                 $factura->setIddatosfacturacion($post_data['idpacientefacturacion']);
@@ -506,6 +511,97 @@ class FacturarController extends AbstractActionController
         return;
        
         
+    }
+    
+    public function numberTo17Digits($n){
+        $whole = floor($n);     
+        $fraction = $n - $whole; $fraction = number_format($fraction,6);
+        $fraction = explode('.', $fraction);
+        $fraction = $fraction[1];
+        $n_zerofill = sprintf("%010d", $whole);
+        $tt = $n_zerofill.'.'.$fraction;
+        return $tt;
+    }
+    
+    public function cfdiToArray($cfdi){
+        
+        $xml = simplexml_load_string($cfdi); 
+        $ns = $xml->getNamespaces(true);
+        $xml->registerXPathNamespace('c', $ns['cfdi']);
+        $xml->registerXPathNamespace('t', $ns['tfd']);
+        
+        $arr = array();
+        //EMPIEZO A LEER LA INFORMACION DEL CFDI
+        $arr['Comprobante'] = array();
+        foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante){ 
+              $arr['Comprobante']['version'] = (string)$cfdiComprobante['version'];
+              $arr['Comprobante']['fecha'] = (string)$cfdiComprobante['fecha'];
+              $arr['Comprobante']['sello'] = (string)$cfdiComprobante['sello'];
+              $arr['Comprobante']['total'] = (string)$cfdiComprobante['total'];
+              $arr['Comprobante']['subTotal'] = (string)$cfdiComprobante['subTotal'];
+              $arr['Comprobante']['certificado'] = (string)$cfdiComprobante['certificado'];
+              $arr['Comprobante']['formaDePago'] = (string)$cfdiComprobante['formaDePago'];
+              $arr['Comprobante']['noCertificado'] = (string)$cfdiComprobante['noCertificado'];
+        }
+         $arr['Emisor'] = array();
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor) {
+            $arr['Emisor']['rfc'] = (string)$Emisor['rfc'];
+            $arr['Emisor']['nombre'] = (string)$Emisor['nombre'];
+        }
+        $arr['Emisor']['DomicilioFiscal'] = array();
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor//cfdi:DomicilioFiscal') as $DomicilioFiscal) {
+            $arr['Emisor']['DomicilioFiscal']['pais'] = (string)$DomicilioFiscal['pais'];
+            $arr['Emisor']['DomicilioFiscal']['calle'] = (string)$DomicilioFiscal['calle'];       
+            $arr['Emisor']['DomicilioFiscal']['estado'] = (string)$DomicilioFiscal['estado'];
+            $arr['Emisor']['DomicilioFiscal']['colonia'] = (string)$DomicilioFiscal['colonia'];
+            $arr['Emisor']['DomicilioFiscal']['municipio'] = (string)$DomicilioFiscal['municipio'];
+            $arr['Emisor']['DomicilioFiscal']['noExterior'] = (string)$DomicilioFiscal['noExterior'];
+            $arr['Emisor']['DomicilioFiscal']['codigoPostal'] = (string)$DomicilioFiscal['codigoPostal'];
+        }
+        $arr['Receptor'] = array();
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor') as $Receptor) {
+            $arr['Receptor']['rfc'] = (string)$Receptor['rfc'];
+            $arr['Receptor']['nombre'] = (string)$Receptor['nombre'];
+        }
+        $arr['Receptor']['Domicilio'] = array();
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor//cfdi:Domicilio') as $ReceptorDomicilio) {
+            $arr['Receptor']['Domicilio']['pais'] = (string)$ReceptorDomicilio['pais'];
+            $arr['Receptor']['Domicilio']['calle'] = (string)$ReceptorDomicilio['calle'];
+            $arr['Receptor']['Domicilio']['estado'] = (string)$ReceptorDomicilio['estado'];
+            $arr['Receptor']['Domicilio']['colonia'] = (string)$ReceptorDomicilio['colonia'];
+            $arr['Receptor']['Domicilio']['municipio'] = (string)$ReceptorDomicilio['municipio'];
+            $arr['Receptor']['Domicilio']['noExterior'] = (string)$ReceptorDomicilio['noExterior'];
+            $arr['Receptor']['Domicilio']['noInterior'] = (string)$ReceptorDomicilio['noInterior'];
+            $arr['Receptor']['Domicilio']['codigoPostal'] = (string)$ReceptorDomicilio['codigoPostal'];
+        }
+        $arr['Conceptos']= array();
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto){
+            $tmp['unidad'] = (string) $Concepto['unidad'];
+            $tmp['importe'] = (string) $Concepto['importe'];
+            $tmp['cantidad'] = (string) $Concepto['cantidad'];
+            $tmp['descripcion'] = (string) $Concepto['descripcion'];
+            $tmp['valorUnitario'] = (string) $Concepto['valorUnitario'];
+            $arr['Conceptos'][] = $tmp;
+        }
+         $arr['Traslados']= array();
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Impuestos//cfdi:Traslados//cfdi:Traslado') as $Traslado) {
+            $tmp = array();
+            $tmp['tasa'] = (string) $Traslado['tasa'];
+            $tmp['importe'] = (string) $Traslado['importe'];
+            $tmp['impuesto'] = (string) $Traslado['impuesto'];
+            $arr['Traslados'][] = $tmp;
+        }
+        $arr['TimbreFiscalDigital']= array();
+        foreach ($xml->xpath('//t:TimbreFiscalDigital') as $tfd) {
+           $arr['TimbreFiscalDigital']['selloCFD'] = (string)$tfd['selloCFD'];
+           $arr['TimbreFiscalDigital']['FechaTimbrado'] = (string)$tfd['FechaTimbrado']; 
+           $arr['TimbreFiscalDigital']['UUID'] = (string)$tfd['UUID']; 
+           $arr['TimbreFiscalDigital']['noCertificadoSAT'] = (string)$tfd['noCertificadoSAT']; 
+           $arr['TimbreFiscalDigital']['version'] = (string)$tfd['version']; 
+           $arr['TimbreFiscalDigital']['selloSAT'] = (string)$tfd['selloSAT']; 
+        } 
+
+        return $arr;
     }
   
 }
