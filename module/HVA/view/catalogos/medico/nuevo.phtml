@@ -1,5 +1,5 @@
 <?php
-    $title = 'Nuevo Médico';
+    $title = 'Nuevo médico';
     $this->headTitle($title);
     $errorsArray = $medicoForm->getMessages();
 ?>
@@ -17,23 +17,6 @@
             <div class="input-field">
                 <?php echo $this->formText($medicoForm->get('medico_nombre')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_nombre'));  ?>
-                <?php if($errorsArray['medico_nombre']) :?>
-                    <?php foreach ($errorsArray['medico_nombre'] as $error) :?>
-                        <p idclass="input-error"><?php echo $this->translate("Value is required and can't be empty")?></p>
-                    <?php endforeach;?>
-                <?php endif;?>
-            </div>
-            <div class="input-field">
-                <?php echo $this->formText($medicoForm->get('medico_calle')); ?>
-                <?php echo $this->formLabel($medicoForm->get('medico_calle')); ?>
-            </div>
-            <div class="input-field">
-                <?php echo $this->formText($medicoForm->get('medico_colonia')); ?>
-                <?php echo $this->formLabel($medicoForm->get('medico_colonia')); ?>
-            </div>
-            <div class="input-field">
-                <?php echo $this->formText($medicoForm->get('medico_estado')); ?>
-                <?php echo $this->formLabel($medicoForm->get('medico_estado')); ?>
             </div>
         </div>
         <div class="col s4">
@@ -41,38 +24,66 @@
                 <?php echo $this->formText($medicoForm->get('medico_apellidopaterno')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_apellidopaterno')); ?>
             </div>
-            <div class="input-field">
-                <?php echo $this->formText($medicoForm->get('medico_noexterior')); ?>
-                <?php echo $this->formLabel($medicoForm->get('medico_noexterior')); ?>
-            </div>
-            <div class="input-field">
-                <?php echo $this->formText($medicoForm->get('medico_codigopostal')); ?>
-                <?php echo $this->formLabel($medicoForm->get('medico_codigopostal')); ?>
-            </div>
-            <div class="input-field">
-                <?php echo $this->formText($medicoForm->get('medico_pais')); ?>
-                <?php echo $this->formLabel($medicoForm->get('medico_pais')); ?>
-            </div>
         </div>
         <div class="col s4">
             <div class="input-field">
                 <?php echo $this->formText($medicoForm->get('medico_apellidomaterno')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_apellidomaterno')); ?>
             </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($medicoForm->get('medico_calle')); ?>
+                <?php echo $this->formLabel($medicoForm->get('medico_calle')); ?>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($medicoForm->get('medico_noexterior')); ?>
+                <?php echo $this->formLabel($medicoForm->get('medico_noexterior')); ?>
+            </div>
+        </div>
+        <div class="col s4">
             <div class="input-field">
                 <?php echo $this->formText($medicoForm->get('medico_nointerior')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_nointerior')); ?>
             </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($medicoForm->get('medico_colonia')); ?>
+                <?php echo $this->formLabel($medicoForm->get('medico_colonia')); ?>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($medicoForm->get('medico_codigopostal')); ?>
+                <?php echo $this->formLabel($medicoForm->get('medico_codigopostal')); ?>
+            </div>
+        </div>
+        <div class="col s4">
             <div class="input-field">
                 <?php echo $this->formText($medicoForm->get('medico_ciudad')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_ciudad')); ?>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($medicoForm->get('medico_estado')); ?>
+                <?php echo $this->formLabel($medicoForm->get('medico_estado')); ?>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($medicoForm->get('medico_pais')); ?>
+                <?php echo $this->formLabel($medicoForm->get('medico_pais')); ?>
             </div>
         </div>
     </fieldset>
 </div>
 <div class="row">
     <fieldset>
-        <legend>Télefonos</legend>
+        <legend>Teléfonos</legend>
         <div class="col s4">
             <div class="input-field">
                 <?php echo $this->formText($medicoForm->get('medico_telefono')); ?>
@@ -94,11 +105,14 @@
             <div class="input-field">
                 <?php echo $this->formSelect($medicoForm->get('idespecialidad')); ?>
             </div>
+        </div>
+        <div class="col s4">
             <div class="input-field">
                 <?php echo $this->formText($medicoForm->get('medico_clave')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_clave')); ?>
-                
             </div>
+        </div>
+        <div class="col s4">
             <div class="input-field">
                 <?php echo $this->formText($medicoForm->get('medico_ssa')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_ssa')); ?>
@@ -109,6 +123,8 @@
                 <?php echo $this->formText($medicoForm->get('medico_dgp')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_dgp')); ?>
             </div>
+        </div>
+        <div class="col s4">
             <div class="input-field">
                 <?php echo $this->formText($medicoForm->get('medico_ae')); ?>
                 <?php echo $this->formLabel($medicoForm->get('medico_ae')); ?>

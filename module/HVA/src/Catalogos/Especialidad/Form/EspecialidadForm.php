@@ -23,7 +23,7 @@ class EspecialidadForm extends Form
             'name' => 'especialidad_descripcion',
             'type' => 'Textarea',
             'options' => array(
-                'label' => 'Descripcion',
+                'label' => 'Descripción',
             ),
         ));
 

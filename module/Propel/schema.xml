@@ -75,9 +75,9 @@
     <column name="idarticulovariante" phpName="Idarticulovariante" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idarticulo" phpName="Idarticulo" type="INTEGER" required="true"/>
     <column name="articulovariante_codigobarras" phpName="ArticulovarianteCodigobarras" type="VARCHAR" size="100" required="false"/>
-    <column name="articulovariante_costo" phpName="ArticulovarianteCosto" type="DECIMAL" size="10" scale="2" required="false" defaultValue="0.00"/>
-    <column name="articulovariante_precio" phpName="ArticulovariantePrecio" type="DECIMAL" size="10" scale="2" required="false" defaultValue="0.00"/>
-    <column name="articulovariante_iva" phpName="ArticulovarianteIva" type="CHAR" sqlType="enum('exento','0','16')" required="false" defaultValue="16"/>
+    <column name="articulovariante_costo" phpName="ArticulovarianteCosto" type="DECIMAL" size="10" scale="2" required="false"/>
+    <column name="articulovariante_precio" phpName="ArticulovariantePrecio" type="DECIMAL" size="10" scale="2" required="false"/>
+    <column name="articulovariante_iva" phpName="ArticulovarianteIva" type="CHAR" sqlType="enum('exento','0','16')" required="false"/>
     <column name="articulovariante_imagen" phpName="ArticulovarianteImagen" type="LONGVARCHAR" required="false"/>
     <foreign-key foreignTable="articulo" name="idproducto_articulovariante" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idarticulo" foreign="idarticulo"/>
@@ -328,7 +328,7 @@
     <column name="consulta_observaciones" phpName="ConsultaObservaciones" type="LONGVARCHAR" required="false"/>
     <column name="consulta_status" phpName="ConsultaStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false" defaultValue="pendiente"/>
     <column name="consulta_total" phpName="ConsultaTotal" type="DECIMAL" size="10" scale="2" required="false"/>
-    <column name="consulta_tipodepago" phpName="ConsultaTipodepago" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
+    <column name="consulta_tipodepago" phpName="ConsultaTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
     <column name="consulta_referenciapago" phpName="ConsultaReferenciapago" type="VARCHAR" size="45" required="false"/>
     <column name="consulta_facturada" phpName="ConsultaFacturada" type="BOOLEAN" size="1" required="false"/>
     <column name="consulta_registrada" phpName="ConsultaRegistrada" type="BOOLEAN" size="1" required="false"/>
@@ -455,10 +455,10 @@
     <column name="factura_fecha" phpName="FacturaFecha" type="TIMESTAMP" required="true"/>
     <column name="factura_sellosat" phpName="FacturaSellosat" type="LONGVARCHAR" required="true"/>
     <column name="factura_certificadosat" phpName="FacturaCertificadosat" type="LONGVARCHAR" required="true"/>
-    <column name="factura_cadenaoriginal" phpName="FacturaCadenaoriginal" type="VARCHAR" size="45" required="false"/>
-    <column name="factura_cfdi" phpName="FacturaCfdi" type="VARCHAR" size="45" required="true"/>
-    <column name="factura_mensaje" phpName="FacturaMensaje" type="VARCHAR" size="45" required="true"/>
-    <column name="factura_qrcode" phpName="FacturaQrcode" type="VARCHAR" size="45" required="false"/>
+    <column name="factura_cadenaoriginal" phpName="FacturaCadenaoriginal" type="LONGVARCHAR" required="true"/>
+    <column name="factura_cfdi" phpName="FacturaCfdi" type="LONGVARCHAR" required="true"/>
+    <column name="factura_mensaje" phpName="FacturaMensaje" type="LONGVARCHAR" required="true"/>
+    <column name="factura_qrcode" phpName="FacturaQrcode" type="LONGVARCHAR" required="true"/>
     <column name="factura_tipodepago" phpName="FacturaTipodepago" type="CHAR" sqlType="enum('unico','parcial')" required="false"/>
     <column name="factura_status" phpName="FacturaStatus" type="CHAR" sqlType="enum('creada','cancelada')" required="false"/>
     <column name="factura_tipo" phpName="FacturaTipo" type="CHAR" sqlType="enum('ingreso','egreso')" required="false"/>

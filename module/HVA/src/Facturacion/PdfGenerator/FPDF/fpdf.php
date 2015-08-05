@@ -1,6 +1,6 @@
 <?php
 
-namespace Facturacion\FPDF;
+namespace Facturacion\PdfGenerator\FPDF;
 
 define('FPDF_VERSION','1.7');
 

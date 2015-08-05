@@ -19,14 +19,14 @@
         <div class="col s4">
             <div class="input-field">
                 <input type="text" readonly value="Almacen General">
-                <label>Almacen de origen</label>
+                <label>Almacén de origen</label>
             </div>
            
         </div>
         <div class="col s4">
             <div class="input-field">
                 <select id="lugar_destinatario">
-                    <option value="">Seleccione el almacen destino *</option>
+                    <option value="">Seleccione el almacén destino *</option>
                     <?php foreach($lugares as $lugar) :?>
                     <option value="<?php echo $lugar['value']?>"><?php echo $lugar['name']?></option>
                     <?php endforeach;?>
