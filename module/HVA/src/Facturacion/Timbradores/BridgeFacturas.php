@@ -127,7 +127,7 @@ class BridgeFacturas {
                 $arr['fecha'] = date('Y-m-d H:i:s'); // $order['externalorder_paymentdate'];
     
                 //$arr['fecha'] = $order['externalorder_date'];
-                $arr['formaDePago'] = 'Pago en una sola exhibición'; // Pago en una sola exhibición o número de parcialidad
+                $arr['formaDePago'] = 'Pago en una sola exhibicion'; // Pago en una sola exhibición o número de parcialidad
 
                 // Segun el tipo de orden
                 switch ($ordertype) {

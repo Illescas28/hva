@@ -33,20 +33,10 @@ class FacturarController extends AbstractActionController
     public function listarAction()
     {
         $xml = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/tmp/xml/CON-4.xml');
-        $fields = array(
-            'data' => $xml,
-            'design' => 1,
-        );
-        $curl_connect = curl_init();
-        curl_setopt($curl_connect, CURLOPT_URL, 'http://www.facturamix.com.mx/factura-generada.php');
-        curl_setopt($curl_connect, CURLOPT_POST, 1);
-        curl_setopt($curl_connect, CURLOPT_POSTFIELDS, $fields);
-        curl_setopt($curl_connect, CURLOPT_RETURNTRANSFER, 1);
+        $xmlArray = $this->cfdiToArray($xml);
         
-        $response = curl_exec($curl_connect);
-        curl_close($curl_connect);
         
-        echo '<pre>';var_dump($response); echo '<pre>';exit();
+        
         
         $historico_array = array();
         $movimiento_arraty = array();
@@ -320,7 +310,7 @@ class FacturarController extends AbstractActionController
                 $qr_url.='&rr='.$receptorArr['pacientefacturacion_rfc']; //Receptor
                 $qr_url.='&tt='.$this->numberTo17Digits($xmlArray["Comprobante"]["total"]);
                 $qr_url.='&id='.$xmlArray['TimbreFiscalDigital']['UUID'];
-                $qr_url = $qr_main.urlencode($qr_url);
+                $qr_url = $qr_main.urlencode($qr_url).'png';
                 //http://chart.googleapis.com/chart?cht=qr&chl=Hello+world&choe=UTF-8&chs=200x200
                 
                 //Guardamos los datos de la factura
