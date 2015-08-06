@@ -429,6 +429,7 @@ class PacienteController extends AbstractActionController
             ));
         }
         // End Ver admisionanticipo
+
         // Start Eliminar admisionanticipo
         if($request->getPost()->eliminar_admisionanticipo == "true"){
             if(\AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->exists()){
@@ -1039,11 +1040,13 @@ class PacienteController extends AbstractActionController
                     ));
                 }*/
 
+                $idconsultorio = $consultaEntity->getIdconsultorio();
                 return new ViewModel(array(
                     'pacienteEntity' => $paciente,
                     'edad' => $this->calculaEdad($fechaNacimiento),
                     'consultorioEnuso' => $consultaEntity->getConsultorio()->getConsultorioEnuso(),
                     'consultaByPaciente' => $consultaEntity,
+                    'idconsultorio' => $idconsultorio,
                     'cargoconsultaForm' => $cargoconsultaForm,
                 ));
             }
@@ -1402,7 +1405,11 @@ class PacienteController extends AbstractActionController
                     ));
                 }*/
 
+                $idcuarto = $admisionEntity->getIdcuarto();
+                $idadmision = $admisionEntity->getIdadmision();
                 return new ViewModel(array(
+                    'idadmision' => $idadmision,
+                    'idcuarto' => $idcuarto,
                     'pacienteEntity' => $paciente,
                     'edad' => $this->calculaEdad($fechaNacimiento),
                     'cuartoEnuso' => $admisionEntity->getCuarto()->getCuartoEnuso(),
@@ -1636,7 +1643,8 @@ class PacienteController extends AbstractActionController
                 'admisionanticipoArray' => $admisionanticipoArray,
             ));
         }
-        // End Ver admisionanticipo
+        // End Ver consultaanticipo
+
         // Start Eliminar admisionanticipo
         if($request->getPost()->eliminar_admisionanticipo == "true"){
             if(\AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->exists()){

@@ -15,28 +15,44 @@ class RegistroController extends AbstractActionController
     {
         
         $request = $this->request;
-        
+
         if($request->isPost()){//Si envian el formulario
-            //Comenzamos a itinerar sobre nuestro los elementos enviados
-            foreach ($request->getPost() as $key => $value){
-               if(strpos($key, 'producto') !== false){
-                    $idArticuloVariante = explode("-", $key);
-                    $idArticuloVariante = $idArticuloVariante[1];
-                    
-                    //Creamos una instacia de nuestro articulovariante
-                    $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($idArticuloVariante);
-                    
-                    $articuloVariante->setArticulovarianteCodigobarras($value["codigobarras"]);
-                    $articuloVariante->setArticulovarianteCosto($value["costo"]);
-                    $articuloVariante->setArticulovariantePrecio($value["precio"]);
-                    $articuloVariante->setArticulovarianteIva($value["iva"]);
-                    
-                    if($articuloVariante->isModified()){
-                        $articuloVariante->save();
+
+            $id = (int) $this->params()->fromRoute('id', 0);
+            if($id){
+
+                //Creamos una instacia de nuestro articulovariante
+                $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($request->getPost()->idproducto);
+                $articuloVariante->setArticulovarianteCodigobarras($request->getPost()->codigo_barras);
+                $articuloVariante->setArticulovarianteCosto($request->getPost()->costo);
+                $articuloVariante->setArticulovariantePrecio($request->getPost()->precio);
+                $articuloVariante->setArticulovarianteIva($request->getPost()->iva);
+
+                if($articuloVariante->isModified()){
+                    $articuloVariante->save();
+                }
+            }else{
+                //Comenzamos a itinerar sobre nuestro los elementos enviados
+                foreach ($request->getPost() as $key => $value){
+                    if(strpos($key, 'producto') !== false){
+                        $idArticuloVariante = explode("-", $key);
+                        $idArticuloVariante = $idArticuloVariante[1];
+
+                        //Creamos una instacia de nuestro articulovariante
+                        $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($idArticuloVariante);
+
+                        $articuloVariante->setArticulovarianteCodigobarras($value["codigobarras"]);
+                        $articuloVariante->setArticulovarianteCosto($value["costo"]);
+                        $articuloVariante->setArticulovariantePrecio($value["precio"]);
+                        $articuloVariante->setArticulovarianteIva($value["iva"]);
+
+                        if($articuloVariante->isModified()){
+                            $articuloVariante->save();
+                        }
                     }
-               }
+                }
             }
-            
+
             //Ahora las imagenes
             foreach ($_FILES as $key => $value){
                 if(strpos($key, 'producto') !== false){

@@ -38,15 +38,15 @@ $this->headTitle($title);
             <?php foreach ($productos as $producto) : ?>
                 
                 <tr id="<?php echo $producto['id'] ?>">
-                    <td class="collapse" title="<?php echo $producto['nombre'] ?>"><?php echo $producto['nombre'] ?></td>
-                    <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
-                    <td style="padding-left: 0; padding-bottom: 10px;"class="input-table"><span style="visibility: hidden"><?php echo $producto['codigo_barras'] ?></span><input name="producto-<?php echo $producto['id'] ?>[codigobarras]"id="articulovariante_codigobarras" type="text" value="<?php echo $producto['codigo_barras'] ?>"></td>
-                    <td class="input-table number"><span style="visibility: hidden"><?php echo $producto['costo'] ?></span><input name="producto-<?php echo $producto['id'] ?>[costo]" id="articulovariante_costo" type="text" value="<?php echo number_format((float)$producto['costo'], 2, '.', ''); ?>"></td>
-                    <td class="input-table number"><span style="visibility: hidden"><?php echo $producto['precio'] ?></span><input name="producto-<?php echo $producto['id'] ?>[precio]" id="articulovariante_precio" type="text" value="<?php echo number_format((float)$producto['precio'], 2, '.', ''); ?>"></td>
-                    <td class="number" style="padding-bottom: 0">
+                    <td id="nombre-<?php echo $producto['id'] ?>" title="<?php echo $producto['nombre'] ?>" class="collapse" ><?php echo $producto['nombre'] ?></td>
+                    <td id="descripcion-<?php echo $producto['id'] ?>" title="<?php echo $producto['descripcion'] ?>" class="collapse" ><?php echo $producto['descripcion'] ?></td>
+                    <td id="articulovariante_codigobarras" style="padding-left: 0; padding-bottom: 10px;"class="input-table"><span style="visibility: hidden"><?php echo $producto['codigo_barras'] ?></span><input id="codigo_barras-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[codigobarras]" type="text" value="<?php echo $producto['codigo_barras'] ?>"></td>
+                    <td id="articulovariante_costo" class="input-table number"><span style="visibility: hidden"><?php echo $producto['costo'] ?></span><input id="costo-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[costo]" type="text" value="<?php echo number_format((float)$producto['costo'], 2, '.', ''); ?>"></td>
+                    <td id="articulovariante_precio" class="input-table number"><span style="visibility: hidden"><?php echo $producto['precio'] ?></span><input id="precio-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[precio]" type="text" value="<?php echo number_format((float)$producto['precio'], 2, '.', ''); ?>"></td>
+                    <td id="iva" class="number" style="padding-bottom: 0">
                         <span style="visibility: hidden"><?php if($producto['iva'] == 'exento') {echo 'exento'; } elseif ($producto['iva'] == '0'){echo '0';}else{echo '16';}?></span>
                         <div class="input-field">
-                            <select name="producto-<?php echo $producto['id'] ?>[iva]">
+                            <select id="iva-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[iva]">
                               <option <?php if($producto['iva'] == 'exento') {echo 'selected="selected"'; }?>value="exento">exento</option>
                               <option <?php if($producto['iva'] == '0') {echo 'selected="selected"'; }?>value="0">0%</option>
                               <option <?php if($producto['iva'] == '16' ) echo 'selected="selected"'; ?> value="16">16%</option>
@@ -54,10 +54,10 @@ $this->headTitle($title);
                          </div>
                     </td>
                     <!--<td class="input-table"><input name="producto-<?php echo $producto['id'] ?>[iva]" id="articulovariante_iva" type="text" value="<?php echo $producto['iva'] ?>"></td>-->
-                    <td class="td-image"> 
+                    <td class="td-image">
                         <?php if (is_null($producto['imagen']) || empty($producto['imagen'])) : ?>
                             <a class="addimg tooltipped" ata-position="left" data-tooltip="Agregar Imagen" href="javascript:void(0)"><i class=" small mdi-image-camera-alt"></i></a>
-                            <input name="producto-<?php echo $producto['id']?>" type="file" style="display: none">
+                            <input id="imagen-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id']?>" type="file" style="display: none">
                              
                         <?php else : ?>
                             <img class="materialboxed responsive-img" src="<?php echo $producto['imagen'] ?>" width="80" height="80">
@@ -71,6 +71,9 @@ $this->headTitle($title);
                         <a class="tooltipped" data-position="left" data-tooltip="Detalles" href="<?php echo "#modal-producto-".$producto['id'].'-compras'?>"><i class="tiny mdi-action-assignment"></i></a>
                         &nbsp;&nbsp;    
                         <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-articulo-".$producto['id'] ?>'><i class="tiny mdi-action-delete"></i></a>
+                        <a id="productosRegistros-<?php echo $producto['id']?>" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light">Guardar
+                            <i class="mdi-content-save left"></i>
+                        </a>
                     </td>
                 </tr>
                 <!-- View Modal Structure -->
@@ -136,6 +139,45 @@ $this->headTitle($title);
                     </div>
                 </div>
                 <!-- END Delete Modal Structure -->
+
+                <script>
+                    var id = "<?php echo $producto['id']?>"
+                    $("#productosRegistros-"+id).click(function() {
+
+                        var td = $(this).parent();
+                        var idproducto = td.parent().attr('id');
+                        var producto_nombre = document.getElementById('nombre-'+idproducto);
+                        var nombre = producto_nombre.getAttribute('title')
+                        var producto_descripcion = document.getElementById('descripcion-'+idproducto);
+                        var descripcion = producto_descripcion.getAttribute('title')
+                        var codigo_barras = $("input#codigo_barras-"+idproducto).val()
+                        var costo = $("input#costo-"+idproducto).val()
+                        var precio = $("input#precio-"+idproducto).val()
+                        var iva = $("select#iva-"+idproducto).val()
+                        var imagen = $("input#imagen-"+idproducto).val()
+
+                        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+                        var dataString = 'idproducto=' + idproducto + '&nombre=' + nombre + '&descripcion=' + descripcion + '&codigo_barras=' + codigo_barras + '&costo=' + costo + '&precio=' + precio + '&iva=' + iva + '&imagen=' + imagen;
+
+                        $.ajax({
+                            type: "POST",
+                            url: "<?php $this->url('productos-registro', array('id' => $producto['id']));?>",
+                            dataType : 'json',
+                            data: dataString,
+                            jsonpCallback: 'callback',
+                            success: function(data) {
+
+                                alert("se guardo")
+
+                            },
+                            error: function(data){
+                                alert("Guardado Exitosamente")
+                            }
+                        });
+
+                        return false;
+                    });
+                </script>
             <?php endforeach; ?>
         </tbody>
     </table>
@@ -155,16 +197,16 @@ $this->headTitle($title);
         $("#tabla-articulos").filterTable({inputSelector: '#search-container input',minRows:2});
         $('.modal-trigger').leanModal();
     });
-        
+
     $('a.addimg').on('click',function(){
         var input = $(this).siblings('input');
         $(input).trigger('click');
     });
-    
+
     $('input[type=file]').on('change',function(){
         readURL(this);
     });
-    
+
     $('a.deleteimg').on('click',function(){
         var td = $(this).parent();
         var id = td.parent().attr('id');
@@ -181,7 +223,7 @@ $this->headTitle($title);
         });
         $(this).remove();
     });
-    
+
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -213,20 +255,21 @@ $this->headTitle($title);
 
             reader.readAsDataURL(input.files[0]);
         }
-        
+
     }
-    
+
     //Modal compras por articulo
-        $('td i.mdi-action-assignment').on('click',function(){
-            var idarticulovariante = $(this).closest('tr').attr('id');
-            var modalName = '#modal-producto-'+idarticulovariante+'-compras';
-            var descripcion = $(this).closest('td').siblings('#descripcion').text();
-            $.get('/productos/precios/comprasbyarticulovariante',
-                {idarticulovariante:idarticulovariante,descripcion:descripcion},
-                function(modal){
-                    $('table').after(modal);
-                    $(modalName).openModal();
-                }
-            );  
-        });
+    $('td i.mdi-action-assignment').on('click',function(){
+        var idarticulovariante = $(this).closest('tr').attr('id');
+        var modalName = '#modal-producto-'+idarticulovariante+'-compras';
+        var descripcion = $(this).closest('td').siblings('#descripcion').text();
+        $.get('/productos/precios/comprasbyarticulovariante',
+            {idarticulovariante:idarticulovariante,descripcion:descripcion},
+            function(modal){
+                $('table').after(modal);
+                $(modalName).openModal();
+            }
+        );
+    });
+
 </script>
