@@ -1339,7 +1339,6 @@ if($pacienteEntity){
 
     $("#guardarCargoconsultaArticulo").click(function() {
 
-        alert($("input#idconsulta").val());
         // Actializar existencias
         //Obtenemos el valor del selector de consulta
         var idordencompradetalle = $("input#idordencompradetalle").val();
@@ -2728,6 +2727,43 @@ if($pacienteEntity){
         });
 
         subTotalResponse(status, subTotalArticulo, null, 'consulta')
+        
+        var dataStringVerConsultaanticipo = "ver_consultaanticipo=true" + "&idconsulta=" + idconsulta;
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataStringVerConsultaanticipo,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                consultaanticipoArray = []
+                var consultaanticipoEntity = data.consultaanticipoArray
+                if(consultaanticipoEntity){
+                    $.each( consultaanticipoEntity, function( key, value ) {
+                        consultaanticipoArray.push({
+                            "idconsultaanticipo" : value.idconsultaanticipo,
+                            "idconsulta" : value.idconsulta,
+                            "consultaanticipo_fecha" : value.consultaanticipo_fecha,
+                            "consultaanticipo_cantidad" : value.consultaanticipo_cantidad,
+                            "consultaanticipo_nota" : value.consultaanticipo_nota,
+                            "consultaanticipo_tipo" : value.consultaanticipo_tipo
+                        });
+                    });
+                }
+
+                // Si no existe un cargo de servicio, construimos Anticipo: $$$ MXN, de lo contrario. lo constriye tablaCargoconsultaServicioAgregadoInicial
+                if(data.existeServicioConsulta == false){
+                    var AnticipoCantidad = 0;
+                    for(count=0; count<=consultaanticipoArray.length; count++){
+                        AnticipoCantidad = Number(consultaanticipoArray[count]["consultaanticipo_cantidad"]);
+                        subTotalResponse(status, -AnticipoCantidad, null, 'consulta', AnticipoCantidad)
+                    }
+                }
+            },
+            error: function(){
+                alert("Error al intentar actualizar Anticipos")
+            }
+        });
 
     }
 
@@ -4100,8 +4136,47 @@ if($pacienteEntity){
             return false;
 
         });
+        
+        if (typeof(status) === "undefined") {
 
-        subTotalResponse(status, null, subTotalServicio, 'consulta')
+        }else{
+            subTotalResponse(status, null, subTotalServicio, 'consulta')
+        }
+
+        var dataStringVerConsultaanticipo = "ver_consultaanticipo=true" + "&idconsulta=" + idconsulta;
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataStringVerConsultaanticipo,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                consultaanticipoArray = []
+                var consultaanticipoEntity = data.consultaanticipoArray
+                if(consultaanticipoEntity){
+                    $.each( consultaanticipoEntity, function( key, value ) {
+                        consultaanticipoArray.push({
+                            "idconsultaanticipo" : value.idconsultaanticipo,
+                            "idconsulta" : value.idconsulta,
+                            "consultaanticipo_fecha" : value.consultaanticipo_fecha,
+                            "consultaanticipo_cantidad" : value.consultaanticipo_cantidad,
+                            "consultaanticipo_nota" : value.consultaanticipo_nota,
+                            "consultaanticipo_tipo" : value.consultaanticipo_tipo
+                        });
+                    });
+                }
+
+                var AnticipoCantidad = 0;
+                for(count=0; count<=consultaanticipoArray.length; count++){
+                    AnticipoCantidad = Number(consultaanticipoArray[count]["consultaanticipo_cantidad"]);
+                    subTotalResponse(status, -AnticipoCantidad, null, 'consulta', AnticipoCantidad)
+                }
+
+            },
+            error: function(){
+                alert("Error al intentar actualizar Anticipos")
+            }
+        });
     }
 
     function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {

@@ -395,39 +395,7 @@ class PacienteController extends AbstractActionController
         }
         // End Eliminar cargoadmision
 
-        // Start Ver admisionanticipo
-        if($request->getPost()->ver_admisionanticipo == "true"){
-            $existeServicio = false;
-
-            $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
-            if($admisionanticipoQuery->count() != 0){
-                $admisionanticipoArray = array();
-                foreach($admisionanticipoQuery as $admisionanticipoEntity){
-                    $admisionanticipo = array(
-                        'idadmisionanticipo' => $admisionanticipoEntity->getIdadmisionanticipo(),
-                        'idadmision' => $admisionanticipoEntity->getIdadmision(),
-                        'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
-                        'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
-                        'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionanticipoNota(),
-                        'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionanticipoTipo()
-                    );
-                    array_push($admisionanticipoArray, $admisionanticipo);
-
-                    $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($admisionanticipoEntity->getIdadmision())->find();
-                    foreach($cargoadmisionQuery as $cargoadmisionEntity){
-                        if($cargoadmisionEntity->getIdservicio()){
-                            $existeServicio = true;
-                        }
-
-                    }
-                }
-            }
-
-            return new JsonModel(array(
-                'admisionanticipoArray' => $admisionanticipoArray,
-                'existeServicio' => $existeServicio,
-            ));
-        }
+        
         // End Ver admisionanticipo
         // Start Eliminar admisionanticipo
         if($request->getPost()->eliminar_admisionanticipo == "true"){
@@ -466,7 +434,42 @@ class PacienteController extends AbstractActionController
             }
         }
         // End Eliminar admisionanticipo
+        
+        // Start Ver consultaanticipo
+        if($request->getPost()->ver_consultaanticipo == "true"){
+            $existeServicioConsulta = false;
 
+            $consultaanticipoQuery = \ConsultaanticipoQuery::create()->filterByIdconsulta($request->getPost()->idconsulta)->find();
+            if($consultaanticipoQuery->count() != 0){
+                $consultaanticipoArray = array();
+                foreach($consultaanticipoQuery as $consultaanticipoEntity){
+                    $consultaanticipo = array(
+                        'idconsultaanticipo' => $consultaanticipoEntity->getIdconsultaanticipo(),
+                        'idconsulta' => $consultaanticipoEntity->getIdconsulta(),
+                        'consultaanticipo_fecha' => $consultaanticipoEntity->getConsultaanticipoFecha(),
+                        'consultaanticipo_cantidad' => $consultaanticipoEntity->getConsultaanticipoCantidad(),
+                        'consultaanticipo_nota' => $consultaanticipoEntity->getConsultaanticipoNota(),
+                        'consultaanticipo_tipo' => $consultaanticipoEntity->getConsultaanticipoTipo()
+                    );
+                    array_push($consultaanticipoArray, $consultaanticipo);
+
+                    $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdconsulta($consultaanticipoEntity->getIdconsulta())->find();
+                    foreach($cargoconsultaQuery as $cargoconsultaEntity){
+                        if($cargoconsultaEntity->getIdservicio()){
+                            $existeServicioConsulta = true;
+                        }
+
+                    }
+                }
+            }
+
+            return new JsonModel(array(
+                'consultaanticipoArray' => $consultaanticipoArray,
+                'existeServicioConsulta' => $existeServicioConsulta,
+            ));
+        }
+        // End Ver consultaanticipo
+        
         // Start Eliminar cargoconsulta
         if($request->getPost()->idcargoconsulta){
             if($request->getPost()->eliminar_cargoconsulta_tipo == 'articulo'){
