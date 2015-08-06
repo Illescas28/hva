@@ -18,16 +18,17 @@ class RegistroController extends AbstractActionController
 
         if($request->isPost()){//Si envian el formulario
 
-            $id = (int) $this->params()->fromRoute('id', 0);
+             $post_data = $request->getPost();
+
+             $id = $post_data['idproducto'];           
             if($id){
-
+                
                 //Creamos una instacia de nuestro articulovariante
-                $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($request->getPost()->idproducto);
-                $articuloVariante->setArticulovarianteCodigobarras($request->getPost()->codigo_barras);
-                $articuloVariante->setArticulovarianteCosto($request->getPost()->costo);
-                $articuloVariante->setArticulovariantePrecio($request->getPost()->precio);
-                $articuloVariante->setArticulovarianteIva($request->getPost()->iva);
-
+                $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($id);
+                $articuloVariante->setArticulovarianteCodigobarras($request->getPost()->articulovariante_codigobarras);
+                $articuloVariante->setArticulovarianteCosto($request->getPost()->articulovariante_costo);
+                $articuloVariante->setArticulovariantePrecio($request->getPost()->articulovariante_precio);
+                $articuloVariante->setArticulovarianteIva($request->getPost()->articulovariante_iva);
                 if($articuloVariante->isModified()){
                     $articuloVariante->save();
                 }
@@ -52,38 +53,33 @@ class RegistroController extends AbstractActionController
                     }
                 }
             }
+            
+            //Ahora las imagen
+            if(!empty($_FILES)){
+                $upload_folder ='/img/productos/';
 
-            //Ahora las imagenes
-            foreach ($_FILES as $key => $value){
-                if(strpos($key, 'producto') !== false){
-                    
-                        $idArticuloVariante = explode("-", $key);
-                        $idArticuloVariante = $idArticuloVariante[1];
-                        
-                        //Creamos una instacia de nuestro articulovariante
-                        $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($idArticuloVariante);
-                        
-                        if(!empty($value['name'])){
-                            $target_file = $this->target_dir . basename($value["name"]);
-                            $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-                            $new_name_file = $this->target_dir.'img_producto_'.$idArticuloVariante.'.'.$imageFileType;
-                            if (move_uploaded_file($_FILES[$key]["tmp_name"], $_SERVER["DOCUMENT_ROOT"].$new_name_file)) {
-                                $articuloVariante->setArticulovarianteImagen($new_name_file);
-                                $articuloVariante->save();
-                            }
-                        }else{
-                            $oldulr = $_SERVER["DOCUMENT_ROOT"].$articuloVariante->getArticulovarianteImagen();
-                            $articuloVariante->setArticulovarianteImagen('');   
-                            if($articuloVariante->isModified()){
-                                $articuloVariante->save();
-                             
-                            }
-                        }
+                $imagen = $_FILES['articulovariante_imagen'];
+                $tipo_archivo = $_FILES['articulovariante_imagen']['type']; $tipo_archivo = explode('/', $tipo_archivo); $tipo_archivo = $tipo_archivo[1];
+                $nombre_archivo = 'producto_'.$post_data['idproducto'].'.'.$tipo_archivo;
+                $tmp_archivo = $imagen['tmp_name'];
+                $archivador = $upload_folder.$nombre_archivo;
+                if(move_uploaded_file($tmp_archivo, $_SERVER["DOCUMENT_ROOT"].$archivador)){
+                    $articuloVariante->setArticulovarianteImagen($archivador);
+                    $articuloVariante->save();
                 }
-                
+
+            }
+            else{
+                $oldulr = $_SERVER["DOCUMENT_ROOT"].$articuloVariante->getArticulovarianteImagen();
+                unlink($oldulr);
+                $articuloVariante->setArticulovarianteImagen('');   
+                if($articuloVariante->isModified()){
+                    $articuloVariante->save();
+
+                }
             }
             //Agregamos un mensaje
-            $this->flashMessenger()->addMessage('Registro de productos guardados exitosamente!');
+            //$this->flashMessenger()->addMessage('Registro de productos guardados exitosamente!');
         }
 
         //Obtenemos nuestros productos

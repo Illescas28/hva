@@ -321,12 +321,15 @@ if($pacienteEntity){
                 <div id="botonGenerarFactura" class="col s3">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
-                 *
+                 * 
                  */?>
+                <?php /*
                 <div id="botonGenerarNota" class="col s3">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
-                <div id="totalInferior" class="col s6">
+                 * 
+                 */?>
+                <div id="totalInferior" class="col s9">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
             </div>
@@ -336,7 +339,7 @@ if($pacienteEntity){
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
             </div>
-             *
+             * 
              */?>
             </fieldset>
         </div>
@@ -634,27 +637,15 @@ if($pacienteEntity){
         <div id="botonGenerarFacturaAdmision" class="col s3">
             <!-- Aquí agregamos los elementos con javascript -->
         </div>
-         *
+         * 
          */?>
+        <?php /*
         <div id="botonGenerarNotaAdmision" class="col s3">
             <!-- Aquí agregamos los elementos con javascript -->
         </div>
-        <!-- Create Modal Structure -->
-        <div id="create-modal-nota-admision" class="modal bottom-sheet">
-            <div class="modal-content">
-                <div class="row">
-                    <fieldset>
-                        <legend>Nota de remisión</legend>
-                        <div id="generarNotaAdmision">
-                            <!-- Agregamos elementos con Javascript -->
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-        <!-- Create Modal Structure -->
-
-        <div id="totalInferiorAdmision" class="col s6">
+         * 
+         */ ?>
+        <div id="totalInferiorAdmision" class="col s9">
             <!-- Aquí agregamos los elementos con javascript -->
         </div>
     </div>
@@ -664,7 +655,7 @@ if($pacienteEntity){
             <!-- Aquí agregamos los elementos con javascript -->
         </div>
     </div>
-     *
+     * 
      */?>
     </fieldset>
     </div>
@@ -1354,7 +1345,6 @@ if($pacienteEntity){
 
     $("#guardarCargoconsultaArticulo").click(function() {
 
-        alert($("input#idconsulta").val());
         // Actializar existencias
         //Obtenemos el valor del selector de consulta
         var idordencompradetalle = $("input#idordencompradetalle").val();
@@ -2743,6 +2733,43 @@ if($pacienteEntity){
         });
 
         subTotalResponse(status, subTotalArticulo, null, 'consulta')
+        
+        var dataStringVerConsultaanticipo = "ver_consultaanticipo=true" + "&idconsulta=" + idconsulta;
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataStringVerConsultaanticipo,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                consultaanticipoArray = []
+                var consultaanticipoEntity = data.consultaanticipoArray
+                if(consultaanticipoEntity){
+                    $.each( consultaanticipoEntity, function( key, value ) {
+                        consultaanticipoArray.push({
+                            "idconsultaanticipo" : value.idconsultaanticipo,
+                            "idconsulta" : value.idconsulta,
+                            "consultaanticipo_fecha" : value.consultaanticipo_fecha,
+                            "consultaanticipo_cantidad" : value.consultaanticipo_cantidad,
+                            "consultaanticipo_nota" : value.consultaanticipo_nota,
+                            "consultaanticipo_tipo" : value.consultaanticipo_tipo
+                        });
+                    });
+                }
+
+                // Si no existe un cargo de servicio, construimos Anticipo: $$$ MXN, de lo contrario. lo constriye tablaCargoconsultaServicioAgregadoInicial
+                if(data.existeServicioConsulta == false){
+                    var AnticipoCantidad = 0;
+                    for(count=0; count<=consultaanticipoArray.length; count++){
+                        AnticipoCantidad = Number(consultaanticipoArray[count]["consultaanticipo_cantidad"]);
+                        subTotalResponse(status, -AnticipoCantidad, null, 'consulta', AnticipoCantidad)
+                    }
+                }
+            },
+            error: function(){
+                //alert("Error al intentar actualizar Anticipos")
+            }
+        });
 
     }
 
@@ -4115,8 +4142,47 @@ if($pacienteEntity){
             return false;
 
         });
+        
+        if (typeof(status) === "undefined") {
 
-        subTotalResponse(status, null, subTotalServicio, 'consulta')
+        }else{
+            subTotalResponse(status, null, subTotalServicio, 'consulta')
+        }
+
+        var dataStringVerConsultaanticipo = "ver_consultaanticipo=true" + "&idconsulta=" + idconsulta;
+        $.ajax({
+            type: "POST",
+            url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataStringVerConsultaanticipo,
+            jsonpCallback: 'callback',
+            success: function(data) {
+                consultaanticipoArray = []
+                var consultaanticipoEntity = data.consultaanticipoArray
+                if(consultaanticipoEntity){
+                    $.each( consultaanticipoEntity, function( key, value ) {
+                        consultaanticipoArray.push({
+                            "idconsultaanticipo" : value.idconsultaanticipo,
+                            "idconsulta" : value.idconsulta,
+                            "consultaanticipo_fecha" : value.consultaanticipo_fecha,
+                            "consultaanticipo_cantidad" : value.consultaanticipo_cantidad,
+                            "consultaanticipo_nota" : value.consultaanticipo_nota,
+                            "consultaanticipo_tipo" : value.consultaanticipo_tipo
+                        });
+                    });
+                }
+
+                var AnticipoCantidad = 0;
+                for(count=0; count<=consultaanticipoArray.length; count++){
+                    AnticipoCantidad = Number(consultaanticipoArray[count]["consultaanticipo_cantidad"]);
+                    subTotalResponse(status, -AnticipoCantidad, null, 'consulta', AnticipoCantidad)
+                }
+
+            },
+            error: function(){
+                //alert("Error al intentar actualizar Anticipos")
+            }
+        });
     }
 
     function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
@@ -4971,7 +5037,7 @@ if($pacienteEntity){
 
 
     //// ADMISION ////
-
+    
     $("#buscarCargoadmisionArticulo").click(function() {
 
         //Obtenemos el valor del selector de lugarinventario
@@ -6925,7 +6991,7 @@ if($pacienteEntity){
                 }
             },
             error: function(){
-                alert("Error al intentar actualizar Anticipos")
+                //alert("Error al intentar actualizar Anticipos")
             }
         });
 
@@ -8386,7 +8452,7 @@ if($pacienteEntity){
 
             },
             error: function(){
-                alert("Error al intentar actualizar Anticipos")
+                //alert("Error al intentar actualizar Anticipos")
             }
         });
     }
@@ -9259,8 +9325,6 @@ if($pacienteEntity){
 
         anticipoCantidad += Number(AnticipoCantidad);
 
-        alert(subTotal)
-
         if(subTotal == 0){
 
             status = 'pagada';
@@ -9473,9 +9537,10 @@ if($pacienteEntity){
             var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
             buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
             divbotonGenerarFactura.appendChild(buttonGenerarFactura)
-             *
+             * 
              */?>
 
+             <?php /*
             var divbotonGenerarNota = document.getElementById("botonGenerarNota");
             divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
             var buttonGenerarNota = document.createElement('button')
@@ -9489,7 +9554,9 @@ if($pacienteEntity){
             var textoButtonGenerarNota = document.createTextNode("Generar Nota");
             buttonGenerarNota.appendChild(textoButtonGenerarNota)
             divbotonGenerarNota.appendChild(buttonGenerarNota)
-
+              * 
+              */?>
+            
             <?php /*
             var divbotoVerFactura = document.getElementById("botonVerFactura");
             divbotoVerFactura.innerHTML = divbotoVerFactura.dir;
@@ -9502,7 +9569,7 @@ if($pacienteEntity){
             var textoButtonVerFactura = document.createTextNode("Ver Factura");
             buttonVerFactura.appendChild(textoButtonVerFactura)
             divbotoVerFactura.appendChild(buttonVerFactura)
-             *
+             * 
              */?>
         }
 
@@ -9602,191 +9669,83 @@ if($pacienteEntity){
             anticipoAdmision.appendChild(divBotonPagarAnticipo);
             // Creamos los elementos de Anticipo admision
 
-            // Creamos los elementos de Nota de Remision admision
-            /*
-            var generarNotaRemisionAdmision = document.getElementById("generarNotaAdmision");
-            generarNotaRemisionAdmision.innerHTML = generarNotaRemisionAdmision.dir;
+            // Creamos los elementos de Pago admision
+            var pagoAdmision = document.getElementById("pagoAdmision");
+            pagoAdmision.innerHTML = pagoAdmision.dir;
 
-            var divInputNotaRemisionCliente = document.createElement('div')
-            divInputNotaRemisionCliente.className = "input-field col s12";
-            var inputNotaRemisionCliente = document.createElement('input')
-            inputNotaRemisionCliente.setAttribute ( 'id', 'input_notaderemision_cliente' );
-            inputNotaRemisionCliente.setAttribute ( 'type', 'text' );
-            inputNotaRemisionCliente.setAttribute ( 'name', 'notaderemision_cliente' );
-            divInputNotaRemisionCliente.appendChild(inputNotaRemisionCliente);
-            var labelNotaRemisionCliente = document.createElement('label')
-            var NotaRemisionCliente = document.createTextNode("Cliente:")
-            labelNotaRemisionCliente.appendChild(NotaRemisionCliente);
-            labelNotaRemisionCliente.setAttribute ( 'for', 'input_nota_pago' );
-            divInputNotaRemisionCliente.appendChild(labelNotaRemisionCliente);
-            generarNotaRemisionAdmision.appendChild(divInputNotaRemisionCliente);
+            var divCantidadRestantePago = document.createElement('div')
+            divCantidadRestantePago.className = "col s12";
+            var spanPago = document.createElement('span')
+            var cantidadRestantePago = document.createTextNode("Cantidad restante: "+subTotal);
+            spanPago.appendChild(cantidadRestantePago);
+            divCantidadRestantePago.appendChild(spanPago);
+            pagoAdmision.appendChild(divCantidadRestantePago);
+            var br1 = document.createElement('br')
+            pagoAdmision.appendChild(br1);
 
-            var divInputNotaRemisionDireccion = document.createElement('div')
-            divInputNotaRemisionDireccion.className = "input-field col s12";
-            var inputNotaRemisionDireccion = document.createElement('input')
-            inputNotaRemisionDireccion.setAttribute ( 'id', 'input_notaderemision_direccion' );
-            inputNotaRemisionDireccion.setAttribute ( 'type', 'text' );
-            inputNotaRemisionDireccion.setAttribute ( 'name', 'notaderemision_direccion' );
-            divInputNotaRemisionDireccion.appendChild(inputNotaRemisionDireccion);
-            var labelNotaRemisionDireccion = document.createElement('label')
-            var NotaRemisionDireccion = document.createTextNode("Direccion:")
-            labelNotaRemisionDireccion.appendChild(NotaRemisionDireccion);
-            labelNotaRemisionDireccion.setAttribute ( 'for', 'input_nota_pago' );
-            divInputNotaRemisionDireccion.appendChild(labelNotaRemisionDireccion);
-            generarNotaRemisionAdmision.appendChild(divInputNotaRemisionDireccion);
+            var divMetodoDePago = document.createElement('div')
+            divMetodoDePago.className = "col s12";
+            divMetodoDePago.setAttribute ( 'id', 'divMetodoDePago' );
+            var spanMetodoDePago = document.createElement('span')
+            var metodoDePago = document.createTextNode("Método de pago: ");
+            spanMetodoDePago.appendChild(metodoDePago);
+            divMetodoDePago.appendChild(spanMetodoDePago);
 
-            var divInputNotaRemisionCiudad = document.createElement('div')
-            divInputNotaRemisionCiudad.className = "input-field col s12";
-            var inputNotaRemisionCiudad = document.createElement('input')
-            inputNotaRemisionCiudad.setAttribute ( 'id', 'input_notaderemision_ciudad' );
-            inputNotaRemisionCiudad.setAttribute ( 'type', 'text' );
-            inputNotaRemisionCiudad.setAttribute ( 'name', 'notaderemision_ciudad' );
-            divInputNotaRemisionCiudad.appendChild(inputNotaRemisionCiudad);
-            var labelNotaRemisionCiudad = document.createElement('label')
-            var NotaRemisionCiudad = document.createTextNode("Ciudad:")
-            labelNotaRemisionCiudad.appendChild(NotaRemisionCiudad);
-            labelNotaRemisionCiudad.setAttribute ( 'for', 'input_nota_pago' );
-            divInputNotaRemisionCiudad.appendChild(labelNotaRemisionCiudad);
-            generarNotaRemisionAdmision.appendChild(divInputNotaRemisionCiudad);
-
-            var divInputNotaRemisionObservaciones = document.createElement('div')
-            divInputNotaRemisionObservaciones.className = "input-field col s12";
-            var inputNotaRemisionObservaciones = document.createElement('input')
-            inputNotaRemisionObservaciones.setAttribute ( 'id', 'input_notaderemision_observaciones' );
-            inputNotaRemisionObservaciones.setAttribute ( 'type', 'text' );
-            inputNotaRemisionObservaciones.setAttribute ( 'name', 'notaderemision_observaciones' );
-            divInputNotaRemisionObservaciones.appendChild(inputNotaRemisionObservaciones);
-            var labelNotaRemisionObservaciones = document.createElement('label')
-            var NotaRemisionObservaciones = document.createTextNode("Ciudad:")
-            labelNotaRemisionObservaciones.appendChild(NotaRemisionObservaciones);
-            labelNotaRemisionObservaciones.setAttribute ( 'for', 'input_nota_pago' );
-            divInputNotaRemisionObservaciones.appendChild(labelNotaRemisionObservaciones);
-            generarNotaRemisionAdmision.appendChild(divInputNotaRemisionObservaciones);
-
-            var selectConducto = document.createElement('select');
-            selectConducto.style.display = "inline";
-            selectConducto.style.width = "auto";
-            selectConducto.style.height = "auto";
-            selectConducto.setAttribute ( 'id', 'select_notaderemision_conducto' );
-            var conductoArray = ["mxn"];
+            var select = document.createElement('select');
+            select.style.display = "inline";
+            select.style.width = "auto";
+            select.style.height = "auto";
+            select.setAttribute ( 'id', 'select_metodo_de_pago' );
+            var metodosArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "SPEI", "No identificado"];
             // agregamos los valores <option> a seleccionar
-            for($i=0; $i<=conductoArray.length; $i++){
-                var selectConductoOption = new Option(conductoArray[$i],conductoArray[$i]);
-                selectConducto.appendChild(selectConductoOption);
+            for($i=0; $i<=metodosArray.length; $i++){
+                var selectOption = new Option(metodosArray[$i],metodosArray[$i]);
+                select.appendChild(selectOption);
             }
-            generarNotaRemisionAdmision.appendChild(selectConducto);
+            divMetodoDePago.appendChild(select);
 
-            var divbotonGenerarNotaAdmision = document.getElementById("botonGenerarNotaAdmision");
-            divbotonGenerarNotaAdmision.innerHTML = divbotonPagarAnticipo.dir;
-            var botonGenerarNotaAdmision = document.createElement('button')
-            botonGenerarNotaAdmision.setAttribute ( 'id', 'buttonGenerarNotaAdmision' );
-            botonGenerarNotaAdmision.setAttribute ( 'href', '#create-modal-nota-admision' );
-            botonGenerarNotaAdmision.className = "modal-trigger btn waves-effect waves-light";
-            botonGenerarNotaAdmision.style.width = "100%";
-            botonGenerarNotaAdmision.style.height = "45px";
-            botonGenerarNotaAdmision.style.marginTop = "53px";
-            var textobotonGenerarNotaAdmision = document.createTextNode("Generar Nota");
-            botonGenerarNotaAdmision.appendChild(textobotonGenerarNotaAdmision)
-            divbotonGenerarNotaAdmision.appendChild(botonGenerarNotaAdmision)
-            //divbotonGenerarNotaAdmision
+            var span2 = document.createElement('span')
+            var espacio = document.createTextNode("   ");
+            span2.appendChild(espacio);
+            divMetodoDePago.appendChild(span2);
 
-            $('.modal-trigger').leanModal();
-            */
-            // Creamos los elementos de Nota de Remision admision
+            var inputMetodoDePago = document.createElement('input')
+            inputMetodoDePago.style.width = "auto";
+            inputMetodoDePago.setAttribute ( 'id', 'input_pago_admision' );
+            inputMetodoDePago.setAttribute ( 'type', 'text' );
+            inputMetodoDePago.setAttribute ( 'name', 'pago' );
+            inputMetodoDePago.setAttribute ( 'value', subTotal );
+            inputMetodoDePago.setAttribute ( 'readonly', 'readonly');
+            divMetodoDePago.appendChild(inputMetodoDePago);
+            pagoAdmision.appendChild(divMetodoDePago);
 
-            // Creamos los elementos de Anticipo admision
-            var anticipoAdmision = document.getElementById("anticipoAdmision");
-            anticipoAdmision.innerHTML = anticipoAdmision.dir;
+            var divInputNotaPago = document.createElement('div')
+            divInputNotaPago.className = "input-field col s12";
+            var inputNotaPago = document.createElement('input')
+            inputNotaPago.setAttribute ( 'id', 'input_nota_pago' );
+            inputNotaPago.setAttribute ( 'type', 'text' );
+            inputNotaPago.setAttribute ( 'name', 'nota_pago' );
+            divInputNotaPago.appendChild(inputNotaPago);
+            var labelNotaPago = document.createElement('label')
+            var notaPago = document.createTextNode("Nota")
+            labelNotaPago.appendChild(notaPago);
+            labelNotaPago.setAttribute ( 'for', 'input_nota_pago' );
+            divInputNotaPago.appendChild(labelNotaPago);
+            pagoAdmision.appendChild(divInputNotaPago);
 
-            var divCantidadRestanteAnticipo = document.createElement('div')
-            divCantidadRestanteAnticipo.className = "col s12";
-            var spanAnticipo = document.createElement('span')
-            var cantidadRestanteAnticipo = document.createTextNode("Cantidad restante: "+subTotal);
-            spanAnticipo.appendChild(cantidadRestanteAnticipo);
-            divCantidadRestanteAnticipo.appendChild(spanAnticipo);
-            anticipoAdmision.appendChild(divCantidadRestanteAnticipo);
-            var brAnticipo1 = document.createElement('br')
-            anticipoAdmision.appendChild(brAnticipo1);
-
-            var divMetodoDeAnticipo = document.createElement('div')
-            divMetodoDeAnticipo.className = "col s12";
-            divMetodoDeAnticipo.setAttribute ( 'id', 'divMetodoDeAnticipo' );
-            var spanMetodoDeAnticipo = document.createElement('span')
-            var metodoDeAnticipo = document.createTextNode("Método de pago: ");
-            spanMetodoDeAnticipo.appendChild(metodoDeAnticipo);
-            divMetodoDeAnticipo.appendChild(spanMetodoDeAnticipo);
-
-            var selectAnticipo = document.createElement('select');
-            selectAnticipo.style.display = "inline";
-            selectAnticipo.style.width = "auto";
-            selectAnticipo.style.height = "auto";
-            selectAnticipo.setAttribute ( 'id', 'select_metodo_de_anticipo' );
-            var metodosAnticipoArray = ["Efectivo", "Tarjeta de credito", "Tarjeta de debito", "Cheque", "SPEI", "No identificado"];
-            // agregamos los valores <option> a seleccionar
-            for($i=0; $i<=metodosAnticipoArray.length; $i++){
-                var selectAnticipoOption = new Option(metodosAnticipoArray[$i],metodosAnticipoArray[$i]);
-                selectAnticipo.appendChild(selectAnticipoOption);
-            }
-            divMetodoDeAnticipo.appendChild(selectAnticipo);
-
-            var span2Anticipo = document.createElement('span')
-            var espacioAnticipo = document.createTextNode("   ");
-            span2Anticipo.appendChild(espacioAnticipo);
-            divMetodoDeAnticipo.appendChild(span2Anticipo);
-
-            var inputAnticipo = document.createElement('input')
-            inputAnticipo.style.width = "auto";
-            inputAnticipo.setAttribute ( 'id', 'input_anticipo_admision' );
-            inputAnticipo.type = 'number';
-            inputAnticipo.min ="1";
-            inputAnticipo.max = subTotal;
-            inputAnticipo.setAttribute ( 'name', 'anticipo' );
-            inputAnticipo.setAttribute ( 'value', subTotal );
-            divMetodoDeAnticipo.appendChild(inputAnticipo);
-            anticipoAdmision.appendChild(divMetodoDeAnticipo);
-
-            /*
-             var divInputAnticipo = document.createElement('div')
-             divInputAnticipo.className = "col s12";
-             var inputAnticipo = document.createElement('input')
-             inputAnticipo.style.width = "auto";
-             inputAnticipo.setAttribute ( 'id', 'input_anticipo_admision' );
-             inputAnticipo.type = 'number';
-             inputAnticipo.min ="1";
-             inputAnticipo.max = subTotal;
-             inputAnticipo.setAttribute ( 'name', 'anticipo' );
-             inputAnticipo.setAttribute ( 'value', subTotal );
-             divInputAnticipo.appendChild(inputAnticipo);
-             anticipoAdmision.appendChild(divInputAnticipo);
-             */
-
-            var divInputNotaAnticipo = document.createElement('div')
-            divInputNotaAnticipo.className = "input-field col s12";
-            var inputNotaAnticipo = document.createElement('input')
-            inputNotaAnticipo.setAttribute ( 'id', 'input_nota_anticipo' );
-            inputNotaAnticipo.setAttribute ( 'type', 'text' );
-            inputNotaAnticipo.setAttribute ( 'name', 'nota_anticipo' );
-            divInputNotaAnticipo.appendChild(inputNotaAnticipo);
-            var labelNotaAnticipo = document.createElement('label')
-            var notaAnticipo = document.createTextNode("Nota")
-            labelNotaAnticipo.appendChild(notaAnticipo);
-            labelNotaAnticipo.setAttribute ( 'for', 'input_nota_anticipo' );
-            divInputNotaAnticipo.appendChild(labelNotaAnticipo);
-            anticipoAdmision.appendChild(divInputNotaAnticipo);
-
-            var divBotonPagarAnticipo = document.createElement('div')
-            divBotonPagarAnticipo.className = "right col s4";
-            divBotonPagarAnticipo.setAttribute ( 'id', 'divBotonAdmisionPagarAnticipo' );
-            var botonPagarAnticipo = document.createElement('button')
-            botonPagarAnticipo.className = "btn waves-effect waves-light";
-            botonPagarAnticipo.style.width = "auto";
-            botonPagarAnticipo.style.height = "45px";
-            botonPagarAnticipo.style.marginTop = "20px";
-            var textBotonPagarAnticipo = document.createTextNode("Pagar");
-            botonPagarAnticipo.appendChild(textBotonPagarAnticipo);
-            divBotonPagarAnticipo.appendChild(botonPagarAnticipo);
-            anticipoAdmision.appendChild(divBotonPagarAnticipo);
-            // Creamos los elementos de Nota de Remision Admision
+            var divBotonPagar = document.createElement('div')
+            divBotonPagar.className = "right col s4";
+            divBotonPagar.setAttribute ( 'id', 'divBotonAdmisionPagarPago' );
+            var botonPagar = document.createElement('button')
+            botonPagar.className = "btn waves-effect waves-light";
+            botonPagar.style.width = "auto";
+            botonPagar.style.height = "45px";
+            botonPagar.style.marginTop = "20px";
+            var textBotonPagar = document.createTextNode("Pagar");
+            botonPagar.appendChild(textBotonPagar);
+            divBotonPagar.appendChild(botonPagar);
+            pagoAdmision.appendChild(divBotonPagar);
+            // Creamos los elementos de Pago admision
 
             var divTotalSuperior = document.getElementById("totalSuperiorAdmision");
             divTotalSuperior.innerHTML = divTotalSuperior.dir;
@@ -9846,9 +9805,10 @@ if($pacienteEntity){
             var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
             buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
             divbotonGenerarFactura.appendChild(buttonGenerarFactura)
-             *
+             * 
              */?>
 
+            <?php /*
             var divbotonGenerarNota = document.getElementById("botonGenerarNotaAdmision");
             divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
             var buttonGenerarNota = document.createElement('button')
@@ -9861,6 +9821,8 @@ if($pacienteEntity){
             var textoButtonGenerarNota = document.createTextNode("Generar Nota");
             buttonGenerarNota.appendChild(textoButtonGenerarNota)
             divbotonGenerarNota.appendChild(buttonGenerarNota)
+             * 
+             */ ?>
 
             <?php /*
             var divbotoVerFactura = document.getElementById("botonVerFacturaAdmision");
@@ -9874,7 +9836,7 @@ if($pacienteEntity){
             var textoButtonVerFactura = document.createTextNode("Ver Factura");
             buttonVerFactura.appendChild(textoButtonVerFactura)
             divbotoVerFactura.appendChild(buttonVerFactura)
-             *
+             * 
              */?>
         }
         $("#divBotonAdmisionPagarAnticipo").click(function() {
@@ -10138,59 +10100,6 @@ if($pacienteEntity){
                 });
                 return false;
             }
-        });
-
-        // Si dan clic en buttonGenerarNotaAdmision
-        $('#buttonGenerarNotaAdmision').click(function(){
-            alert("Entro");
-            if(status == 'pagada'){
-
-                var idadmision = $("input#idadmision").val();
-                var notaderemision_cliente = $("input#input_notaderemision_cliente").val();
-                var notaderemision_direccion = $("input#input_notaderemision_direccion").val();
-                var notaderemision_ciudad = $("input#input_notaderemision_ciudad").val();
-                var notaderemision_observaciones = $("input#input_notaderemision_observaciones").val();
-                var notaderemision_conducto = $("#select_notaderemision_conducto").val()
-
-                //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-                var dataString = 'idadmision=' + idadmision + '&notaderemision_cliente=' + notaderemision_cliente + '&notaderemision_direccion=' + notaderemision_direccion + '&notaderemision_ciudad=' + notaderemision_ciudad + '&notaderemision_observaciones=' + notaderemision_observaciones + '&notaderemision_conducto=' + notaderemision_conducto;
-
-                alert(dataString)
-                $.ajax({
-                    type: "POST",
-                    url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
-                    dataType : 'json',
-                    data: dataString,
-                    jsonpCallback: 'callback',
-                    success: function(data) {
-
-                        alert("Se agregó exitosamente el anticipo de: "+anticipoAdmision+" MXN")
-
-                        admisionanticipoArray = []
-                        var admisionanticipoEntity = data.admisionanticipoArray
-                        $.each( admisionanticipoEntity, function( key, value ) {
-                            admisionanticipoArray.push({
-                                "idadmisionanticipo" : value.idadmisionanticipo,
-                                "idadmision" : value.idadmision,
-                                "admisionanticipo_fecha" : value.admisionanticipo_fecha,
-                                "admisionanticipo_cantidad" : value.admisionanticipo_cantidad,
-                                "admisionanticipo_nota" : value.admisionanticipo_nota,
-                                "admisionanticipo_tipo" : value.admisionanticipo_tipo
-                            });
-                        });
-
-                        subTotalResponse(status, -(anticipoAdmision), null, 'admision', anticipoAdmision, $("#select_metodo_de_anticipo").val(), admision_referenciapagoAnticipo)
-
-                    },
-                    error: function(data){
-                        alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
-                    }
-                });
-
-                return false;
-            }
-
-
         });
     }
 

@@ -10,7 +10,7 @@ class FacturarController extends AbstractActionController
     
     public $emisorArr = array(
         'noCertificado' => '20001000000200000293', 
-        'LugarExpedicion' => 'ZAPOPAN',
+        'LugarExpedicion' => 'ZAPOPAN,JALISCO',
         'rfc' => 'AAD990814BP7',
         'nombre' => 'HOSPITAL DEL VALLE DE ATEMAJAC',
         'regimen' => 'S.A. de C.V.',
@@ -32,6 +32,7 @@ class FacturarController extends AbstractActionController
     
     public function listarAction()
     {
+        
         $historico_array = array();
         $movimiento_arraty = array();
         
@@ -80,6 +81,7 @@ class FacturarController extends AbstractActionController
         }
        
        return new ViewModel(array(
+           'qr' => $qr,
             'movimientos' => json_encode($movimiento_array),
             'collection' => $historico_array
         ));
@@ -88,14 +90,7 @@ class FacturarController extends AbstractActionController
     
     
     public function generarAction(){
-//        require(__DIR__.'/../FPDF/'.'fpdf.php');
-//        $pdf = new FPDF();
-//        $pdf->AddPage();
-//        $pdf->SetFont('Arial','B',16);
-//        $pdf->Cell(40,10,'¡Hola, Mundo!');
-//        $pdf->Output();
-//        
-//        echo '<pre>';var_dump($request); echo '</pre>';exit();
+        
         
         
         $request = $this->getRequest();
@@ -301,6 +296,31 @@ class FacturarController extends AbstractActionController
                 $xmlTimbrado = $res['response'];
                 $filePathXML = '/tmp/xml/' . $res['xmlId'] . '.xml';
                 $filePathPDF = '/tmp/pdf/' . $res['xmlId'] . '.pdf';
+
+                
+                
+                
+                //Generamos la url del qrcode 
+                $qr_main = 'http://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=';
+                $qr_url.='re='.$this->emisorArr['rfc']; //Emisor
+                $qr_url.='&rr='.$receptorArr['pacientefacturacion_rfc']; //Receptor
+                $qr_url.='&tt='.$this->numberTo17Digits($xmlArray["Comprobante"]["total"]);
+                $qr_url.='&id='.$xmlArray['TimbreFiscalDigital']['UUID'];
+                $qr_url = $qr_main.urlencode($qr_url).'.png';
+                //http://chart.googleapis.com/chart?cht=qr&chl=Hello+world&choe=UTF-8&chs=200x200
+                
+                //EL PDF
+                $cfdi = $xmlTimbrado['xml'];
+                $cadena_original = $xmlTimbrado['cadenaOriginal'];
+                $qrcode = $qr_url;
+                
+                $pdf = new \Facturacion\PdfGenerator\PdfGenerator($cfdi, $cadena_original, $qrcode);
+                $pdf->AliasNbPages();
+                $pdf->AddPage();
+                $pdf->FancyTable();
+                $pdf->QrCode();
+                $pdf->Output($_SERVER['DOCUMENT_ROOT'].$filePathPDF,'F');
+                
                 //Guardamos los datos de la factura
                 $factura = new \Factura();
                 $factura->setIddatosfacturacion($post_data['idpacientefacturacion']);
@@ -321,7 +341,7 @@ class FacturarController extends AbstractActionController
                     $venta = \VentaQuery::create()->findPk($idmovimiento);
                     $venta->setVentaFacturada(1);
                     $venta->save();
-                }
+                }   
                 
                 $factura->setFacturaUrlXml($filePathXML);
                 $factura->setFacturaUrlPdf($filePathPDF);
@@ -333,6 +353,7 @@ class FacturarController extends AbstractActionController
                 $factura->setFacturaTipodepago('unico');
                 $factura->setFacturaTipo('ingreso');
                 $factura->setFacturaStatus('creada');
+                $factura->setFacturaQrcode($qr_url);
                 $factura->save();                
                 $this->flashMessenger()->addMessage('Factura emitida exitosamente!');
                 return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true)));
@@ -507,5 +528,15 @@ class FacturarController extends AbstractActionController
        
         
     }
-  
+    
+    public function numberTo17Digits($n){
+        $whole = floor($n);     
+        $fraction = $n - $whole; $fraction = number_format($fraction,6);
+        $fraction = explode('.', $fraction);
+        $fraction = $fraction[1];
+        $n_zerofill = sprintf("%010d", $whole);
+        $tt = $n_zerofill.'.'.$fraction;
+        return $tt;
+    }
+      
 }

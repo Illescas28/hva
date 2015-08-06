@@ -34,6 +34,7 @@ $this->headTitle($title);
                 <?php foreach($lugares as $lugar) :?>
                     <th  style="width: 100px" id="<?php echo $lugar['id']?>"><?php echo $lugar['nombre']?></th>
                 <?php endforeach;?>
+                <th class="checkbox">Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -55,24 +56,22 @@ $this->headTitle($title);
                     </td>
                     <?php foreach ($lugares as $lugar) : ?>
                         <?php $lugarName = $lugar['nombre']; ?>
-                        <td class="list-inputs">
+                        <td  almacen_name="<?php echo $lugarName ?>" almacen_id="<?php echo $lugar['id']?>" class="list-inputs">
                         <li><input name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'?>[id]" type="hidden" value="<?php echo $lugar['id']?>"></li>
                             <li><input value="<?php echo $producto['reorden'][$lugarName]['min']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']' ?>[min]" type="text"></li>
                             <li><input value="<?php echo $producto['reorden'][$lugarName]['reorden']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'  ?>[reorden]" type="text" value=""></li>
                             <li><input value="<?php echo $producto['reorden'][$lugarName]['max']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'     ?>[max]" type="text" value=""></li>
                         </td>
                     <?php endforeach;?>
+                        <td style="padding-left: 20px; padding-right: 20px;">
+                            <a id="guardar" style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light">Guardar
+                            <i class="mdi-content-save left"></i>
+                            </a>
+                        </td>
                 </tr>
             <?php endforeach;?>
         </tbody>
    </table>
-    <div class="row">
-        <div class="col s2 offset-s10">
-            <button style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
-                <i class="mdi-content-save left"></i>
-            </button>
-        </div>
-    </div>
 </form>    
 <script type="text/javascript">
 
@@ -92,7 +91,66 @@ $this->headTitle($title);
         
         $('input[type=checkbox]').trigger('click');
         
-        $("#tabla-articulosreorden").filterTable({inputSelector: '#search-container input',minRows:2});
+        $("#tabla-articulosreorden").filterTable({inputSelector: '#search-container input',minRows:2}); 
+        
+        
+        function isNumberKey(evt)
+         {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                  return false;
+
+            return true;
+         }
+
+        $('input').on('keypress',function(e){
+            var isNumber = isNumberKey(e);
+            if(!isNumber){
+                e.preventDefault();
+            }
+        });
+        
+
+        $('a#guardar').on('click',function(){
+            var formData = new FormData();
+            var tr = $(this).closest('tr');
+            var id = tr.attr('id');
+            
+            var aplicar_todos = tr.find('input[type=checkbox]').prop('checked');
+            
+            var reorden = new Object();
+            reorden.idproducto = id;
+            reorden.aplicar_todos = aplicar_todos;
+            
+            tr.find('input').filter(function(){
+                formData.append($(this).name,$(this).val());
+            });
+            
+            $.each(tr.find('.list-inputs'),function(){
+                reorden[$(this).attr('almacen_name')] = new Object();
+                var almacen = $(this).attr('almacen_name');
+                reorden[almacen].id = $(this).attr('almacen_id');
+                reorden[almacen].min = $(this).find('li').eq(1).find('input').val();
+                reorden[almacen].reorden = $(this).find('li').eq(2).find('input').val();
+                reorden[almacen].max = $(this).find('li').eq(3).find('input').val();
+            });
+            
+            $.ajax({
+                type: "POST",
+                url: "/productos/reorden/definir",
+                data: reorden,
+                jsonpCallback: 'callback',
+                success: function(data) {
+
+                    alert("Guardado Exitosamente");
+
+                },
+                error: function(data){
+                    alert("Guardado Exitosamente");
+                }
+            });
+            
+        });
             
     });
 

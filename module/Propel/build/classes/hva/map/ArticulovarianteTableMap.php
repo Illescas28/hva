@@ -41,9 +41,9 @@ class ArticulovarianteTableMap extends TableMap
         $this->addPrimaryKey('idarticulovariante', 'Idarticulovariante', 'INTEGER', true, null, null);
         $this->addForeignKey('idarticulo', 'Idarticulo', 'INTEGER', 'articulo', 'idarticulo', true, null, null);
         $this->addColumn('articulovariante_codigobarras', 'ArticulovarianteCodigobarras', 'VARCHAR', false, 100, null);
-        $this->addColumn('articulovariante_costo', 'ArticulovarianteCosto', 'DECIMAL', false, 10, 0);
-        $this->addColumn('articulovariante_precio', 'ArticulovariantePrecio', 'DECIMAL', false, 10, 0);
-        $this->addColumn('articulovariante_iva', 'ArticulovarianteIva', 'CHAR', false, null, '16');
+        $this->addColumn('articulovariante_costo', 'ArticulovarianteCosto', 'DECIMAL', false, 10, null);
+        $this->addColumn('articulovariante_precio', 'ArticulovariantePrecio', 'DECIMAL', false, 10, null);
+        $this->addColumn('articulovariante_iva', 'ArticulovarianteIva', 'CHAR', false, null, null);
         $this->getColumn('articulovariante_iva', false)->setValueSet(array (
   0 => 'exento',
   1 => '0',

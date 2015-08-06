@@ -40,9 +40,9 @@
             <td><?php echo $entity['movimiento']?></td>
             <td><?php echo $entity['uuid']?></td>
             <td>
-                <a download href="/tmp/xml/<?php echo $entity['movimiento'].'.xml'?>">XML</a>
+                <a download href="/tmp/xml/<?php echo $entity['movimiento'].'.xml'?>"><img src="/img/icons/xml_icon.png"></a>
                 &nbsp;&nbsp;
-                <a download href="/tmp/xml/<?php echo $entity['movimiento'].'.pdf'?>">PDF</a>
+                <a href="/tmp/pdf/<?php echo $entity['movimiento'].'.pdf'?>"><img src="/img/icons/pdf_icon.png"></a>
                 &nbsp;&nbsp;
                 <a class="modal-trigger" href="#cancel-modal-factura-<?php echo $entity['id']?>">Cancelar</a>
             </td>

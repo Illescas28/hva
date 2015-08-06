@@ -16,57 +16,17 @@ class PreciosController extends AbstractActionController
         $request = $this->request;
         
         if($request->isPost()){//Si envian el formulario
-            //Comenzamos a itinerar sobre nuestro los elementos enviados
-            foreach ($request->getPost() as $key => $value){
-               if(strpos($key, 'producto') !== false){
-                    $idArticuloVariante = explode("-", $key);
-                    $idArticuloVariante = $idArticuloVariante[1];
-                    
-                    //Creamos una instacia de nuestro articulovariante
-                    $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($idArticuloVariante);
-                    
-                    $articuloVariante->setArticulovarianteCodigobarras($value["codigobarras"]);
-                    $articuloVariante->setArticulovarianteCosto($value["costo"]);
-                    $articuloVariante->setArticulovariantePrecio($value["precio"]);
-                    $articuloVariante->setArticulovarianteIva($value["iva"]);
-                    
-                    if($articuloVariante->isModified()){
-                        $articuloVariante->save();
-                    }
-               }
-            }
+            $post_data = $request->getPost();
             
-            //Ahora las imagenes
-            foreach ($_FILES as $key => $value){
-                if(strpos($key, 'producto') !== false){
-                    
-                        $idArticuloVariante = explode("-", $key);
-                        $idArticuloVariante = $idArticuloVariante[1];
-                        
-                        //Creamos una instacia de nuestro articulovariante
-                        $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($idArticuloVariante);
-                        
-                        if(!empty($value['name'])){
-                            $target_file = $this->target_dir . basename($value["name"]);
-                            $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-                            $new_name_file = $this->target_dir.'img_producto_'.$idArticuloVariante.'.'.$imageFileType;
-                            if (move_uploaded_file($_FILES[$key]["tmp_name"], $_SERVER["DOCUMENT_ROOT"].$new_name_file)) {
-                                $articuloVariante->setArticulovarianteImagen($new_name_file);
-                                $articuloVariante->save();
-                            }
-                        }else{
-                            $oldulr = $_SERVER["DOCUMENT_ROOT"].$articuloVariante->getArticulovarianteImagen();
-                            $articuloVariante->setArticulovarianteImagen('');   
-                            if($articuloVariante->isModified()){
-                                $articuloVariante->save();
-                             
-                            }
-                        }
-                }
-                
+            //Creamos una instacia de nuestro articulovariante
+            $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($post_data['idproducto']);
+            $articuloVariante->setArticulovarianteCosto($request->getPost()->articulovariante_costo);
+            $articuloVariante->setArticulovariantePrecio($request->getPost()->articulovariante_precio);
+            $articuloVariante->setArticulovarianteIva($request->getPost()->articulovariante_iva);
+            if($articuloVariante->isModified()){
+                $articuloVariante->save();
             }
-            //Agregamos un mensaje
-            $this->flashMessenger()->addMessage('Registro de productos guardados exitosamente!');
+            return;
         }
 
         //Obtenemos nuestros productos

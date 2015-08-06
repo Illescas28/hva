@@ -26,7 +26,7 @@ class ConsultorioForm extends Form
             'name' => 'consultorio_descripcion',
             'type' => 'Textarea',
             'options' => array(
-                'label' => 'Descripcion',
+                'label' => 'Descripción',
             ),
         ));
         
@@ -35,7 +35,7 @@ class ConsultorioForm extends Form
             'name' => 'consultorio_extension',
             'type' => 'text',
             'options' => array(
-                'label' => 'Extension',
+                'label' => 'Extensión',
             ),
         ));
 
