@@ -323,10 +323,13 @@ if($pacienteEntity){
                 </div>
                  * 
                  */?>
+                <?php /*
                 <div id="botonGenerarNota" class="col s3">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
-                <div id="totalInferior" class="col s6">
+                 * 
+                 */?>
+                <div id="totalInferior" class="col s9">
                     <!-- Aquí agregamos los elementos con javascript -->
                 </div>
             </div>
@@ -636,10 +639,13 @@ if($pacienteEntity){
         </div>
          * 
          */?>
+        <?php /*
         <div id="botonGenerarNotaAdmision" class="col s3">
             <!-- Aquí agregamos los elementos con javascript -->
         </div>
-        <div id="totalInferiorAdmision" class="col s6">
+         * 
+         */ ?>
+        <div id="totalInferiorAdmision" class="col s9">
             <!-- Aquí agregamos los elementos con javascript -->
         </div>
     </div>
@@ -2761,7 +2767,7 @@ if($pacienteEntity){
                 }
             },
             error: function(){
-                alert("Error al intentar actualizar Anticipos")
+                //alert("Error al intentar actualizar Anticipos")
             }
         });
 
@@ -4174,7 +4180,7 @@ if($pacienteEntity){
 
             },
             error: function(){
-                alert("Error al intentar actualizar Anticipos")
+                //alert("Error al intentar actualizar Anticipos")
             }
         });
     }
@@ -6985,7 +6991,7 @@ if($pacienteEntity){
                 }
             },
             error: function(){
-                alert("Error al intentar actualizar Anticipos")
+                //alert("Error al intentar actualizar Anticipos")
             }
         });
 
@@ -8446,7 +8452,7 @@ if($pacienteEntity){
 
             },
             error: function(){
-                alert("Error al intentar actualizar Anticipos")
+                //alert("Error al intentar actualizar Anticipos")
             }
         });
     }
@@ -9534,6 +9540,7 @@ if($pacienteEntity){
              * 
              */?>
 
+             <?php /*
             var divbotonGenerarNota = document.getElementById("botonGenerarNota");
             divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
             var buttonGenerarNota = document.createElement('button')
@@ -9547,7 +9554,9 @@ if($pacienteEntity){
             var textoButtonGenerarNota = document.createTextNode("Generar Nota");
             buttonGenerarNota.appendChild(textoButtonGenerarNota)
             divbotonGenerarNota.appendChild(buttonGenerarNota)
-
+              * 
+              */?>
+            
             <?php /*
             var divbotoVerFactura = document.getElementById("botonVerFactura");
             divbotoVerFactura.innerHTML = divbotoVerFactura.dir;
@@ -9799,6 +9808,7 @@ if($pacienteEntity){
              * 
              */?>
 
+            <?php /*
             var divbotonGenerarNota = document.getElementById("botonGenerarNotaAdmision");
             divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
             var buttonGenerarNota = document.createElement('button')
@@ -9811,6 +9821,8 @@ if($pacienteEntity){
             var textoButtonGenerarNota = document.createTextNode("Generar Nota");
             buttonGenerarNota.appendChild(textoButtonGenerarNota)
             divbotonGenerarNota.appendChild(buttonGenerarNota)
+             * 
+             */ ?>
 
             <?php /*
             var divbotoVerFactura = document.getElementById("botonVerFacturaAdmision");

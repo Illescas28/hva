@@ -435,6 +435,64 @@ class PacienteController extends AbstractActionController
         }
         // End Eliminar admisionanticipo
         
+//        // Start Ver admisionanticipo
+//        if($request->getPost()->ver_admisionanticipo == "true"){
+//            $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
+//            if($admisionanticipoQuery->count() != 0){
+//                $admisionanticipoArray = array();
+//                foreach($admisionanticipoQuery as $admisionanticipoEntity){
+//                    $admisionanticipo = array(
+//                        'idadmisionanticipo' => $admisionanticipoEntity->getIdadmisionanticipo(),
+//                        'idadmision' => $admisionanticipoEntity->getIdadmision(),
+//                        'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
+//                        'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
+//                        'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionanticipoNota(),
+//                        'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionanticipoTipo()
+//                    );
+//                    array_push($admisionanticipoArray, $admisionanticipo);
+//                }
+//            }
+//            return new JsonModel(array(
+//                'admisionanticipoArray' => $admisionanticipoArray,
+//            ));
+//        }
+//        // End Ver admisionanticipo
+        
+        // Start Ver admisionanticipo
+        if($request->getPost()->ver_admisionanticipo == "true"){
+            $existeServicio = false;
+
+            $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
+            if($admisionanticipoQuery->count() != 0){
+                $admisionanticipoArray = array();
+                foreach($admisionanticipoQuery as $admisionanticipoEntity){
+                    $admisionanticipo = array(
+                        'idadmisionanticipo' => $admisionanticipoEntity->getIdadmisionanticipo(),
+                        'idadmision' => $admisionanticipoEntity->getIdadmision(),
+                        'admisionanticipo_fecha' => $admisionanticipoEntity->getAdmisionanticipoFecha(),
+                        'admisionanticipo_cantidad' => $admisionanticipoEntity->getAdmisionanticipoCantidad(),
+                        'admisionanticipo_nota' => $admisionanticipoEntity->getAdmisionanticipoNota(),
+                        'admisionanticipo_tipo' => $admisionanticipoEntity->getAdmisionanticipoTipo()
+                    );
+                    array_push($admisionanticipoArray, $admisionanticipo);
+
+                    $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($admisionanticipoEntity->getIdadmision())->find();
+                    foreach($cargoadmisionQuery as $cargoadmisionEntity){
+                        if($cargoadmisionEntity->getIdservicio()){
+                            $existeServicio = true;
+                        }
+
+                    }
+                }
+            }
+
+            return new JsonModel(array(
+                'admisionanticipoArray' => $admisionanticipoArray,
+                'existeServicio' => $existeServicio,
+            ));
+        }
+        // End Ver admisionanticipo
+
         // Start Ver consultaanticipo
         if($request->getPost()->ver_consultaanticipo == "true"){
             $existeServicioConsulta = false;
@@ -1625,7 +1683,6 @@ class PacienteController extends AbstractActionController
 
         // Start Ver admisionanticipo
         if($request->getPost()->ver_admisionanticipo == "true"){
-
             $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
             if($admisionanticipoQuery->count() != 0){
                 $admisionanticipoArray = array();
