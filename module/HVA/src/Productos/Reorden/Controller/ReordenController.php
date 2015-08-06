@@ -25,81 +25,70 @@ class ReordenController extends AbstractActionController
         $request = $this->request;
         
         if($request->isPost()){
+            $post_data = $request->getPost();
             
-            //Comenzamos a itinerar sobre nuestro los elementos enviados
-            foreach ($request->getPost() as $key => $value){
-                if(strpos($key, 'producto') !== false){
-                   
-                    $idArticuloVariante = explode("-", $key);
-                    $idArticuloVariante = $idArticuloVariante[1];
-                    
-                    //Checamos si va aplicar para todos los almacenes
-                    if(isset($value['todos'])){
-                        
-                        //Guardamos los datos que nos envian
-                        foreach ($value['lugar'] as $lugarKey => $lugarValue){
-                            $min = $lugarValue['min'];
-                            $reorden = $lugarValue['reorden'];
-                            $max = $lugarValue['max'];
+            if($post_data['aplicar_todos'] == 'true'){
+                foreach ($post_data as $data) {
+                    if (is_array($data)) {
+                            $min = $data['min'];
+                            $reorden = $data['reorden'];
+                            $max = $data['max'];
                             break;
+                    }
+                }
+                    $almacenes = \LugarQuery::create()->find();
+                    
+                    foreach ($almacenes as $almacen){
+                        $articuloReorderExist = \ArticulovariantereordenQuery::create()->filterByIdarticulovariante($post_data['idproducto'])->filterByIdlugar($almacen->getIdLugar())->exists();
+
+                        if($articuloReorderExist){
+                            $articuloReorder = \ArticulovariantereordenQuery::create()->filterByIdarticulovariante($post_data['idproducto'])->filterByIdlugar($almacen->getIdLugar())->findOne();
+                            $articuloReorder->setMinimo($min)
+                                            ->setReorden($reorden)
+                                            ->setMaximo($max)
+                                            ->save();
+                        }else{
+                            $articuloReorden = new \Articulovariantereorden();
+                            $articuloReorden->setIdarticulovariante($post_data['idproducto'])
+                                            ->setIdlugar($almacen->getIdLugar())
+                                            ->setMinimo($min)
+                                            ->setReorden($reorden)
+                                            ->setMaximo($max)
+                                            ->save();    
                         }
-      
-                        foreach ($lugarCollection as $klc => $vlc){
-                            
-                            $articuloReorderExist = \ArticulovariantereordenQuery::create()->filterByIdarticulovariante($idArticuloVariante)->filterByIdlugar($vlc->getIdLugar())->exists();
-                            
-                            if($articuloReorderExist){
-                                
-                                $articuloReorder = \ArticulovariantereordenQuery::create()->filterByIdarticulovariante($idArticuloVariante)->filterByIdlugar($vlc->getIdLugar())->findOne();
-                                $articuloReorder->setMinimo($min)
-                                                ->setReorden($reorden)
-                                                ->setMaximo($max)
-                                                ->save();
-                            }else{
-                                $articuloReorden = new \Articulovariantereorden();
-                                    $articuloReorden->setIdarticulovariante($idArticuloVariante)
-                                                    ->setIdlugar($vlc->getIdLugar())
-                                                    ->setMinimo($vlugar['min'])
-                                                    ->setReorden($vlugar['reorden'])
-                                                    ->setMaximo($vlugar['max'])
-                                                    ->save();    
-                            }
-                            
+                    }
+            }else{
+               
+                foreach ($post_data as $data) {
+                    if (is_array($data)) {
+                        $idproducto = $post_data['idproducto'];
+                        $idlugar = $data['id'];
+                        $min = $data['min'];
+                        $reorden = $data['reorden'];
+                        $max = $data['max'];
+                        
+                        $articuloReorderExist = \ArticulovariantereordenQuery::create()->filterByIdarticulovariante($idproducto)->filterByIdlugar($idlugar)->exists();
+                        if($articuloReorderExist){
+                            $articuloReorder = \ArticulovariantereordenQuery::create()->filterByIdarticulovariante($idproducto)->filterByIdlugar($idlugar)->findOne();
+                            $articuloReorder->setMinimo($min)
+                                            ->setReorden($reorden)
+                                            ->setMaximo($max)
+                                            ->save();
+                        }else{
+                            $articuloReorden = new \Articulovariantereorden();
+                            $articuloReorden->setIdarticulovariante($idproducto)
+                                            ->setIdlugar($idlugar)
+                                            ->setMinimo($min)
+                                            ->setReorden($reorden)
+                                            ->setMaximo($max)
+                                            ->save();   
                         }
-                        
-                    }else{
-                        //Comenzamos a itinerar sobre el arreglo de lugares de nuestro post
-                        foreach ($value['lugar'] as $lugarKey => $lugarValue){
-                        
-                            $articuloReorderExist = \ArticulovariantereordenQuery::create()->filterByIdarticulovariante($idArticuloVariante)->filterByIdlugar($lugarValue['id'])->exists();
-                            
-                            if($articuloReorderExist){
-                                
-                                $articuloReorder = \ArticulovariantereordenQuery::create()->filterByIdarticulovariante($idArticuloVariante)->filterByIdlugar($lugarValue['id'])->findOne();
-                                $articuloReorder->setMinimo($lugarValue['min'])
-                                                    ->setReorden($lugarValue['reorden'])
-                                                    ->setMaximo($lugarValue['max'])
-                                                    ->save(); 
-                                
-                            }else{
-                                $articuloReorden = new \Articulovariantereorden();
-                                    $articuloReorden->setIdarticulovariante($idArticuloVariante)
-                                                    ->setIdlugar($lugarValue['id'])
-                                                    ->setMinimo($lugarValue['min'])
-                                                    ->setReorden($lugarValue['reorden'])
-                                                    ->setMaximo($lugarValue['max'])
-                                                    ->save();    
-                            }
-                            
-                        }
-                        
-                        
-                    }                 
+
+                    }
                 }
             }
-             //Agregamos un mensaje
-            $this->flashMessenger()->addMessage('Registro de productos guardados exitosamente!');
-        }
+        } 
+    
         
         //Obtenemos nuestros productos
         $articuloCollection = \ArticuloQuery::create()->find();

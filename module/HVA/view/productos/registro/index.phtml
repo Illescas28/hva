@@ -66,7 +66,7 @@ $this->headTitle($title);
 
                     </td>
                     <td>
-                        <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
+                        <a style="padding-left: 30%"class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
                         &nbsp;&nbsp;
                         <a class="tooltipped" data-position="left" data-tooltip="Detalles" href="<?php echo "#modal-producto-".$producto['id'].'-compras'?>"><i class="tiny mdi-action-assignment"></i></a>
                         &nbsp;&nbsp;    
@@ -143,35 +143,42 @@ $this->headTitle($title);
                 <script>
                     var id = "<?php echo $producto['id']?>"
                     $("#productosRegistros-"+id).click(function() {
-
-                        var td = $(this).parent();
-                        var idproducto = td.parent().attr('id');
-                        var producto_nombre = document.getElementById('nombre-'+idproducto);
-                        var nombre = producto_nombre.getAttribute('title')
-                        var producto_descripcion = document.getElementById('descripcion-'+idproducto);
-                        var descripcion = producto_descripcion.getAttribute('title')
-                        var codigo_barras = $("input#codigo_barras-"+idproducto).val()
-                        var costo = $("input#costo-"+idproducto).val()
-                        var precio = $("input#precio-"+idproducto).val()
-                        var iva = $("select#iva-"+idproducto).val()
-                        var imagen = $("input#imagen-"+idproducto).val()
-
-                        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-                        var dataString = 'idproducto=' + idproducto + '&nombre=' + nombre + '&descripcion=' + descripcion + '&codigo_barras=' + codigo_barras + '&costo=' + costo + '&precio=' + precio + '&iva=' + iva + '&imagen=' + imagen;
-
+                        
+                        var tr = $(this).closest('tr');
+                        
+                        var idproducto = $(tr).attr('id');
+                        var codigo_barras = $(tr).find('td').eq(2).find('input').val();
+                        var costo = $(tr).find('td').eq(3).find('input').val();
+                        var precio = $(tr).find('td').eq(4).find('input').val();
+                        var iva = $(tr).find('td').eq(5).find('select').val();
+                        
+                        var formData = new FormData();
+                        
+                        formData.append('idproducto',idproducto);
+                        formData.append('articulovariante_codigobarras',codigo_barras);
+                        formData.append('articulovariante_costo',costo);
+                        formData.append('articulovariante_precio',precio);
+                        formData.append('articulovariante_iva',iva);
+                        if($(tr).find('input[type=file]').length > 0){
+                            formData.append("articulovariante_imagen", document.getElementById('imagen-'+idproducto).files[0]);
+                        }
+                        
+                     
+                       
                         $.ajax({
                             type: "POST",
                             url: "<?php $this->url('productos-registro', array('id' => $producto['id']));?>",
-                            dataType : 'json',
-                            data: dataString,
+                            contentType: false,
+                            processData: false,
+                            data: formData,
                             jsonpCallback: 'callback',
                             success: function(data) {
 
-                                alert("se guardo")
+                                alert("Guardado Exitosamente");
 
                             },
                             error: function(data){
-                                alert("Guardado Exitosamente")
+                                alert("Guardado Exitosamente");
                             }
                         });
 
@@ -181,16 +188,26 @@ $this->headTitle($title);
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="row">
-        <div class="col s2 offset-s10">
-            <button style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
-                <i class="mdi-content-save left"></i>
-            </button>
-        </div>
-    </div>
 </form>
 <script>
     $(document).ready(function(){
+        
+        function isNumberKey(evt)
+         {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                  return false;
+
+            return true;
+         }
+
+        $('tr td:nth-child(4) input,tr td:nth-child(5) input').on('keypress',function(e){
+            var isNumber = isNumberKey(e);
+            if(!isNumber){
+                e.preventDefault();
+            }
+        });
+        
         $("#tabla-articulos").tablesorter({headers:{6:{sorter:false},7:{sorter:false},2:{sorter:false}}});
         $('select').material_select();
         $('.tooltipped').tooltip({delay: 50});
@@ -213,7 +230,7 @@ $this->headTitle($title);
         td.find('div').remove();
         td.find('img').remove();
         td.append('<a class="addimg tooltipped" ata-position="left" data-tooltip="Agregar Imagen" href="javascript:void(0)"><i class=" small mdi-image-camera-alt"></i></a>');
-        td.append('<input  id="producto-img-' + id + '" type="file" name="producto-'+id+'" style="display: none">');
+        td.append('<input  id="imagen-' + id + '" type="file" name="producto-'+id+'" style="display: none">');
         td.find('a.addimg').on('click',function(){
         var input = $(this).siblings('input');
             $(input).trigger('click');
