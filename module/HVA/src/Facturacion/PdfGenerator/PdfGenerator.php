@@ -22,7 +22,7 @@ class PdfGenerator extends FPDF {
     
     public function Header() {
         // Logo
-        $this->Image($_SERVER['DOCUMENT_ROOT'].'/img/logo_topmenu.jpg', 10, 0, 43);
+        $this->Image($_SERVER['DOCUMENT_ROOT'].'/img/logo_factura.png', 10, 0, 43);
         //FONT
         $this->SetFont('Arial', '', 10);
 
