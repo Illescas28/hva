@@ -429,6 +429,7 @@ class PacienteController extends AbstractActionController
             ));
         }
         // End Ver admisionanticipo
+
         // Start Eliminar admisionanticipo
         if($request->getPost()->eliminar_admisionanticipo == "true"){
             if(\AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->exists()){
@@ -1642,7 +1643,8 @@ class PacienteController extends AbstractActionController
                 'admisionanticipoArray' => $admisionanticipoArray,
             ));
         }
-        // End Ver admisionanticipo
+        // End Ver consultaanticipo
+
         // Start Eliminar admisionanticipo
         if($request->getPost()->eliminar_admisionanticipo == "true"){
             if(\AdmisionanticipoQuery::create()->filterByIdadmisionanticipo($request->getPost()->idadmisionanticipo)->exists()){
