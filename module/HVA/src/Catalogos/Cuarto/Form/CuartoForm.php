@@ -34,7 +34,7 @@ class CuartoForm extends Form
             'name' => 'cuarto_enuso',
             'type' => 'Checkbox',
             'options' => array(
-                'label' => 'En uso?',
+                'label' => '¿En uso?',
             ),
         ));
         

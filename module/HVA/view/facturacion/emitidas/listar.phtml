@@ -44,6 +44,8 @@
                 &nbsp;&nbsp;
                 <a href="/tmp/pdf/<?php echo $entity['movimiento'].'.pdf'?>"><img src="/img/icons/pdf_icon.png"></a>
                 &nbsp;&nbsp;
+                <a id="enviar" href="javascript:void(0)"><img src="/img/icons/mail_icon.png"></a>
+                &nbsp;&nbsp;
                 <a class="modal-trigger" href="#cancel-modal-factura-<?php echo $entity['id']?>">Cancelar</a>
             </td>
         </tr>
@@ -81,6 +83,23 @@ $(document).ready(function(){
              var text = $(this).text();
              var money = accounting.formatMoney(text);
              $(this).text(money);
-         });
+        });
+        
+        $('#enviar').on('click',function(){
+            
+            var id = $(this).closest('tr').attr('id');
+            
+            $.ajax({
+                url:'/facturacion/emitidas/enviar',
+                data: {id:id},
+                success: function(data){
+                   var source = $('<div>' + data + '</div>');
+                   $('table').after(source);
+                   source.find('.modal').openModal();
+                   
+                }
+            });
+        });
+        
 }); 
 </script>

@@ -58,9 +58,9 @@ $this->headTitle($title);
                         <?php $lugarName = $lugar['nombre']; ?>
                         <td  almacen_name="<?php echo $lugarName ?>" almacen_id="<?php echo $lugar['id']?>" class="list-inputs">
                         <li><input name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'?>[id]" type="hidden" value="<?php echo $lugar['id']?>"></li>
-                            <li><input value="<?php echo $producto['reorden'][$lugarName]['min']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']' ?>[min]" type="text"></li>
-                            <li><input value="<?php echo $producto['reorden'][$lugarName]['reorden']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'  ?>[reorden]" type="text" value=""></li>
-                            <li><input value="<?php echo $producto['reorden'][$lugarName]['max']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'     ?>[max]" type="text" value=""></li>
+                            <li><input value="<?php if(!is_null($producto['reorden'][$lugarName]['min'])) echo $producto['reorden'][$lugarName]['min']; else echo "X"?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']' ?>[min]" type="text"></li>
+                            <li><input value="<?php if(!is_null($producto['reorden'][$lugarName]['reorden'])) echo $producto['reorden'][$lugarName]['reorden']; else echo "X"?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'  ?>[reorden]" type="text" value=""></li>
+                            <li><input value="<?php if(!is_null($producto['reorden'][$lugarName]['max'])) echo $producto['reorden'][$lugarName]['max']; else echo "X"?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'     ?>[max]" type="text" value=""></li>
                         </td>
                     <?php endforeach;?>
                         <td style="padding-left: 20px; padding-right: 20px;">

@@ -69,7 +69,7 @@ return array(
                 'options' => array(
                     'route'    => '/facturacion/emitidas[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'listar',
+     
                     ),
                     'defaults' => array(
                         'controller' => 'Facturacion\Controller\emitidas',
