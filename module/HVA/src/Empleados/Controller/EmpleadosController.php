@@ -107,35 +107,7 @@ class EmpleadosController extends AbstractActionController
             'modulos' => $modulos,
         ));
     }
-    
-    public function eliminarAction()
-    {
-        //Cachamos el valor desde nuestro params
-        $id = (int) $this->params()->fromRoute('id');
         
-        //Verificamos que el Id articulo que se quiere eliminar exista
-        if(!\EmpleadoQuery::create()->filterByIdempleado($id)->exists()){
-            $id=0;
-        }
-        //Si es incorrecto redireccionavos al action nuevo
-        if (!$id) {
-            return $this->redirect()->toRoute('empleados');
-        }
-        
-
-            //Instanciamos nuestro articulo
-            $articulo = \EmpleadoQuery::create()->findPk($id);
-            
-            $articulo->delete();
-            
-            //Agregamos un mensaje
-            $this->flashMessenger()->addMessage('Empleado eliminado exitosamente!');
-
-            //Redireccionamos a nuestro list
-            return $this->redirect()->toRoute('empleados');
-
-    }
-    
     public function editarAction(){
        
         
