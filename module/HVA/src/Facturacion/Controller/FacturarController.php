@@ -36,7 +36,11 @@ class FacturarController extends AbstractActionController
         $historico_array = array();
         $movimiento_arraty = array();
         
-        $admisiones = \AdmisionQuery::create()->orderByIdadmision('desc')->filterByAdmisionStatus('pagada')->filterByAdmisionFacturada(false)->find();
+        $current_date = new \DateTime();
+        $current_month = $current_date->format('m');
+        $current_year = $current_date->format('Y');        
+        $admisiones = \AdmisionQuery::create()->orderByIdadmision('desc')->filterByAdmisionPagadaen(array('min' => $current_year.'-'.$current_month.'-01'))->filterByAdmisionStatus('pagada')->filterByAdmisionFacturada(false)->find();
+
         foreach ($admisiones as $admision){
             $tmp['fecha'] =  $admision->getAdmisionFechaadmision('d-m-Y H:i');
             $tmp['id'] = 'ADM-'.$admision->getIdadmision();
@@ -50,7 +54,7 @@ class FacturarController extends AbstractActionController
             $historico_array[] = $tmp;
         }
         
-        $consultas = \ConsultaQuery::create()->orderByIdconsulta('desc')->filterByConsultaStatus('pagada')->filterByConsultaFacturada(false)->find();
+        $consultas = \ConsultaQuery::create()->orderByIdconsulta('desc')->filterByConsultaFecha(array('min' => $current_year.'-'.$current_month.'-01'))->filterByConsultaStatus('pagada')->filterByConsultaFacturada(false)->find();
         foreach ($consultas as $consulta){
             $tmp['fecha'] =  $consulta->getConsultaFecha('d-m-Y');
             $tmp['fecha'].= ' '.$consulta->getConsultaHora();
@@ -66,7 +70,7 @@ class FacturarController extends AbstractActionController
             $historico_array[] = $tmp;
         }
         
-        $ventas = \VentaQuery::create()->orderByIdventa('desc')->filterByVentaStatus('pagada')->filterByVentaFacturada(false)->find();
+        $ventas = \VentaQuery::create()->orderByIdventa('desc')->filterByVentaFecha(array('min' => $current_year.'-'.$current_month.'-01'))->filterByVentaStatus('pagada')->filterByVentaFacturada(false)->find();
         foreach ($ventas as $venta){
             $tmp['fecha'] =  $venta->getVentaFecha('d-m-Y H:i');
             $tmp['id'] = 'VP-'.$venta->getIdventa();

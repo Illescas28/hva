@@ -137,7 +137,7 @@ class ServicioController extends AbstractActionController
                     return $this->redirect()->toRoute('servicio');
 
                 }else{
-                    
+                    echo '<pre>';var_dump($servicioForm->getMessages()); echo '<pre>';exit();
                 }  
             }
             

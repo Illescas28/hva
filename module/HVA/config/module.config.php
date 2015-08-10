@@ -11,9 +11,9 @@ return array(
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/[:action]',
                     'defaults' => array(
                         'controller' => 'HVA\Controller\Index',
                         'action'     => 'index',

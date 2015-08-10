@@ -38,7 +38,7 @@ class ProductoController extends AbstractActionController
                 //Comenzamos a itinerar sobre los lugares disponibles
                 foreach ($lugarCollection as $kl => $vl){
                     //Los agregamos a nuestro arreglo
-                    $tmp['lugar'][$vl->getLugarNombre()] =0;
+                    $tmp['lugar'][$vl->getLugarNombre()] =NULL;
                 }
                 
                 

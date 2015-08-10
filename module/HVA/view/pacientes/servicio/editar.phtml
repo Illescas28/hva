@@ -30,8 +30,7 @@ $this->headTitle($title);
         </div>
         <div class="col s6">
             <div class="input-field">
-                <?php echo $this->formText($servicioForm->get('servicio_iva')); ?>
-                <?php echo $this->formLabel($servicioForm->get('servicio_iva')); ?>
+                <?php echo $this->formSelect($servicioForm->get('servicio_iva')); ?>
             </div>
         </div>
     </fieldset>
@@ -44,3 +43,26 @@ $this->headTitle($title);
     </div>
 </div>
 <?php echo $this->form()->closeTag(); ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+    
+        $('button[type=submit]').on('click',function(e){
+            $('p.input-error-show').remove();
+            var error_message = '<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>';
+            var isValid = true;
+            $(document).find('input[required],select[required]').filter(function(){
+                if($(this).val() == ''){
+                    $(this).after(error_message);
+                    isValid = false;
+                }
+                
+            });
+            
+            if(!isValid){
+                e.preventDefault();
+            }
+            
+        });
+</script>

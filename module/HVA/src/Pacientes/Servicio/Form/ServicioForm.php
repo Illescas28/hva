@@ -18,12 +18,18 @@ class ServicioForm extends Form
             'options' => array(
                 'label' => 'Nombre',
             ),
+            'attributes' => array(
+                'required' => 'required',
+            ),
         ));
         $this->add(array(
             'name' => 'servicio_descripcion',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Descripción',
+            ),
+            'attributes' => array(
+                'required' => 'required',
             ),
         ));
         $this->add(array(
@@ -40,7 +46,10 @@ class ServicioForm extends Form
             ),
             'options' => array(
                 'label' => 'Precio'
-            )
+            ),
+            'attributes' => array(
+                'required' => 'required',
+            ),
         ));
         $this->add(array(
             'name' => 'servicio_iva',
@@ -48,10 +57,11 @@ class ServicioForm extends Form
             'options' => array(
                 'label' => 'Status',
                 'empty_option' => 'Seleccione impuesto',
-                'value_options' => array('0' => '0','16' => '16','exento' => 'exento'),
+                'value_options' => array('0' => '0','16' => '16'),
             ),
             'attributes' => array(
-                'id' => 'servicio_iva'
+                'id' => 'servicio_iva',
+                 'required' => 'required',
             )
         ));
     }
