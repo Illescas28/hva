@@ -566,7 +566,7 @@ $this->headTitle($title);
 
 <div id="formatoAdmision" class="hiddendiv">
     <form action="<?php echo $this->url('pacientes', array('action'=>'contratofinal'))?>" method="post">
-        <input type="hidden" name="idadmision" value="<?php echo $this->formHidden($cargoadmisionForm->get('idadmision'));?>">
+        <input type="hidden" name="idadmision" value=<?php echo $this->formHidden($cargoadmisionForm->get('idadmision'))?>  
         <button id="botonFormatoAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit">Formato de Admisión
             <i class="mdi-action-assignment-ind left"></i>
         </button>
