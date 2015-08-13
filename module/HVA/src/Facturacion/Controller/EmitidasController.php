@@ -40,6 +40,7 @@ class EmitidasController extends AbstractActionController
         $request = $this->getRequest();
         
         if($request->isPost()){
+            
             $post_data = $request->getPost();
             
             $factura = \FacturaQuery::create()->findPk($post_data['id']);
@@ -48,6 +49,33 @@ class EmitidasController extends AbstractActionController
             
             $xml = $file.'.xml';
             $pdf = $file.'.pdf';
+            
+
+            $mail = new \PHPMailer();
+            $mail->isSMTP();   
+            $mail->Host = 'smtp.gmail.com'; 
+            $mail->SMTPAuth = true;
+            $mail->Username = 'hva.facturacion@gmail.com';
+            $mail->Password = 'Hva2015#';                          
+            $mail->Port = 25;   
+            
+            $mail->From = 'facturacion@hospitaldelvalle.com.mx';
+            $mail->FromName = 'HOSPITAL DEL VALLE DE ATEMAJAC';
+            $mail->addAddress($post_data['email']);     // Add a recipient
+            
+            $mail->addAttachment($_SERVER['DOCUMENT_ROOT']."/tmp/xml/".$xml); 
+            $mail->addAttachment($_SERVER['DOCUMENT_ROOT']."/tmp/pdf/".$pdf); 
+            $mail->isHTML(true); 
+            
+            $mail->Subject = 'FACTURA ELECTRONICA';
+            $mail->Body    = 'Buen dia, Le enviamos adjunto su factura elctronica. Saludos!';
+            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+            if(!$mail->send()) {
+                return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false, 'msg' => 'Existio un error durante el envio, por favor intentelo mas tarde')));
+            } else {
+               return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => true, 'msg' => 'Correo electronico enviado satisfactoriamente!')));
+            }
                        
             $my_file = $pdf; // puede ser cualquier formato
             $my_path = $_SERVER['DOCUMENT_ROOT']."/tmp/pdf/";
@@ -96,6 +124,8 @@ class EmitidasController extends AbstractActionController
     }
     
     public function mail_attachment($filename, $path, $mailto, $from_mail, $from_name, $replyto, $subject, $message) {
+       
+        
         $file = $path . $filename;
         $file_size = filesize($file);
         $handle = fopen($file, "r");

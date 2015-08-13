@@ -10,7 +10,8 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.3.*",
-        "propel/propel1" : "~1.7.1"
+        "propel/propel1" : "~1.7.1",
+        "phpmailer/phpmailer": "~5.2"
     },
     "autoload": { "classmap": ["module/Propel/build/classes/"] }
 }
