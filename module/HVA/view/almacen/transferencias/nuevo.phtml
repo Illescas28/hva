@@ -18,10 +18,14 @@
         </div>
         <div class="col s4">
             <div class="input-field">
-                <input type="text" readonly value="Almacen General">
-                <label>Almacén de origen</label>
+                <select id="lugar_origen">
+                    <option value="">Seleccione el almacén origen *</option>
+                    <?php foreach($lugares as $lugar) :?>
+                    <option value="<?php echo $lugar['value']?>"><?php echo $lugar['name']?></option>
+                    <?php endforeach;?>
+                </select> 
             </div>
-           
+             <p id="lugar_origen" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>  
         </div>
         <div class="col s4">
             <div class="input-field">
@@ -86,33 +90,40 @@
     
 $(document).ready(function() {
     $('select').material_select();
-    
-    var productos;
-    $.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url:'/almacen/transferencias/getproductos',
-        async: false,
-        success: function (data) {
-            productos = data;
-        }
-    });
         
-     $('#productos_autocomplete').autocomplete({
-        source:productos,
-        select: function( event, ui ) {
-            console.log(ui);
-             $(this).val(ui.item.nombre + ' ' +ui.item.descripcion);
-             $('input[type=number] + label').addClass('active'); $('input[type=number]').val('1');
-             $('input#producto_nombre').val(ui.item.nombre + ' ' +ui.item.descripcion);
-             $('input#producto_costo').val(ui.item.costo);
-              $('input#idlugarinventario').val(ui.item.id);
-              $('input#producto_caducidad').val(ui.item.caducidad);
-               $('input#idarticulovariante').val(ui.item.idarticulovariante);
-            event.preventDefault();
-        }
-     });
-     
+    var productos;
+    
+    $('select#lugar_origen').on('change',function(){
+        
+        var id = $('select#lugar_origen').val();
+        
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url:'/almacen/transferencias/getproductosbyalmacen',
+            async: false,
+            data:{id:id},
+            success: function (data) {
+                productos = data;
+                $('#productos_autocomplete').autocomplete({
+                    source:productos,
+                    select: function( event, ui ) {
+                         $(this).val(ui.item.nombre + ' ' +ui.item.descripcion);
+                         $('input[type=number] + label').addClass('active'); $('input[type=number]').val('1');
+                         $('input#producto_nombre').val(ui.item.nombre + ' ' +ui.item.descripcion);
+                         $('input#producto_costo').val(ui.item.costo);
+                         $('input#idlugarinventario').val(ui.item.id);
+                         $('input#producto_caducidad').val(ui.item.caducidad);
+                         $('input#idarticulovariante').val(ui.item.idarticulovariante);
+                        event.preventDefault();
+                    }
+                });
+                
+            }
+        });
+    });
+    
+
      //Evento cantidad
      $('input[type=number]').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
      
@@ -176,11 +187,27 @@ $(document).ready(function() {
         }else{
             $('p#lugar_destinatario').hide();
         }
+        if($('select#lugar_origen').val() == ''){
+            isValid = false;
+            $('p#lugar_origen').show();
+        }else{
+            $('p#lugar_origen').hide();
+        }
+        if($('select#lugar_origen').val() == $('select#lugar_destinatario').val()){
+            isValid = false;
+            alert('El almacen origen debe de ser distinto al almcen destino');
+        }
+        if($('tbody tr').length <= 0){
+             isValid = false;
+             alert('Debe de almenos agregar un producto, para poder realizar la transferencia');
+        }
+        
         
         if(isValid){
             
             var traspaso = {
                 traspaso_fecha:$('#traspaso_fecha').val(),
+                traspaso_idlugarorigen:$('select#lugar_origen').val(),
                 traspaso_idlugardestinatario:$('select#lugar_destinatario').val(),
                 traspaso_detalles: new Array(),
                 

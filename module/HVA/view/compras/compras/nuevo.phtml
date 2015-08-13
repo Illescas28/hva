@@ -85,6 +85,16 @@
                         <label for="orden_status" class="active">Pagada</label>
                     </div>
                 </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <select name="idlugar" id="orden_status">
+                            <?php foreach ($almacenes as $almacen) :?>
+                            <option value="<?php echo $almacen['idlugar']?>"><?php echo $almacen['lugar_nombre'];?></option>
+                            <?php endforeach;?>
+                        </select>
+                        <label for="orden_status" class="active">Almacen destino</label>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col s11">
                         <div class="input-field">
@@ -376,7 +386,8 @@
                       orden_fecha:$('input#orden_fecha').val(),
                       orden_folio: $('input#orden_folio').val(),
                       orden_proveedor : $('input#idproveedor').val(),
-                      orden_status : $('select').val(),
+                      orden_status : $('select[name=orden_status]').val(),
+                      orden_lugar : $('select[name=idlugar]').val(),
                       orden_importe: $('#total').text(),
                       orden_fechaapagar:$('input#orden_fechaapagar').val(),
                       orden_items : new Array(),

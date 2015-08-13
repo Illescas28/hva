@@ -124,9 +124,9 @@ class ReordenController extends AbstractActionController
                 else{
                     
                     foreach ($lugarCollection as $kl => $vl){
-                        $tmp['reorden'][$vl->getLugarNombre()]['min'] = 0;
-                        $tmp['reorden'][$vl->getLugarNombre()]['reorden'] = 0;
-                        $tmp['reorden'][$vl->getLugarNombre()]['max'] = 0;
+                        $tmp['reorden'][$vl->getLugarNombre()]['min'] = NULL;
+                        $tmp['reorden'][$vl->getLugarNombre()]['reorden'] = NULL;
+                        $tmp['reorden'][$vl->getLugarNombre()]['max'] = NULL;
                     }
                     
                 }

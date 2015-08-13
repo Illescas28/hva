@@ -83,6 +83,16 @@
                         <label class="active" for="orden_status" class="active">Pagada</label>
                     </div>
                 </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <select name="idlugar" id="idlugar">
+                            <?php foreach ($almacenes as $almacen) : ?>
+                                <option value="<?php echo $almacen['idlugar'] ?>"><?php echo $almacen['lugar_nombre']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label for="orden_status" class="active">Almacen destino</label>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col s11">
                         <div class="input-field">
@@ -172,9 +182,14 @@
         </button>
     </div>
 </div>
+
 <script>
     $(document).ready(function(){
-        $('select').material_select();
+        var idlugar = <?php echo $orden['idlugar']?>;
+
+        $('select#idlugar').val(idlugar);
+        
+         $('select').material_select();
         
         //Inicializamos el autocomplete de fecha a pagar
         $('input#orden_fechaapagar').datepicker({
@@ -477,7 +492,8 @@
                       orden_fecha:$('input#orden_fecha').val(),
                       orden_folio: $('input#orden_folio').val(),
                       orden_proveedor : $('input#idproveedor').val(),
-                      orden_status : $('select').val(),
+                      orden_status : $('select[name=orden_status]').val(),
+                      orden_lugar : $('select[name=idlugar]').val(),
                       orden_importe: $('#total').text(),
                       orden_fechaapagar:$('input#orden_fechaapagar').val(),
                       orden_items : new Array(),
@@ -505,7 +521,7 @@
                     {orden:orden},
                     function(response){
                        if(response){
-                           window.location.replace("/compras");
+                           //window.location.replace("/compras");
                        }
                     }
                 );

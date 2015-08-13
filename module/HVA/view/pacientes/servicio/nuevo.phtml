@@ -14,71 +14,23 @@ $this->headTitle($title);
             <div class="input-field">
                 <?php echo $this->formText($servicioForm->get('servicio_nombre')); ?>
                 <?php echo $this->formLabel($servicioForm->get('servicio_nombre')); ?>
-                <?php $showError=$this->formElementErrors($servicioForm->get('servicio_nombre'));
-                if(!empty($showError)):
-                    ?>
-                    <div class="center-align col" style="color: #e57373">
-                        <i class="mdi-content-report prefix"></i>
-                    </div>
-                    <div class="center-align col s11 offset-s1" style="color: #e57373">
-                        <?php
-                        echo $showError;
-                        ?>
-                    </div>
-                <?php  endif;?>
             </div>
         </div>
         <div class="col s6">
             <div class="input-field">
                 <?php echo $this->formText($servicioForm->get('servicio_descripcion')); ?>
                 <?php echo $this->formLabel($servicioForm->get('servicio_descripcion')); ?>
-                <?php $showError=$this->formElementErrors($servicioForm->get('servicio_descripcion'));
-                if(!empty($showError)):
-                    ?>
-                    <div class="center-align col" style="color: #e57373">
-                        <i class="mdi-content-report prefix"></i>
-                    </div>
-                    <div class="center-align col s11 offset-s1" style="color: #e57373">
-                        <?php
-                        echo $showError;
-                        ?>
-                    </div>
-                <?php  endif;?>
             </div>
         </div>
         <div class="col s6">
             <div class="input-field">
                 <?php echo $this->formText($servicioForm->get('servicio_precio')); ?>
                 <?php echo $this->formLabel($servicioForm->get('servicio_precio')); ?>
-                <?php $showError=$this->formElementErrors($servicioForm->get('servicio_precio'));
-                if(!empty($showError)):
-                    ?>
-                    <div class="center-align col" style="color: #e57373">
-                        <i class="mdi-content-report prefix"></i>
-                    </div>
-                    <div class="center-align col s11 offset-s1" style="color: #e57373">
-                        <?php
-                        echo $showError;
-                        ?>
-                    </div>
-                <?php  endif;?>
             </div>
         </div>
         <div class="col s6">
             <div class="input-field">
                 <?php echo $this->formSelect($servicioForm->get('servicio_iva')); ?>
-                <?php $showError=$this->formElementErrors($servicioForm->get('servicio_iva'));
-                if(!empty($showError)):
-                    ?>
-                    <div class="center-align col" style="color: #e57373">
-                        <i class="mdi-content-report prefix"></i>
-                    </div>
-                    <div class="center-align col s11 offset-s1" style="color: #e57373">
-                        <?php
-                        echo $showError;
-                        ?>
-                    </div>
-                <?php  endif;?>
             </div>
         </div>
     </fieldset>
@@ -95,4 +47,22 @@ $this->headTitle($title);
     $(document).ready(function() {
         $('select').material_select();
     });
+    
+        $('button[type=submit]').on('click',function(e){
+            $('p.input-error-show').remove();
+            var error_message = '<p class="input-error-show"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>';
+            var isValid = true;
+            $(document).find('input[required],select[required]').filter(function(){
+                if($(this).val() == ''){
+                    $(this).after(error_message);
+                    isValid = false;
+                }
+                
+            });
+            
+            if(!isValid){
+                e.preventDefault();
+            }
+            
+        });
 </script>

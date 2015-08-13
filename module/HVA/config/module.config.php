@@ -11,9 +11,9 @@ return array(
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/[:action]',
                     'defaults' => array(
                         'controller' => 'HVA\Controller\Index',
                         'action'     => 'index',
@@ -69,7 +69,7 @@ return array(
                 'options' => array(
                     'route'    => '/facturacion/emitidas[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'listar',
+     
                     ),
                     'defaults' => array(
                         'controller' => 'Facturacion\Controller\emitidas',
@@ -96,7 +96,7 @@ return array(
                 'options' => array(
                     'route'    => '/pacientes[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|asignar|editar|eliminar|actuales|detalles|getpacientes|historicos|historicodetalles',
+                        'action' => 'contratofinal|nuevo|asignar|editar|eliminar|actuales|detalles|getpacientes|historicos|historicodetalles',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(

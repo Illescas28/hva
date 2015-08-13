@@ -38,7 +38,7 @@ class ExistenciasController extends AbstractActionController
                 //Comenzamos a itinerar sobre los lugares disponibles
                 foreach ($lugarCollection as $kl => $vl){
                     //Los agregamos a nuestro arreglo
-                    $tmp['lugar'][$vl->getLugarNombre()] =0;
+                    $tmp['lugar'][$vl->getLugarNombre()] = NULL;
                 }
                 
                 
@@ -62,7 +62,6 @@ class ExistenciasController extends AbstractActionController
                     }
                     
                 }
- 
                 
                 //Por cada valor obtenemos su variaciones
                 $articuloVarianteValorCollection = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($vav->getIdarticulovariante())->find();

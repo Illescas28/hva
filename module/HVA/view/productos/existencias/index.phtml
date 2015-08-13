@@ -1,3 +1,12 @@
+<style>
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        left: initial;
+        position: initial;
+    }
+</style>
+<link href="/css/multiple.css" rel="stylesheet"/>
+<script src="/js/movimientos_bancos.js"></script>
+<script src="/js/multiple.js"></script>
 <?php
 $title = 'Definir existencias';
 $this->headTitle($title);
@@ -9,14 +18,30 @@ $this->headTitle($title);
             <?php foreach ($flashMessages as $message) :?>
                 <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
             <?php endforeach;?>
-        <?php endif;?>  
+        <?php endif;?> 
         <div class="row" style="position: relative">
-            <div class="input-field col s4 offset-s2" id="search-container">
+            <div class="input-field col s4 offset-s2" id="search-container" style="top: 75px;">
                 <i class="mdi-action-search prefix"></i>
                 <input id="icon_prefix" type="text">
                 <label for="icon_prefix">Buscar</label>
             </div>     
         </div>
+                <div class="row" style="margin-bottom: -50px;" id="filter-container">
+                    <div class="col s6" style="top: -26px;">
+                        <fieldset>
+                            <legend>Filtros</legend>
+                            <div class="row">
+                                <div class="col s12">
+                                    <input type="hidden" name="idproveedor">
+                                    <label>Por almacen</label>
+                                    <select multiple="multiple" class="browser-default" id="almacen_filter">
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+
+    </fieldset>
+</div>
     </form>
 </div>
 <table id="tabla-productos" class="striped">
@@ -29,7 +54,7 @@ $this->headTitle($title);
             <th class="number">Precio</th>
             <!--columnas dinamicas-->
             <?php foreach($lugares as $lugar) :?>
-            <th id="<?php echo $lugar['id']?>"><?php echo $lugar['nombre']?></th>
+            <th class="almacen" id="<?php echo $lugar['id']?>"><?php echo $lugar['nombre']?></th>
             <?php endforeach;?>
             <th style="text-align: center">Imagen</th>
             <th>Ver</th>
@@ -45,7 +70,7 @@ $this->headTitle($title);
                 <td class="number"><?php echo number_format((float)$producto['precio'], 2, '.', '') ?></td>
                     <?php foreach ($lugares as $lugar) : ?>
                         <?php $lugarNombre = $lugar['nombre']?>
-                <td class="number"><?php echo $producto['lugar'][$lugarNombre]?><a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>
+                <td class="number"><?php if(!is_null($producto['lugar'][$lugarNombre])) echo $producto['lugar'][$lugarNombre]; else echo 'X'; ?><a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>
                     <?php endforeach;?>
                 <td class="td-image">
                     <?php if (is_null($producto['imagen']) || empty($producto['imagen'])) : ?>
@@ -95,6 +120,7 @@ $this->headTitle($title);
         <?php endforeach;?>
     </tbody>
 </table>
+
 <script>
     $(document).ready(function(){
         var lastIndex= $('thead tr th').last().index();
@@ -137,7 +163,53 @@ $this->headTitle($title);
 
         }); 
         
+        var filterByAlmacen = function(){
+            $('th.almacen').show();
+            $('tbody td').show();
+            
+            var selected =  $("#almacen_filter").multipleSelect('getSelects');
+            $('th.almacen:visible').filter(function(index,element){
+                if($.inArray($(this).attr('id'),selected) == -1){
+                    //Obtenemos el index de la columna
+                    var col_index = $(this).index();
+                    //Escondemos el th;
+                    $(this).hide();
+                    //Escondemos todas los td correpsondientes a dicha columna
+                    $('tbody').children('tr').filter(function(){
+                        $(this).find('td').eq(col_index).hide();
+                    });
+                    
+                }
+            });
+            
+        }
+        //Inicializamos el filtro por almacenes
+        $.ajax({
+            url:'/getalmacenes',
+            dataType: 'JSON',
+            async: false,
+            success: function(data){
+                $.each(data,function(index,element){
+                    $('#almacen_filter').append('<option value="'+element.value+'">'+element.label+'</option>')
+                });
+                $("#almacen_filter").multipleSelect({
+                    selectAll:true,
+                    allSelected:'Todos los almacenes',
+                    selectAllText:'Todos los almacenes',
+                    onClick : filterByAlmacen,
+                    onCheckAll:filterByAlmacen,
+                    onUncheckAll:filterByAlmacen
+
+                });  
+                 $("#almacen_filter").multipleSelect("checkAll");
+            }
+        });
         
+       
+
+        
+        
+
         
     });
         

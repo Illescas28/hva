@@ -18,16 +18,10 @@
             </div>
         </div>
         <div class="col s4">
-            <div class="input-field">
-                <input type="text" readonly value="Almacen General">
-                <label>Almacén de origen</label>
-            </div>
-           
-        </div>
-        <div class="col s4">
-            <div class="input-field">
-                <select id="lugar_destinatario">
-                    <option value="">Seleccione el almacen destino *</option>
+            <label>Almacen Origen</label>
+            <div class="input-field" style="margin-top: -18px;">
+                <select id="lugar_origen" disabled>
+                    <option value="">Seleccione el almacen origen *</option>
                     <?php foreach($lugares as $lugar) :?>
                     <option value="<?php echo $lugar['value']?>"><?php echo $lugar['name']?></option>
                     <?php endforeach;?>
@@ -35,6 +29,18 @@
             </div>
              <p id="lugar_destinatario" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>  
         </div>
+        <div class="col s4">
+            <label>Almacen Destinatario</label>
+            <div class="input-field" style="margin-top: -18px;">
+                <select id="lugar_destinatario" disabled>
+                    <option value="">Seleccione el almacen destino *</option>
+                    <?php foreach($lugares as $lugar) :?>
+                    <option value="<?php echo $lugar['value']?>"><?php echo $lugar['name']?></option>
+                    <?php endforeach;?>
+                </select> 
+            </div>
+             <p id="lugar_destinatario" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>  
+        </div>  
     </div>
     <div class="row">
         <div class="col s9">
@@ -98,6 +104,7 @@
         </button>
     </div>
 </div>
+
 <script>
     
 $(document).ready(function() {
@@ -105,8 +112,8 @@ $(document).ready(function() {
     /*
      * Inicializamos el select de lugars
      */
-    
     $('select#lugar_destinatario').val(<?php echo $transferencia['Idlugardestinatario']?>);
+    $('select#lugar_origen').val(<?php echo $transferencia['Idlugarremitente']?>);
     $('select').material_select();
     
     
@@ -226,6 +233,7 @@ $(document).ready(function() {
             var traspaso = {
                 traspaso_fecha:$('#traspaso_fecha').val(),
                 traspaso_idlugardestinatario:$('select#lugar_destinatario').val(),
+                traspaso_idlugarorigen:$('select#lugar_origen').val(),
                 traspaso_detalles: new Array(),
                 
             };

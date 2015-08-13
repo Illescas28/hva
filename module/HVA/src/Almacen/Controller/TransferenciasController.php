@@ -34,7 +34,7 @@ class TransferenciasController extends AbstractActionController
         
         if($request->isPost()){
             $post_data = $request->getPost();
-               
+              
                 
                 $traspaso_fecha = \DateTime::createFromFormat('d/m/Y',$post_data['traspaso_fecha']);
             
@@ -66,7 +66,7 @@ class TransferenciasController extends AbstractActionController
                     $traspaso->setTraspasoFecha($traspaso_fecha->format('Y-m-d h:m:s'));
                     $traspaso->setIdordencompra($orden->getIdordencompra());
                     $traspaso->setTraspasoStatus('recibido');
-                    $traspaso->setIdlugarremitente(1);
+                    $traspaso->setIdlugarremitente($post_data['traspaso_idlugarorigen']);
                     $traspaso->setIdlugardestinatario($post_data["traspaso_idlugardestinatario"]);
                     $traspaso->save();
                     
@@ -131,7 +131,7 @@ class TransferenciasController extends AbstractActionController
         }
         
         //Instanciamos nuestro lugares
-        $lugaresCollection = \LugarQuery::create()->filterByIdlugar(1, \Criteria::NOT_EQUAL)->find();
+        $lugaresCollection = \LugarQuery::create()->find();
         $lugarArray = array();
         foreach ($lugaresCollection as $lugar){
             $lugarArray[] = array('value' => $lugar->getIdLugar(), 'name' => $lugar->getLugarNombre());
@@ -150,6 +150,52 @@ class TransferenciasController extends AbstractActionController
         
         //$query = \LugarinventarioQuery::create()->filterByIdlugar(1)->useOrdencompradetalleQuery()->groupByIdarticulovariante()->groupByOrdencompradetalleCaducidad()->withColumn('SUM(ordencompradetalle.ordencompradetalle_cantidad)','suma')->endUse()->find();
         $query = \LugarinventarioQuery::create()->filterByIdlugar(1)->joinOrdencompradetalle()->withColumn('SUM(ordencompradetalle_cantidad)','total')->withColumn('ordencompradetalle_caducidad')->withColumn('idarticulovariante')->groupBy('idarticulovariante')->groupBy('ordencompradetalle_caducidad')->find();
+
+        foreach ($query->toArray() as $inventario){
+           
+            $articulo = \ArticulovarianteQuery::create()->findPk($inventario['idarticulovariante']);
+            //Nombre
+            $tmp['idarticulovariante'] = $inventario['idarticulovariante'];
+            $tmp['id'] = $inventario['Idlugarinventario'];
+            $tmp['nombre'] = $articulo->getArticulo()->getArticuloNombre();
+            $tmp['costo'] = $articulo->getArticulovarianteCosto();
+            //Descripcion (variaciones)
+            $variantes = \ArticulovariantevalorQuery::create()->findByIdarticulovariante($articulo->getIdarticulovariante());
+            $tmp['descripcion'] = '';
+            $variantes_count = $variantes->count(); $count = 0;
+            foreach ($variantes as $variante){
+                $count ++;
+                $tmp['descripcion'].= \PropiedadQuery::create()->findOneByIdpropiedad($variante->getIdpropiedad())->getPropiedadNombre(); 
+                $tmp['descripcion'].= ':'.\PropiedadvalorQuery::create()->findOneByIdpropiedadvalor($variante->getIdpropiedadvalor())->getPropiedadvalorNombre(); //PropiedadValor
+                if($count<$variantes_count){
+                    $tmp['descripcion'].=' - ';
+                }
+            }
+            //existencias
+           
+            $tmp['existencias'] = (int)$inventario['LugarinventarioCantidad'];
+            if(!is_null($inventario['ordencompradetalle_caducidad'])){
+                $date = new \DateTime($inventario['ordencompradetalle_caducidad']);
+                $tmp['caducidad'] = $date->format('m/Y');
+            }else{
+                $tmp['caducidad'] = 'N/D';
+            }
+            $tmp['label'] = $tmp['nombre'].' '.$tmp['descripcion'].' ; Existencias: ' .$tmp['existencias'] . '; Caducidad: '.$tmp['caducidad']; 
+            //$tmp['caducidad'] = (!is_null($inventario['ordencompradetalle_caducidad'])) ? new \DateTime($inventario['ordencompradetalle_caducidad']) : 'N/D';
+            $productos[] = $tmp;
+       
+        }
+        return $this->getResponse()->setContent(\Zend\Json\Json::encode($productos));
+    }
+    
+    public function getproductosbyalmacenAction(){
+        
+        $idlugar = $this->params()->fromQuery('id');
+        
+        $productos = array();
+        
+        //$query = \LugarinventarioQuery::create()->filterByIdlugar(1)->useOrdencompradetalleQuery()->groupByIdarticulovariante()->groupByOrdencompradetalleCaducidad()->withColumn('SUM(ordencompradetalle.ordencompradetalle_cantidad)','suma')->endUse()->find();
+        $query = \LugarinventarioQuery::create()->filterByIdlugar($idlugar)->joinOrdencompradetalle()->withColumn('SUM(ordencompradetalle_cantidad)','total')->withColumn('ordencompradetalle_caducidad')->withColumn('idarticulovariante')->groupBy('idarticulovariante')->groupBy('ordencompradetalle_caducidad')->find();
 
         foreach ($query->toArray() as $inventario){
            
@@ -284,7 +330,7 @@ class TransferenciasController extends AbstractActionController
         }
         
         //Instanciamos nuestro lugares
-        $lugaresCollection = \LugarQuery::create()->filterByIdlugar(1, \Criteria::NOT_EQUAL)->find();
+        $lugaresCollection = \LugarQuery::create()->find();
         $lugarArray = array();
         foreach ($lugaresCollection as $lugar){
             $lugarArray[] = array('value' => $lugar->getIdLugar(), 'name' => $lugar->getLugarNombre());
@@ -341,7 +387,7 @@ class TransferenciasController extends AbstractActionController
                     $traspaso->setTraspasoFecha($traspaso_fecha->format('Y-m-d h:m:s'));
                     $traspaso->setIdordencompra($orden->getIdordencompra());
                     $traspaso->setTraspasoStatus('recibido');
-                    $traspaso->setIdlugarremitente(1);
+                    $traspaso->setIdlugarremitente($post_data['traspaso_idlugarorigen']);
                     $traspaso->setIdlugardestinatario($post_data["traspaso_idlugardestinatario"]);
                     $traspaso->save();
                     

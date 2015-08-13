@@ -40,14 +40,13 @@ $this->headTitle($title);
                 <tr id="<?php echo $producto['id'] ?>">
                     <td id="nombre-<?php echo $producto['id'] ?>" title="<?php echo $producto['nombre'] ?>" class="collapse" ><?php echo $producto['nombre'] ?></td>
                     <td id="descripcion-<?php echo $producto['id'] ?>" title="<?php echo $producto['descripcion'] ?>" class="collapse" ><?php echo $producto['descripcion'] ?></td>
-                    <td id="articulovariante_codigobarras" style="padding-left: 0; padding-bottom: 10px;"class="input-table"><span style="visibility: hidden"><?php echo $producto['codigo_barras'] ?></span><input id="codigo_barras-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[codigobarras]" type="text" value="<?php echo $producto['codigo_barras'] ?>"></td>
+                    <td id="articulovariante_codigobarras" style="padding-left: 0; padding-bottom: 10px;"class="input-table"><span style="visibility: hidden"><?php echo $producto['codigo_barras'] ?></span><input  id="codigo_barras-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[codigobarras]" type="text" value="<?php echo $producto['codigo_barras'] ?>"></td>
                     <td id="articulovariante_costo" class="input-table number"><span style="visibility: hidden"><?php echo $producto['costo'] ?></span><input id="costo-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[costo]" type="text" value="<?php echo number_format((float)$producto['costo'], 2, '.', ''); ?>"></td>
                     <td id="articulovariante_precio" class="input-table number"><span style="visibility: hidden"><?php echo $producto['precio'] ?></span><input id="precio-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[precio]" type="text" value="<?php echo number_format((float)$producto['precio'], 2, '.', ''); ?>"></td>
                     <td id="iva" class="number" style="padding-bottom: 0">
                         <span style="visibility: hidden"><?php if($producto['iva'] == 'exento') {echo 'exento'; } elseif ($producto['iva'] == '0'){echo '0';}else{echo '16';}?></span>
                         <div class="input-field">
                             <select id="iva-<?php echo $producto['id'] ?>" name="producto-<?php echo $producto['id'] ?>[iva]">
-                              <option <?php if($producto['iva'] == 'exento') {echo 'selected="selected"'; }?>value="exento">exento</option>
                               <option <?php if($producto['iva'] == '0') {echo 'selected="selected"'; }?>value="0">0%</option>
                               <option <?php if($producto['iva'] == '16' ) echo 'selected="selected"'; ?> value="16">16%</option>
                             </select>

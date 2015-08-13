@@ -45,7 +45,6 @@ $this->headTitle($title);
                     <span style="visibility: hidden"><?php if($producto['iva'] == 'exento') {echo 'exento'; } elseif ($producto['iva'] == '0'){echo '0';}else{echo '16';}?></span>
                     <div class="input-field" style="padding-top: 1px;">
                         <select name="producto-<?php echo $producto['id'] ?>[iva]">
-                          <option <?php if($producto['iva'] == 'exento') {echo 'selected="selected"'; }?>value="exento">exento</option>
                           <option <?php if($producto['iva'] == '0') {echo 'selected="selected"'; }?>value="0">0%</option>
                           <option <?php if($producto['iva'] == '16' ) echo 'selected="selected"'; ?> value="16">16%</option>
                         </select>

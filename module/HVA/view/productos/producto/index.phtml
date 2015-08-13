@@ -49,7 +49,7 @@ $this->headTitle($title);
                 <td class="number"><?php echo number_format((float)$producto['precio'], 2, '.', '') ?></td>
                     <?php foreach ($lugares as $lugar) : ?>
                         <?php $lugarNombre = $lugar['nombre']?>
-                <td class="number"><?php echo $producto['lugar'][$lugarNombre]?><a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>
+                <td class="number"><?php if(!is_null($producto['lugar'][$lugarNombre])) echo $producto['lugar'][$lugarNombre]; else echo 'X'?><a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>
                     <?php endforeach;?>
                 <td class="td-image">
                     <?php if (is_null($producto['imagen']) || empty($producto['imagen'])) : ?>

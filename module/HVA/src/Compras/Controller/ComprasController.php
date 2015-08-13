@@ -76,7 +76,11 @@ class ComprasController extends AbstractActionController {
     }
     
     public function  nuevoAction(){
-        
+        $almacenes = \LugarQuery::create()->find()->toArray(null,false,  \BasePeer::TYPE_FIELDNAME);
+
+        return new ViewModel(array(
+            'almacenes' => $almacenes,
+        ));
     }
     
     public function getproveedoresAction(){
@@ -172,7 +176,7 @@ class ComprasController extends AbstractActionController {
         $request = $this->request;
         
         $orden = $request->getPost('orden');
-        
+
         //Cre un nuevo objeto de ordencompra
         $ordenCompra = new \Ordencompra();
         //Seteo los datos
@@ -246,7 +250,7 @@ class ComprasController extends AbstractActionController {
                 
                 //Los insertamos en nuestro almacen general
                 $lugarInventario = new \Lugarinventario();
-                $lugarInventario->setIdlugar(1) //Equivale al almacen general
+                $lugarInventario->setIdlugar($orden['orden_lugar']) //Equivale al almacen general
                                 ->setIdordencompradetalle($ordenCompraDetalle->getIdordencompradetalle())
                                 ->setLugarinventarioCantidad($ordenCompraDetalle->getOrdencompradetalleCantidad())
                                 ->save();
@@ -295,7 +299,7 @@ class ComprasController extends AbstractActionController {
                         
             //Guaradamos nuestra variable de orden
             $orden = $request->getPost('orden');
-  
+           
             $idorden = $orden['idorden'];
             $orden_compra = \OrdencompraQuery::create()->findPk($idorden);
             
@@ -366,6 +370,7 @@ class ComprasController extends AbstractActionController {
                     //Actualizamos el lugar inventario
                     $lugarInventario = \LugarinventarioQuery::create()->findOneByIdordencompradetalle($item["idordendetalle"]);
                     $lugarInventario->setLugarinventarioCantidad($ordenCompraDetalle->getOrdencompradetalleCantidad());
+                    $lugarInventario->setIdlugar($orden['orden_lugar']);
                     $lugarInventario->save();
                     
                 }else{
@@ -399,7 +404,7 @@ class ComprasController extends AbstractActionController {
                     
                     //Los insertamos en nuestro almacen general
                     $lugarInventario = new \Lugarinventario();
-                    $lugarInventario->setIdlugar(1) //Equivale al almacen general
+                    $lugarInventario->setIdlugar($orden['orden_lugar']) //Equivale al almacen general
                                     ->setIdOrdencompradetalle($ordenCompraDetalle->getIdordencompradetalle())
                                     ->setLugarinventarioCantidad($ordenCompraDetalle->getOrdencompradetalleCantidad())
                                     ->save();
@@ -451,6 +456,7 @@ class ComprasController extends AbstractActionController {
         $orden_detalles = \OrdencompradetalleQuery::create()->filterByIdordencompra($id)->find();
         $i = new \Ordencompradetalle();
         
+        $orden['idlugar'] = null;
         foreach ($orden_detalles as $item){
             
             $tmp['id'] = $item->getIdordencompradetalle();
@@ -465,11 +471,15 @@ class ComprasController extends AbstractActionController {
                 $date_caducidad = new \DateTime($tmp['caducidad']);
                 $tmp['caducidad'] = $date_caducidad->format('m/y');
             }
-            
-            $orden['orden_items'][] = $tmp;
+             $li = \LugarinventarioQuery::create()->findOneByIdordencompradetalle($item->getIdordencompradetalle());
+             $orden['idlugar'] = $li->getIdlugar();
+             $orden['orden_items'][] = $tmp;
         }
         
+        
+        $almacenes = \LugarQuery::create()->find()->toArray(null,false,  \BasePeer::TYPE_FIELDNAME);
         return new ViewModel(array(
+            'almacenes' => $almacenes,
             'orden'     => $orden,
             'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
