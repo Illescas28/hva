@@ -293,9 +293,13 @@ $this->headTitle($title);
         </button>
     </div>
     <div class="right col s4">
-        <button id="botonFormatoAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled">Formato de Admisión
-            <i class="mdi-action-assignment-ind left"></i>
-        </button>
+        <form action="<?php $this->url('pacientes')?>/contratofinal" method="post">
+            <input type="hidden" value="<?php echo $pacienteEntity->getPacienteNombre() ?>">
+            <button id="botonFormatoAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit">Formato de Admisión
+                <i class="mdi-action-assignment-ind left"></i>
+            </button>
+        </form> 
+        
     </div>
 </div>
 </fieldset>
@@ -4164,7 +4168,7 @@ $("#guardarAdmision").click(function() {
         $('#botonFormatoAdmision').removeClass('disabled')
 
         // Aquí agregaremos el codigo de Jorge para rellenarlo con los datos del paciente actual
-
+        
     }
 
     //Obtenemos el valor del selector de medicos
