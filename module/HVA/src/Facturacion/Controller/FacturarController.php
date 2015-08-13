@@ -5,7 +5,7 @@ namespace Facturacion\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Facturacion\FPDF\FPDF;
-class FacturarController extends AbstractActionController
+class FacturarController extends FPDF
 {
     
     public $emisorArr = array(

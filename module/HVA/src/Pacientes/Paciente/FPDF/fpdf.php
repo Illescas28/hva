@@ -1,5 +1,7 @@
 <?php
 
+namespace Pacientes\Paciente\FPDF;
+
 define('FPDF_VERSION','1.7');
 
 class FPDF

@@ -292,15 +292,7 @@ $this->headTitle($title);
             <i class="mdi-action-accessibility left"></i>
         </button>
     </div>
-    <div class="right col s4">
-        <form action="<?php $this->url('pacientes')?>/contratofinal" method="post">
-            <input type="hidden" value="<?php echo $pacienteEntity->getPacienteNombre() ?>">
-            <button id="botonFormatoAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit">Formato de Admisión
-                <i class="mdi-action-assignment-ind left"></i>
-            </button>
-        </form> 
-        
-    </div>
+    
 </div>
 </fieldset>
 </div>
@@ -572,6 +564,15 @@ $this->headTitle($title);
 </fieldset>
 </div>
 
+<div id="formatoAdmision" class="hiddendiv">
+    <form action="<?php echo $this->url('pacientes', array('action'=>'contratofinal'))?>" method="post">
+        <input type="hidden" name="idadmision" value="<?php echo $this->formHidden($cargoadmisionForm->get('idadmision'));?>">
+        <button id="botonFormatoAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit">Formato de Admisión
+            <i class="mdi-action-assignment-ind left"></i>
+        </button>
+    </form> 
+</div>
+
 <!-- Cargos de Admision -->
 <div id="cargosAdmision" class="hiddendiv">
 <fieldset>
@@ -662,7 +663,6 @@ $this->headTitle($title);
     </div>
 </div>
 <!-- End Create Modal Structure -->
-
 
 <div id="cargoadmisionArticuloResult" class="col s12">
     <table class="hoverable striped">
@@ -4234,6 +4234,7 @@ $("#guardarAdmision").click(function() {
             $("input#idadmision").val(JSON.stringify(data.admisionArray.idadmision));
             if ($('#cargosAdmision').hasClass('hiddendiv')){
                 $('#cargosAdmision').removeClass('hiddendiv')
+                $('#formatoAdmision').removeClass('hiddendiv')
                 $('#botonGuardarAdmision').addClass('hiddendiv')
                 $('#cargosAdmision').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Admisión guardada exitosamente</div>')
                 $('#cargosAdmision').removeClass('hiddendiv')
