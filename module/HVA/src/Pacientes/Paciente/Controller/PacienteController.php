@@ -179,11 +179,11 @@ class PacienteController extends AbstractActionController
         $consultaArray = array();
         $admisionArray = array();
         foreach($pacienteQuery as $pacienteValue){
-            $consultaQuery = \ConsultaQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->useConsultorioQuery()->filterByConsultorioEnuso(1)->endUse()->findOne();
+            $consultaQuery = \ConsultaQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->filterByConsultaStatus('no pagada')->useConsultorioQuery()->filterByConsultorioEnuso(1)->endUse()->findOne();
             if($consultaQuery){
                 array_push($consultaArray, $consultaQuery);
             }
-            $admisionQuery = \AdmisionQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->useCuartoQuery()->filterByCuartoEnuso(1)->endUse()->findOne();
+            $admisionQuery = \AdmisionQuery::create()->filterByIdpaciente($pacienteValue->getIdpaciente())->filterByAdmisionStatus('no pagada')->useCuartoQuery()->filterByCuartoEnuso(1)->endUse()->findOne();
             if($admisionQuery){
                 array_push($admisionArray, $admisionQuery);
             }
