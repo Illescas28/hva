@@ -48,6 +48,9 @@ class PacienteController extends AbstractActionController
     }
     */
 
+    public function contratofinalAction(){
+        return new ViewModel();
+    }
     public function nuevoAction()
     {
         $request = $this->getRequest();
