@@ -1,5 +1,5 @@
 <?php
-    $title = 'Nuevo Empleado';
+    $title = 'Editar Empleado';
     $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
@@ -143,7 +143,7 @@
         
         //Imagen empleado
         var empleado_imagen = '<?php echo $empleado_imagen?>';
-        if(empleado_imagen != '/img/empleados/default_profile.jpg'){
+        if(empleado_imagen !== '/img/empleados/default_profile.jpg'){
             $('p#eliminar_imagen').show();
         }
         $('img#empleado_imagen').on('click',function(){
@@ -167,7 +167,7 @@
            
             };
             
-            if($('img#empleado_imagen + input').val() != ''){
+            if($('img#empleado_imagen + input').val() !== ''){
                 $('p#eliminar_imagen').show();
             }
 
@@ -179,9 +179,9 @@
              $('img#empleado_imagen + input').val('');
              $('p#eliminar_imagen').hide();
              $.get('/empleados/eliminarimagen',
-                {id:idempleado},
+             {id:idempleado});
                 
-            );
+            
             
         });
         
