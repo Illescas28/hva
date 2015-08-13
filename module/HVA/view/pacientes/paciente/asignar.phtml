@@ -292,6 +292,11 @@ $this->headTitle($title);
             <i class="mdi-action-accessibility left"></i>
         </button>
     </div>
+    <div class="right col s4">
+        <button id="botonFormatoAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled">Formato de Admisión
+            <i class="mdi-action-assignment-ind left"></i>
+        </button>
+    </div>
 </div>
 </fieldset>
 </div>
@@ -4154,6 +4159,14 @@ function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
 
 $("#guardarAdmision").click(function() {
 
+    // Habilitamos el boton de Formato de Admision (PDF)
+    if ($('#botonFormatoAdmision').hasClass('disabled')){
+        $('#botonFormatoAdmision').removeClass('disabled')
+
+        // Aquí agregaremos el codigo de Jorge para rellenarlo con los datos del paciente actual
+
+    }
+
     //Obtenemos el valor del selector de medicos
     var idmedico = $("select#idmedicoadmision").val();
     //Validamos el campo medico, simplemente miramos que no esté vacío
@@ -7450,87 +7463,6 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
     anticipoCantidad += Number(AnticipoCantidad);
 
-    if(subTotal == 0){
-
-        status = 'pagada';
-
-        if(tipo == "consulta"){
-
-            var consulta_tipodepago = Tipodepago;
-
-            var idconsulta = $("input#idconsulta").val();
-
-            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-            var dataString = 'subTotalConsulta=' + subTotal + '&idconsulta=' + idconsulta + '&consulta_status=' + status + '&consulta_total=' + anticipoCantidad + "&consulta_tipodepago=" + consulta_tipodepago + '&consulta_referenciapago=' + referenciapago;
-
-            $.ajax({
-                type: "POST",
-                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
-                dataType : 'json',
-                data: dataString,
-                jsonpCallback: 'callback',
-                success: function(data) {
-
-                    alert("Cuenta liquidada.")
-
-                    // Cerramos modal
-                    $("#create-modal-pagar-consulta").closeModal()
-                    // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
-                    $("#nuevoCargoConsultaArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                    $("#nuevoCargoConsultaServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                    $("#butonPagarAnticipoConsulta").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                    $("#botonAltaPacienteConsulta").removeClass('disabled')
-                    $('#buttonGenerarFacturaConsulta').removeClass('disabled')
-                    $("#buttonGenerarNotaConsulta").removeClass('disabled')
-                    //$( "a" ).off();
-                    $( "div#cargoadmisionArticuloResult a" ).off()
-                    $( "div#cargoadmisionServicioResult a" ).off()
-                },
-                error: function(){
-                    alert("Error al intentar liquidar la cuenta.")
-                }
-            });
-        }
-
-        if(tipo == "admision"){
-
-            var admision_tipodepago = Tipodepago;
-
-            var idadmision = $("input#idadmision").val();
-
-            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-            var dataString = 'subTotalAdmision=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago + "&admision_referenciapago=" + referenciapago;
-
-            $.ajax({
-                type: "POST",
-                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
-                dataType : 'json',
-                data: dataString,
-                jsonpCallback: 'callback',
-                success: function(data) {
-
-                    alert("Cuenta liquidada.")
-
-                    // Cerramos modal
-                    $("#create-modal-pagar-admision").closeModal()
-                    // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
-                    $("#nuevoCargoAdmisionArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                    $("#nuevoCargoAdmisionServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                    $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                    $("#botonAltaPacienteAdmision").removeClass('disabled')
-                    $('#buttonGenerarFacturaAdmision').removeClass('disabled')
-                    $("#buttonGenerarNotaAdmision").removeClass('disabled')
-                    //$( "a" ).off();
-                    $( "div#cargoadmisionArticuloResult a" ).off()
-                    $( "div#cargoadmisionServicioResult a" ).off()
-                },
-                error: function(){
-                    alert("Error al intentar liquidar la cuenta.")
-                }
-            });
-        }
-    }
-
     if(tipo == "consulta"){
 
         // Creamos los elementos de Pago Consulta
@@ -8221,6 +8153,89 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
             return false;
         }
     });
+
+    if(subTotal == 0){
+
+        status = 'pagada';
+
+        if(tipo == "consulta"){
+
+            var consulta_tipodepago = Tipodepago;
+
+            var idconsulta = $("input#idconsulta").val();
+
+            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+            var dataString = 'subTotalConsulta=' + subTotal + '&idconsulta=' + idconsulta + '&consulta_status=' + status + '&consulta_total=' + anticipoCantidad + "&consulta_tipodepago=" + consulta_tipodepago + '&consulta_referenciapago=' + referenciapago;
+
+            $.ajax({
+                type: "POST",
+                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                dataType : 'json',
+                data: dataString,
+                jsonpCallback: 'callback',
+                success: function(data) {
+
+                    alert("Cuenta liquidada.")
+
+                    // Cerramos modal
+                    $("#create-modal-pagar-consulta").closeModal()
+                    // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+                    $("#nuevoCargoConsultaArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#nuevoCargoConsultaServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#butonPagarAnticipoConsulta").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#botonAltaPacienteConsulta").removeClass('disabled')
+                    $('#buttonGenerarFacturaConsulta').removeClass('disabled')
+                    $("#buttonGenerarNotaConsulta").removeClass('disabled')
+                    //$( "a" ).off();
+                    $( "div#cargoconsultaArticuloResult a" ).off()
+                    $( "div#cargoconsultaServicioResult a" ).off()
+                },
+                error: function(){
+                    alert("Error al intentar liquidar la cuenta.")
+                }
+            });
+        }
+
+        if(tipo == "admision"){
+
+            var admision_tipodepago = Tipodepago;
+
+            var idadmision = $("input#idadmision").val();
+
+            //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+            var dataString = 'subTotalAdmision=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago + "&admision_referenciapago=" + referenciapago;
+
+            $.ajax({
+                type: "POST",
+                url: "<?php $this->url('pacientes', array('action'=>'asignar', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                dataType : 'json',
+                data: dataString,
+                jsonpCallback: 'callback',
+                success: function(data) {
+
+                    alert("Cuenta liquidada.")
+
+                    // Cerramos modal
+                    $("#create-modal-pagar-admision").closeModal()
+                    // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+                    $("#nuevoCargoAdmisionArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#nuevoCargoAdmisionServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
+                    $("#botonAltaPacienteAdmision").removeClass('disabled')
+                    $('#buttonGenerarFacturaAdmision').removeClass('disabled')
+                    $("#buttonGenerarNotaAdmision").removeClass('disabled')
+                    //$( "a" ).off();
+                    $( "div#totalSuperiorAdmision i" ).off()
+                    $( "div#cargoadmisionArticuloResult a" ).off()
+                    $( "div#cargoadmisionServicioResult a" ).off()
+
+                },
+                error: function(){
+                    alert("Error al intentar liquidar la cuenta.")
+                }
+            });
+        }
+    }
 }
 
 function generaTablaAdmisionanticipo(admisionanticipoArray) {
