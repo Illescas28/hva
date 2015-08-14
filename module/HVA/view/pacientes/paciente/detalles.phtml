@@ -9316,7 +9316,7 @@ if($pacienteEntity){
     var anticipoCantidad = 0;
     var admision_tipodepago = "no identificado";
     var cuentaPagada = false;
-    function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
+    function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago='nulo', referenciapago) {
 
         // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
@@ -10063,6 +10063,8 @@ if($pacienteEntity){
             }
 
             if(tipo == "admision"){
+
+                if(Tipodepago == 'nulo') return;
 
                 var admision_tipodepago = Tipodepago;
 
