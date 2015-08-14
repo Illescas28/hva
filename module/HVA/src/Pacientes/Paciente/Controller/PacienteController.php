@@ -52,7 +52,6 @@ class PacienteController extends AbstractActionController
     */
         
     public function contratofinalAction(){
-
         
         $request = $this->getRequest();
         
