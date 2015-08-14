@@ -78,13 +78,13 @@ class PDF extends FPDF{
             $this->MultiCell(60,5,utf8_decode($txt));
             
             $this->SetXY(0, 45);
-            $this->MultiCell(50, 5, utf8_decode("                                                                  ".$nombrepaciente), 0, 'C');
+            $this->MultiCell(50, 5, utf8_decode("                                                                                         ".$nombrepaciente), 0, 'L');
             
             $this->SetXY(0, 135);
-            $this->MultiCell(50, 5, utf8_decode("                                                                  ".$nombreresponsable), 0, 'C');
+            $this->MultiCell(50, 5, utf8_decode("                                                                                      ".$nombreresponsable), 0, 'L');
             
-            $this->SetXY(60, 84);
-            $this->MultiCell(50, 5, utf8_decode("                                                                                                      ".$nombremedico), 0, 'C');
+            $this->SetXY(80, 84);
+            $this->MultiCell(50, 5, utf8_decode("                                                           ".$nombremedico), 0, 'L');
             
            // $this->Ln();
             //Mention
@@ -100,7 +100,7 @@ class PDF extends FPDF{
             $this->ChapterTitle();
             $this->ChapterBody($nombrepaciente, $nombreresponsable, $nombremedico);
              
-            $image1 = $_SERVER['DOCUMENT_ROOT'].'/img/logo_login.png';
+            $image1 = $_SERVER['DOCUMENT_ROOT'].'/img/selloformato.jpg';
            $this->Image($image1, 75, 230,80);
         }
         function SetCol($col)
