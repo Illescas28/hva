@@ -387,6 +387,7 @@ if($pacienteEntity){
         </fieldset>
     </div>
 
+        <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')); ?>
     <div class="row">
         <div id="formatoAdmision" class="col s4">
             <form action="<?php echo $this->url('pacientes', array('action'=>'contratofinal'))?>" method="post">

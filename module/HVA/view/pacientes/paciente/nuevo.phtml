@@ -261,23 +261,6 @@ $this->headTitle($title);
 </div>
 <div class="col s4">
     <div class="input-field">
-        <?php echo $this->formSelect($pacienteForm->get('paciente_estadocivil')); ?>
-        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_estadocivil'));
-        if(!empty($showError)):
-            ?>
-            <div class="center-align col" style="color: #e57373">
-                <i class="mdi-content-report prefix"></i>
-            </div>
-            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                <?php
-                echo $showError;
-                ?>
-            </div>
-        <?php  endif;?>
-    </div>
-</div>
-<div class="col s4">
-    <div class="input-field">
         <?php echo $this->formText($pacienteForm->get('paciente_ocupacion')); ?>
         <?php echo $this->formLabel($pacienteForm->get('paciente_ocupacion')); ?>
         <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_ocupacion'));
