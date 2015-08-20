@@ -93,7 +93,7 @@ class PacienteController extends AbstractActionController
             $anticipo="";
         
             $pdf = new PDF();
-            $pdf->ChapterBody($nombrepaciente, $nombreresponsable, $nombremedico);
+           // $pdf->ChapterBody($nombrepaciente, $nombreresponsable, $nombremedico);
            // $pdf->PrintChapter($nombrepaciente, $nombreresponsable, $nombremedico);
 
             $pdf->settextcolor(0,0,128);
@@ -308,6 +308,7 @@ class PacienteController extends AbstractActionController
             ///////////// AVISO PRIVACIDAD
 
             $pdf->AddPage();
+            $pdf->PageBreakTrigger = 250;
             $pdf->SetFont('Arial','B', 12);
             //Margen decorativo iniciando en 0, 0
             //$pdf->Image('logo_login2.png', 0,0, 210, 295, 'PNG');
@@ -349,7 +350,7 @@ class PacienteController extends AbstractActionController
             $pdf->Line(25, 130, 100, 130);
 
             $pdf->SetXY(25, 125);
-            $pdf->Cell(20, 5, $nombrepaciente, 0, 'L');
+            $pdf->Cell(20, 5, utf8_decode($nombrepaciente), 0, 'L');
 
 
 
@@ -363,7 +364,7 @@ class PacienteController extends AbstractActionController
             $pdf->Line(16, 135, 80, 135);
 
             $pdf->SetXY(20, 130);
-            $pdf->Cell(20, 5, $nombrepaciente, 0, 'L');
+            $pdf->Cell(20, 5, utf8_decode($nombrepaciente), 0, 'L');
             ////
             $pdf->SetXY(82, 130);
             $pdf->MultiCell(110, 5, utf8_decode("No consiento que mis datos sean transferidos en los términos del presente"), 0, 'J');
@@ -388,6 +389,7 @@ class PacienteController extends AbstractActionController
             $pdf->SetXY(10, 195);
            $pdf->MultiCell(180, 5, utf8_decode("Zapopan, Jalisco, México a ".$dias." días del mes de ".$mes." del año ".$anio), 0, 'J');
             $pdf->Line(75, 170, 150, 170);
+            
         ///////////////////////
             $pdf->AddPage();
             $pdf->SetFont('Arial','B', 12);
@@ -451,7 +453,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, 'NOMBRE:', 0, 'R','R');
              $pdf->Line(30, 60, 125, 60);
             $pdf->SetXY(30, 55);
-            $pdf->Cell(20, 8, $nombrepaciente, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($nombrepaciente), 0, 'L','L');
             //*****
             //Edad
             $pdf->SetXY(130, 55);
@@ -483,7 +485,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('DOMICILIO:'), 0, 'R','R');
             $pdf->Line(30, 70, 125, 70);
             $pdf->SetXY(30, 65);
-            $pdf->Cell(20, 8, $direccion, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($direccion), 0, 'L','L');
 
 
             //estado civil
@@ -499,7 +501,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('COLONIA:'), 0, 'R','R');
             $pdf->Line(30, 75, 125, 75);
             $pdf->SetXY(30, 70);
-            $pdf->Cell(20, 8, $colonia, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($colonia), 0, 'L','L');
 
 
             //estado civil
@@ -507,7 +509,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('OCUPACIÓN:'), 0, 'R','R');
              $pdf->Line(150, 75, 200, 75);
             $pdf->SetXY(150, 70);
-            $pdf->Cell(20, 8, $ocupacion, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($ocupacion), 0, 'L','L');
 
 
             //////////
@@ -516,7 +518,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('CIUDAD:'), 0, 'R','R');
               $pdf->Line(30, 80, 145, 80);
             $pdf->SetXY(30, 75);
-            $pdf->Cell(20, 8, $ciudad, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($ciudad), 0, 'L','L');
 
 
             //estado civil
@@ -524,7 +526,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('ESTADO:'), 0, 'R','R');
             $pdf->Line(30, 85, 145, 85);
             $pdf->SetXY(30, 80);
-            $pdf->Cell(20, 8, $estado, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($estado), 0, 'L','L');
 
             //////////
 
@@ -535,7 +537,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('MADRE:'), 0, 'R','R');
             $pdf->Line(30, 95, 94, 95);
             $pdf->SetXY(30, 90);
-            $pdf->Cell(20, 8, $nombremadre, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($nombremadre), 0, 'L','L');
 
 
             //estado civil
@@ -543,7 +545,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('RESPONSABLE:'), 0, 'R','R');
             $pdf->Line(120, 95, 200, 95);
             $pdf->SetXY(120, 90);
-            $pdf->Cell(20, 8, $nombreresponsable, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($nombreresponsable), 0, 'L','L');
 
 
             ////
@@ -552,7 +554,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('PADRE:'), 0, 'R','R');
             $pdf->Line(30, 100, 94, 100);
             $pdf->SetXY(30, 95);
-            $pdf->Cell(20, 8, $nombrepadre, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($nombrepadre), 0, 'L','L');
 
 
             //estado civil
@@ -566,7 +568,7 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('CONYUGE:'), 0, 'R','R');
             $pdf->Line(30, 105, 200, 105);
             $pdf->SetXY(30, 100);
-            $pdf->Cell(20, 8, $nombreconyuge, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($nombreconyuge), 0, 'L','L');
 
             ////
 
@@ -619,13 +621,13 @@ class PacienteController extends AbstractActionController
             $pdf->Cell(20, 8, utf8_decode('DIAGNOSTICO DE ADMISIÓN:'), 0, 'L','R');
             $pdf->Line(57, 155, 200, 155);
             $pdf->SetXY(56, 150);
-            $pdf->Cell(20, 8, $diagnostico, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($diagnostico), 0, 'L','L');
 
             $pdf->SetXY(36, 155);
             $pdf->Cell(20, 8, utf8_decode('DOCTOR:'), 0, 'L','R');
             $pdf->Line(57, 160, 95, 160);
             $pdf->SetXY(56, 155);
-            $pdf->Cell(20, 8, $nombremedico, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($nombremedico), 0, 'L','L');
 
              $pdf->Line(10, 165, 200, 165);
 
@@ -634,7 +636,7 @@ class PacienteController extends AbstractActionController
             $pdf->SetXY(20, 170);
             $pdf->Cell(20, 8, utf8_decode('OBSERVACIONES:'), 0, 'L','R');
             $pdf->SetXY(40, 170);
-            $pdf->Cell(20, 8, $observaciones, 0, 'L','L');
+            $pdf->Cell(20, 8, utf8_decode($observaciones), 0, 'L','L');
 
              $pdf->Line(10, 180, 200, 180);
             ////
@@ -686,10 +688,10 @@ class PacienteController extends AbstractActionController
     
     
     $pdf->SetXY(40, 50);
-    $textfecha="Zapopan, Jalisco a ".fechaadmision;
+    $textfecha="Zapopan, Jalisco a ".$fechaadmision;
     $pdf->MultiCell(150, 5, utf8_decode($textfecha), 0, 'R');
     
-    $pdf->SetXY(15, 65);
+    $pdf->SetXY(20, 65);
     $pdf->MultiCell(150, 5, utf8_decode($nombrepaciente), 0, 'C');
     
     $pdf->SetXY(10, 65);
@@ -704,7 +706,7 @@ class PacienteController extends AbstractActionController
     $pdf->SetXY(45, 145);
     $pdf->MultiCell(150, 5, utf8_decode($nombrepaciente), 0, 'L');
     $pdf->SetXY(10, 210);
-    $pdf->MultiCell(150, 5, utf8_decode($fechaadmision), 0, 'L');
+    $pdf->MultiCell(150, 5, $fechaadmision, 0, 'L');
 
     
     $textpagare2="Si no fuere puntualmente cubierto a su vencimiento la totalidad del importe que debo pagar al HOSPITAL DEL VALLE DE ATEMAJAC S.A. DE C.V., conforme a este pagaré, los suscritos prometemos pagar incondicionalmente un interés mensual moratorio equivalente a la tasa que publique mensualmente el Banco de México por concepto de Certificados de Tesorería (CETES) con vencimiento a 28 (veintiocho) días, más 5 (cinco) puntos aplicando adicionalmente a la cantidad que resulte el 1.5% (uno punto cinco por ciento), hasta la total liquidación del adeudo. \nNombre del Suscrito: _____________________________ \nDomicilio: _________________________________________ \nQuien cuenta con facultades suficientes para suscribir el presente título por su propio derecho. \nEl suscriptor conviene en hacer todos los pagos respecto del principal e intereses ordinarios y moratorios de este PAGARÉ, libres, exentos y sin deducción alguna por concepto o a cuenta de cualquier impuesto, contribución, tributo, deducción, carga o retención o cualquier otra responsabilidad fiscal que grave dichas cantidades en la actualidad o en lo futuro, pagadera en cualquier jurisdicción. \nAsí mismo, el suscrito ____________________________________________, por medio del presente pagaré, acepto constituirme como aval del señor(a) ____________________________, por lo que reconozco y prometo que pagaré incondicionalmente el día ___________________________, a la orden del HOSPITAL DEL VALLE DE ATEMAJAC, S.A. de C.V. en la ciudad de Zapopan, Jalisco, la cantidad de _____________________________________ M.N., por el valor de los servicios médicos y hospitalarios recibidos a su entera satisfacción en caso de que dicha persona no realice el pago.\nNombre del aval: _________________________________________ \nDirección: _______________________________________________ \nPoblación: _____________________________\nPara todo lo relativo a la interpretación y cumplimiento de este PAGARÉ, los suscriptores  señalan y se someten expresamente a la jurisdicción y competencia de los Juzgados y Tribunales del Primer Partido Judicial del Estado de Jalisco con residencia en la ciudad de Zapopan, Jalisco, renunciando clara y terminantemente a cualquier otro fuero que pudiere corresponderle por razón de su domicilio presente o futuro. \nEl presente PAGARÉ consta de una página y se suscribe en la ciudad de Zapopan, Jalisco, el día ______________________________";
@@ -726,6 +728,8 @@ class PacienteController extends AbstractActionController
     $pdf->MultiCell(50, 5, utf8_decode('AVAL'), 0, 'C');
     
     $pdf->Output(); //Salida al navegador
+    $ruta=$_SERVER['DOCUMENT_ROOT']."/tmp/admisionformato/".$fechaadmision.$nombrepaciente.".pdf";
+    $pdf->Output($ruta,"F"); //Salida al navegador
         }
     }
     public function nuevoAction()
