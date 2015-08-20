@@ -57,9 +57,6 @@ class PacienteController extends AbstractActionController
         
         if($request->isPost()){
 
-            var_dump($request->getPost()->idadmision);
-            exit();
-
             $admisionQuery = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
             
             $nombrepaciente = $admisionQuery->getPaciente()->getPacienteNombre()." ".$admisionQuery->getPaciente()->getPacienteAp(). " " . $admisionQuery->getPaciente()->getPacienteAm();
