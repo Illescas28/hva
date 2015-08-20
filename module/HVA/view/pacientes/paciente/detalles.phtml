@@ -387,11 +387,10 @@ if($pacienteEntity){
         </fieldset>
     </div>
 
-        <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')); ?>
     <div class="row">
         <div id="formatoAdmision" class="col s4">
             <form action="<?php echo $this->url('pacientes', array('action'=>'contratofinal'))?>" method="post">
-                <input type="hidden" name="idadmision" value=<?php echo $this->formHidden($cargoadmisionForm->get('idadmision'))?>
+                <input type="hidden" name="idadmision" value="<?php echo $admisionByPaciente->getIdadmision()?>">
                 <button id="botonFormatoAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Formato de Admisión
                 <i class="mdi-action-assignment-ind left"></i>
                 </button>
